@@ -4,9 +4,9 @@ import { createAjentiAdapter } from '../adapter/ajenti.mjs';
 export function mountBridge($scope, element, entry, services) {
     const aj = createAjentiAdapter({
         ...services,
-        $location: { path: (path) => $scope.$evalAsync(() => services.$location.path(path)) },
+        $location: { path: (path) => services.$rootScope.$evalAsync(() => services.$location.path(path)) },
         notify: Object.fromEntries(['success', 'info', 'warning', 'error'].map((level) => [
-            level, (title, text) => $scope.$evalAsync(() => services.notify[level](title, text)),
+            level, (title, text) => services.$rootScope.$evalAsync(() => services.notify[level](title, text)),
         ])),
     });
     const unmount = entry.mount(element, aj);

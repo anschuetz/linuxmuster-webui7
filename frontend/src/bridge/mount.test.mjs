@@ -5,7 +5,7 @@ import { mount } from '../entry.mjs';
 
 function scope() {
     const listeners = new Set();
-    return {
+    const fakeScope = {
         listeners,
         $on: vi.fn((event, handler) => {
             expect(event).toBe('$destroy');
@@ -13,12 +13,16 @@ function scope() {
             return () => listeners.delete(handler);
         }),
         $evalAsync: vi.fn((callback) => callback()),
-        destroy: () => [...listeners].forEach((listener) => listener()),
+        destroy: () => {
+            [...listeners].forEach((listener) => listener());
+            fakeScope.$evalAsync = vi.fn();
+        },
     };
+    return fakeScope;
 }
 
 function services() {
-    return { $http: {}, notify: { info: vi.fn() }, gettext: (text) => text, identity: {}, $location: { path: vi.fn() } };
+    return { $rootScope: scope(), $http: {}, notify: { info: vi.fn() }, gettext: (text) => text, identity: {}, $location: { path: vi.fn() } };
 }
 
 it('mounts the selected entry with an adapter and unmounts once without leaked listeners', () => {
@@ -32,7 +36,7 @@ it('mounts the selected entry with an adapter and unmounts once without leaked l
     expect(element).toBe(host);
     expect(aj.gettext('Hello')).toBe('Hello');
     aj.navigate('/view/lmn/links');
-    expect($scope.$evalAsync).toHaveBeenCalled();
+    expect(deps.$rootScope.$evalAsync).toHaveBeenCalled();
     expect(deps.$location.path).toHaveBeenCalledWith('/view/lmn/links');
     aj.notify.info('Title', 'Text');
     expect(deps.notify.info).toHaveBeenCalledWith('Title', 'Text');
@@ -66,4 +70,15 @@ it('leaves no lifecycle listener behind if mounting fails', () => {
     const error = new Error('mount failed');
     expect(() => mountBridge($scope, document.createElement('div'), { mount: () => { throw error; } }, services())).toThrow(error);
     expect($scope.listeners.size).toBe(0);
+});
+
+it('delivers a late error notification after the directive scope is destroyed', () => {
+    const $scope = scope();
+    const deps = { ...services(), $rootScope: scope(), notify: { error: vi.fn() } };
+    const entry = { mount: vi.fn(() => vi.fn()) };
+    mountBridge($scope, document.createElement('div'), entry, deps);
+    const [, aj] = entry.mount.mock.calls[0];
+    $scope.destroy();
+    aj.notify.error('Save failed', 'Late POST response');
+    expect(deps.notify.error).toHaveBeenCalledWith('Save failed', 'Late POST response');
 });
