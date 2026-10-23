@@ -1,7 +1,7 @@
 <script setup>
 import { inject } from 'vue';
 
-/** @type {import('../adapter/aj.mjs').Aj} */
+/** @type {import('../../../adapter/aj.mjs').Aj} */
 const aj = inject('aj');
 </script>
 

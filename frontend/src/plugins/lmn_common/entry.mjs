@@ -1,10 +1,9 @@
 import { createApp } from 'vue';
 import Demo from './components/Demo.vue';
-export { mountBridge } from './bridge/mount.mjs';
 
 /**
  * @param {Element} element
- * @param {import('./adapter/aj.mjs').Aj} aj
+ * @param {import('../../adapter/aj.mjs').Aj} aj
  * @returns {() => void} Unmount callback for the host lifecycle.
  */
 export function mount(element, aj) {

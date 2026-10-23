@@ -2,7 +2,7 @@ import { expect, it, vi } from 'vitest';
 import { mount } from '@vue/test-utils';
 import { nextTick } from 'vue';
 import Demo from './Demo.vue';
-import { createMockAj } from '../adapter/mock.mjs';
+import { createMockAj } from '../../../adapter/mock.mjs';
 import { mount as mountDemo } from '../entry.mjs';
 
 it('renders translated content and reactive identity through the injected adapter', async () => {

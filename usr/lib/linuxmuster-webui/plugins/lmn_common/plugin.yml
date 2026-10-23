@@ -12,7 +12,8 @@ dependencies:
 resources:
     - 'resources/js/module.coffee'
     - 'resources/vue/vendor.js'
-    - 'resources/vue/demo.js'
+    - 'resources/vue/bridge.js'
+    - 'resources/vue/lmn_common.js'
     - 'resources/js/directives/lmnVueMount.es'
     - 'resources/js/directives/lmlog.coffee'
     - 'resources/js/directives/sambaAccess.es'

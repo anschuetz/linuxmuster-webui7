@@ -1,7 +1,7 @@
 import { expect, it, vi } from 'vitest';
 import { nextTick } from 'vue';
 import { mountBridge } from './mount.mjs';
-import { mount } from '../entry.mjs';
+import { mount } from '../plugins/lmn_common/entry.mjs';
 
 function scope() {
     const listeners = new Set();
