@@ -11,6 +11,7 @@ dependencies:
 resources:
     - resources/js/module.es
     - resources/js/routing.es
-    - resources/js/controllers/index.controller.coffee
+    - resources/vue/lmn_permissions.js
+    - resources/permissions.scss
     - resources/partial/index.html
     - ng:lmn.permissions

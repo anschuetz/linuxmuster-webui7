@@ -1,0 +1,8 @@
+.sidebar.ng-hide + .content .permissions-toolbar-offset {
+  display: none;
+}
+
+.sidebar.ng-hide + .content .permissions-toolbar-main {
+  width: 100%;
+}
+

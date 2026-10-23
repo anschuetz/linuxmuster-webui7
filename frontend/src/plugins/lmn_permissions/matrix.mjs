@@ -1,0 +1,12 @@
+export const roles = ['globaladministrator', 'schooladministrator', 'teacher', 'student'];
+export const columns = [...roles, 'default'];
+export const headings = ['URL', 'GlobalAdmin', 'SchoolAdmin', 'Teacher', 'Student', 'Def.'];
+export const cycle = value => [undefined, 'false', 'true'][([undefined, 'false', 'true'].indexOf(value) + 1) % 3];
+export const iconify = value => value === undefined ? 'question' : value === true || value === 'true' ? 'check' : 'times';
+export const colorize = value => value === undefined ? '' : `color:${iconify(value) === 'check' ? 'green' : 'red'}`;
+export const provider = url => url.includes('/lm') ? 'Linuxmuster.net' : url.includes('/ni') ? 'Netzint' : 'Ajenti';
+export const logo = name => ({ 'Linuxmuster.net': 'logo-x.png', Netzint: 'logo-ni.png', Ajenti: 'logo-ajenti.png' })[name];
+export const methodClass = method => ({ get: 'success', post: 'primary', put: 'info', delete: 'danger', patch: 'danger' })[method] ?? 'default';
+export const matchesPlugin = (plugin, query) => roles.includes(query) || plugin.includes(query);
+export const matchesApi = (details, query, api) => !roles.includes(query) || Boolean(details.permission_id && api[details.permission_id][query] === 'true');
+export const matchesSidebar = (url, query, sidebar) => roles.includes(query) ? sidebar[url][query] === 'true' : url.includes(query);
