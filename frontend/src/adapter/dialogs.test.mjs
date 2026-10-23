@@ -76,11 +76,29 @@ it('renders the Bootstrap modal, injects aj, resolves close and removes listener
     expect(remove).toHaveBeenCalledWith('keydown', expect.any(Function));
 });
 
-it.each(['escape', 'cancel', 'backdrop'])('rejects and cleans up modal on %s', async (action) => {
+it('uses the component footer and rejects when the component emits cancel', async () => {
+    const ownFooter = defineComponent({
+        emits: ['cancel'],
+        setup(props, { emit }) {
+            return () => h('div', { class: 'modal-footer' }, [
+                h('button', { onClick: () => emit('cancel') }, 'Abbrechen'),
+            ]);
+        },
+    });
+    const aj = createAjentiAdapter(base());
+    const result = aj.modal.open(ownFooter);
+    expect(document.querySelectorAll('.modal-footer')).toHaveLength(1);
+    expect([...document.querySelectorAll('.modal-content button')].map((button) => button.textContent)).toEqual(['Abbrechen']);
+    document.querySelector('.modal-footer button').click();
+    await expect(result).rejects.toThrow('Modal cancelled');
+    expect(document.querySelector('.modal')).toBeNull();
+    expect(document.querySelector('.modal-backdrop')).toBeNull();
+});
+
+it.each(['escape', 'backdrop'])('rejects and cleans up modal on %s', async (action) => {
     const aj = createAjentiAdapter(base());
     const result = aj.modal.open(dialog);
     if (action === 'escape') document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
-    if (action === 'cancel') document.querySelector('[data-modal-cancel]').click();
     if (action === 'backdrop') document.querySelector('.modal').click();
     await expect(result).rejects.toBeInstanceOf(Error);
     expect(document.querySelector('.modal')).toBeNull();

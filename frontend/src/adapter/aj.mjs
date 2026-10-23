@@ -36,7 +36,8 @@
  *
  * @typedef {Object} Modal
  * @property {(Component: import('vue').Component, props?: Record<string, unknown>) => Promise<unknown>} open
- * Resolves on emit('close', result); rejects on cancellation or bridge scope destruction.
+ * Component supplies modal-header/body/footer; emit('close', result) resolves,
+ * emit('cancel'), Escape, backdrop or bridge scope destruction reject.
  *
  * @typedef {Object} Aj
  * @property {PageTitle} pageTitle

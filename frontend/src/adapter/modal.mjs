@@ -3,9 +3,9 @@ import { createApp, h } from 'vue';
 let active = [];
 let hadModalOpen = false;
 
-/** Bootstrap 3 frame; the component supplies content and emits close(result). */
+/** Bootstrap 3 frame; the component supplies header/body/footer and emits close(result) or cancel. */
 const ModalFrame = {
-    props: ['component', 'componentProps', 'gettext'],
+    props: ['component', 'componentProps'],
     emits: ['close', 'cancel'],
     setup(props, { emit }) {
         return () => [
@@ -16,11 +16,11 @@ const ModalFrame = {
                 onClick: (event) => { if (event.target === event.currentTarget) emit('cancel'); },
             }, [h('div', { class: 'modal-dialog', role: 'document' }, [
                 h('div', { class: 'modal-content' }, [
-                    h(props.component, { ...props.componentProps, onClose: (result) => emit('close', result) }),
-                    h('div', { class: 'modal-footer' }, [h('button', {
-                        type: 'button', class: 'btn btn-default', 'data-modal-cancel': '',
-                        onClick: () => emit('cancel'),
-                    }, props.gettext('Cancel'))]),
+                    h(props.component, {
+                        ...props.componentProps,
+                        onClose: (result) => emit('close', result),
+                        onCancel: () => emit('cancel'),
+                    }),
                 ]),
             ])]),
         ];
@@ -67,7 +67,7 @@ export function createModalService(getAj, $scope) {
             document.addEventListener('keydown', onKey);
             offDestroy = $scope?.$on('$destroy', cancel);
             app = createApp(ModalFrame, {
-                component: Component, componentProps: props, gettext: aj.gettext,
+                component: Component, componentProps: props,
                 onClose: (result) => finish(true, result), onCancel: cancel,
             });
             app.provide('aj', aj);
