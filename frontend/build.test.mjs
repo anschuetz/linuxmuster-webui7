@@ -29,7 +29,10 @@ it('loads the shared bridge and directive without a demo bundle', async () => {
     const output = Array.isArray(result) ? result[0] : result;
     runInNewContext(output.output[0].code, context);
     let directive;
-    const services = [{ $evalAsync: (callback) => callback() }, {}, {}, (text) => text, {}, {}];
+    const message = Object.assign(Promise.resolve({ value: 'answer' }), { close: vi.fn() });
+    const pageTitle = { set: vi.fn() };
+    const messagebox = { show: vi.fn(() => message), prompt: vi.fn(() => message) };
+    const services = [{ $evalAsync: (callback) => callback() }, {}, {}, (text) => text, {}, {}, pageTitle, messagebox];
     context.angular = { module: () => ({ directive: (name, factory) => { directive = factory(...services); } }) };
     const directivePath = '../usr/lib/linuxmuster-webui/plugins/lmn_common/resources/js/directives/lmnVueMount.es';
     runInNewContext(await readFile(new URL(directivePath, import.meta.url), 'utf8'), context);
@@ -38,6 +41,15 @@ it('loads the shared bridge and directive without a demo bundle', async () => {
     const host = dom.window.document.querySelector('div');
     directive.link({ $on: (event, handler) => { destroy = handler; return vi.fn(); } }, [host], { entry: 'TestPlugin' });
     expect(entry.mount).toHaveBeenCalledWith(host, expect.objectContaining({ gettext: services[3] }));
+    const aj = entry.mount.mock.calls[0][1];
+    aj.pageTitle.set('Devices');
+    expect(pageTitle.set).toHaveBeenCalledWith('Devices');
+    const answer = aj.messagebox.show({ title: 'Question' });
+    expect(await answer).toEqual({ value: 'answer' });
+    answer.close();
+    expect(message.close).toHaveBeenCalledOnce();
+    expect(await aj.messagebox.prompt('Name', 'initial')).toEqual({ value: 'answer' });
+    expect(messagebox.prompt).toHaveBeenCalledWith('Name', 'initial');
     destroy();
     expect(unmount).toHaveBeenCalledOnce();
     dom.window.close();

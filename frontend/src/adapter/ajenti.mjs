@@ -1,10 +1,11 @@
 import { reactive, shallowRef } from 'vue';
+import { createModalService } from './modal.mjs';
 
 /**
- * Create the P01 contract using the existing Angular services and interceptors.
+ * Create the adapter contract using the existing Angular services and interceptors.
  * @returns {import('./aj.mjs').Aj}
  */
-export function createAjentiAdapter({ $http, notify, gettext, identity, $location }) {
+export function createAjentiAdapter({ $http, notify, gettext, identity, $location, pageTitle, messagebox, $rootScope, $scope }) {
     const snapshot = () => ({
         user: identity.user ?? null,
         profile: identity.profile ?? {},
@@ -17,7 +18,25 @@ export function createAjentiAdapter({ $http, notify, gettext, identity, $locatio
         // The Angular HTTP interceptor already handles identity request errors.
     });
 
-    return {
+    const inDigest = (callback) => $rootScope ? $rootScope.$evalAsync(callback) : callback();
+    const showMessage = (method, args) => {
+        let handle;
+        const promise = new Promise((resolve, reject) => inDigest(() => {
+            try {
+                handle = messagebox[method](...args);
+                // Core's then accepts only one argument; catch first preserves cancellation.
+                handle.catch(reject).then(resolve, reject);
+            } catch (error) { reject(error); }
+        }));
+        return Object.assign(promise, { close: () => inDigest(() => handle.close()) });
+    };
+    const aj = {
+        pageTitle: { set: (text) => inDigest(() => pageTitle.set(text)) },
+        messagebox: {
+            show: (options) => showMessage('show', [{ ...options }]),
+            prompt: (text, value) => showMessage('prompt', [text, value]),
+        },
+        modal: createModalService(() => aj, $scope),
         http: Object.fromEntries(['get', 'post', 'put', 'delete', 'patch'].map((method) => [
             method, async (...args) => $http[method](...args),
         ])),
@@ -32,4 +51,5 @@ export function createAjentiAdapter({ $http, notify, gettext, identity, $locatio
         }),
         navigate: (path) => { $location.path(path); },
     };
+    return aj;
 }
