@@ -5,12 +5,25 @@ import { settings } from './playwright.config.mjs';
 for (const role of settings.roles) {
     test(`${role.name}: permissions matrix and export contract`, async ({ page }) => {
         const errors = [];
+        const consoleErrors = [];
+        let loggedIn = false;
         page.on('pageerror', error => errors.push(error.message));
+        page.on('console', m => {
+            if (m.type() !== 'error') return;
+            const path = new URL(m.location().url || '/', settings.baseURL).pathname;
+            // Core polls before login; the teacher's denied permissions GET is asserted below.
+            if (!loggedIn && ['/api/core/sidebar', '/api/core/tasks/request-update'].includes(path)
+                && m.text() === 'Failed to load resource: the server responded with a status of 401 (Unauthenticated)') return;
+            if (role.name === 'teacher' && path === '/api/lmn/permissions'
+                && m.text() === 'Failed to load resource: the server responded with a status of 403 (Forbidden)') return;
+            consoleErrors.push(m.text());
+        });
         await page.goto('/');
         await page.locator('input[ng\\:model="username"]').fill(role.login);
         await page.locator('input[type="password"][ng\\:model="password"]').fill(role.pw);
         await page.locator('a[ng\\:click^="login"]').click();
         await expect(page.locator('h2').filter({ hasText: /Linuxmuster\.net/i }).first()).toBeVisible();
+        loggedIn = true;
         const response = page.waitForResponse(r => new URL(r.url()).pathname === '/api/lmn/permissions');
         await page.goto('/view/permissions');
         const loaded = await response;
@@ -18,12 +31,11 @@ for (const role of settings.roles) {
             expect(loaded.status()).toBe(403);
             await expect(page.locator('table td .fa-check')).toHaveCount(0);
             expect(errors).toEqual([]);
+            expect(consoleErrors).toEqual([]);
             return;
         }
         expect(loaded.status()).toBe(200);
         const [plugins, api, sidebar] = await loaded.json();
-        const consoleErrors = [];
-        page.on('console', m => { if (m.type() === 'error') consoleErrors.push(m.text()); });
         await expect(page).toHaveTitle(/List all permissions|Liste aller Berechtigungen/);
         await expect(page.getByRole('link', { name: 'Plugins', exact: true })).toBeVisible();
         const filter = page.getByPlaceholder('Filter per plugin name or per role');

@@ -62,7 +62,7 @@ const image = name => `/resources/lmn_common/resources/img/${logo(name)}`;
                 <table :id="'table_' + plugin" class="table" style="width:100%">
                     <tbody>
                         <tr><th v-for="(heading, index) in headings" :key="heading" @click="toggleFilter('plugin', index)">{{ aj.gettext(heading) }}</th></tr>
-                        <template v-for="url in Object.keys(matrix[0][plugin].methods).sort()" :key="url">
+                        <template v-for="url in Object.keys(matrix[0][plugin].methods)" :key="url">
                             <tr><td colspan="6"><b>{{ url }}</b></td></tr>
                             <tr v-for="(details, index) in matrix[0][plugin].methods[url].filter(details => matchesApi(details, query.plugin, matrix[1]))" :key="index">
                                 <td style="width:300px;border-top-width:0" :title="details.doc">

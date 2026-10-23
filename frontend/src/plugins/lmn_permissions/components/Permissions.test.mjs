@@ -17,6 +17,16 @@ const data = () => [{
 }];
 const render = (http) => mount(Permissions, { global: { provide: { aj: createMockAj({ identity: { user: 'admin' }, http }) } } });
 
+it('renders method URLs in backend insertion order', async () => {
+    const response = data();
+    const urls = ['/api/lmn/z-last', '/api/lmn/a-first', '/api/lmn/m-middle'];
+    const plugin = { ...response[0].lmn_settings, methods: Object.fromEntries(urls.map(url => [url, [{ method: 'get' }]])) };
+    const wrapper = render(async () => ({ data: [{ ...response[0], lmn_settings: plugin }, ...response.slice(1)] }));
+    await flushPromises();
+    expect(wrapper.findAll('#table_lmn_settings td b').map(node => node.text())).toEqual(urls);
+    wrapper.unmount();
+});
+
 it('preserves the legacy three-state cycle, including boolean defaults', () => {
     expect([cycle(undefined), cycle('false'), cycle('true'), cycle(false), cycle(true)]).toEqual(['false', 'true', undefined, undefined, undefined]);
     expect([undefined, false, 'false', true, 'true'].map(iconify)).toEqual(['question', 'times', 'times', 'check', 'check']);
