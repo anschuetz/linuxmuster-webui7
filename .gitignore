@@ -8,6 +8,8 @@ app.po~
 .crowdin.token
 .vscode
 tests/e2e/authconfig.json
+frontend/e2e/authconfig.json
+frontend/e2e/test-results/
 docs/build/*
 usr/lib/linuxmuster-webui/plugins/extra_*
 usr/lib/linuxmuster-webui/etc/default-*

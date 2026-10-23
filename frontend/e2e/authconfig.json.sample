@@ -1,0 +1,5 @@
+{
+    "url": "https://127.0.0.1:18443",
+    "admin": { "login": "", "pw": "" },
+    "teacher": { "login": "", "pw": "" }
+}

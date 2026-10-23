@@ -4,11 +4,13 @@
   "type": "module",
   "engines": { "node": "22.23.1" },
   "scripts": {
+    "e2e": "playwright test --config e2e/playwright.config.mjs",
     "test": "vitest run --coverage && npm run build",
     "build": "node build.mjs"
   },
   "dependencies": { "vue": "3.5.44" },
   "devDependencies": {
+    "@playwright/test": "1.64.1",
     "@vitejs/plugin-vue": "6.0.10",
     "@vitest/coverage-v8": "5.0.5",
     "@vue/test-utils": "2.5.1",
