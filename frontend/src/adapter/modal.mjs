@@ -5,7 +5,7 @@ let hadModalOpen = false;
 
 /** Bootstrap 3 frame; the component supplies header/body/footer and emits close(result) or cancel. */
 const ModalFrame = {
-    props: ['component', 'componentProps'],
+    props: ['component', 'componentProps', 'static'],
     emits: ['close', 'cancel'],
     setup(props, { emit }) {
         return () => [
@@ -13,7 +13,7 @@ const ModalFrame = {
             h('div', {
                 class: 'modal fade in', role: 'dialog', 'aria-modal': 'true',
                 tabindex: -1, style: { display: 'block' },
-                onClick: (event) => { if (event.target === event.currentTarget) emit('cancel'); },
+                onClick: (event) => { if (!props.static && event.target === event.currentTarget) emit('cancel'); },
             }, [h('div', { class: 'modal-dialog', role: 'document' }, [
                 h('div', { class: 'modal-content' }, [
                     h(props.component, {
@@ -29,7 +29,7 @@ const ModalFrame = {
 
 /** Each open dialog belongs to the Angular bridge scope, when supplied. */
 export function createModalService(getAj, $scope) {
-    return { open: (Component, props = {}) => new Promise((resolve, reject) => {
+    return { open: (Component, props = {}, options = {}) => new Promise((resolve, reject) => {
         const host = document.createElement('div');
         const previousFocus = document.activeElement;
         let app;
@@ -55,7 +55,7 @@ export function createModalService(getAj, $scope) {
         const onKey = (event) => {
             if (event.key === 'Escape' && active.at(-1) === host) {
                 event.preventDefault();
-                cancel();
+                if (!options.static) cancel();
             }
         };
         try {
@@ -67,7 +67,7 @@ export function createModalService(getAj, $scope) {
             document.addEventListener('keydown', onKey);
             offDestroy = $scope?.$on('$destroy', cancel);
             app = createApp(ModalFrame, {
-                component: Component, componentProps: props,
+                component: Component, componentProps: props, static: options.static,
                 onClose: (result) => finish(true, result), onCancel: cancel,
             });
             app.provide('aj', aj);

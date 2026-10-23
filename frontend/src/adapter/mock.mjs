@@ -3,7 +3,7 @@ import { reactive } from 'vue';
 /**
  * @typedef {Object} MockOptions
  * @property {(request: {method: string, url: string, data?: unknown, cfg?: import('./aj.mjs').HttpConfig}) => Promise<import('./aj.mjs').HttpResponse>} [http]
- * @property {(level: string, title: string, text?: string) => void} [notify]
+ * @property {(level: string, title: string, text?: string, options?: {sticky?: boolean}) => void} [notify]
  * @property {(text: string) => string} [gettext]
  * @property {Partial<import('./aj.mjs').Identity>} [identity]
  * @property {() => void} [reload]
@@ -43,7 +43,7 @@ export function createMockAj({
             },
         ])),
         notify: Object.fromEntries(['success', 'info', 'warning', 'error'].map((level) => [
-            level, (title, text) => notify(level, title, text),
+            level, (title, text, ...options) => notify(level, title, text, ...options),
         ])),
         gettext,
         identity: reactive({ user: null, profile: {}, isSuperuser: false, ...identity }),

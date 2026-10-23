@@ -178,3 +178,14 @@ it('handles a close emitted during component mounting and restores focus', async
     expect(document.querySelector('.modal')).toBeNull();
     expect(document.activeElement).toBe(opener);
 });
+
+it('keeps static modals open on Escape and backdrop, permitting component close', async () => {
+    const aj = createAjentiAdapter(base());
+    const result = aj.modal.open(dialog, { value: 'done' }, { static: true });
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+    document.querySelector('.modal').click();
+    await Promise.resolve();
+    expect(document.querySelector('.modal')).not.toBeNull();
+    document.querySelector('.modal-content button').click();
+    await expect(result).resolves.toBe('done');
+});
