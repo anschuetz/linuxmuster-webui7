@@ -1,0 +1,66 @@
+import { expect, it, vi } from 'vitest';
+import { isReactive, watchEffect, nextTick } from 'vue';
+import { createAjentiAdapter } from './ajenti.mjs';
+
+function services() {
+    return {
+        $http: Object.fromEntries(['get', 'post', 'put', 'delete', 'patch'].map((method) => [method, vi.fn()])),
+        notify: Object.fromEntries(['success', 'info', 'warning', 'error'].map((level) => [level, vi.fn()])),
+        gettext: vi.fn((text) => `DE: ${text}`),
+        identity: {},
+        $location: { path: vi.fn() },
+    };
+}
+
+it.each(['get', 'post', 'put', 'delete', 'patch'])('delegates %s to Angular HTTP, retaining response and rejection', async (method) => {
+    const deps = services();
+    const aj = createAjentiAdapter(deps);
+    const response = { data: { ok: true }, status: 201 };
+    const cfg = { headers: { Accept: 'application/json' } };
+    const args = ['get', 'delete'].includes(method) ? ['/api/test', cfg] : ['/api/test', { value: 1 }, cfg];
+    deps.$http[method].mockResolvedValueOnce(response);
+    expect(await aj.http[method](...args)).toBe(response);
+    expect(deps.$http[method]).toHaveBeenCalledWith(...args);
+    const rejection = { data: 'session expired', status: 401 };
+    deps.$http[method].mockRejectedValueOnce(rejection);
+    await expect(aj.http[method](...args)).rejects.toBe(rejection);
+});
+
+it('delegates notifications, translation and navigation to shell services', () => {
+    const deps = services();
+    const aj = createAjentiAdapter(deps);
+    for (const level of ['success', 'info', 'warning', 'error']) {
+        aj.notify[level]('Title', 'Text');
+        expect(deps.notify[level]).toHaveBeenCalledWith('Title', 'Text');
+    }
+    expect(aj.gettext('Hello')).toBe('DE: Hello');
+    aj.navigate('/view/lmn/links');
+    expect(deps.$location.path).toHaveBeenCalledWith('/view/lmn/links');
+});
+
+it('updates Vue effects when Angular loads identity after mount', async () => {
+    const deps = services();
+    let loaded;
+    deps.identity.promise = new Promise((resolve) => { loaded = resolve; });
+    const aj = createAjentiAdapter(deps);
+    const identity = aj.identity;
+    expect(isReactive(identity)).toBe(true);
+    const seen = [];
+    const stop = watchEffect(() => seen.push([identity.user, identity.profile, identity.isSuperuser]));
+    expect(seen).toEqual([[null, {}, false]]);
+    Object.assign(deps.identity, { user: 'admin', profile: { role: 'admin' }, isSuperuser: true });
+    loaded();
+    await deps.identity.promise;
+    await nextTick();
+    expect(aj.identity).toBe(identity);
+    expect(seen.at(-1)).toEqual(['admin', { role: 'admin' }, true]);
+    stop();
+});
+
+it('uses an already loaded identity and tolerates failed identity loading', async () => {
+    const deps = services();
+    deps.identity = { user: 'root', profile: { role: 'admin' }, isSuperuser: true, promise: Promise.reject('failed') };
+    const aj = createAjentiAdapter(deps);
+    await deps.identity.promise.catch(() => {});
+    expect(aj.identity).toEqual({ user: 'root', profile: { role: 'admin' }, isSuperuser: true });
+});
