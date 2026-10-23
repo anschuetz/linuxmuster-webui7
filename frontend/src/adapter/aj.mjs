@@ -40,6 +40,7 @@
  * emit('cancel'), Escape, backdrop or bridge scope destruction reject.
  *
  * @typedef {Object} Aj
+ * @property {() => void} reload Reload the active route through the shell digest.
  * @property {PageTitle} pageTitle
  * @property {Messagebox} messagebox
  * @property {Modal} modal

@@ -64,3 +64,11 @@ it('uses an already loaded identity and tolerates failed identity loading', asyn
     await deps.identity.promise.catch(() => {});
     expect(aj.identity).toEqual({ user: 'root', profile: { role: 'admin' }, isSuperuser: true });
 });
+
+it('reloads the route inside the Angular digest', () => {
+    const deps = { ...services(), $route: { reload: vi.fn() }, $rootScope: { $evalAsync: vi.fn() } };
+    createAjentiAdapter(deps).reload();
+    expect(deps.$route.reload).not.toHaveBeenCalled();
+    deps.$rootScope.$evalAsync.mock.calls[0][0]();
+    expect(deps.$route.reload).toHaveBeenCalledOnce();
+});

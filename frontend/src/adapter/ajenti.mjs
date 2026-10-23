@@ -5,7 +5,7 @@ import { createModalService } from './modal.mjs';
  * Create the adapter contract using the existing Angular services and interceptors.
  * @returns {import('./aj.mjs').Aj}
  */
-export function createAjentiAdapter({ $http, notify, gettext, identity, $location, pageTitle, messagebox, $rootScope, $scope }) {
+export function createAjentiAdapter({ $http, notify, gettext, identity, $location, $route, pageTitle, messagebox, $rootScope, $scope }) {
     const snapshot = () => ({
         user: identity.user ?? null,
         profile: identity.profile ?? {},
@@ -31,6 +31,7 @@ export function createAjentiAdapter({ $http, notify, gettext, identity, $locatio
         return Object.assign(promise, { close: () => inDigest(() => handle.close()) });
     };
     const aj = {
+        reload: () => inDigest(() => $route.reload()),
         pageTitle: { set: (text) => inDigest(() => pageTitle.set(text)) },
         messagebox: {
             show: (options) => showMessage('show', [{ ...options }]),

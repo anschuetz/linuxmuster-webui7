@@ -51,3 +51,10 @@ describe('aj mock contract', () => {
         expect(aj.navigate('/view/demo')).toBeUndefined();
     });
 });
+
+it('exposes route reload with optional observer', () => {
+    expect(() => createMockAj().reload()).not.toThrow();
+    const reload = vi.fn();
+    createMockAj({ reload }).reload();
+    expect(reload).toHaveBeenCalledOnce();
+});

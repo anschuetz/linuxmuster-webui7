@@ -13,3 +13,6 @@ export function mount(element, aj) {
     app.mount(element);
     return () => app.unmount();
 }
+
+export { openFileEditor } from '../../common/fileEditor.mjs';
+export { openFileBackups } from '../../common/fileBackups.mjs';
