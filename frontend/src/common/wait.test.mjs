@@ -2,7 +2,7 @@ import { afterEach, expect, it, vi } from 'vitest';
 import { effectScope, nextTick } from 'vue';
 import { createAjentiAdapter } from '../adapter/ajenti.mjs';
 import { openWait } from './wait.mjs';
-const base = () => ({ identity: {}, gettext: (text) => `translated:${text}` });
+const base = () => ({ identity: {}, gettextCatalog: { getString: (text) => `translated:${text}` } });
 afterEach(() => { document.body.innerHTML = ''; vi.restoreAllMocks(); });
 it('keeps a static translated spinner open on Escape/backdrop and cleans up on close', async () => {
     const remove = vi.spyOn(document, 'removeEventListener');

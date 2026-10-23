@@ -4,7 +4,7 @@ import { createAjentiAdapter } from './ajenti.mjs';
 import { createMockAj } from './mock.mjs';
 import { mountBridge } from '../bridge/mount.mjs';
 
-const base = () => ({ identity: {}, gettext: (text) => text });
+const base = () => ({ identity: {}, gettextCatalog: { getString: (text) => text } });
 const dialog = defineComponent({
     props: ['value'], emits: ['close'],
     setup(props, { emit }) {

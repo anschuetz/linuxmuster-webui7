@@ -4,7 +4,7 @@ import { mountBridge } from '../bridge/mount.mjs';
 it.each(['success', 'info', 'warning', 'error'])('delegates sticky %s through the bridge to toaster in the digest', (level) => {
     const queue = [];
     const services = {
-        identity: {}, gettext: (text) => text,
+        identity: {}, gettextCatalog: { getString: (text) => text },
         notify: { [level]: vi.fn() }, toaster: { pop: vi.fn() },
         $rootScope: { $evalAsync: (fn) => queue.push(fn) },
     };

@@ -1,11 +1,18 @@
-import { reactive, shallowRef } from 'vue';
+import { getCurrentScope, onScopeDispose, reactive, shallowRef } from 'vue';
 import { createModalService } from './modal.mjs';
 
 /**
  * Create the adapter contract using the existing Angular services and interceptors.
  * @returns {import('./aj.mjs').Aj}
  */
-export function createAjentiAdapter({ $http, notify, toaster, gettext, identity, $location, $route, pageTitle, messagebox, $rootScope, $scope }) {
+export function createAjentiAdapter({ $http, notify, toaster, gettextCatalog, identity, $location, $route, pageTitle, messagebox, $rootScope, $scope }) {
+    const translationVersion = shallowRef(0);
+    if (getCurrentScope() && $rootScope?.$on) {
+        // angular-gettext broadcasts this for both language and string changes.
+        onScopeDispose($rootScope.$on('gettextLanguageChanged', () => {
+            translationVersion.value += 1;
+        }));
+    }
     const snapshot = () => ({
         user: identity.user ?? null,
         profile: identity.profile ?? {},
@@ -46,7 +53,11 @@ export function createAjentiAdapter({ $http, notify, toaster, gettext, identity,
                 ? inDigest(() => toaster.pop({ type: level, title, body: text, timeout: 0 }))
                 : notify[level](title, text),
         ])),
-        gettext,
+        gettext: (text) => {
+            // Track catalog changes in every template/effect that translates text.
+            translationVersion.value;
+            return gettextCatalog.getString(text);
+        },
         identity: reactive({
             get user() { return current.value.user; },
             get profile() { return current.value.profile; },

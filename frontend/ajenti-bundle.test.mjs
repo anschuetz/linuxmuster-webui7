@@ -18,7 +18,7 @@ it('loads the production Ajenti bundle with Vue globals and registers the mount 
     expect(typeof directives.get('lmnVueMount')).toBe('function');
 });
 
-it('injects toaster into the production mount directive for sticky notifications', () => {
+it('injects toaster and gettextCatalog into the production mount directive', () => {
     let directive;
     const module = Object.fromEntries(['run', 'constant', 'factory', 'service', 'controller', 'config', 'filter']
         .map((method) => [method, () => module]));
@@ -29,9 +29,10 @@ it('injects toaster into the production mount directive for sticky notifications
     const mountBridge = vi.fn();
     context.LmnVueBridge.mountBridge = mountBridge;
     const toaster = { pop: vi.fn() };
+    const gettextCatalog = { getString: vi.fn() };
     const scope = {};
     const element = document.createElement('div');
-    directive({}, {}, {}, () => {}, {}, {}, {}, {}, {}, toaster).link(scope, [element], { entry: 'LmnVue_lmn_common' });
+    directive({}, {}, {}, gettextCatalog, {}, {}, {}, {}, {}, toaster).link(scope, [element], { entry: 'LmnVue_lmn_common' });
     expect(mountBridge).toHaveBeenCalledWith(scope, element, context.LmnVue_lmn_common,
-        expect.objectContaining({ toaster }));
+        expect.objectContaining({ toaster, gettextCatalog }));
 });

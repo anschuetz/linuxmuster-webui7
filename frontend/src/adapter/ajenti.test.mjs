@@ -6,7 +6,8 @@ function services() {
     return {
         $http: Object.fromEntries(['get', 'post', 'put', 'delete', 'patch'].map((method) => [method, vi.fn()])),
         notify: Object.fromEntries(['success', 'info', 'warning', 'error'].map((level) => [level, vi.fn()])),
-        gettext: vi.fn((text) => `DE: ${text}`),
+        gettext: vi.fn((text) => text),
+        gettextCatalog: { getString: vi.fn((text) => `DE: ${text}`) },
         identity: {},
         $location: { path: vi.fn() },
     };
@@ -34,6 +35,8 @@ it('delegates notifications, translation and navigation to shell services', () =
         expect(deps.notify[level]).toHaveBeenCalledWith('Title', 'Text');
     }
     expect(aj.gettext('Hello')).toBe('DE: Hello');
+    expect(deps.gettextCatalog.getString).toHaveBeenCalledWith('Hello');
+    expect(deps.gettext).not.toHaveBeenCalled();
     aj.navigate('/view/lmn/links');
     expect(deps.$location.path).toHaveBeenCalledWith('/view/lmn/links');
 });
