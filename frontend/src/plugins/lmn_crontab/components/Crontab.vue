@@ -54,7 +54,8 @@ function add() {
 }
 function update(name, value) {
     const current = editing.value;
-    const job = { ...current.job, [name]: value };
+    const trimmed = typeof value === 'string' && name !== 'special' ? value.trim() : value;
+    const job = { ...current.job, [name]: trimmed === '' && name !== 'comment' ? undefined : trimmed };
     editing.value = { ...current, job };
     // Angular binds existing jobs immediately, including when Cancel is pressed.
     if (current.index !== null) replace(current.type, crontab.value[current.type].map((item, i) => i === current.index ? job : item));

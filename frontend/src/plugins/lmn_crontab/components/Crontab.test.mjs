@@ -57,6 +57,31 @@ it.each([
     w.unmount();
 });
 
+it('trims command text before saving the root crontab', async () => {
+    const { wrapper: w, http } = await setup([empty(), { ...empty(), normal_tasks: [job] }]);
+    await w.get('select').setValue('root');
+    await w.get('[title=Modify]').trigger('click');
+    await w.get('[name=command]').setValue('\n/usr/bin/foo ');
+    await button(w, 'Cancel').trigger('click');
+    await button(w, 'Save').trigger('click');
+    await flushPromises();
+    expect(http.mock.calls.at(-1)[0].data.root.normal_tasks[0].command).toBe('/usr/bin/foo');
+    w.unmount();
+});
+
+it('omits a cleared required minute from the serialized existing job', async () => {
+    const { wrapper: w, http } = await setup();
+    await w.get('[title=Modify]').trigger('click');
+    await w.get('[name=minute]').setValue('');
+    await button(w, 'Cancel').trigger('click');
+    await button(w, 'Save').trigger('click');
+    await flushPromises();
+    const saved = JSON.parse(JSON.stringify(http.mock.calls.at(-1)[0].data));
+    const { minute, ...remaining } = job;
+    expect(saved.globaladministrator.normal_tasks[0]).toEqual(remaining);
+    w.unmount();
+});
+
 it('keeps edits on cancel, discards cancelled additions, removes and saves both tabs', async () => {
     const { wrapper: w, http } = await setup();
     await w.get('[title=Modify]').trigger('click');
