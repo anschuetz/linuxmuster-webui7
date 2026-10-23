@@ -27,13 +27,19 @@ const visible = ref(Object.fromEntries(definitions.map(([id, , shown]) => [id, s
 const sorts = definitions.slice(0, 5);
 const fields = computed(() => definitions.filter(([id]) => visible.value[id]));
 const sortName = computed(() => definitions.find(([id]) => id === sort.value)[1]);
+function matchesFilter(value, term) {
+    if (term.startsWith('!')) return !matchesFilter(value, term.slice(1));
+    if (value == null) return false;
+    if (typeof value === 'object') return Object.entries(value).some(([key, item]) => !key.startsWith('$') && matchesFilter(item, term));
+    return String(value).toLowerCase().includes(term);
+}
 const shown = computed(() => {
     const newOrder = (d) => d._isNew === undefined ? 2 : Number(d._isNew);
     const compare = (a, b) => a === b ? 0 : a < b ? -1 : 1;
     const key = (d) => sort.value === 'ip' ? d.ip.split('.').map((n) => n.padStart(3, '0')).join('.') : d[sort.value];
     const term = filter.value.toLowerCase();
     return (devices.value || []).filter((d) => (d._isNew || (d.room && !d.room.startsWith('#')))
-        && Object.entries(d).some(([k, v]) => !k.startsWith('$') && String(v).toLowerCase().includes(term)))
+        && matchesFilter(d, term))
         .toSorted((a, b) => newOrder(a) - newOrder(b) || compare(String(key(a)).toLowerCase(), String(key(b)).toLowerCase()))
         .slice((page.value - 1) * pageSize.value, page.value * pageSize.value);
 });
@@ -160,7 +166,7 @@ load('/api/lmn/devices', (data) => { devices.value = data; });
         <div>
             <button class="btn btn-success pull-right" @click="add()"><i class="fa fa-plus"></i> <span>{{ aj.gettext('Add a device') }}</span></button>
             <div class="input-group">
-                <input v-model="filter" type="search" autofocus class="form-control" placeholder="Filter">
+                <input v-model.trim="filter" type="search" autofocus class="form-control" placeholder="Filter">
                 <div class="input-group-btn" :class="{ open: menu === 'sort' }">
                     <button class="btn btn-default" @click="menu = menu === 'sort' ? '' : 'sort'"><i class="fa fa-sort-amount-asc"></i> {{ aj.gettext(sortName) }} <span class="caret"></span></button>
                     <ul v-if="menu === 'sort'" class="dropdown-menu dropdown-menu-right" style="width:150px"><li v-for="[id, label] in sorts" :key="id"><a :data-sort="id" @click="sort = id; menu = ''"><i class="fa fa-sort-amount-asc"></i> {{ aj.gettext(label) }}</a></li></ul>
@@ -181,7 +187,7 @@ load('/api/lmn/devices', (data) => { devices.value = data; });
                     <td v-for="[id, label] in fields" :key="id" class="form-group" :width="id === 'room' ? 80 : id === 'pxeFlag' ? 100 : undefined" :data-field="id" :class="{ 'has-error-new': id !== 'sophomorixRole' && !!checks[index]?.[id], 'has-error': !!checks[index]?.[id] && (showErrors || id === 'sophomorixRole') }">
                         <GroupInput v-if="id === 'group'" :model-value="device.group" :groups="groups" @update:model-value="update(device, id, $event)" />
                         <select v-else-if="id === 'sophomorixRole' || id === 'pxeFlag'" class="form-control" :value="device[id]" :aria-label="aj.gettext(label)" @change="update(device, id, $event.target.value)"><option v-for="[value, text] in id === 'sophomorixRole' ? roles : pxe" :key="value" :value="value">{{ aj.gettext(text) }}</option></select>
-                        <input v-else type="text" class="form-control" :value="device[id]" :placeholder="placeholders[id] || label" @blur="$event.target.value !== device[id] && update(device, id, $event.target.value)">
+                        <input v-else type="text" class="form-control" :value="device[id]" :placeholder="placeholders[id] || label" @blur="$event.target.value !== device[id] && update(device, id, $event.target.value.trim())">
                     </td>
                     <td width="1"><button type="button" class="btn btn-default" :title="aj.gettext('Duplicate')" @click="add(device)"><i class="fa fa-copy"></i></button></td>
                     <td width="1"><button type="button" class="btn btn-default" :title="aj.gettext('Remove')" @click="remove(device)"><i class="fa fa-trash-o"></i></button></td>
@@ -192,7 +198,7 @@ load('/api/lmn/devices', (data) => { devices.value = data; });
         <ul v-if="devices.length > pageSize" class="pagination"><li><a @click="page = 1">First</a></li><li><a @click="page = Math.max(1, page - 1)">Previous</a></li><li v-for="n in pages" :key="n" :class="{ active: page === n }"><a :data-page="n" @click="page = n">{{ n }}</a></li><li><a @click="page = Math.min(pageCount, page + 1)">Next</a></li><li><a @click="page = pageCount">Last</a></li></ul>
         <div class="floating-toolbar-padder"></div>
         <component :is="'floating-toolbar'"><div class="container"><div class="row"><div :class="{ 'col-md-3': sidebar }"></div><div :class="sidebar ? 'col-md-9' : 'col-md-12'"><div class="bar row">
-            <button class="btn btn-lmn pull-right" :title="aj.gettext('Backups')" @click="backups"><i class="fa fa-history"></i></button>
+            <button class="btn btn-lmn pull-right" @click="backups"><i class="fa fa-history"></i></button>
             <a class="btn btn-lmn" @click="save()">{{ aj.gettext('Save') }}</a>
             <a class="btn btn-lmn" @click="save(true)">{{ aj.gettext('Save & import') }}</a>
             <button class="btn btn-lmn" @click="editCSV">{{ aj.gettext('Edit CSV') }}</button>

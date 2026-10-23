@@ -57,6 +57,37 @@ describe('devices original view contract', () => {
         await w.find('input[type="search"]').setValue('no-match');
         expect(rows(w)).toHaveLength(0);
     });
+    it('trims dialog and table text inputs in the saved payload', async () => {
+        const { wrapper: w, aj } = setup([]); await flushPromises();
+        await button(w, 'Add a device').trigger('click'); await flushPromises();
+        const dialog = document.querySelector('[role="dialog"]');
+        [' r100 ', ' pc01 ', ' ubuntu ', ' 02:00:00:00:00:01 ', ' 10.0.0.10 '].forEach((value, i) => {
+            const input = dialog.querySelectorAll('input')[i];
+            input.value = value; input.dispatchEvent(new Event('input'));
+        });
+        [...dialog.querySelectorAll('button')].find((b) => b.textContent === 'Add').click(); await flushPromises();
+        await button(w, 'Save').trigger('click'); await flushPromises();
+        expect(aj.http.post.mock.calls[0][1][0]).toMatchObject(device());
+        await cell(w, 'hostname').setValue(' pc01 '); await cell(w, 'hostname').trigger('blur');
+        await cell(w, 'group').setValue(' ubuntu ');
+        await button(w, 'Save').trigger('click'); await flushPromises();
+        expect(aj.http.post.mock.calls[1][1][0]).toMatchObject(device());
+    });
+    it('shows all ten matching typeahead groups', async () => {
+        const groups = Array.from({ length: 10 }, (_, i) => `group${i}`);
+        const { wrapper: w } = setup([device()], { http: {
+            get: vi.fn(async (url) => ({ data: url.endsWith('/groups') ? groups : url.endsWith('/activeschool') ? 'default-school' : [device()] })),
+            post: vi.fn(),
+        } }); await flushPromises();
+        await cell(w, 'group').setValue('group');
+        expect(w.findAll('[role="option"]').map((option) => option.text())).toEqual(groups);
+    });
+    it('negates the filter across the whole device like Angular expression strings', async () => {
+        const { wrapper: w } = setup([comment, device(), device({ hostname: 'pc02' })]); await flushPromises();
+        await w.find('input[type="search"]').setValue('!pc01');
+        expect(rows(w)).toHaveLength(1);
+        expect(cell(w, 'hostname').element.value).toBe('pc02');
+    });
     it('sorts numeric IPs, pages and preserves the original total count including comments', async () => {
         const data = Array.from({ length: 12 }, (_, i) => device({ hostname: `pc${i}`, group: i === 0 ? '-g' : i === 1 ? '_g' : 'ubuntu', ip: `10.0.0.${12 - i}` }));
         const { wrapper: w } = setup([comment, ...data]); await flushPromises();
@@ -128,7 +159,8 @@ describe('devices original view contract', () => {
         await button(w, 'Edit CSV').trigger('click'); await flushPromises();
         expect(aj.modal.open.mock.calls[0][1].path).toBe('/etc/linuxmuster/sophomorix/default-school/devices.csv');
         expect(aj.reload).toHaveBeenCalledOnce();
-        await w.find('[title="Backups"]').trigger('click'); await flushPromises();
+        expect(w.find('button:has(.fa-history)').attributes('title')).toBeUndefined();
+        await w.find('button:has(.fa-history)').trigger('click'); await flushPromises();
         expect(aj.modal.open.mock.calls[1][1].path).toContain('/devices.csv');
         aj.http.get.mockImplementation(async (url) => ({ data: url.endsWith('/groups') ? [] : url.endsWith('/activeschool') ? 'school2' : [] }));
         w.unmount(); wrappers = [];
@@ -200,10 +232,11 @@ describe('devices original view contract', () => {
 
 describe('device dialogs', () => {
     it('cancels adding without returning a device and copies duplicate inputs', async () => {
-        const aj = { gettext: (s) => s };
+        const aj = { gettext: (s) => `translated:${s}` };
         const source = device(); const w = mount(AddDialog, { props: { device: source }, global: { provide: { aj } } }); wrappers.push(w);
+        expect(w.findAll('tr')[4].find('span').text()).toBe('IP:');
         await w.find('input').setValue('other'); expect(source.room).toBe('r100');
-        await button(w, 'Cancel').trigger('click'); expect(w.emitted('cancel')).toHaveLength(1);
+        await button(w, 'translated:Cancel').trigger('click'); expect(w.emitted('cancel')).toHaveLength(1);
     });
     it('shows import log, completion and toggles details', async () => {
         vi.useFakeTimers();

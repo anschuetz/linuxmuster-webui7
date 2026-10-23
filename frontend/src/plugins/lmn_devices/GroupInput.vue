@@ -4,9 +4,9 @@ const props = defineProps({ modelValue: String, groups: { type: Array, required:
 const emit = defineEmits(['update:modelValue']);
 const open = ref(false);
 const active = ref(0);
-const matches = computed(() => props.modelValue ? props.groups.filter((group) => group.toLowerCase().includes(props.modelValue.toLowerCase())).slice(0, 8) : []);
+const matches = computed(() => props.modelValue ? props.groups.filter((group) => group.toLowerCase().includes(props.modelValue.toLowerCase())) : []);
 function input(event) {
-    emit('update:modelValue', event.target.value);
+    emit('update:modelValue', event.target.value.trim());
     active.value = 0;
     open.value = true;
 }
