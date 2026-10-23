@@ -11,6 +11,9 @@ dependencies:
     - !PluginDependency { plugin_name: filesystem }
 resources:
     - 'resources/js/module.coffee'
+    - 'resources/vue/vendor.js'
+    - 'resources/vue/demo.js'
+    - 'resources/js/directives/lmnVueMount.es'
     - 'resources/js/directives/lmlog.coffee'
     - 'resources/js/directives/sambaAccess.es'
     - 'resources/js/directives/globalAdminAccess.es'

@@ -5,7 +5,7 @@
   "engines": { "node": "22.23.1" },
   "scripts": {
     "e2e": "playwright test --config e2e/playwright.config.mjs",
-    "test": "vitest run --coverage && npm run build",
+    "test": "vitest run --coverage && npm run build && node check-built-resources.mjs",
     "build": "node build.mjs"
   },
   "dependencies": { "vue": "3.5.44" },

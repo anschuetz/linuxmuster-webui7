@@ -1,5 +1,6 @@
 import { createApp } from 'vue';
 import Demo from './components/Demo.vue';
+export { mountBridge } from './bridge/mount.mjs';
 
 /**
  * @param {Element} element

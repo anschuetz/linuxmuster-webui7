@@ -15,4 +15,3 @@ usr/lib/linuxmuster-webui/plugins/extra_*
 usr/lib/linuxmuster-webui/etc/default-*
 usr/lib/linuxmuster-webui/plugins/ni_*
 usr/lib/linuxmuster-webui/plugins/lmp_*
-usr/lib/linuxmuster-webui/plugins/lmn_common/resources/vue/
