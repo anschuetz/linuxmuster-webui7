@@ -43,7 +43,9 @@ function restore(backup) {
     return run(async () => {
         const { data } = await aj.http.get(fileUrl('read', backupPath(backup), props.encoding));
         await aj.http.post(fileUrl('write', props.path, props.encoding), data);
-        await onlyRemove(backup);
+        onlyRemove(backup).catch((cause) => {
+            aj.notify.error(aj.gettext('Backup operation failed') + ': ' + String(cause.message || cause));
+        });
         if (!disposed) {
             aj.notify.success(aj.gettext('Backup file restored'));
             emit('close');
@@ -58,7 +60,10 @@ function remove(backup) {
         } catch { return; }
         if (disposed) return;
         await onlyRemove(backup);
-        if (!disposed) aj.notify.success(aj.gettext('Backup file removed'));
+        if (!disposed) {
+            aj.notify.success(aj.gettext('Backup file removed'));
+            emit('close');
+        }
     });
 }
 onBeforeUnmount(() => { disposed = true; });

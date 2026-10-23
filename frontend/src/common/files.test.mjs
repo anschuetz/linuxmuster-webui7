@@ -102,6 +102,38 @@ it('restores in order, consumes backup and reloads only on success', async () =>
     ]);
     expect(reload).toHaveBeenCalledOnce(); expect(wrapper.emitted('close')).toHaveLength(1);
 });
+it('closes and reloads a successful restore even when backup removal fails', async () => {
+    const reload = vi.fn(); const notify = vi.fn();
+    const { http } = backups({ reload, notify }); await flushPromises();
+    http.mockImplementation(async ({ url }) => {
+        if (url === '/api/lmn/remove-file') throw new Error('removal failed');
+        return { data: 'backup' };
+    });
+    await click('Restore');
+    expect(notify).toHaveBeenCalledWith('success', 'Backup file restored', undefined);
+    expect(notify).toHaveBeenCalledWith('error', expect.stringContaining('removal failed'), undefined);
+    expect(wrapper.emitted('close')).toHaveLength(1);
+    expect(reload).toHaveBeenCalledOnce();
+});
+it('resolves openFileBackups after confirmed successful deletion', async () => {
+    let destroy;
+    const http = vi.fn(async ({ url }) => ({ data: url.includes('/list/')
+        ? { items: [{ name: '.a.csv.bak.100' }] } : '' }));
+    const show = vi.fn().mockResolvedValue(undefined);
+    const aj = createMockAj({ http, messagebox: { show } });
+    aj.modal = createModalService(() => aj, { $on: (_, cb) => { destroy = cb; return vi.fn(); } });
+    const resolved = vi.fn();
+    const result = openFileBackups(aj, '/etc/a.csv', 'latin-1').then(resolved, () => {});
+    try {
+        await flushPromises();
+        [...document.querySelectorAll('[role=dialog] button')].find((button) => button.textContent === 'Delete').click();
+        await flushPromises();
+        expect(show).toHaveBeenCalledOnce();
+        expect(http).toHaveBeenLastCalledWith(expect.objectContaining({ url: '/api/lmn/remove-file', data: { filepath: '/etc/.a.csv.bak.100' } }));
+        expect(resolved).toHaveBeenCalledOnce();
+        expect(document.querySelector('[role=dialog]')).toBeNull();
+    } finally { destroy(); await result; }
+});
 it.each([true, false])('deletion requires messagebox confirmation: %s', async (confirmed) => {
     const show = vi.fn(() => confirmed ? Promise.resolve() : Promise.reject(new Error('cancel')));
     const { http } = backups({ messagebox: { show } }); await flushPromises(); await click('Delete');
