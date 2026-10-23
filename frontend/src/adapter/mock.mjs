@@ -7,6 +7,9 @@ import { reactive } from 'vue';
  * @property {(text: string) => string} [gettext]
  * @property {Partial<import('./aj.mjs').Identity>} [identity]
  * @property {(path: string) => void} [navigate]
+ * @property {import('./aj.mjs').PageTitle} [pageTitle]
+ * @property {import('./aj.mjs').Messagebox} [messagebox]
+ * @property {import('./aj.mjs').Modal} [modal]
  */
 
 /**
@@ -21,8 +24,15 @@ export function createMockAj({
     gettext = (text) => text,
     identity = {},
     navigate = () => {},
+    pageTitle = { set: () => {} },
+    messagebox = {
+        show: (options) => Object.assign(Promise.resolve({ ...options }), { close: () => {} }),
+        prompt: async (text, value) => ({ value }),
+    },
+    modal = { open: async () => undefined },
 } = {}) {
     return {
+        pageTitle, messagebox, modal,
         http: Object.fromEntries(['get', 'delete', 'post', 'put', 'patch'].map((method) => [
             method,
             async (url, ...args) => {
