@@ -36,7 +36,9 @@ for (const role of settings.roles) {
             page.on('console', onConsole);
             await expect(page.locator('a[href="/view/lmn/links"]')).toHaveCount(0);
             const openLinks = async () => {
+                const response = page.waitForResponse((response) => new URL(response.url()).pathname === '/api/lmn/links');
                 await page.goto('/view/lmn/links');
+                await response;
                 await expect(page).toHaveTitle(/Links/);
             };
             await openLinks();
@@ -88,6 +90,7 @@ for (const role of settings.roles) {
             expect((await response).status()).toBe(500);
             await expect(page.locator('messagebox-container .modal')).toBeVisible();
             await expect(page.locator('.info-cards')).toHaveCount(0);
+            await expect(page.locator('.alert-info')).toBeHidden();
             expect(errors).toEqual([]);
         } finally {
             configure(null);

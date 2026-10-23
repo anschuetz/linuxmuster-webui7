@@ -47,20 +47,42 @@ it('waits for identity before loading the links', async () => {
 });
 
 it.each([
-    async () => ({ status: 200, data: { status: 'error', message: 'Configfile not found!' } }),
-    async () => { throw new Error('HTTP 500'); },
-])('shows the empty message for a failed request', async (http) => {
+    [async () => ({ status: 200, data: { status: 'error', message: 'Configfile not found!' } }), true],
+    [async () => { throw new Error('HTTP 500'); }, false],
+])('shows the empty message only for a loaded error status (%#)', async (http, empty) => {
     const wrapper = render(createMockAj({ identity: { user: 'zem' }, http }));
     await flushPromises();
-    expect(wrapper.get('.alert-info').text()).toContain('Currently no links defined!');
+    expect(wrapper.find('.alert-info').exists()).toBe(empty);
     expect(wrapper.findAll('.info-cards')).toHaveLength(0);
+    wrapper.unmount();
+});
+
+it('does not show the empty message before the response arrives', async () => {
+    let respond;
+    const http = vi.fn(() => new Promise((resolve) => { respond = resolve; }));
+    const wrapper = render(createMockAj({ identity: { user: 'zem' }, http }));
+    await nextTick();
+    expect(wrapper.find('.alert-info').exists()).toBe(false);
+    respond({ status: 200, data: { status: 'success', data: {} } });
+    await flushPromises();
+    expect(wrapper.find('.alert-info').exists()).toBe(true);
+    wrapper.unmount();
+});
+
+it('skips entries without permissions without a render error', async () => {
+    const { permissions, ...unrestricted } = teacher;
+    const http = vi.fn(async () => ({ status: 200, data: { status: 'success', data: { unrestricted, shared } } }));
+    const wrapper = render(createMockAj({ identity: { user: 'zem', profile: { sophomorixRole: 'teacher' } }, http }));
+    await flushPromises();
+    expect(wrapper.findAll('.info-cards')).toHaveLength(1);
+    expect(wrapper.get('.info-cards').text()).toContain(shared.title);
     wrapper.unmount();
 });
 
 it('sets the translated page title and releases its mount', async () => {
     const set = vi.fn();
     const host = document.createElement('div');
-    const unmount = mountLinks(host, createMockAj({ pageTitle: { set }, gettext: (text) => `DE: ${text}` }));
+    const unmount = mountLinks(host, createMockAj({ identity: { user: 'zem' }, http: async () => ({ data: { status: 'error' } }), pageTitle: { set }, gettext: (text) => `DE: ${text}` }));
     await flushPromises();
     expect(set).toHaveBeenCalledWith('DE: Links');
     expect(host.textContent).toContain('DE: Currently no links defined!');
