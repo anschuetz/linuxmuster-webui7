@@ -35,7 +35,7 @@ async function visit(page) {
     const response = page.waitForResponse('**/api/lmn/dhcp/leases');
     await page.goto('/view/lmn/dhcp');
     expect((await response).status()).toBe(200);
-    await expect(page.locator('h2').filter({ hasText: /DHCP/ })).toHaveText('DHCP Leases');
+    await expect(page.locator('h2').filter({ hasText: /DHCP/ })).toHaveText('DHCP-Leases');
 }
 const dialog = (page) => page.locator('.modal:visible').last();
 async function add(page) {

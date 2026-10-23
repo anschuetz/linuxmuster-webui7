@@ -112,3 +112,8 @@ it('preserves success-without-close and the console error when the original glob
     expect(error.mock.calls.map(([e]) => [e.name, e.message])).toEqual([['ReferenceError', 'device is not defined']]);
     expect(w.emitted('close')).toBeUndefined();
 });
+it('uses trimmed catalog keys for the translated form labels', () => {
+    const catalog = { 'Room:': 'Raum:', 'Mac:': 'MAC:', Hostname: 'Hostname', 'Group:': 'Gruppe:', 'PXE Boot:': 'PXE-Boot:', 'Sophomorix role:': 'Sophomorix-Rolle:' };
+    const { w } = dialog([known], { gettext: (key) => catalog[key] ?? key });
+    expect(w.findAll('td > span').map((label) => label.text())).toEqual(['Raum:', 'MAC:', 'Gruppe:', 'PXE-Boot:', 'Sophomorix-Rolle:']);
+});
