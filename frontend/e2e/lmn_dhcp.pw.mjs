@@ -39,7 +39,7 @@ async function visit(page) {
 }
 const dialog = (page) => page.locator('.modal:visible').last();
 async function add(page) {
-    await page.locator('button:has(.fa-plus)').last().click();
+    await page.locator('button:visible:has(.fa-plus)').last().click();
     await expect(dialog(page)).toBeVisible();
 }
 async function fill(page, values) {
@@ -51,8 +51,8 @@ for (const role of roles) {
         await page.route('**/api/lmn/dhcp/leases', (route) => route.fulfill({ json: fixture }));
         await login(page, role); markLoggedIn(); await visit(page);
         await expect(page.locator('table tr')).toHaveCount(3);
-        await expect(page.getByText(/Already registered!|Bereits registriert!/)).toBeVisible();
-        await expect(page.locator('button:has(.fa-plus)')).toHaveCount(1);
+        await expect(page.locator('span:visible').filter({ hasText: /Already registered!|Bereits registriert!/ })).toBeVisible();
+        await expect(page.locator('button:visible:has(.fa-plus)')).toHaveCount(1);
         await add(page);
         await expect(dialog(page).locator('h1')).toHaveText('Gerät hinzufügen');
         await expect(action(dialog(page), 'save')).toHaveText('Speichern');
@@ -103,6 +103,7 @@ for (const role of roles) {
             lmnReserved10: '', lmnReserved12: '', lmnReserved13: '', lmnReserved14: '', sophomorixComment: '',
         } });
         await expect(page.locator('.modal:visible')).toHaveCount(0);
+        await expect(page.locator('button:visible:has(.fa-plus)')).toHaveCount(1); // Legacy updates the wrong used row.
         expect(ssh(`cat ${csv}`)).toContain(`r36;${hostname};p36group;${lease.mac};${lease.ip};`);
         await page.unroute('**/api/lmn/dhcp/leases');
         const reloaded = page.waitForResponse('**/api/lmn/dhcp/leases');
@@ -111,7 +112,7 @@ for (const role of roles) {
         expect(updated[1].some((d) => d.mac === lease.mac && d.hostname === hostname)).toBe(true);
         await page.route('**/api/lmn/dhcp/leases', (route) => route.fulfill({ json: [[lease], updated[1]] }));
         await visit(page);
-        await expect(page.locator('button:has(.fa-plus)')).toHaveCount(0);
+        await expect(page.locator('button:visible:has(.fa-plus)')).toHaveCount(0);
         expect(errors).toEqual([]);
         // Remove only the synthetic row, to isolate the next role without an import.
         ssh(`sed -i '/^r36;${hostname};/d' ${csv}`);
