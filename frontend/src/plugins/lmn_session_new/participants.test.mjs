@@ -46,6 +46,21 @@ it('workdir teacher exclusion, global and per-user errors, persistent missing me
     expect(s.calls).toEqual([['post',M+'createSessionWorkingDirectory',{users:['p93-a','p93-b']}]]); expect(s.store.state.current.members.map(u=>u.files_error)).toEqual(['NOTJOINED','offline','offline']); expect(s.api.missingClasses.value).toBe('p93-class'); expect(s.notices).toEqual([['error','offline',undefined,{sticky:true}]]);
     s.responses[M+'createSessionWorkingDirectory']={}; await s.api.createWorkingDirectory(s.store.state.current.members); expect(s.store.state.current.members.map(u=>u.files_error)).toEqual(['','','']); expect(s.store.state.user_missing_membership.map(u=>u.cn)).toEqual(['p93-a']);
 });
+it('workdir response updates current participants after file polling replaces them', async () => {
+    const s = setup(), post = s.aj.http.post;
+    let resolve;
+    s.aj.http.post = (url, data) => url === M + 'createSessionWorkingDirectory'
+        ? new Promise(done => { resolve = done; }) : post(url, data);
+    const pending = s.api.createWorkingDirectory(s.store.state.current.members);
+    s.responses[M + 'listCollectDir'] = { 'p93-a': { items: [{ name: 'collected.txt' }] } };
+    await s.api.updateFileList();
+    resolve({ data: { 'p93-a': 'missing' } });
+    await pending;
+    const participant = s.store.state.current.members[0];
+    expect(participant.files_error).toBe('NOTJOINED');
+    expect(participant.files).toEqual([{ name: 'collected.txt' }]);
+    expect(s.store.state.user_missing_membership[0]).toBe(participant);
+});
 it('listCollectDir filters files sentinel rather than files_error and reports missing items permanently', async () => {
     const s=setup(); s.store.state.current={...session(),members:[{...users()[0],files:'ERROR'},{...users()[1],files_error:'NOTJOINED',files:[]}]};
     s.responses[M+'listCollectDir']={'p93-b':{items:[{name:'fixture'}]},unknown:'ignored'}; await s.api.updateFileList(); expect(s.calls).toEqual([['post',M+'listCollectDir',{participants:[{...users()[1],files_error:'NOTJOINED',files:[]}]}]]); expect(s.store.state.current.members[1].files).toEqual([{name:'fixture'}]);

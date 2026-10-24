@@ -56,9 +56,11 @@ export function createParticipants(aj, store) {
             if (!valid()) return;
             if (data.global) error(data.global);
             // Legacy overwrites ERROR-teacher again in its response loop.
-            const replacements = new Map(users.map(user => [user, { ...user, files_error: Object.hasOwn(data, user.cn) ? 'NOTJOINED' : data.global || '' }]));
+            const names = new Set(users.map(user => user.cn));
+            const participants = state.current.members.filter(user => names.has(user.cn));
+            const replacements = new Map(participants.map(user => [user, { ...user, files_error: Object.hasOwn(data, user.cn) ? 'NOTJOINED' : data.global || '' }]));
             replaceReferences(replacements);
-            state.user_missing_membership = state.user_missing_membership.concat(users.filter(u => Object.hasOwn(data, u.cn)).map(u => replacements.get(u)));
+            state.user_missing_membership = state.user_missing_membership.concat(participants.filter(u => Object.hasOwn(data, u.cn)).map(u => replacements.get(u)));
             if (missingClasses.value === undefined) missingClasses.value = [...new Set(state.user_missing_membership.map(u => u.sophomorixAdminClass))].join(',');
         },
         async refreshUsers() {
@@ -113,7 +115,9 @@ export function createParticipants(aj, store) {
         async refreshKerberos() {
             if (!valid()) return;
             await smb.refresh_krbcc(); if (!valid()) return;
-            for (const user of [...state.user_missing_membership]) {
+            for (const missing of [...state.user_missing_membership]) {
+                const user = state.current.members.find(user => user.cn === missing.cn);
+                if (!user) continue;
                 const updated = { ...user, files: [] }; replaceReferences(new Map([[user, updated]]));
                 background(api.createWorkingDirectory([updated]));
             }
