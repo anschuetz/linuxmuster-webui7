@@ -50,6 +50,6 @@
  * @property {Notify} notify
  * @property {(text: string) => string} gettext
  * @property {Identity} identity
- * @property {(path: string) => void} navigate
+ * @property {(path: string, options?: {replace?: boolean}) => void} navigate
  */
 export {};

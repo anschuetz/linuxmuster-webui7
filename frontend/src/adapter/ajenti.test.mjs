@@ -75,3 +75,12 @@ it('reloads the route inside the Angular digest', () => {
     deps.$rootScope.$evalAsync.mock.calls[0][0]();
     expect(deps.$route.reload).toHaveBeenCalledOnce();
 });
+
+it('replaces the full browser location for the password-change redirect', () => {
+    const browserLocation = { replace: vi.fn() };
+    const deps = { ...services(), browserLocation };
+    const aj = createAjentiAdapter(deps);
+    aj.navigate('landingpage', { replace: true });
+    expect(browserLocation.replace.mock.calls).toEqual([['landingpage']]);
+    expect(deps.$location.path.mock.calls).toEqual([]);
+});

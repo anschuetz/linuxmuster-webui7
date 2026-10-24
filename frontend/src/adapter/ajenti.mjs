@@ -5,7 +5,7 @@ import { createModalService } from './modal.mjs';
  * Create the adapter contract using the existing Angular services and interceptors.
  * @returns {import('./aj.mjs').Aj}
  */
-export function createAjentiAdapter({ $http, notify, toaster, gettextCatalog, identity, $location, $route, pageTitle, messagebox, $rootScope, $scope }) {
+export function createAjentiAdapter({ $http, notify, toaster, gettextCatalog, identity, $location, $route, pageTitle, messagebox, $rootScope, $scope, browserLocation = window.location }) {
     const translationVersion = shallowRef(0);
     if (getCurrentScope() && $rootScope?.$on) {
         // angular-gettext broadcasts this for both language and string changes.
@@ -63,7 +63,10 @@ export function createAjentiAdapter({ $http, notify, toaster, gettextCatalog, id
             get profile() { return current.value.profile; },
             get isSuperuser() { return current.value.isSuperuser; },
         }),
-        navigate: (path) => { $location.path(path); },
+        navigate: (path, options) => {
+            if (options?.replace) browserLocation.replace(path);
+            else $location.path(path);
+        },
     };
     return aj;
 }

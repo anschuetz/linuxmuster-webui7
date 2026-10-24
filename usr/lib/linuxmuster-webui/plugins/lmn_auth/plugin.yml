@@ -11,5 +11,6 @@ dependencies:
 resources:
   - resources/js/module.coffee
   - resources/js/controllers/index.controller.coffee
+  - resources/vue/lmn_auth.js
   - resources/partial/index.html
   - 'ng:lmn.auth'

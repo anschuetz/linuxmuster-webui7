@@ -7,7 +7,7 @@ import { reactive } from 'vue';
  * @property {(text: string) => string} [gettext]
  * @property {Partial<import('./aj.mjs').Identity>} [identity]
  * @property {() => void} [reload]
- * @property {(path: string) => void} [navigate]
+ * @property {(path: string, options?: {replace?: boolean}) => void} [navigate]
  * @property {import('./aj.mjs').PageTitle} [pageTitle]
  * @property {import('./aj.mjs').Messagebox} [messagebox]
  * @property {import('./aj.mjs').Modal} [modal]
