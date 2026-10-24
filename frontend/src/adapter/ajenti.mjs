@@ -50,7 +50,7 @@ export function createAjentiAdapter({ $http, notify, toaster, gettextCatalog, id
             prompt: (text, value, inputType = 'text') => showMessage('prompt', [text, value, inputType]),
         },
         modal: createModalService(() => aj, $scope),
-        http: Object.fromEntries(['get', 'post', 'put', 'delete', 'patch'].map((method) => [
+        http: Object.fromEntries(['get', 'head', 'post', 'put', 'delete', 'patch'].map((method) => [
             method, async (...args) => $http[method](...args),
         ])),
         notify: Object.fromEntries(['success', 'info', 'warning', 'error'].map((level) => [

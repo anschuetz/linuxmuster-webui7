@@ -43,7 +43,7 @@ export function createMockAj({
     };
     return {
         pageTitle, messagebox, modal, reload, locale, restart,
-        http: Object.fromEntries(['get', 'delete', 'post', 'put', 'patch'].map((method) => [
+        http: Object.fromEntries(['get', 'head', 'delete', 'post', 'put', 'patch'].map((method) => [
             method,
             async (url, ...args) => {
                 const hasBody = ['post', 'put', 'patch'].includes(method);

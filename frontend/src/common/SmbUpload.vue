@@ -6,6 +6,7 @@ const props = defineProps({
     uploadpath: { type: String, required: true },
     target: { type: String, default: '/api/lmn/smbclient/upload' },
     reload: Boolean,
+    notifySuccess: { type: Boolean, default: true },
     onUploaded: [Function, Array],
     items: { type: Array, default: () => [] },
 });
@@ -14,6 +15,7 @@ const aj = inject('aj');
 const smbclient = createSmbclient(aj);
 const drop = ref();
 const browse = ref();
+const bindBrowse = (element) => { browse.value = element; };
 const progress = ref([]);
 const dragging = ref(false);
 const uploading = ref(false);
@@ -31,7 +33,7 @@ function begin() {
         progress.value = [...value].sort((a, b) => Number(a.name > b.name));
     });
     transfer.then((descriptors) => {
-        aj.notify.success(aj.gettext('Uploaded ') + names);
+        if (props.notifySuccess) aj.notify.success(aj.gettext('Uploaded ') + names);
         if (props.reload) emit('update:items', [...props.items, ...descriptors]);
         // Vue suppresses emits after unmount; finish-upload must still notify its consumer.
         if (disposed) {
@@ -66,12 +68,15 @@ onBeforeUnmount(() => {
 
 <template>
     <div class="smb-upload">
-        <div ref="drop" class="dragdroparea" :class="{ 'dragdroparea-enter': dragging }"
+        <div ref="drop" :class="{ dragdroparea: !$slots.default, 'dragdroparea-enter': dragging && !$slots.default }"
+             :style="$slots.default && dragging ? { border: 'solid 2px #234c4c' } : {}"
              @dragenter="dragging = true" @dragleave="dragging = false" @drop="dragging = false">
-            <span>{{ aj.gettext('Drag and drop your files here') }}</span>
-            <button ref="browse" type="button" class="btn btn-lmn btn-upload">{{ aj.gettext('Upload file') }}</button>
+            <slot :browse-ref="bindBrowse" :progress="progress">
+                <span>{{ aj.gettext('Drag and drop your files here') }}</span>
+                <button ref="browse" type="button" class="btn btn-lmn btn-upload">{{ aj.gettext('Upload file') }}</button>
+            </slot>
         </div>
-        <template v-for="item in progress" :key="item.id">
+        <template v-if="!$slots.default"><template v-for="item in progress" :key="item.id">
             <div v-if="item.progress < 100" style="margin-top: 10px">
                 <span>{{ item.name }} ({{ item.progress }} %) </span>
                 <div class="progress">
@@ -80,7 +85,7 @@ onBeforeUnmount(() => {
                          :style="{ width: item.progress + '%' }" />
                 </div>
             </div>
-        </template>
+        </template></template>
         <p v-if="error" role="alert">{{ error }}</p>
     </div>
 </template>

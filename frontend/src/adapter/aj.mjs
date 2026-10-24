@@ -8,6 +8,7 @@
  * @typedef {Record<string, unknown>} HttpConfig
  * @typedef {Object} Http
  * @property {(url: string, cfg?: HttpConfig) => Promise<HttpResponse>} get
+ * @property {(url: string, cfg?: HttpConfig) => Promise<HttpResponse>} head
  * @property {(url: string, data: unknown, cfg?: HttpConfig) => Promise<HttpResponse>} post
  * @property {(url: string, data: unknown, cfg?: HttpConfig) => Promise<HttpResponse>} put
  * @property {(url: string, cfg?: HttpConfig) => Promise<HttpResponse>} delete
