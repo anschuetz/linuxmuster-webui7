@@ -55,22 +55,6 @@ angular.module('lmn.users').service('userPassword', function($http, $uibModal, m
         };
     };
 
-    this.showBindPW = (user) => {
-        messagebox.show({
-            title: gettext('Show bind user password'),
-            text: gettext("Do you really want to see this password ? It could be a security issue!"),
-            positive: 'Show',
-            negative: 'Cancel'}).then(() => {
-                $uibModal.open({
-                    templateUrl: '/lmn_users:resources/partial/showBindPassword.modal.html',
-                    controller: 'LMNUsersShowBindPasswordController',
-                    resolve: {
-                        user: () => user
-                    }
-                });
-            });
-    };
-
     this.printSelectedPasswords = (userlist) => {
         msg = messagebox.show({progress: true});
         usernames = userlist.flatMap((x) => x.selected ? x.sAMAccountName : [] ).join(',').trim();
