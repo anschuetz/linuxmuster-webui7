@@ -11,9 +11,10 @@ const admin = settings.roles.find(r => r.name === 'global-admin');
 const allowed = [admin, { name: 'school-admin', login: 'pgmadmin', pw: admin.pw }];
 const denied = [settings.roles.find(r => r.name === 'teacher'), { name: 'student', login: 'serdarje', pw: admin.pw }];
 const base = '/api/lmn/linbo4', path = '/view/lmn/linbo4';
-const vue = process.env.P84_UI === 'vue';
-const viewPath = vue ? '/view/lmn/landingpage' : path;
-const pane = page => vue ? page.locator('#p84-mount') : page.locator('.tab-pane.active');
+const fullRoute = process.env.P87_FULL_ROUTE === '1' || Boolean(process.env.P87_UI);
+const vue = (process.env.P87_UI ?? process.env.P84_UI) === 'vue';
+const viewPath = vue && !fullRoute ? '/view/lmn/landingpage' : path;
+const pane = page => vue && !fullRoute ? page.locator('#p84-mount') : fullRoute && vue ? page.locator('lmn-vue-mount') : page.locator('.tab-pane.active');
 const box = page => page.locator('.messagebox:visible').last();
 async function login(page, role, state) {
     await page.goto('/');
@@ -26,13 +27,13 @@ async function login(page, role, state) {
 function listen(page) {
     const state = { vdi: true, errors: [], blocked: [], writes: [], authenticated: false };
     page.on('pageerror', e => state.errors.push(e.message));
-    page.on('console', m => { if (m.type() === 'error' && !(!state.authenticated && /401 \((Unauthorized|Unauthenticated)\)/.test(m.text()))) state.errors.push(m.text()); });
+    page.on('console', m => { if (m.type() === 'error' && !(!state.authenticated && /401 \((Unauthorized|Unauthenticated)\)/.test(m.text()))) state.errors.push(m.text() + ' [' + m.location().url + ']'); });
     return state;
 }
 async function guard(context, state, real = false) {
     await context.route('**/api/**', async route => {
         const req = route.request(), url = new URL(req.url()).pathname;
-        if ((!['GET', 'HEAD', 'OPTIONS'].includes(req.method()) && (url.startsWith(base) || url.startsWith('/api/filesystem/') || ['/api/lmn/devices/import','/api/lmn/diff','/api/lmn/remove-file'].includes(url))) || url === base + '/restart-services') {
+        if ((fullRoute && state.authenticated && !['GET', 'HEAD', 'OPTIONS'].includes(req.method())) || (!['GET', 'HEAD', 'OPTIONS'].includes(req.method()) && (url.startsWith(base) || url.startsWith('/api/filesystem/') || ['/api/lmn/devices/import','/api/lmn/diff','/api/lmn/remove-file'].includes(url))) || url === base + '/restart-services') {
             if(real && req.method() === 'POST' && /^\/api\/lmn\/linbo4\/(config\/start\.conf\.p84-real-(global|school)|vdi\/start\.conf\.p84-real-(global|school)\.vdi)$/.test(url)) return route.continue();
             state.blocked.push([req.method(), url]); return route.abort('blockedbyclient');
         }
@@ -63,7 +64,7 @@ async function fixture(page, state) {
 }
 async function open(page, hash = '') {
     await page.goto(viewPath + hash);
-    if (!vue) return;
+    if (!vue || fullRoute) return;
     await page.waitForFunction(() => window.angular?.element(document).injector()?.get('$route').current?.scope);
     // Local harness on the landing route: no second LINBO controller/data set.
     await page.addScriptTag({ path: fileURLToPath(new URL('../../usr/lib/linuxmuster-webui/plugins/lmn_common/resources/vue/bridge.js', import.meta.url)) });
@@ -209,6 +210,6 @@ for(const role of allowed) test(`${role.name}: real synthetic config edit saved 
  const row=pane(page).locator('tr').filter({has:page.locator('b',{hasText:new RegExp('^'+name+'$')})});await expect(row).toBeVisible();await row.locator('button:has(.fa-pencil)').click();
  await model(page,'config.config.LINBO.RootTimeout').fill('  42  ');await click(page,'save()',/^(Save|Speichern)$/);
  await expect(page.locator('.modal:visible:not([aria-hidden="true"])')).toHaveCount(0);
- await expect.poll(()=>execFileSync('ssh',['-o','BatchMode=yes','lmn-server-e',`grep '^RootTimeout' /srv/linbo/start.conf.${name} || true`],{encoding:'utf8'}).trim()).toMatch(/42/);
+ await expect.poll(()=>execFileSync('ssh',['-o','BatchMode=yes',process.env.P87_SSH_HOST ?? 'lmn-server-e',`grep '^RootTimeout' /srv/linbo/start.conf.${name} || true`],{encoding:'utf8'}).trim()).toMatch(/42/);
  const response=await page.request.get(base+'/config/start.conf.'+name), data=await response.json();expect(String(data.config.LINBO.RootTimeout)).toBe('42');clean(state);
 });
