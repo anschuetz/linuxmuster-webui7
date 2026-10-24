@@ -16,7 +16,6 @@ dependencies:
 resources:
     - 'resources/js/module.es'
     - 'resources/js/routing.es'
-    - 'resources/js/controllers/index.controller.es'
+    - 'resources/vue/lmn_wireguard.js'
     - 'resources/partial/index.html'
-    - 'resources/partial/import.modal.html'
     - 'ng:lmn.wireguard'
