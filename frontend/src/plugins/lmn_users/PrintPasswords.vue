@@ -6,6 +6,9 @@ import { createPrint } from './print.mjs';
 const aj = inject('aj'), gettext = aj.gettext, sambaAccess = useSambaAccess(aj), api = createPrint(aj);
 const classes = ref(), selection = ref([]), adminWarning = ref(false), adminClass = ref();
 const columns = computed(() => [classes.value?.slice(0, Math.ceil(classes.value.length / 2)), classes.value?.slice(Math.ceil(classes.value.length / 2))]);
+// Reuse the original catalog entry; render its icon separately and interpolate as text.
+const allUsers = computed(() => gettext('<i class="fa fa-asterisk"></i> All users {{identity.profile.activeSchool}}')
+    .replace('<i class="fa fa-asterisk"></i>', '').replace('{{identity.profile.activeSchool}}', () => aj.identity.profile.activeSchool).trim());
 aj.pageTitle.set(gettext('Print Passwords'));
 watch(() => aj.identity.user, async user => {
     if (user === undefined || user === null || user === 'root') return;
@@ -43,7 +46,7 @@ async function print(schoolclass) {
                     <tbody><tr v-for="schoolclass in column" :key="schoolclass"><td>
                         <input :id="schoolclass" type="checkbox" :checked="selection.includes(schoolclass)" @change="select(schoolclass)">
                         <span v-if="schoolclass !== ''"><i class="fa fa-users" /> {{ schoolclass }}</span>
-                        <span v-else><i class="fa fa-asterisk" /> {{ gettext('All users') }} {{ aj.identity.profile.activeSchool }}</span>
+                        <span v-else><i class="fa fa-asterisk" /> {{ allUsers }}</span>
                         <span class="btn btn-default pull-right" data-action="pdf" @click="print([schoolclass])"><i class="fa fa-print" /></span>
                         <span class="btn btn-default pull-right" data-action="csv" @click="api.csv(schoolclass, side === 1 && schoolclass === '')"><i class="fa-solid fa-file-csv" /></span>
                     </td></tr></tbody>

@@ -36,8 +36,8 @@ async function print() { if (await api.print(options.value, () => options.value)
                 <select class="form-control" :value="choices.indexOf(selected)" @change="options = { ...options, [templateKey]: choices[Number($event.target.value)] }"><option v-for="(item, index) in choices" :key="index" :value="index">{{ item.filename }}</option></select><br>
                 <div class="alert alert-info"><table><tbody>
                     <tr><th>{{ gettext(selected.path.startsWith('/usr') ? 'Default sophomorix template' : 'Custom template for your school') }}</th><td> </td></tr>
-                    <tr><th>{{ gettext('Lang: ') }}</th><td>{{ selected.lang }}</td></tr>
-                    <tr><th>{{ gettext(options.one_per_page ? 'Password per page: ' : 'Passwords per page: ') }}</th><td>{{ options.one_per_page ? 1 : selected.numberPerPage }}</td></tr>
+                    <tr><th>{{ gettext('Lang:') }}</th><td>{{ selected.lang }}</td></tr>
+                    <tr><th>{{ gettext(options.one_per_page ? 'Password per page:' : 'Passwords per page:') }}</th><td>{{ options.one_per_page ? 1 : selected.numberPerPage }}</td></tr>
                 </tbody></table></div>
             </div>
         </div>

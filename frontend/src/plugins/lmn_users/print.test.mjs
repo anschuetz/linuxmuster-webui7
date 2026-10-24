@@ -1,3 +1,5 @@
+import { readFileSync } from 'node:fs';
+import { createLocale } from '../../shell/locale.mjs';
 import { afterEach, expect, it, vi } from 'vitest';
 import { mount, flushPromises } from '@vue/test-utils';
 import { createMockAj } from '../../adapter/mock.mjs';
@@ -70,4 +72,23 @@ it('completed downloads use the current identity/options after a pending request
  let finish;const s=setup({http:()=>new Promise(resolve=>{finish=resolve;})}),api=createPrint(s.aj,{download:s.download});
  const pending=api.csv('5a');s.aj.identity.user='p121-other';finish({data:'success'});await pending;expect(s.download.mock.calls).toEqual([['/api/lmn/users/passwords/download/5a-p121-other.csv']]);
  const first=initialPrintOptions(['5a'],'u','admins');let current=first;const printing=api.print(first,()=>current);current={...first,format:'csv'};finish({data:'success'});await printing;expect(s.download.mock.calls.at(-1)).toEqual(['/api/lmn/users/passwords/download/5a-u.csv']);
+});
+
+it('renders print labels in German with the loaded plugin catalog', async () => {
+ const germanPo = readFileSync('../usr/lib/linuxmuster-webui/plugins/lmn_users/locale/de/LC_MESSAGES/app.po', 'utf8');
+ // These original msgids and translations are single-line PO entries.
+ const catalog = Object.fromEntries([...germanPo.matchAll(/^msgid (".*")\nmsgstr (".*")$/gm)]
+  .map(([, id, value]) => [JSON.parse(id), JSON.parse(value)]));
+ const locale = createLocale({ http: { get: async () => ({ data: catalog }) } });
+ await locale.setLanguage('de');
+ const s = setup({ gettext: locale.gettext });
+ const page = render(PrintPasswords, s);
+ const dialog = render(PrintOptionsDialog, s, { schoolclass: ['5a'], user: 'global-admin', adminClass: 'admins' });
+ await flushPromises();
+ expect.soft(page.find('td span').text()).toBe('Alle Benutzer school');
+ expect.soft(page.find('td span .fa-asterisk').exists()).toBe(true);
+ expect.soft(dialog.findAll('th').map(th => th.text())).toContain('Sprache:');
+ expect.soft(dialog.findAll('th').map(th => th.text())).toContain('Passwörter pro Seite:');
+ await dialog.findAll('[checkbox]').at(0).trigger('click');
+ expect(dialog.findAll('th').map(th => th.text())).toContain('Passwort pro Seite:');
 });
