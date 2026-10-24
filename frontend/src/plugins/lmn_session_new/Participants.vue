@@ -79,8 +79,8 @@ function bytes(value) {
                     <span v-if="item.isFile"><i :class="icon(item.filetype)"></i> {{ item.name }} <span class="subtle">{{ bytes(item.size) }}</span></span>
                 </div></template>
             </td>
-            <td v-if="$slots.exam" style="text-align:center"><slot v-if="isStudent(user)" name="exam" :user="user" /></td>
-            <slot v-if="isStudent(user)" name="management" :user="user" /><template v-else-if="$slots.management"><td></td><td></td><td></td></template>
+            <td v-if="$slots.exam && isStudent(user)" style="text-align:center"><slot name="exam" :user="user" /></td>
+            <slot v-if="isStudent(user)" name="management" :user="user" />
             <td><button v-if="!store.state.current.generated" data-remove class="btn btn-default" :aria-label="aj.gettext('Delete')" @click="action(() => api.remove(user))"><i class="fa fa-trash"></i></button></td>
         </tr></tbody>
     </table>

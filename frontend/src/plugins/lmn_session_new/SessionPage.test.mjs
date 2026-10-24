@@ -93,3 +93,12 @@ it('management row sends old checkbox value, keeps canonical group references, a
     expect(s.wrapper.find('progress-spinner .one').exists()).toBe(true);
     resolve({data:{}});await flushPromises();expect(s.wrapper.find('progress-spinner').exists()).toBe(false);
 });
+
+it('omits exam, management and password cells for non-students as in Angular', async () => {
+    const s = setup('group', { ...session(), members: users() }); await flushPromises();
+    const row = s.wrapper.findAll('tbody tr').find(row => row.get('td i').text() === 'p93-c');
+    const cells = row.findAll('td');
+    expect(cells).toHaveLength(4);
+    expect(cells[3].find('[data-remove]').exists()).toBe(true);
+    expect(row.find('[data-exam-start-user], [data-exam-stop-user], [data-management], input[type="password"]').exists()).toBe(false);
+});
