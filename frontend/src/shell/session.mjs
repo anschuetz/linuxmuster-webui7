@@ -56,7 +56,8 @@ export function createSession({ fetch, prefix = '', path, navigate, notify, mess
         }
     }
     const identity = reactive({
-        color: computed(() => current.value.color),
+        color: computed({ get: () => current.value.color, set: color => { current.value = { ...current.value, color }; } }),
+        machine: computed(() => current.value.machine),
         user: computed(() => current.value.user), profile: computed(() => current.value.profile),
         isSuperuser: computed(() => current.value.isSuperuser),
         refresh,
