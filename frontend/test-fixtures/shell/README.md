@@ -21,6 +21,6 @@ logout-delay references are the same release's `views/api.py` and
 The new session core is explicit (`start`, `activity`, `dispose`); the future router
 reports route activity. Login code must await `identity.refresh()` after successful
 authentication. Expiry/logout immediately discard the snapshot; an epoch prevents
-late requests from restoring or expiring another identity. The production Angular
+late identity responses from restoring another identity. Error policy still applies to older requests. The production Angular
 adapter, bootstrap and bundles are unchanged. Session/identity tests and the local
 HTTP mock server need no VM.

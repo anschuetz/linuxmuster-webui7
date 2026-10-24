@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import { JSDOM } from 'jsdom';
 
 // Unmodified core 0.116 sources, pinned by P106; AngularJS retains its MIT header.
-export function legacyHarness({ status = 200, body = '{"ok":true}', headers = 'Content-Type: application/json', path = '/panel/view/test' } = {}) {
+export function legacyHarness({ status = 200, body = '{"ok":true}', headers = 'Content-Type: application/json', path = '/panel/view/test', backend } = {}) {
     const dom = new JSDOM('', { url: 'https://example.test/panel/view/test', runScripts: 'outside-only' });
     const { window } = dom;
     window.eval(readFileSync('test-fixtures/shell/angular.min.js', 'utf8'));
@@ -15,7 +15,8 @@ export function legacyHarness({ status = 200, body = '{"ok":true}', headers = 'C
         .config(($provide, $httpProvider) => {
             $provide.value('$httpBackend', (method, url, data, done, requestHeaders, timeout, credentials, responseType) => {
                 calls.push({ method, url, data, headers: Object.fromEntries(Object.entries(requestHeaders).filter(([, value]) => value != null)), responseType });
-                done(status, body, headers, 'test');
+                if (backend) backend({ method, url, done });
+                else done(status, body, headers, 'test');
             });
             $httpProvider.interceptors.push('urlPrefixInterceptor', 'unauthenticatedInterceptor');
         });
@@ -26,6 +27,7 @@ export function legacyHarness({ status = 200, body = '{"ok":true}', headers = 'C
     return {
         calls, notices, dialogs, redirects,
         identity: injector.get('identity'),
+        flush: () => injector.get('$rootScope').$digest(),
         async request(method, ...args) {
             let result, error;
             injector.get('$http')[method](...args).then(r => { result = r; }, e => { error = e; });

@@ -17,8 +17,8 @@ export function createSession({ fetch, prefix = '', path, navigate, notify, mess
         remaining.value = 0;
         clearTimer();
     }
-    function onError(error, requestEpoch) {
-        if (disposed || requestEpoch !== epoch) return;
+    function onError(error) {
+        if (disposed) return;
         if (error.status === 500) {
             if (error.data?.exception === 'SecurityError') notify.error(gettext('Security error'), error.data.message);
             else if (error.data?.exception !== 'EndpointError') messagebox.show({
@@ -38,8 +38,9 @@ export function createSession({ fetch, prefix = '', path, navigate, notify, mess
     async function refresh() {
         if (disposed) throw new Error('Session disposed');
         const requestEpoch = ++epoch;
-        current.value = anonymous();
-        const { data } = await http.get('/api/core/identity');
+        let data;
+        try { ({ data } = await http.get('/api/core/identity')); }
+        catch { return; } // HTTP policy reports errors; legacy init resolves and retains its snapshot.
         if (disposed || requestEpoch !== epoch) return;
         const identity = data.identity;
         current.value = identity.user == null ? anonymous() : {
@@ -69,7 +70,7 @@ export function createSession({ fetch, prefix = '', path, navigate, notify, mess
         });
     }
     async function activity() {
-        if (disposed || expired || isLogin()) return;
+        if (disposed || expired || path() === '/view/login/normal') return;
         const requestEpoch = epoch;
         const { data } = await http.get('/api/core/session-time');
         if (disposed || expired || requestEpoch !== epoch) return;

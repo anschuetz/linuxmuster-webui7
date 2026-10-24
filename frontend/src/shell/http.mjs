@@ -18,12 +18,9 @@ function withParams(url, params = {}) {
     return `${url}${url.includes('?') ? '&' : '?'}${parts.join('&')}`;
 }
 
-function requestBody(data, cfg) {
-    if (cfg.transformRequest) {
-        return [cfg.transformRequest].flat().reduce((value, transform) => transform(value), data);
-    }
+function requestBody(data) {
     if (data !== null && typeof data === 'object'
-        && !(data instanceof Blob) && !(data instanceof FormData) && !(data instanceof ArrayBuffer)) {
+        && !(data instanceof Blob) && !(data instanceof FormData)) {
         return JSON.stringify(data);
     }
     return data;
@@ -31,7 +28,6 @@ function requestBody(data, cfg) {
 
 async function responseData(response, cfg) {
     if (cfg.responseType === 'blob') return response.blob();
-    if (cfg.responseType === 'arraybuffer') return response.arrayBuffer();
     const text = await response.text();
     // Same default transform as $http, including JSON-looking text/plain bodies.
     const stripped = text.replace(/^\)\]\}',?\n/, '').trim();
@@ -57,8 +53,7 @@ export function createHttp({ fetch = globalThis.fetch, prefix = '', onError = ()
         try {
             response = await fetch(withParams(url.startsWith('/') ? prefix + url : url, cfg.params), {
                 method: config.method, headers, credentials: 'same-origin',
-                ...(data === undefined ? {} : { body: requestBody(data, cfg) }),
-                ...(cfg.signal ? { signal: cfg.signal } : {}),
+                ...(data === undefined ? {} : { body: requestBody(data) }),
             });
         } catch (cause) {
             const failure = { data: null, status: -1, config, cause };

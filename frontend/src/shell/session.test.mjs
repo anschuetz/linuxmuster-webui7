@@ -1,5 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { watchEffect, nextTick } from 'vue';
+import { legacyHarness } from '../../test-fixtures/shell/legacy.mjs';
 import { createSession } from './session.mjs';
 
 const response = (data, status = 200) => ({ status, headers: new Headers({ 'Content-Type': 'application/json' }), text: async () => JSON.stringify(data) });
@@ -41,9 +42,11 @@ describe('isolated session core', () => {
         await vi.advanceTimersByTimeAsync(1000);
         expect(h.navigate).toHaveBeenCalledExactlyOnceWith('/panel/view/login/normal//panel/view/test'); h.dispose();
     });
-    it('skips session activity and expired redirects on every login mode', async () => {
-        const h = harness(); h.setPath('/panel/view/login/sudo:root/next');
-        await h.start(); expect(h.fetch.mock.calls).toHaveLength(1);
+    it('keeps countdown active on sudo login while suppressing expired redirects', async () => {
+        vi.useFakeTimers();
+        const h = harness({ prefix: '' }); h.setPath('/view/login/sudo:root/next');
+        await h.start();
+        await vi.advanceTimersByTimeAsync(1000); expect(h.state.remaining).toBe(1);
         h.fetch.mockResolvedValue(response('bad login', 401));
         await expect(h.http.post('/api/core/auth', {})).rejects.toMatchObject({ status: 401 });
         expect(h.navigate).not.toHaveBeenCalled(); expect(h.notify.error).not.toHaveBeenCalled(); h.dispose();
@@ -69,16 +72,13 @@ describe('isolated session core', () => {
         expect(h.messagebox.show).toHaveBeenCalledTimes(dialog ? 1 : 0);
         expect(h.navigate).not.toHaveBeenCalled(); expect(h.identity.user).toBe('root'); h.dispose();
     });
-    it('does not restore stale identity or expire a new login from an older request', async () => {
+    it('does not restore stale identity from an older refresh', async () => {
         const h = harness(); let resolveOld;
         h.fetch.mockImplementationOnce(() => new Promise(resolve => { resolveOld = resolve; }));
         const old = h.identity.refresh(); await h.identity.refresh();
         resolveOld(response({ identity: { user: 'old', effective: 0, profile: { old: true } } })); await old;
         expect(h.identity.user).toBe('root');
-        h.fetch.mockImplementationOnce(() => new Promise(resolve => { resolveOld = resolve; }));
-        const pending = h.http.get('/old'); await h.identity.refresh();
-        resolveOld(response('expired', 401)); await pending.catch(() => {});
-        expect(h.navigate).not.toHaveBeenCalled(); expect(h.identity.user).toBe('root'); h.dispose();
+        h.dispose();
     });
     it('disposes timers and ignores pending responses, including logout redirect', async () => {
         vi.useFakeTimers(); const h = harness(); await h.start();
@@ -87,11 +87,53 @@ describe('isolated session core', () => {
         expect(vi.getTimerCount()).toBe(0);
         await expect(h.identity.refresh()).rejects.toThrow('disposed');
     });
-    it('clears rights on refresh failure and propagates session-time failure', async () => {
-        const h = harness(); await h.start(); h.fetch.mockResolvedValue(response('failed', 403));
-        await expect(h.identity.refresh()).rejects.toMatchObject({ status: 403 });
-        expect(h.identity.profile).toEqual({}); expect(h.identity.user).toBe(null);
-        await expect(h.activity()).rejects.toMatchObject({ status: 403 }); h.dispose();
+    it('retains rights during refresh and resolves failures like the original identity service', async () => {
+        const pending = [];
+        const legacy = legacyHarness({ backend: request => pending.push(request) });
+        const h = harness();
+        try {
+            legacy.identity.promise.catch(() => {});
+            legacy.identity.init(); legacy.flush();
+            pending.shift().done(200, JSON.stringify(admin), 'Content-Type: application/json'); legacy.flush();
+            await h.identity.refresh();
+            let resolve;
+            h.fetch.mockImplementationOnce(() => new Promise(done => { resolve = done; }));
+            const refresh = h.identity.refresh();
+            let resolved = false;
+            legacy.identity.init().then(() => { resolved = true; }); legacy.flush();
+            for (const identity of [legacy.identity, h.identity]) {
+                expect(identity.isSuperuser).toBe(true);
+                expect(identity.profile.permissions).toEqual(['write']);
+            }
+            pending.shift().done(500, '{}', 'Content-Type: application/json'); legacy.flush();
+            expect(resolved).toBe(true);
+            resolve(response({}, 500)); await expect(refresh).resolves.toBeUndefined();
+            expect(h.identity.profile).toEqual(legacy.identity.profile);
+            expect(h.identity.isSuperuser).toBe(legacy.identity.isSuperuser);
+        } finally { h.dispose(); legacy.close(); }
+    });
+    it('reports older GET failures after refresh like the original interceptor', async () => {
+        for (const status of [500, 401]) {
+            const pending = [];
+            const legacy = legacyHarness({ backend: request => pending.push(request) });
+            const h = harness();
+            try {
+                const oldLegacy = legacy.request('get', '/old').catch(() => {});
+                legacy.identity.init(); legacy.flush();
+                pending.find(request => request.url.endsWith('/identity')).done(200, JSON.stringify(admin), 'Content-Type: application/json');
+                legacy.flush();
+                let resolve;
+                h.fetch.mockImplementationOnce(() => new Promise(done => { resolve = done; }));
+                const old = h.http.get('/old').catch(() => {});
+                await h.identity.refresh();
+                pending.find(request => request.url.endsWith('/old')).done(status, '{}', 'Content-Type: application/json');
+                legacy.flush(); await oldLegacy;
+                resolve(response({}, status)); await old;
+                expect(h.messagebox.show.mock.calls).toHaveLength(legacy.dialogs.length);
+                expect(h.navigate.mock.calls.map(([url]) => url)).toEqual(legacy.redirects);
+                expect(legacy.dialogs.length + legacy.redirects.length).toBe(1);
+            } finally { h.dispose(); legacy.close(); }
+        }
     });
 });
 

@@ -4,7 +4,7 @@ import { createHttp } from './http.mjs';
 
 const reply = (body, status = 200, type = 'application/json') => ({
     status, headers: new Headers({ 'Content-Type': type }), text: async () => body,
-    blob: async () => new Blob([body], { type }), arrayBuffer: async () => new TextEncoder().encode(body).buffer,
+    blob: async () => new Blob([body], { type }),
 });
 
 for (const implementation of ['legacy', 'native']) {
@@ -43,7 +43,7 @@ for (const implementation of ['legacy', 'native']) {
             const h = await harness({ body: 'plain', type: 'text/plain', headers: 'Content-Type: text/plain' });
             try {
                 const data = new FormData(); data.append('file', 'test');
-                await h.request('post', '/upload', data, { headers: { 'Content-Type': undefined }, transformRequest: x => x });
+                await h.request('post', '/upload', data, { headers: { 'Content-Type': undefined } });
                 expect(h.calls[0].data).toBe(data);
                 expect(Object.keys(h.calls[0].headers).map(k => k.toLowerCase())).not.toContain('content-type');
                 expect((await h.request('post', '/text', 'plain', { headers: { 'Content-Type': 'text/plain' } })).data).toBe('plain');
@@ -107,14 +107,6 @@ it('maps actual legacy identity fields and removes root rights after anonymous i
             expect(h.identity.user).toBe(identity.user); expect(h.identity.isSuperuser).toBe(superuser);
         } finally { h.close(); }
     }
-});
-
-it.each(['blob', 'arraybuffer'])('supports %s responses and Blob request bodies', async responseType => {
-    const body = new Blob(['binary']); const data = responseType === 'blob' ? body : new ArrayBuffer(2);
-    const fetch = vi.fn(async () => ({ status: 200, [responseType === 'blob' ? 'blob' : 'arrayBuffer']: async () => data }));
-    const http = createHttp({ fetch });
-    expect((await http.post('/file', body, { responseType, headers: { 'Content-Type': 'application/octet-stream' } })).data).toBe(data);
-    expect(fetch.mock.calls[0][1].body).toBe(body);
 });
 
 it.each([' plain ', '', ' [1,2] ', ")]}'\n{\"ok\":true}", '{invalid}'])('matches default response transform for %j', async body => {
