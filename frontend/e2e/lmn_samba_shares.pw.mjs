@@ -150,23 +150,23 @@ test('teacher: real create, rename, clipboard, upload, base64 download and delet
     const content = 'P88 synthetischer Upload ä\n'.repeat(100000);
     const chunks = [];
     page.on('response', r => { if (r.url().includes('/smbclient/upload') && r.request().method() === 'POST') chunks.push(r.status()); });
-    let releaseFirstUpload, held = false;
-    // Hold one real chunk so the other exposes a stable intermediate UI progress state.
+    let releaseFirstChunk, held = false;
+    // Hold one chunk's preflight so the other exposes a stable intermediate UI progress state.
     await page.route('**/api/lmn/smbclient/upload*', async route => {
-        if (route.request().method() === 'POST' && !held) {
+        if (route.request().method() === 'GET' && !held) {
             held = true;
-            await new Promise(resolve => { releaseFirstUpload = resolve; });
+            await new Promise(resolve => { releaseFirstChunk = resolve; });
         }
         await route.continue();
     });
     await page.locator('input[type=file]').last().setInputFiles({ name: 'p88-upload.txt', mimeType: 'text/plain', buffer: Buffer.from(content) });
     try {
-        await expect.poll(() => typeof releaseFirstUpload).toBe('function');
+        await expect.poll(() => typeof releaseFirstChunk).toBe('function');
         const progress = page.locator('.uploads:visible');
         await expect(progress).toContainText('Wird hochgeladen');
         await expect(progress).toContainText(/\((?:[1-9]|[1-9][0-9]) %\)/);
         console.log(`Visible intermediate upload progress: ${await progress.innerText()}`);
-    } finally { releaseFirstUpload?.(); }
+    } finally { releaseFirstChunk?.(); }
     await expect(row(page, 'p88-upload.txt')).toBeVisible({ timeout: 60000 });
     const { createHash } = await import('node:crypto');
     const hash = createHash('sha256').update(content).digest('hex');
@@ -230,7 +230,7 @@ for (const role of roles) test(`${role.name}: identical synthetic sorting, prote
     await button(page, /^(Copy|Kopieren)$/).click();
     // A real shell preference update must not overwrite the clipboard from ngStorage's cache.
     const previousSidebar = await page.evaluate(() => localStorage.getItem('ngStorage-showSidebar'));
-    await page.locator('.navigation-toggle').click();
+    await page.locator('a[ng\\:click="toggleNavigation()"]').click();
     await expect.poll(() => page.evaluate(() => localStorage.getItem('ngStorage-showSidebar'))).not.toBe(previousSidebar);
     // Persistent clipboard survives route destruction and recreation.
     await page.evaluate(() => {
