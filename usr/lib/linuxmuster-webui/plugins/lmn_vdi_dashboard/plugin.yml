@@ -12,7 +12,7 @@ dependencies:
 resources:
     - 'resources/js/module.es'
     - 'resources/js/routing.es'
-    - 'resources/js/controllers/index.controller.es'
+    - 'resources/vue/lmn_vdi_dashboard.js'
     - 'resources/partial/index.html'
     - 'resources/styles.scss'
     - 'ng:lmn.vdi_dashboard'

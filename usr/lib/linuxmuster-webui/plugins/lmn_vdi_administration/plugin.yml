@@ -13,9 +13,7 @@ dependencies:
 resources:
     - 'resources/js/module.es'
     - 'resources/js/routing.es'
-    - 'resources/js/controllers/index.controller.es'
+    - 'resources/vue/lmn_vdi_administration.js'
     - 'resources/partial/index.html'
-    - 'resources/partial/groupinfo.modal.html'
-    - 'resources/partial/masterinfo.modal.html'
     - 'ng:lmn.vdi_administration'
 
