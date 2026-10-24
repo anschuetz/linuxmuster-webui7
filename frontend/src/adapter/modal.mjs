@@ -5,7 +5,7 @@ let hadModalOpen = false;
 
 /** Bootstrap 3 frame; the component supplies header/body/footer and emits close(result) or cancel. */
 const ModalFrame = {
-    props: ['component', 'componentProps', 'backdrop'],
+    props: ['component', 'componentProps', 'backdrop', 'size'],
     emits: ['close', 'cancel'],
     setup(props, { emit }) {
         return () => [
@@ -14,7 +14,7 @@ const ModalFrame = {
                 class: 'modal fade in', role: 'dialog', 'aria-modal': 'true',
                 tabindex: -1, style: { display: 'block' },
                 onClick: (event) => { if (props.backdrop === true && event.target === event.currentTarget) emit('cancel'); },
-            }, [h('div', { class: 'modal-dialog', role: 'document' }, [
+            }, [h('div', { class: props.size === 'lg' ? 'modal-dialog modal-lg' : 'modal-dialog', role: 'document' }, [
                 h('div', { class: 'modal-content' }, [
                     h(props.component, {
                         ...props.componentProps,
@@ -67,7 +67,7 @@ export function createModalService(getAj, $scope) {
             document.addEventListener('keydown', onKey);
             offDestroy = $scope?.$on('$destroy', cancel);
             app = createApp(ModalFrame, {
-                component: Component, componentProps: props, backdrop: options.backdrop ?? true,
+                component: Component, componentProps: props, backdrop: options.backdrop ?? true, size: options.size,
                 onClose: (result) => finish(true, result), onCancel: cancel,
             });
             app.provide('aj', aj);

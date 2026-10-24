@@ -38,11 +38,11 @@
  * @property {(text: string, value: string, inputType?: string) => Promise<{value: string}>} prompt
  *
  * @typedef {Object} Modal
- * @property {(Component: import('vue').Component, props?: Record<string, unknown>, options?: {backdrop?: 'static' | true, keyboard?: boolean}) => Promise<unknown>} open
+ * @property {(Component: import('vue').Component, props?: Record<string, unknown>, options?: {backdrop?: 'static' | true, keyboard?: boolean, size?: 'lg'}) => Promise<unknown>} open
  * Component supplies modal-header/body/footer; emit('close', result) resolves,
  * emit('cancel'), Escape, backdrop or bridge scope destruction reject.
  * Defaults: backdrop: true, keyboard: true. backdrop: 'static' disables backdrop dismissal;
- * keyboard: false disables Escape independently. Scope destruction still rejects.
+ * keyboard: false disables Escape independently. Scope destruction still rejects. size: 'lg' opts into the Bootstrap large frame.
  *
  * @typedef {Object} Aj
  * @property {{setLanguage: (language: string) => Promise<unknown>}} locale Change the shell language and load its catalog.

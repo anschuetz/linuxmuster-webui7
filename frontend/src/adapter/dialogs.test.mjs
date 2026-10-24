@@ -216,3 +216,15 @@ it('forwards the optional password input type through the prompt bridge', async 
     expect(await aj.messagebox.prompt('Password', '', 'password')).toEqual({ value: 'secret' });
     expect(prompt).toHaveBeenCalledWith('Password', '', 'password');
 });
+
+// CHAT #120: the opt-in size leaves existing frames unchanged.
+it('uses modal-lg only for the explicitly supported lg option', async () => {
+    const aj = createAjentiAdapter(base());
+    for (const [options, classes] of [[{}, 'modal-dialog'], [{ size: 'lg' }, 'modal-dialog modal-lg'], [{ size: 'other' }, 'modal-dialog']]) {
+        const result = aj.modal.open(dialog, {}, options);
+        const actual = document.querySelector('.modal-dialog').className;
+        document.querySelector('.modal-content button').click();
+        await result;
+        expect(actual).toEqual(classes);
+    }
+});
