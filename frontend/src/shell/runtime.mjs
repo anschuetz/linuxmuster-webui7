@@ -48,7 +48,7 @@ export function mountShell(element, boot, { fetch = window.fetch.bind(window), i
     const prefix = boot.prefix || '', scope = effectScope(), active = shallowRef(), presentation = shallowRef();
     let app, aj, nav, locale, tasks, stopRoute, disposed = false, revision = 0;
     const bootstrapConfig = () => structuredClone(boot.config || {});
-    let config = bootstrapConfig(), configLoaded = false, configEpoch = 0;
+    let config = bootstrapConfig(), configLoaded = false, configEpoch = 0, configWrites = new Set();
     const clearRoute = () => { ++revision; stopRoute?.(); stopRoute = undefined; presentation.value?.dispose(); routing.clearGuards(); };
     const routing = createShellRouter({ prefix, history, plugins: Object.keys(boot.plugins || {}), onRoute(to, from) {
         // A fragment change is local state (e.g. Linbo's Images tab), not a new page.
@@ -73,7 +73,12 @@ export function mountShell(element, boot, { fetch = window.fetch.bind(window), i
     const http = { ...session.http, ...Object.fromEntries(['get', 'post'].map(method => [method, async (...args) => {
         const epoch = configEpoch;
         const snapshot = args[0] === '/api/core/config' && method === 'post' ? JSON.parse(JSON.stringify(args[1])) : undefined;
-        const response = await session.http[method](...args);
+        const request = session.http[method](...args), writes = configWrites;
+        if (snapshot !== undefined) writes.add(request);
+        let response;
+        try { response = await request; }
+        catch (error) { if (snapshot !== undefined && epoch === configEpoch) configLoaded = false; throw error; }
+        finally { writes.delete(request); }
         if (args[0] === '/api/core/config' && epoch === configEpoch) {
             config = structuredClone(method === 'get' ? response.data : snapshot); configLoaded = true;
         }
@@ -105,9 +110,13 @@ export function mountShell(element, boot, { fetch = window.fetch.bind(window), i
         await nextTick();
         if (disposed || current !== revision) return;
         presentation.value = makePresentation();
-        if (route.meta.plugin === 'lmn_setup_wizard' && route.meta.attrs['data-step'] === 'welcome' && !configLoaded) {
-            try { await http.get('/api/core/config'); }
-            catch { route = { ...route, meta: { kind: 'configuration-error' } }; }
+        if (route.meta.plugin === 'lmn_setup_wizard' && route.meta.attrs['data-step'] === 'welcome') {
+            await Promise.allSettled([...configWrites]);
+            if (disposed || current !== revision) return;
+            if (!configLoaded) {
+                try { await http.get('/api/core/config'); }
+                catch { route = { ...route, meta: { kind: 'configuration-error' } }; }
+            }
             if (disposed || current !== revision) return;
         }
         aj = { ...presentation.value, locale, shell: nav, navigate, reload: routing.reload, guardLeave: routing.guardLeave, identity: session.identity,
@@ -124,7 +133,7 @@ export function mountShell(element, boot, { fetch = window.fetch.bind(window), i
     }
     scope.run(() => {
         watch(() => session.identity.user, (user, previous) => {
-            ++configEpoch; config = bootstrapConfig(); configLoaded = false;
+            ++configEpoch; config = bootstrapConfig(); configLoaded = false; configWrites = new Set();
             if (previous != null && user !== previous) {
                 notifications.clear(); nav.cancelSearch(); nav.routeChanged(`${prefix}/view/login/normal`);
                 window.LmnVue_lmn_session_new?.resetSession?.();

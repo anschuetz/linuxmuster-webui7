@@ -134,6 +134,7 @@ for (const mode of modes) test(`${mode} wizard preserves config saved in stock s
     await page.locator(mode === 'vue' ? 'input[aria-label="Machine name"]' : 'input[ng\\:model="config.data.name"]').fill('saved in settings');
     await page.locator(mode === 'vue' ? 'button[data-action=save]' : 'a[ng\\:click="save()"]:visible').click();
     await expect.poll(() => s.coreWrites.length).toBe(1);
+    expect(s.coreWrites[0].name).toBe('saved in settings');
     await go(page, '/view/lmn/init/welcome');
     await page.getByText('I accept the license terms', { exact: false }).locator('input[type=checkbox]').check();
     await page.locator('.modal-footer a').filter({ hasText: /^Next$/ }).click();

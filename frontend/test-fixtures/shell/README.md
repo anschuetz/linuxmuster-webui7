@@ -387,3 +387,6 @@ shared mutable config object could expose those unsaved edits between pages.
 The global auth guard also protects 404, UI sample and disabled-quota pages
 (the old shell displayed those without login). Route-owned titles reset before
 the next plugin sets its title.
+The welcome route also waits for pending Core config writes before taking its
+form snapshot. This covers an immediate Settings-Save→Wizard click while the
+save response is still in flight; failed saves cause an authorized reload.

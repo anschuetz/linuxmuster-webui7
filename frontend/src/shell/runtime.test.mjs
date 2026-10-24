@@ -7,12 +7,12 @@ afterEach(() => { owners.splice(0).forEach(o => o.dispose()); document.body.inne
 function socket() { const handlers = {}; const s = { handlers, on: vi.fn((name, fn) => { handlers[name] = fn; }), off: vi.fn(name => { delete handlers[name]; }), connect: vi.fn(), disconnect: vi.fn(), io: { on: vi.fn(), off: vi.fn() } }; return s; }
 async function setup(prefix = '') {
     const transport = socket(), calls = [];
-    let user = 'fixture', configured = true, coreConfig = {};
+    let user = 'fixture', configured = true, coreConfig = {}, holdWrite = false, releaseWrite;
     const fetch = vi.fn(async (url, options) => {
         const path = url.slice(prefix.length); calls.push([path, options]);
         let data = {};
         if (path === '/api/core/config') {
-            if (options.method === 'POST') coreConfig = JSON.parse(options.body);
+            if (options.method === 'POST') { coreConfig = JSON.parse(options.body); if (holdWrite) await new Promise(resolve => { releaseWrite = resolve; }); }
             data = coreConfig;
         }
         if (path === '/api/core/auth') data = { success: true };
@@ -31,7 +31,7 @@ async function setup(prefix = '') {
     const host = document.createElement('div'); document.body.append(host);
     const o = mountShell(host, { prefix, config: {}, plugins: { lmn_links: 'Links', lmn_users: 'Users', lmn_setup_wizard: 'Wizard', lmn_landingpage: 'Home' } }, { fetch, io: () => transport, history: createMemoryHistory(prefix), initialPath: '/view/lmn/links' });
     owners.push(o); await o.ready; await flushPromises();
-    return { o, fetch, transport, calls, setUser: value => { user = value; }, setConfigured: value => { configured = value; }, setCoreConfig: value => { coreConfig = value; } };
+    return { o, fetch, transport, calls, setUser: value => { user = value; }, setConfigured: value => { configured = value; }, setCoreConfig: value => { coreConfig = value; }, holdConfigWrite: () => { holdWrite = true; return () => { holdWrite = false; releaseWrite(); }; } };
 }
 it('composes one session/socket owner and passes full aj to unchanged IIFEs; route/reload disposes dialogs and guards', async () => {
     const stopped = vi.fn(); let aj;
@@ -110,12 +110,15 @@ it('shares confirmed Core loads/saves with the wizard, retains its language on r
     vi.stubGlobal('LmnVue_lmn_landingpage', { mount: () => () => {} });
     let wizard;
     vi.stubGlobal('LmnVue_lmn_setup_wizard', { mount(el, aj) { wizard = aj.wizard; return () => {}; } });
-    const { o, setCoreConfig, setUser } = await setup();
+    const { o, setCoreConfig, setUser, holdConfigWrite } = await setup();
     setCoreConfig({ language: 'en', ssl: { certificate: '/new.pem' }, auth: { provider: 'fresh' }, trusted_proxies: ['192.0.2.1'] });
     // Stock settings and LM global settings both use these exact shared adapter endpoints.
     const { data } = await o.aj.http.get('/api/core/config');
-    await o.aj.http.post('/api/core/config', { ...data, name: 'latest settings' });
+    const release = holdConfigWrite();
+    const writing = o.aj.http.post('/api/core/config', { ...data, name: 'latest settings' });
     await o.navigate('/view/lmn/init/welcome'); await flushPromises();
+    expect(wizard).toBeUndefined();
+    release(); await writing; await flushPromises();
     expect(wizard.readConfig()).toMatchObject({ name: 'latest settings', ssl: { certificate: '/new.pem' }, auth: { provider: 'fresh' } });
     wizard.setConfigLanguage('de'); o.reload(); await flushPromises();
     expect(wizard.readConfig().language).toBe('de');
