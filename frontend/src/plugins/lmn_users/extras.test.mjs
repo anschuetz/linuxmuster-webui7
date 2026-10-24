@@ -50,6 +50,12 @@ it('courses has no paginator; blur updates text and trims outer whitespace',asyn
     const s=await render('courses');expect(s.w.find('.pagination').exists()).toEqual(false);expect(s.w.find('[placeholder=Password]').attributes('type')).toEqual('password');const input=s.w.find('[placeholder=GECOS]');
     await input.setValue('  First Last  ');await action(s.w,'save').trigger('click');await flushPromises();expect(s.requests.at(-1).data[0].gecos).toEqual('Synthetic');await input.trigger('blur');await action(s.w,'save').trigger('click');await flushPromises();expect(s.requests.at(-1).data[0].gecos).toEqual('First Last');
 });
+it('preserves outer spaces in a course password typed character by character',async()=>{
+    const s=await render('courses'),input=s.w.find('[placeholder=Password]'),typedValue='  Synthetic42!  ';
+    for(const char of typedValue){input.element.value+=char;await input.trigger('input');}
+    await input.trigger('blur');await action(s.w,'save').trigger('click');await flushPromises();
+    expect(s.requests.at(-1).data[0].password).toEqual(typedValue);
+});
 it('duplicate login blocks save/check; filtering removes errors from validation DOM',async()=>{
     const writes=[],s=await render('students',{http:async r=>{if(r.method==='post')writes.push(r.data);return {data:r.url==='/api/lmn/schoolsettings'?{}:[student(),{...student(),first_name:'Other'}]};}});
     await action(s.w,'check').trigger('click');await flushPromises();expect(writes).toEqual([]);expect(s.open.mock.calls).toEqual([]);expect(s.w.findAll('.has-error').length).toEqual(2);
