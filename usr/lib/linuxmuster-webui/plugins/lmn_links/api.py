@@ -13,7 +13,8 @@ class ConfigLoader():
         if os.path.exists(self.path) == False:
             return { "status": "error", "message": "Configfile not found!" }
         else:
-            return { "status": "success", "data": yaml.load(open(self.path)) }
+            with open(self.path) as f:
+                return { "status": "success", "data": yaml.safe_load(f) }
 
     def save(self):
         with open(self.path, 'w') as f:
