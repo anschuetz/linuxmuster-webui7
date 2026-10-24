@@ -8,9 +8,10 @@ const admin = settings.roles.find(r => r.name === 'global-admin');
 const allowed = [admin, { name: 'school-admin', login: 'pgmadmin', pw: admin.pw }];
 const denied = [settings.roles.find(r => r.name === 'teacher'), { name: 'student', login: 'serdarje', pw: admin.pw }];
 const base = '/api/lmn/linbo4', path = '/view/lmn/linbo4';
+const fullRoute = process.env.P87_FULL_ROUTE === '1';
 const vue = process.env.P83_UI === 'vue';
-const viewPath = vue ? '/view/lmn/landingpage' : path;
-const pane = page => vue ? page.locator('#p83-mount') : page.locator('.tab-pane.active');
+const viewPath = vue && !fullRoute ? '/view/lmn/landingpage' : path;
+const pane = page => vue && !fullRoute ? page.locator('#p83-mount') : fullRoute && vue ? page.locator('lmn-vue-mount') : page.locator('.tab-pane.active');
 const box = page => page.locator('.messagebox:visible').last();
 const ssh = command => execFileSync('ssh', ['-o', 'BatchMode=yes', 'lmn-server-e', command], { encoding: 'utf8' }).trim();
 async function login(page, role, state) {
@@ -30,7 +31,7 @@ function listen(page) {
 async function guard(context, state, real = false) {
     await context.route('**/api/**', async route => {
         const req = route.request(), url = new URL(req.url()).pathname;
-        if ((!['GET', 'HEAD', 'OPTIONS'].includes(req.method()) && (url.startsWith(base) || url === '/api/lmn/devices/import')) || url === base + '/restart-services') {
+        if ((fullRoute && state.authenticated && !['GET', 'HEAD', 'OPTIONS'].includes(req.method())) || (!['GET', 'HEAD', 'OPTIONS'].includes(req.method()) && (url.startsWith(base) || url === '/api/lmn/devices/import')) || url === base + '/restart-services') {
             if (real && /^\/api\/lmn\/linbo4\/config\/start\.conf\.p83-(empty|example|copy)$/.test(url) && ['POST', 'DELETE'].includes(req.method())) return route.continue();
             state.blocked.push([req.method(), url]); return route.abort('blockedbyclient');
         }
@@ -65,7 +66,7 @@ async function fixture(page, state) {
 }
 async function open(page, hash = '') {
     await page.goto(viewPath + hash);
-    if (!vue) return;
+    if (!vue || fullRoute) return;
     await page.waitForFunction(() => window.angular?.element(document).injector()?.get('$route').current?.scope);
     // Local harness on the landing route: no second LINBO controller/data set.
     await page.addScriptTag({ path: fileURLToPath(new URL('../../usr/lib/linuxmuster-webui/plugins/lmn_common/resources/vue/bridge.js', import.meta.url)) });

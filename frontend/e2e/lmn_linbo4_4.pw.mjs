@@ -7,17 +7,18 @@ import { build } from 'vite';
 import { settings } from './playwright.config.mjs';
 import { imageList, backupImage, scriptExample } from './fixtures/linbo4-images.mjs';
 const base='/api/lmn/linbo4',path='/view/lmn/linbo4';
-const vue=process.env.P86_UI==='vue',viewPath=vue?'/view/lmn/landingpage':path;
+const fullRoute=process.env.P87_FULL_ROUTE==='1';
+const vue=process.env.P86_UI==='vue',viewPath=vue&&!fullRoute?'/view/lmn/landingpage':path;
 const admin=settings.roles.find(r=>r.name==='global-admin');
 const allowed=[admin,{name:'school-admin',login:'pgmadmin',pw:admin.pw}];
 const denied=[settings.roles.find(r=>r.name==='teacher'),{name:'student',login:'serdarje',pw:admin.pw}];
-const pane=page=>vue?page.locator('#p86-mount'):page.locator('.tab-pane.active');
+const pane=page=>vue&&!fullRoute?page.locator('#p86-mount'):fullRoute&&vue?page.locator('lmn-vue-mount'):page.locator('.tab-pane.active');
 const dialog=page=>page.locator('.modal:visible:not([aria-hidden="true"])').last();
 const box=page=>page.locator('.messagebox:visible').last();
 let harnessPath;
 test.setTimeout(90_000);
 test.beforeAll(async()=>{
-    if(!vue)return;
+    if(!vue||fullRoute)return;
     const outDir=mkdtempSync(join(tmpdir(),'p86-harness-'));harnessPath=join(outDir,'harness.js');
     await build({configFile:fileURLToPath(new URL('../vite.config.mjs',import.meta.url)),build:{outDir,emptyOutDir:false,lib:{entry:fileURLToPath(new URL('./fixtures/linbo4-images-harness.mjs',import.meta.url)),name:'P86Harness',formats:['iife'],fileName:()=> 'harness.js'},rolldownOptions:{external:['vue'],output:{globals:{vue:'Vue'},codeSplitting:false}}}});
 });
@@ -66,7 +67,10 @@ async function fixture(page,context,state,options={}) {
 async function start(page,context,role) {const state=listen(page);await fixture(page,context,state);await login(page,role,state);await open(page,'#images');return state;}
 const row=page=>pane(page).locator('tr').filter({has:page.locator('b', {hasText:/^p86$/})}).first();
 async function edit(page,kind='main') {
-    if(kind==='backup') {
+    if(kind==='backup' && fullRoute) {
+        await row(page).locator(vue?'[data-action="backups"]':'button[ng\\:click="showBackups(image)"]').click();
+        await dialog(page).locator(vue?'[data-action="edit-backup"]':'button:has(.fa-cog)').first().click();
+    } else if(kind==='backup') {
         await page.evaluate(isVue=>{
             if(isVue){window.p86editBackup();return;}
             const scope=angular.element(document).injector().get('$route').current.scope;
@@ -100,7 +104,7 @@ function clean(state){expect(state.blocked).toEqual([]);expect(state.errors).toE
 async function open(page, hash = '') {
     const target = new URL(viewPath + hash, page.url()).href;
     if (page.url() === target) await page.reload(); else await page.goto(target);
-    if (!vue) return;
+    if (!vue || fullRoute) return;
     await page.waitForFunction(() => window.angular?.element(document).injector()?.get('$route').current?.scope);
     // Local harness on the landing route: no second LINBO controller/data set.
     await page.addScriptTag({ path: fileURLToPath(new URL('../../usr/lib/linuxmuster-webui/plugins/lmn_common/resources/vue/bridge.js', import.meta.url)) });
@@ -138,7 +142,7 @@ for(const role of allowed) {
     });
     for(const kind of ['main','diff','backup']) test(`${role.name}: ${kind} exact scripts and save/restart payload`,async({page,context})=>{
         const state=await start(page,context,role);await edit(page,kind);
-        const original=kind==='main'?{...imageList()[0],backups_list:[backupImage()],used_in:['one','two']}:kind==='diff'?imageList()[0].diff_image:backupImage();
+        const original=kind==='main'?{...imageList()[0],backups:{'20261001':{...backupImage(),date:'20261001'}},backups_list:[{...backupImage(),date:'20261001'}],used_in:['one','two']}:kind==='diff'?imageList()[0].diff_image:{...backupImage(),date:'20261001'};
         await model(page,'desc').fill('  P86 description\nline two  ');await model(page,'info').fill('  P86 info  ');
         await copyScript(page,'reg');await copyScript(page,'reg',true);
         await expect.poll(()=>state.reads?.length).toBe(1);
