@@ -86,6 +86,44 @@ describe('reset against original controllers', () => {
     });
 });
 
+describe('TOTP review regressions', () => {
+    it('preserves inner description spaces when typing character by character', async () => {
+        const s = setup(), model = createTotp(s.options); model.state.add_new = true;
+        const ui = render(Totp, model), input = ui.get('[name=description]');
+        for (const character of 'my phone') {
+            input.element.value += character;
+            await input.trigger('input');
+        }
+        expect(input.element.value).toBe('my phone');
+        expect(model.state.tmp_totp.description).toBe('my phone');
+    });
+    it('does not claim there are no keys while loading or after HTTP 500', async () => {
+        const s = setup(); let reject;
+        s.session.http = { get: vi.fn(() => new Promise((resolve, fail) => { reject = fail; })) };
+        const model = createTotp(s.options), ui = render(Totp, model), loading = model.start();
+        expect(ui.text()).not.toContain('There is currently no TOTP key for this user.');
+        reject({ status: 500 }); await loading; await settle();
+        expect(ui.text()).not.toContain('There is currently no TOTP key for this user.');
+        expect(model.state.totp).toBeUndefined();
+    });
+    it('only requests verification or QR when the trimmed input changes', async () => {
+        const s = setup(); s.session.http = { post: vi.fn(() => new Promise(() => {})) };
+        const login = createLogin(s.options); login.state.verif_code = true;
+        const loginUi = render(Login, login), code = loginUi.get('[name=code]');
+        await code.setValue('123456'); await code.setValue('123456 ');
+        expect(s.session.http.post).toHaveBeenCalledTimes(1);
+        expect(login.state.totp_attempts).toBe(1);
+        const totp = createTotp(s.options); totp.state.add_new = true; totp.state.tmp_totp.secret = 'A'.repeat(32);
+        const ui = render(Totp, totp), verification = ui.get('[name=verification]');
+        await verification.setValue('123456'); await verification.setValue('123456 ');
+        expect(s.session.http.post).toHaveBeenCalledTimes(2);
+        totp.state.verified = true; totp.state.tmp_qr = 'existing'; await settle();
+        await ui.get('[name=secret]').setValue('A'.repeat(32) + ' ');
+        expect(s.session.http.post).toHaveBeenCalledTimes(2);
+        expect(totp.state.verified).toBe(true); expect(totp.state.tmp_qr).toBe('existing');
+    });
+});
+
 describe('TOTP management', () => {
     it('generates base32, requests QR, verifies and saves the original envelope', async () => {
         vi.spyOn(Date, 'now').mockReturnValue(1700000000000); const s = setup(); s.old.respond(url => url.endsWith('/totps') ? [] : url.endsWith('/qr') ? 'cG5n' : true);
@@ -105,7 +143,7 @@ describe('TOTP management', () => {
     });
     it('keeps list on transport failures and failed verification never approves saving', async () => {
         const s = setup(); s.old.respond(() => { throw { status: 500 }; }); const model = createTotp(s.options); await model.start(); await model.add(); model.state.tmp_totp.secret = 'A'.repeat(32);
-        await model.verify('123456'); expect(model.state.verified).toBe(false); await model.save(); expect(model.state.totp).toEqual([]); model.state.totp = [{ created: 12 }]; await model.remove(model.state.totp[0]); expect(model.state.totp).toHaveLength(1);
+        await model.verify('123456'); expect(model.state.verified).toBe(false); await model.save(); expect(model.state.totp).toBeUndefined(); model.state.totp = [{ created: 12 }]; await model.remove(model.state.totp[0]); expect(model.state.totp).toHaveLength(1);
     });
 });
 it('mounts explicit isolated routes and rejects unrelated routes', async () => {

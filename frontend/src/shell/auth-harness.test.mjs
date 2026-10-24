@@ -51,7 +51,7 @@ it('handles verification rejection and save transport errors without adding a ke
     const options = modelOptions(), m = createTotp(options); cleanups.push(m.dispose); await m.add();
     options.session.http.post.mockResolvedValueOnce({ data: false }); await m.verify('123456'); expect(m.state.verified).toBe(false);
     options.session.http.post.mockResolvedValueOnce({ data: true }); await m.verify('123456'); options.session.http.post.mockRejectedValueOnce({ status: 403 }); await m.save();
-    expect(m.state.add_new).toBe(false); expect(m.state.totp).toEqual([]); expect(options.services.notify.success).not.toHaveBeenCalled();
+    expect(m.state.add_new).toBe(false); expect(m.state.totp).toBeUndefined(); expect(options.services.notify.success).not.toHaveBeenCalled();
 });
 it('teardown prevents late auth, reset and TOTP results from navigating or restoring secrets', async () => {
     for (const kind of ['login', 'verify', 'reset', 'qr', 'save', 'delete', 'list']) {

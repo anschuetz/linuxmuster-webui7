@@ -89,7 +89,7 @@ export function createPasswordReset({ session, services, navigate, serial }) {
 export function createTotp({ session, services }) {
     const { http, identity } = session, { notify, messagebox, gettext: t } = services;
     const empty = () => ({ description: '', secret: '' });
-    const state = reactive({ totp: [], add_new: false, tmp_totp: empty(), tmp_qr: '', verified: false, verif_code: '' });
+    const state = reactive({ totp: undefined, add_new: false, tmp_totp: empty(), tmp_qr: '', verified: false, verif_code: '' });
     let disposed = false, revision = 0;
     const valid = () => /^[A-Z2-7]{32,}$/.test(state.tmp_totp.secret);
     async function start() {
