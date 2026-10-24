@@ -7,8 +7,8 @@ import { build } from 'vite';
 import { settings } from './playwright.config.mjs';
 import { imageList, backupImage, scriptExample } from './fixtures/linbo4-images.mjs';
 const base='/api/lmn/linbo4',path='/view/lmn/linbo4';
-const fullRoute=process.env.P87_FULL_ROUTE==='1';
-const vue=process.env.P86_UI==='vue',viewPath=vue&&!fullRoute?'/view/lmn/landingpage':path;
+const fullRoute=process.env.P87_FULL_ROUTE==='1'||Boolean(process.env.P87_UI);
+const vue=(process.env.P87_UI??process.env.P86_UI)==='vue',viewPath=vue&&!fullRoute?'/view/lmn/landingpage':path;
 const admin=settings.roles.find(r=>r.name==='global-admin');
 const allowed=[admin,{name:'school-admin',login:'pgmadmin',pw:admin.pw}];
 const denied=[settings.roles.find(r=>r.name==='teacher'),{name:'student',login:'serdarje',pw:admin.pw}];
@@ -34,7 +34,7 @@ async function login(page, role, state) {
 function listen(page) {
     const state = { offsets: [], imports: [], errors: [], blocked: [], writes: [], authenticated: false };
     page.on('pageerror', e => state.errors.push(e.message));
-    page.on('console', m => { if (m.type() === 'error' && !(!state.authenticated && /401 \((Unauthorized|Unauthenticated)\)/.test(m.text()))) state.errors.push(m.text()); });
+    page.on('console', m => { if (m.type() === 'error' && !(!state.authenticated && /401 \((Unauthorized|Unauthenticated)\)/.test(m.text()))) state.errors.push(m.text() + ' [' + m.location().url + ']'); });
     return state;
 }
 async function fixture(page,context,state,options={}) {

@@ -22,7 +22,7 @@ async function login(page, role, state) {
 function listen(page) {
     const state = { offsets: [], imports: [], errors: [], blocked: [], writes: [], authenticated: false };
     page.on('pageerror', e => state.errors.push(e.message));
-    page.on('console', m => { if (m.type() === 'error' && !(!state.authenticated && /401 \((Unauthorized|Unauthenticated)\)/.test(m.text()))) state.errors.push(m.text()); });
+    page.on('console', m => { if (m.type() === 'error' && !(!state.authenticated && /401 \((Unauthorized|Unauthenticated)\)/.test(m.text()))) state.errors.push(m.text() + ' [' + m.location().url + ']'); });
     return state;
 }
 const images=()=>{const data=imageList();data[0].backups={
@@ -101,6 +101,7 @@ for(const role of allowed) {
     await trigger();await box(page).locator('.positive').click();await expect.poll(()=>state.writes.length).toBe(2);
     expect(state.writes).toEqual([[method,base+url,payload],['GET',base+'/restart-services',null]]);
     // Start an independent route instance after the success/reload sequence.
+    await expect(page.locator('.toast-success').filter({hasText:/Multicast|Multicast-/}).last()).toBeVisible();
     await page.reload();await expect(row(page)).toBeVisible();state.writes=[];state.fail=base+url;
     await trigger();await box(page).locator('.positive').click();await expect(page.locator('.toast-error').last()).toContainText('P87 fixture failure');
     expect(state.writes).toEqual([[method,base+url,payload]]);clean(state);
