@@ -35,8 +35,8 @@ it('mounts translated heading/tabs, loads filtered sorted rows and releases guar
     expect(wrapper.text()).not.toContain('Rename');
     wrapper.unmount(); wrappers.pop(); expect(off.mock.calls).toEqual([[]]);
 });
-it('emits existing edit/expert hooks and import for subsequent parts, guarding dirty navigation', async () => {
-    const { wrapper, prompt, guards } = setup(); await flushPromises();
+it('opens import after edits and clears the dirty navigation guard before the dialog resolves', async () => {
+    const { wrapper, aj, prompt, guards } = setup(); await flushPromises();
     await wrapper.find('tbody td').trigger('click');
     await wrapper.find('button:has(.fa-pencil)').trigger('click');
     expect(wrapper.emitted('edit-config')).toEqual([['start.conf.alpha'], ['start.conf.alpha', true]]);
@@ -46,7 +46,15 @@ it('emits existing edit/expert hooks and import for subsequent parts, guarding d
     expect(guards[0]()).toBe(false);
     expect(confirm.mock.calls).toEqual([['You should call an import devices process to apply the new changes, quit this page anyway ?']]);
     confirm.mockReturnValue(true); expect(guards[0]()).toBe(true);
-    await wrapper.find('[data-action="import"]').trigger('click'); expect(wrapper.emitted('import-devices')).toEqual([[]]);
+    let resolveImport;
+    aj.modal.open = vi.fn(() => new Promise(resolve => { resolveImport = resolve; }));
+    aj.reload = vi.fn();
+    await wrapper.find('[data-action="import"]').trigger('click');
+    expect(wrapper.emitted('import-devices')).toEqual([[]]);
+    expect(wrapper.find('[data-action="import"]').exists()).toBe(false);
+    confirm.mockClear(); expect(guards[0]()).toBe(true); expect(confirm.mock.calls).toEqual([]);
+    expect(aj.reload.mock.calls).toEqual([]); resolveImport(); await flushPromises();
+    expect(aj.reload.mock.calls).toEqual([[]]);
 });
 it('uses messagebox prompts for create/copy/delete and preserves cancellation', async () => {
     const { wrapper, prompt, calls } = setup(); await flushPromises();
