@@ -84,3 +84,22 @@ it('shows the backend message from an Angular HTTP failure', async () => {
     expect(wrapper.get('[role=alert]').text()).toBe('SMB access denied');
     expect(notify).toHaveBeenCalledWith('error', 'SMB access denied', undefined);
 });
+it('embeds the Samba file list as the drop area with its own browse/progress and notification', async () => {
+    vi.stubGlobal('Flow', Flow);
+    const notify = vi.fn();
+    wrapper = mount(SmbUpload, {
+        props: { uploadpath: '//home', notifySuccess: false },
+        slots: { default: `<template #default="{ browseRef, progress }"><div class="list-group-item">synthetic.txt</div><span :ref="browseRef" class="legacy-browse">Upload</span><div class="uploads" v-for="p in progress">{{p.name}} ({{p.progress}} %)</div></template>` },
+        global: { provide: { aj: createMockAj({ notify, http: async () => ({ data: [] }) }) } },
+    });
+    flow.files = [{ uniqueIdentifier: 'id', name: 'synthetic.txt', progress: () => 0.5 }];
+    expect(flow.assignBrowse).toHaveBeenCalledWith(wrapper.get('.legacy-browse').element);
+    expect(flow.assignDrop).toHaveBeenCalledWith(wrapper.get('.list-group-item').element.parentElement);
+    expect(wrapper.find('.dragdroparea').exists()).toBe(false);
+    flow.fire('filesSubmitted'); flow.fire('fileProgress'); await flushPromises();
+    expect(wrapper.get('.uploads').text()).toBe('synthetic.txt (50 %)');
+    expect(wrapper.find('[role=progressbar]').exists()).toBe(false);
+    flow.fire('complete'); await flushPromises();
+    expect(notify).not.toHaveBeenCalled();
+    expect(wrapper.emitted('uploaded')).toEqual([[[]]]);
+});
