@@ -38,6 +38,20 @@ export function createAjentiAdapter({ $http, notify, toaster, gettextCatalog, id
         return Object.assign(promise, { close: () => inDigest(() => handle.close()) });
     };
     const aj = {
+        guardLeave: (fn) => {
+            const offChange = $scope.$on('$locationChangeStart', (event) => {
+                if (fn() === false) event.preventDefault();
+            });
+            let active = true;
+            const unsubscribe = () => {
+                if (!active) return;
+                active = false;
+                offChange();
+                offDestroy();
+            };
+            const offDestroy = $scope.$on('$destroy', unsubscribe);
+            return unsubscribe;
+        },
         reload: () => inDigest(() => $route.reload()),
         pageTitle: { set: (text) => inDigest(() => pageTitle.set(text)) },
         messagebox: {

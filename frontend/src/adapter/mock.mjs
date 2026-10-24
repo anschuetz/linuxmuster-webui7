@@ -6,6 +6,7 @@ import { reactive } from 'vue';
  * @property {(level: string, title: string, text?: string, options?: {sticky?: boolean}) => void} [notify]
  * @property {(text: string) => string} [gettext]
  * @property {Partial<import('./aj.mjs').Identity>} [identity]
+ * @property {import('./aj.mjs').Aj['guardLeave']} [guardLeave]
  * @property {() => void} [reload]
  * @property {(path: string, options?: {replace?: boolean}) => void} [navigate]
  * @property {import('./aj.mjs').PageTitle} [pageTitle]
@@ -26,6 +27,7 @@ export function createMockAj({
     identity = {},
     navigate = () => {},
     reload = () => {},
+    guardLeave = () => () => {},
     pageTitle = { set: () => {} },
     messagebox = {
         show: (options) => Object.assign(Promise.resolve({ ...options }), { close: () => {} }),
@@ -38,7 +40,7 @@ export function createMockAj({
         currentIdentity.profile = { ...currentIdentity.profile, ...profileFields };
     };
     return {
-        pageTitle, messagebox, modal, reload,
+        pageTitle, messagebox, modal, reload, guardLeave,
         http: Object.fromEntries(['get', 'delete', 'post', 'put', 'patch'].map((method) => [
             method,
             async (url, ...args) => {

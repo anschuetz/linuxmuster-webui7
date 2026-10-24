@@ -43,6 +43,7 @@
  * keyboard: false disables Escape independently. Scope destruction still rejects.
  *
  * @typedef {Object} Aj
+ * @property {(fn: () => boolean|void) => (() => void)} guardLeave Register a synchronous route guard; exactly false prevents a location change. Returns an idempotent unsubscribe. The bridge scope also removes it on destruction.
  * @property {() => void} reload Reload the active route through the shell digest.
  * @property {PageTitle} pageTitle
  * @property {Messagebox} messagebox
