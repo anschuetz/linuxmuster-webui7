@@ -11,7 +11,7 @@ const setup = async (tabs = [{ ...empty(), normal_tasks: [job] }, empty()], opti
     const http = vi.fn(async ({ method }) => ({ data: method === 'get' ? [...tabs, 'default-school'] : false }));
     const notify = vi.fn();
     const aj = createMockAj({ identity: { user: 'global-admin', profile: { sophomorixRole: 'globaladministrator' } }, http, notify, ...options });
-    const wrapper = mount(Crontab, { global: { provide: { aj } } });
+    const wrapper = mount(Crontab, { attachTo: document.body, global: { provide: { aj } } });
     await flushPromises();
     return { wrapper, http, notify, aj };
 };
@@ -66,6 +66,25 @@ it('trims command text before saving the root crontab', async () => {
     await button(w, 'Save').trigger('click');
     await flushPromises();
     expect(http.mock.calls.at(-1)[0].data.root.normal_tasks[0].command).toBe('/usr/bin/foo');
+    w.unmount();
+});
+
+it('preserves a character-by-character command with an inner space in the root payload', async () => {
+    const { wrapper: w, http } = await setup([empty(), { ...empty(), normal_tasks: [job] }]);
+    await w.get('select').setValue('root');
+    await w.get('[title=Modify]').trigger('click');
+    const input = w.get('[name=command]');
+    input.element.focus();
+    await input.setValue('');
+    for (const character of '/usr/bin/foo --bar') {
+        input.element.value += character;
+        await input.trigger('input');
+    }
+    expect(input.element.value).toBe('/usr/bin/foo --bar');
+    await button(w, 'Cancel').trigger('click');
+    await button(w, 'Save').trigger('click');
+    await flushPromises();
+    expect(http.mock.calls.at(-1)[0].data.root.normal_tasks[0].command).toBe('/usr/bin/foo --bar');
     w.unmount();
 });
 

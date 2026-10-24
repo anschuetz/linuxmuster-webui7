@@ -5,8 +5,8 @@ const emit = defineEmits(['update:modelValue']);
 const open = ref(false);
 const active = ref(0);
 const matches = computed(() => props.modelValue ? props.groups.filter((group) => group.toLowerCase().includes(props.modelValue.toLowerCase())) : []);
-function input(event) {
-    emit('update:modelValue', event.target.value.trim());
+const model = computed({ get: () => props.modelValue, set: (value) => emit('update:modelValue', value) });
+function input() {
     active.value = 0;
     open.value = true;
 }
@@ -27,7 +27,7 @@ function keydown(event) {
 </script>
 <template>
     <div style="position:relative">
-        <input type="text" class="form-control" placeholder="Group" :value="modelValue" role="combobox" :aria-expanded="open && matches.length > 0" autocomplete="off" @input="input" @keydown="keydown" @blur="open = false">
+        <input type="text" class="form-control" placeholder="Group" v-model.trim="model" role="combobox" :aria-expanded="open && matches.length > 0" autocomplete="off" @input="input" @keydown="keydown" @blur="open = false">
         <ul v-if="open && matches.length" class="dropdown-menu group-options" style="display:block" role="listbox">
             <li v-for="(group, index) in matches" :key="group" :class="{ active: active === index }" @mouseenter="active = index"><a role="option" :aria-selected="active === index" @mousedown.prevent="choose(group)">{{ group }}</a></li>
         </ul>

@@ -59,7 +59,8 @@ test('global-admin: both crontabs, forms, holidays, persistence and removal', as
             await field(page, 'minute').fill('19');
             await field(page, 'day_of_month').fill('31');
             await field(page, 'month').fill('2');
-            await field(page, 'command').fill(`/bin/true P28_JOB_${user}`);
+            await field(page, 'command').pressSequentially(`/bin/true P28_JOB_${user}`);
+            await expect(field(page, 'command')).toHaveValue(`/bin/true P28_JOB_${user}`);
             await field(page, 'comment').fill('P28 normal');
             await page.locator('form:visible input[type=checkbox]').check();
             await page.getByRole('button', { name: 'OK', exact: true }).filter({ visible: true }).click();
