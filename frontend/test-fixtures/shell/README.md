@@ -172,3 +172,47 @@ details use the existing Bootstrap modal classes, escaped text and safe HTTP(S)/
 mailto links. They have Close buttons and, like the original inline `dialog`, no
 Escape/backdrop dismissal. Core/pip metadata errors remain subject to the shared
 HTTP error policy (also exposed as state.error), not a new empty-list fallback.
+
+## Dashboard/session_list oracle (P113)
+
+`dashboard/` pins unmodified dashboard 0.42, session_list 0.7 and filesystem 0.51
+sources from the P106 archives, core 0.116 user-config/format/root-access sources,
+and the fork's `lmn_w_datetime` sources at `c53086d6a`. Only executed scripts
+and templates compiled by tests are retained; unused source duplicates and backend
+files are omitted. `dashboard.mjs` executes the
+shipped dashboard, session-list and datetime scripts in real AngularJS 1.8.3;
+HTTP/Promise, interval and prompt boundaries are fixture doubles. Rejections from
+the original's unhandled chains are recorded by the HTTP boundary. Template tests
+compile the original session table/root-access directive and widget templates for
+uptime, CPU, memory, disk, load average, sessions and datetime, including empty values.
+The local HTTP server checks prefixed endpoints, exact whole-config/value payloads,
+500 policy and UID-0 versus three synthetic non-root roles; Python/psutil/LDAP and
+real sessions are not executed. Backend contracts were checked in the P106 archives
+and fork at `c53086d6a`: session values are only an update signal, disk data has
+memory's shape, and datetime text (including the original import-time clock) is
+formatted by the server, never by the client.
+
+`mountDashboardRoute(element, {aj, path, initialConfig, customization})` is explicit
+and isolated. It accepts only `/view/dashboard` and `/view/session_list`, provides
+`aj`, and returns its disposer. Pass the existing bootstrap config for
+`session_max_time` and the dashboard customization fields; the defaults match the
+original. Components use `aj` exclusively. No product entry, Angular adapter,
+route registry or landing-page startup imports these modules. Polling starts after
+user config (dashboard: first tick at 1s, all tabs) or immediately (session list:
+then every 15s); unmount stops timers and ignores pending results.
+
+Behavior retained: hexadecimal instance IDs, legacy one-tab migration without an
+initial write, all unrelated user-config fields, full-config saves, hidden right
+column values, live widget config, datetime's three format strings/default, no
+auto-config dialog on adding a widget (original instance lacks config_template),
+and no immediate persistence when only switching width. The stock session list
+is unrelated to `lmn_session_new`'s teaching-group list/API and remains separate.
+
+Differences: native buttons/progress/dialog and HTML drag events replace Angular
+UI/animations; only known Vue widget types render, never server-supplied Angular
+templates. Late results after unmount are discarded; a removed active last tab selects
+an existing tab. The sessions widget fixes the original shipped strict-mode
+`for (let session in dict) session.date = …` exception for nonempty dictionaries;
+the original exception is asserted while the port renders identities/addresses.
+The unused per-row `date` assignment is omitted (table formats timestamp seconds
+like the original), and no client-side datetime clock/strftime is introduced.
