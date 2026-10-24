@@ -33,7 +33,7 @@
  * @typedef {Promise<unknown> & {close: () => void}} MessagePromise close only hides the message.
  * @typedef {Object} Messagebox
  * @property {(options: MessageOptions) => MessagePromise} show Resolves on positive, rejects on negative.
- * @property {(text: string, value: string) => Promise<{value: string}>} prompt
+ * @property {(text: string, value: string, inputType?: string) => Promise<{value: string}>} prompt
  *
  * @typedef {Object} Modal
  * @property {(Component: import('vue').Component, props?: Record<string, unknown>, options?: {backdrop?: 'static' | true, keyboard?: boolean}) => Promise<unknown>} open

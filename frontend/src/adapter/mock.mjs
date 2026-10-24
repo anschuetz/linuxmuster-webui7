@@ -29,7 +29,7 @@ export function createMockAj({
     pageTitle = { set: () => {} },
     messagebox = {
         show: (options) => Object.assign(Promise.resolve({ ...options }), { close: () => {} }),
-        prompt: async (text, value) => ({ value }),
+        prompt: async (text, value, inputType = 'text') => ({ value }),
     },
     modal = { open: async () => undefined },
 } = {}) {
