@@ -171,3 +171,48 @@ it.each(['global-admin','school-admin','teacher'])('matches original root-access
     const ui = render(SessionList, { model }, aj);
     expect(ui.text()).toBe(original.textContent.trim()); expect(ui.find('table').exists()).toBe(false);
 });
+
+
+it('matches original widget templates for populated and empty display values', () => {
+    const s = setup();
+    const compact = text => text.replace(/\s+/g, '');
+    const parts = (root, selector) => [...(root.matches(selector) ? [root] : []), ...root.querySelectorAll(selector)]
+        .filter(node => !node.closest('.ng-hide')).map(node => compact(node.textContent));
+    const sessions = { one: { identity: 'synthetic', client_info: { address: '192.0.2.1' } } };
+    for (const [type, controller, path, values] of [
+        ['cpu', 'CPUWidgetController', 'dashboard/widgets/cpu.html', [undefined, [], [0, 0.5, 1], [1]]],
+        ['memory', 'MemoryWidgetController', 'dashboard/widgets/memory.html', [undefined, {used: 95, total: 100}]],
+        ['disk', 'MemoryWidgetController', 'disk/widget.html', [undefined, {used: 95, total: 100}]],
+        ['loadavg', 'LoadAverageWidgetController', 'dashboard/widgets/loadavg.html', [undefined, [], [0.1, 0.2, 0.3]]],
+        ['sessions', 'SessionWidgetController', 'sessions/widget.html', [undefined, {}, sessions]],
+        ['datetime', 'lm.wdatetime', 'datetime/partial/widget.html', [undefined, '', '24.10.2026 17:00']],
+    ]) {
+        for (const value of values) {
+            for (const hideTotal of type === 'disk' || type === 'memory' ? [false, true] : [false]) {
+                const widget = {id: 'oracle', typeId: type, config: {mountpoint: '/home', hideTotal}};
+                const scope = s.old.controller(controller); scope.widget = widget;
+                const original = s.old.mount(s.old.template(path).replace(/ng:controller="[^"]+"/, ''), scope)[0];
+                // The shipped sessions update throws before assigning dates; its template only uses these fields.
+                if (type === 'sessions') scope.sessions = value;
+                else if (value !== undefined) scope.$broadcast('widget-update', widget.id, value);
+                s.old.flush();
+                const ui = render(Widget, {widget, value, sessions: type === 'sessions' ? value : undefined}, s.aj);
+                for (const selector of ['.widget-header', '.widget-value', '.text-primary'])
+                    expect(parts(ui.element, selector), `${type}: ${selector}`).toEqual(parts(original, selector));
+                expect(ui.findAll('.label-danger').length).toBe(original.querySelectorAll('sup:not(.ng-hide) .label-danger').length);
+            }
+        }
+    }
+});
+
+it('uses a draggable anchor handle and transfers its widget ID before dropping', async () => {
+    const s = setup(); await s.model.start(); await s.model.refresh();
+    const ui = render(Dashboard, {model: s.model}, s.aj);
+    const handle = ui.get('[data-widget=w1] [data-action=move]');
+    expect(handle.element.tagName).toBe('A');
+    expect(handle.attributes('draggable')).toBe('true');
+    const setData = vi.fn(); await handle.trigger('dragstart', {dataTransfer: {setData}});
+    expect(setData).toHaveBeenCalledWith('text/plain', 'w1');
+    await ui.get('[data-column=widgetsRight]').trigger('drop'); await flushPromises();
+    expect(s.model.state.userConfig.dashboard.tabs[0].widgetsRight.at(-1).id).toBe('w1');
+});

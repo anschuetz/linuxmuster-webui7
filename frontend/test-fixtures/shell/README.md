@@ -123,17 +123,20 @@ nonce/attempt/rate-limit behavior is replaced by the client.
 
 `dashboard/` pins unmodified dashboard 0.42, session_list 0.7 and filesystem 0.51
 sources from the P106 archives, core 0.116 user-config/format/root-access sources,
-and the fork's `lmn_w_datetime` sources at `c53086d6a`. Both source controllers
-and their shipped compiled artifacts are retained. `dashboard.mjs` executes the
+and the fork's `lmn_w_datetime` sources at `c53086d6a`. Only executed scripts
+and templates compiled by tests are retained; unused source duplicates and backend
+files are omitted. `dashboard.mjs` executes the
 shipped dashboard, session-list and datetime scripts in real AngularJS 1.8.3;
 HTTP/Promise, interval and prompt boundaries are fixture doubles. Rejections from
 the original's unhandled chains are recorded by the HTTP boundary. Template tests
-compile the original session table/root-access directive and uptime template.
+compile the original session table/root-access directive and widget templates for
+uptime, CPU, memory, disk, load average, sessions and datetime, including empty values.
 The local HTTP server checks prefixed endpoints, exact whole-config/value payloads,
 500 policy and UID-0 versus three synthetic non-root roles; Python/psutil/LDAP and
-real sessions are not executed. Backend sources document that session values are
-only an update signal, disk data has memory's shape, and datetime text (including
-the original import-time clock) is formatted by the server, never by the client.
+real sessions are not executed. Backend contracts were checked in the P106 archives
+and fork at `c53086d6a`: session values are only an update signal, disk data has
+memory's shape, and datetime text (including the original import-time clock) is
+formatted by the server, never by the client.
 
 `mountDashboardRoute(element, {aj, path, initialConfig, customization})` is explicit
 and isolated. It accepts only `/view/dashboard` and `/view/session_list`, provides
