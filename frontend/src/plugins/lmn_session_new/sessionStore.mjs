@@ -11,7 +11,9 @@ const emptyCurrent = () => ({ sid: '', name: '', generated: false, members: [], 
  */
 const state = shallowReactive({ current: emptyCurrent(), examUsers: [], extExamUsers: [], examMode: false, user_missing_membership: [], filePolling: undefined });
 let identity, adapter, version = 0;
+function stopFiles() { state.filePolling?.dispose(); state.filePolling = undefined; }
 function clear(user) {
+    stopFiles();
     identity = user; version += 1;
     Object.assign(state, { current: emptyCurrent(), examUsers: [], extExamUsers: [], examMode: false, user_missing_membership: [] });
 }
@@ -32,7 +34,7 @@ async function startResolved(current, users, pendingCurrent) {
 }
 const store = {
     state,
-    reset() { version += 1; state.current = emptyCurrent(); },
+    reset() { stopFiles(); version += 1; state.current = emptyCurrent(); },
     filterExamUsers,
     capture() {
         const requestVersion = version, owner = identity, sid = state.current.sid, aj = adapter;

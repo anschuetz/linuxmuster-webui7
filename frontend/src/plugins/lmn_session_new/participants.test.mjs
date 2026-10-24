@@ -89,3 +89,10 @@ it('real removal keeps the legacy captured-index behavior after an intervening m
 it('disposed kerberos action never opens a prompt or sends a credential request',async()=>{
     const s=setup();s.api.dispose();await s.api.refreshKerberos();expect(s.aj.messagebox.prompt.mock.calls).toEqual([]);expect(s.calls).toEqual([]);
 });
+it('identity replacement and session reset dispose the file timer retained by the store',async()=>{
+    vi.useFakeTimers();
+    for(const reset of [s=>s.store.reset(),s=>getSessionStore(createMockAj({identity:{user:'p93-other'}}))]){
+        const s=setup(),poll=createPolling(vi.fn().mockResolvedValue(undefined));s.store.state.filePolling=poll;poll.start();expect(vi.getTimerCount()).toBe(1);
+        reset(s);expect(s.store.state.filePolling).toBeUndefined();expect(poll.active.value).toBe(false);expect(vi.getTimerCount()).toBe(0);
+    }
+});
