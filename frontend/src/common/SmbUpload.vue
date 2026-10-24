@@ -71,7 +71,11 @@ onBeforeUnmount(() => {
         <template v-for="item in progress" :key="item.id">
             <div v-if="item.progress < 100" style="margin-top: 10px">
                 <span>{{ item.name }} ({{ item.progress }} %) </span>
-                <progress max="100" :value="item.progress" :aria-label="item.name" />
+                <div class="progress">
+                    <div class="progress-bar progress-bar-warning" role="progressbar" :aria-label="item.name"
+                         aria-valuemin="0" aria-valuemax="100" :aria-valuenow="item.progress"
+                         :style="{ width: item.progress + '%' }" />
+                </div>
             </div>
         </template>
         <button v-if="uploading" type="button" data-cancel class="btn btn-default" @click="transfer.cancel()">{{ aj.gettext('Cancel') }}</button>

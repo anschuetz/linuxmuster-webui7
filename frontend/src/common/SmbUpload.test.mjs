@@ -26,6 +26,8 @@ it('uses legacy Flow options, browse/drop, progress and immutable listing comple
     expect(flow.assignDrop).toHaveBeenCalledWith(wrapper.get('.dragdroparea').element);
     flow.fire('filesSubmitted'); flow.fire('fileProgress'); await flushPromises();
     expect(wrapper.text()).toContain('synthetic.txt (50 %)');
+    expect(wrapper.get('[role=progressbar]').attributes('aria-valuenow')).toBe('50');
+    expect(wrapper.get('[role=progressbar]').classes()).toContain('progress-bar-warning');
     await wrapper.get('.dragdroparea').trigger('dragenter'); expect(wrapper.get('.dragdroparea').classes()).toContain('dragdroparea-enter');
     await wrapper.get('.dragdroparea').trigger('dragleave'); expect(wrapper.get('.dragdroparea').classes()).not.toContain('dragdroparea-enter');
     flow.fire('complete'); await flushPromises();
@@ -33,7 +35,7 @@ it('uses legacy Flow options, browse/drop, progress and immutable listing comple
     expect(wrapper.emitted('uploaded')).toEqual([[[{ name: 'synthetic.txt' }]]]);
     expect(wrapper.emitted('update:items')).toEqual([[[...items, { name: 'synthetic.txt' }]]]);
     expect(items).toHaveLength(1);
-    expect(wrapper.find('progress').exists()).toBe(false);
+    expect(wrapper.find('[role=progressbar]').exists()).toBe(false);
 });
 it('supports custom target and does not update listing without reload', async () => {
     setup({ target: '/custom' }); expect(flow.opts.target).toBe('/custom');
