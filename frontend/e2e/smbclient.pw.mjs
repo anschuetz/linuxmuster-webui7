@@ -48,12 +48,22 @@ test('teacher: mounted SMB upload, SSH proof, binary download and masked prompt'
         window.p64 = await window.P64.mount(host, services);
     });
     expect(await page.evaluate(() => typeof window.Flow)).toBe('function');
+    // Existing backend races when parallel initial chunk tests all mkdir .upload.
+    // Prepare its staging directory sequentially through the same SMB service.
+    await page.evaluate(async () => {
+        const { client, home } = window.p64;
+        const listing = await client.list(home);
+        if (!listing.items.some((item) => item.name === '.upload')) await client.createDirectory(`${home}/.upload`);
+    });
     const chunks = [];
     page.on('response', (response) => {
-        if (new URL(response.url()).pathname === '/api/lmn/smbclient/upload' && response.request().method() === 'POST') chunks.push(response.status());
+        const path = new URL(response.url()).pathname;
+        if (path.startsWith('/api/lmn/smbclient/')) console.log(`SMB ${response.request().method()} ${path}: ${response.status()}`);
+        if (path === '/api/lmn/smbclient/upload' && response.request().method() === 'POST') chunks.push(response.status());
     });
     await page.locator('#p64-fixture input[type=file]').setInputFiles({ name: filename, mimeType: 'text/plain', buffer: Buffer.from(content) });
-    await expect.poll(() => page.evaluate(() => window.p64.descriptors), { timeout: 60000 }).toBeTruthy();
+    await page.waitForFunction(() => window.p64.descriptors || document.querySelector('#p64-fixture [role=alert]'), null, { timeout: 60000 });
+    await expect(page.locator('#p64-fixture [role=alert]')).toHaveCount(0);
     const descriptors = await page.evaluate(() => window.p64.descriptors);
     expect(descriptors).toHaveLength(1);
     expect(descriptors[0].name).toBe(filename);
