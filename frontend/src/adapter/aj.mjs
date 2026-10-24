@@ -14,7 +14,7 @@
  * @property {(url: string, cfg?: HttpConfig) => Promise<HttpResponse>} delete
  * @property {(url: string, data: unknown, cfg?: HttpConfig) => Promise<HttpResponse>} patch
  *
- * @typedef {(title: string, text?: string, options?: {sticky?: boolean}) => void} Notification
+ * @typedef {(title: string, text?: string, options?: {sticky?: boolean, timeout?: number}) => void} Notification
  * @typedef {Object} Notify
  * @property {Notification} success
  * @property {Notification} info

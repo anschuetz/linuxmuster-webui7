@@ -20,12 +20,16 @@ export function createGroups(aj) {
         state.configs = data.filter(item => !('School' in item.settings)
             || [aj.identity.profile.activeSchool, 'default-school'].includes(item.settings.School));
         const response = await aj.http.get(`${base}/images`);
-        state.images = response.data.map(image => ({
-            ...image,
-            backups_list: Object.entries(image.backups).map(([date, backup]) => ({ ...backup, date })),
-            used_in: state.configs.filter(item => item.images.includes(image.name + '.qcow2'))
-                .map(item => item.file.split('.').at(-1)),
-        }));
+        state.images = response.data.map(image => {
+            const backups = Object.fromEntries(Object.entries(image.backups)
+                .map(([date, backup]) => [date, { ...backup, date }]));
+            return {
+                ...image, backups,
+                backups_list: Object.values(backups),
+                used_in: state.configs.filter(item => item.images.includes(image.name + '.qcow2'))
+                    .map(item => item.file.split('.').at(-1)),
+            };
+        });
     }
     async function load() {
         await Promise.all([

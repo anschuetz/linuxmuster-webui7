@@ -116,3 +116,21 @@ it('refreshes shell identity in the digest, publishes the new snapshot and forwa
     deps.identity.init.mockRejectedValueOnce('failed'); const failed = aj.identity.refresh(); deps.$rootScope.$evalAsync.mock.calls[1][0](); await expect(failed).rejects.toBe('failed');
     deps.identity.init.mockImplementationOnce(() => { throw new Error('sync'); }); const sync = aj.identity.refresh(); deps.$rootScope.$evalAsync.mock.calls[2][0](); await expect(sync).rejects.toThrow('sync');
 });
+
+it('forwards notification timeouts inside the digest and keeps sticky precedence', () => {
+    const queue = [], deps = { ...services(), toaster: { pop: vi.fn() }, $rootScope: { $evalAsync: fn => queue.push(fn) } };
+    const aj = createAjentiAdapter(deps);
+    for (const level of ['success', 'info', 'warning', 'error']) {
+        aj.notify[level]('Timed', '', { timeout: 7000 });
+        expect(deps.toaster.pop.mock.calls).toEqual([]);
+        queue.shift()();
+        expect(deps.toaster.pop.mock.calls).toEqual([[{ type: level, title: 'Timed', body: '', timeout: 7000 }]]);
+        expect(deps.notify[level].mock.calls).toEqual([]);
+        deps.toaster.pop.mockClear();
+    }
+    aj.notify.info('Sticky', 'Text', { sticky: true, timeout: 7000 }); queue.shift()();
+    expect(deps.toaster.pop.mock.calls).toEqual([[{ type: 'info', title: 'Sticky', body: 'Text', timeout: 0 }]]);
+    deps.toaster.pop.mockClear();
+    aj.notify.info('Zero', '', { timeout: 0 }); queue.shift()();
+    expect(deps.toaster.pop.mock.calls).toEqual([[{ type: 'info', title: 'Zero', body: '', timeout: 0 }]]);
+});
