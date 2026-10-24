@@ -54,11 +54,8 @@ function move(diskIndex, index) {
 function invalidNumber(key, event) { if (event.target.validity.badInput) vdiconfig[key] = undefined; }
 function vmidAdd() { vdiconfig.vmids = [...vdiconfig.vmids, newvmid.value === '' ? null : newvmid.value]; newvmid.value = null; }
 function vmidRemove(index) { vdiconfig.vmids = vdiconfig.vmids.filter((_, i) => i !== index); }
-function save() {
-    const color = linbo.BackgroundColor;
-    if (color && !/^#[a-fA-F\d]+$/.test(color)) linbo.BackgroundColor = undefined;
-    emit('close', saveEditor(state.value));
-}
+function invalidColor(event) { if (event.target.validity.patternMismatch) linbo.BackgroundColor = undefined; }
+function save() { emit('close', saveEditor(state.value)); }
 async function backups() {
     try { await configBackups(aj, linbo.Group); } catch { return; }
     emit('cancel');
@@ -390,7 +387,7 @@ const vdiSections = [
             </div><div class="col-sm-6"><label>{{ aj.gettext('Linbo GUI customization') }}</label>
                 <label v-for="[key,label] in generalChecks.slice(3)" :key="key" class="checkbox"><input v-model="linbo[key]" :data-model="'config.config.LINBO.'+key" type="checkbox">{{ aj.gettext(label) }}</label>
             </div></div>
-            <div class="row"><div class="col-sm-6 form-group"><label>{{ aj.gettext('Language') }}</label><select v-model="linbo.Locale" data-model="config.config.LINBO.Locale" class="form-control"><option value="de-DE">{{ aj.gettext('German') }}</option><option value="en-GB">{{ aj.gettext('English') }}</option><option value="fr-FR">{{ aj.gettext('French') }}</option></select></div><div class="col-sm-6 form-group"><label>{{ aj.gettext('Background color') }}</label><p>{{ aj.gettext('The color of the foreground will be adjusted automatically') }}</p><input v-model.trim="linbo.BackgroundColor" data-model="config.config.LINBO.BackgroundColor" class="form-control" type="text" pattern="#[a-fA-F\d]+"><input type="color" :value="/^#[a-fA-F\d]{6}$/.test(linbo.BackgroundColor) ? linbo.BackgroundColor : '#000000'" :aria-label="aj.gettext('Background color')" @input="linbo.BackgroundColor = $event.target.value"></div></div>
+            <div class="row"><div class="col-sm-6 form-group"><label>{{ aj.gettext('Language') }}</label><select v-model="linbo.Locale" data-model="config.config.LINBO.Locale" class="form-control"><option value="de-DE">{{ aj.gettext('German') }}</option><option value="en-GB">{{ aj.gettext('English') }}</option><option value="fr-FR">{{ aj.gettext('French') }}</option></select></div><div class="col-sm-6 form-group"><label>{{ aj.gettext('Background color') }}</label><p>{{ aj.gettext('The color of the foreground will be adjusted automatically') }}</p><input v-model.trim="linbo.BackgroundColor" @input="invalidColor" data-model="config.config.LINBO.BackgroundColor" class="form-control" type="text" pattern="#[a-fA-F\d]+"><input type="color" :value="/^#[a-fA-F\d]{6}$/.test(linbo.BackgroundColor) ? linbo.BackgroundColor : '#000000'" :aria-label="aj.gettext('Background color')" @input="linbo.BackgroundColor = $event.target.value"></div></div>
             <div class="form-group"><label>{{ aj.gettext('Kernel options') }}</label><input v-model.trim="linbo.KernelOptions" data-model="config.config.LINBO.KernelOptions" class="form-control" type="text"><details><summary>{{ aj.gettext('Add') }}</summary><button v-for="option in kernelOptions" :key="option" class="btn btn-default" @click="linbo.KernelOptions += ' ' + option">{{ option }}</button></details></div>
         </div>
         <div v-show="tab === 'partitions'">

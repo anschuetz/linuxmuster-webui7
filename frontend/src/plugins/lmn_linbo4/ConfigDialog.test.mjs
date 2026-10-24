@@ -4,6 +4,7 @@ import { createMockAj } from '../../adapter/mock.mjs';
 import ConfigDialog from './ConfigDialog.vue';
 import PartitionDialog from './PartitionDialog.vue';
 import AcceptDialog from './AcceptDialog.vue';
+import { editConfig } from './config.mjs';
 import { editorConfig as config, editorVDI as vdi } from '../../../e2e/fixtures/linbo4-editor.mjs';
 const wrappers=[];
 afterEach(()=>{wrappers.forEach(w=>w.unmount());wrappers.length=0;});
@@ -98,4 +99,33 @@ it('invalid numeric browser input is undefined while clearing a valid number rem
  const {w}=setup();await w.get('[data-tab=vdi]').trigger('click');
  const cores=model(w,'vdiconfig.cores');Object.defineProperty(cores.element,'validity',{value:{badInput:true}});cores.element.value='';await cores.trigger('input');
  await w.get('[data-action=save]').trigger('click');expect(w.emitted('close')[0][0][1]).toEqual({...vdi(),cores:undefined});
+});
+
+it('preserves untouched invalid color and label; only real config edits trigger a config POST',async()=>{
+ for(const change of ['none','vdi','size']) {
+  const source=config();source.config.LINBO.BackgroundColor='black';source.partitions[1].Label='ubuntu-root';
+  const requests=[];let result,partitionResult;
+  const aj=createMockAj({http:async req=>{requests.push(req);return {data:req.url.includes('/vdi/')?vdi():source};},modal:{open:async()=>{
+   const {w,modal}=setup(ConfigDialog,{config:source,vdiconfig:vdi()});
+   modal.mockImplementationOnce(async(Component,props)=>{
+    const child=setup(Component,props).w;
+    if(change==='size')await model(child,'partition.Size').setValue('44G');
+    await child.get('[data-action=save]').trigger('click');
+    partitionResult=child.emitted('close')[0][0];
+    return partitionResult;
+   });
+   await w.get('[data-tab=partitions]').trigger('click');await w.findAll('[data-edit-partition]')[1].trigger('click');await flushPromises();
+   if(change==='vdi')await model(w,'vdiconfig.cores').setValue('4');
+   await w.get('[data-action=save]').trigger('click');
+   result=w.emitted('close')[0][0];
+   return result;
+  }}});
+  await editConfig(aj,'start.conf.p84',vi.fn());
+  expect(partitionResult.partition.Label).toEqual('ubuntu-root');
+  expect(result[0].config.LINBO.BackgroundColor).toEqual('black');
+  expect(result[0].partitions[1].Label).toEqual('ubuntu-root');
+  const writes=requests.filter(req=>req.method==='post'&&req.url.includes('/config/'));
+  expect(writes).toHaveLength(change==='size'?1:0);
+  if(change==='size')expect(writes[0].data.partitions[1].Size).toEqual('44G');
+ }
 });

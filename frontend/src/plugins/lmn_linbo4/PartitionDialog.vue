@@ -25,10 +25,8 @@ async function newImage() {
     try { result = await aj.messagebox.prompt('New image name', ''); } catch { return; }
     images.value = [...images.value, result.value];
 }
-function save() {
-    const Label = !draft.value.Label || /^[A-Za-z0-9_]{0,128}$/.test(draft.value.Label) ? draft.value.Label : undefined;
-    emit('close', { partition: { ...draft.value, Label }, os: osDraft.value });
-}
+function invalidLabel(event) { if (event.target.validity.patternMismatch) partition.Label = undefined; }
+function save() { emit('close', { partition: draft.value, os: osDraft.value }); }
 const iconUrl = name => '/api/lmn/linbo4/icons/' + name;
 </script>
 <template>
@@ -36,7 +34,7 @@ const iconUrl = name => '/api/lmn/linbo4/icons/' + name;
     <div class="modal-body">
         <ul class="nav nav-tabs"><li :class="{ active: tab === 'partition' }"><a href="" @click.prevent="tab = 'partition'">{{ aj.gettext('Partition') }}</a></li><li v-if="osDraft" :class="{ active: tab === 'os' }"><a href="" @click.prevent="tab = 'os'">{{ aj.gettext('OS') }}</a></li></ul>
         <div v-show="tab === 'partition'">
-            <div class="form-group"><label>{{ aj.gettext('Label') }}</label><input v-model.trim="partition.Label" data-model="partition.Label" pattern="[A-Za-z0-9_]{0,128}" class="form-control" type="text"></div>
+            <div class="form-group"><label>{{ aj.gettext('Label') }}</label><input v-model.trim="partition.Label" @input="invalidLabel" data-model="partition.Label" pattern="[A-Za-z0-9_]{0,128}" class="form-control" type="text"></div>
             <div class="form-group"><label>{{ aj.gettext('Size') }}</label><input v-model.trim="partition.Size" data-model="partition.Size" class="form-control" type="text"></div>
             <label>{{ aj.gettext('Flags') }}</label><label class="checkbox"><input v-model="partition.Bootable" data-model="partition.Bootable" type="checkbox">Bootable</label>
             <div v-show="advanced" class="form-group"><label>{{ aj.gettext('Partition type') }}</label><select v-model="partition.Id" data-model="partition.Id" class="form-control"><option value="c">c (Win95 FAT32)</option><option value="ef">ef (EFI)</option><option value="5">5 (Extended)</option><option value="7">7 (WinNT NTFS)</option><option value="82">82 (Linux-Swap)</option><option value="83">83 (Linux native)</option></select></div>
