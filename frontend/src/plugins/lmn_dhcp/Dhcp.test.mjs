@@ -15,7 +15,7 @@ function setup(Component = Dhcp, props = {}, overrides = {}) {
     const aj = { gettext: (s) => s, pageTitle: { set: vi.fn() },
         http: { get: vi.fn(async () => ({ data: [[{ ...lease, mac: known.mac.toLowerCase() }, lease], [known]] })), post: vi.fn(async () => ({})) },
         notify: { success: vi.fn(), error: vi.fn() }, modal: { open: vi.fn(async () => ({})) }, ...overrides };
-    const w = mount(Component, { props, global: { provide: { aj } } });
+    const w = mount(Component, { attachTo: document.body, props, global: { provide: { aj } } });
     wrappers.push(w); return { w, aj };
 }
 const button = (w, text) => w.findAll('button').find((b) => b.text() === text);
@@ -116,4 +116,17 @@ it('uses trimmed catalog keys for the translated form labels', () => {
     const catalog = { 'Room:': 'Raum:', 'Mac:': 'MAC:', Hostname: 'Hostname', 'Group:': 'Gruppe:', 'PXE Boot:': 'PXE-Boot:', 'Sophomorix role:': 'Sophomorix-Rolle:' };
     const { w } = dialog([known], { gettext: (key) => catalog[key] ?? key });
     expect(w.findAll('td > span').map((label) => label.text())).toEqual(['Raum:', 'MAC:', 'Gruppe:', 'PXE-Boot:', 'Sophomorix-Rolle:']);
+});
+
+it('keeps spaces while typing text but sends the trimmed Angular model', async () => {
+    const { w, aj } = dialog();
+    await fill(w, ['r36', lease.mac, '10.0.0.36', 'pc36', '']);
+    const group = w.findAll('input')[4]; group.element.focus();
+    for (const character of ' group 36 ') {
+        group.element.value += character;
+        await group.trigger('input');
+    }
+    expect(group.element.value).toBe(' group 36 ');
+    await button(w, 'Save').trigger('click'); await flushPromises();
+    expect(aj.http.post.mock.calls).toEqual([['/api/lmn/dhcp/register', { device: { ...payload, room: 'r36', ip: '10.0.0.36', hostname: 'pc36', group: 'group 36' } }]]);
 });

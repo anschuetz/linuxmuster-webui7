@@ -14,13 +14,14 @@ const action = (page, name) => page.getByText(names[name], { exact: true });
 function errorsOn(page) {
     const errors = [];
     let loggedIn = false;
-    page.on('pageerror', (error) => errors.push(error.message));
+    page.on('pageerror', (error) => { errors.push(error.message); console.log('DHCP pageerror:', error.message); });
     page.on('console', (message) => {
         if (message.type() !== 'error') return;
         const path = new URL(message.location().url || '/', settings.baseURL).pathname;
         if (!loggedIn && ['/api/core/sidebar', '/api/core/tasks/request-update'].includes(path)
             && message.text() === 'Failed to load resource: the server responded with a status of 401 (Unauthenticated)') return;
         errors.push(message.text());
+        console.log('DHCP console:', path, message.text());
     });
     return { errors, markLoggedIn: () => { loggedIn = true; } };
 }
@@ -43,7 +44,11 @@ async function add(page) {
     await expect(dialog(page)).toBeVisible();
 }
 async function fill(page, values) {
-    for (const [i, value] of values.entries()) await dialog(page).locator('input[type="text"]').nth(i).fill(value);
+    for (const [i, value] of values.entries()) {
+        const field = dialog(page).locator('input[type="text"]').nth(i);
+        if (i === 4) { await field.fill(''); await field.pressSequentially(value); }
+        else await field.fill(value);
+    }
 }
 for (const role of roles) {
     test(`${role.name}: leases, duplicate hints, validation, cancel and import dialog`, async ({ page }) => {
@@ -65,17 +70,18 @@ for (const role of roles) {
         let posts = 0;
         await page.route('**/api/lmn/dhcp/register', (route) => { posts++; return route.fulfill({ json: true }); });
         await action(dialog(page), 'save').click();
-        await expect(page.locator('#error_messages')).toContainText(/bad-ip/);
-        await expect(page.locator('#error_messages')).toContainText(/bad host/);
+        await expect(page.getByText(/bad-ip/).first()).toBeVisible();
+        await expect(page.getByText(/bad host/).first()).toBeVisible();
         expect(posts).toBe(0);
         // Original opens devices Apply even when validation rejects the form.
         await page.route('**/api/lmn/devices/import', (route) => route.fulfill({ json: null }));
         await page.route('**/api/lmn/log/tmp/import_devices.log?*', (route) => route.fulfill({ json: 'P36 import oracle\n' }));
         await action(dialog(page), 'apply').click();
-        await expect(dialog(page)).toContainText(/Importing device|Importiere Gerät/i);
-        await expect(dialog(page).locator('pre')).toContainText('P36 import oracle');
+        const apply = page.locator('.modal:visible').filter({ has: page.locator('h4').filter({ hasText: /Importing device|Importiere Gerät/i }) });
+        await expect(apply).toBeVisible();
+        await expect(apply.locator('pre')).toContainText('P36 import oracle');
         expect(posts).toBe(0);
-        await action(dialog(page), 'close').click();
+        await action(apply, 'close').click();
         await action(dialog(page), 'cancel').click();
         await expect(page.locator('.modal:visible')).toHaveCount(0);
         expect(errors).toEqual([]);
@@ -92,19 +98,20 @@ for (const role of roles) {
         await page.route('**/api/lmn/dhcp/leases', (route) => route.fulfill({ json: [[lease], data[1]] }));
         await visit(page); await add(page);
         const hostname = role.name === 'global-admin' ? 'ajp36ga' : 'ajp36sa';
-        await fill(page, [' r36 ', ` ${lease.mac} `, ` ${lease.ip} `, ` ${hostname} `, ' p36group ']);
+        await fill(page, [' r36 ', ` ${lease.mac} `, ` ${lease.ip} `, ` ${hostname} `, ' p36 group ']);
+        await expect(dialog(page).locator('input').nth(4)).toHaveValue(' p36 group ');
         const saved = page.waitForResponse('**/api/lmn/dhcp/register');
         await action(dialog(page), 'save').click();
         const result = await saved;
         expect(result.status()).toBe(200);
         expect(result.request().postDataJSON()).toEqual({ device: {
-            room: 'r36', hostname, group: 'p36group', mac: lease.mac, ip: lease.ip,
+            room: 'r36', hostname, group: 'p36 group', mac: lease.mac, ip: lease.ip,
             pxeFlag: '0', officeKey: '', windowsKey: '', dhcpOptions: '', sophomorixRole: 'staffcomputer',
             lmnReserved10: '', lmnReserved12: '', lmnReserved13: '', lmnReserved14: '', sophomorixComment: '',
         } });
         await expect(page.locator('.modal:visible')).toHaveCount(0);
         await expect(page.locator('button:visible:has(.fa-plus)')).toHaveCount(1); // Legacy updates the wrong used row.
-        expect(ssh(`cat ${csv}`)).toContain(`r36;${hostname};p36group;${lease.mac};${lease.ip};`);
+        expect(ssh(`cat ${csv}`)).toContain(`r36;${hostname};p36 group;${lease.mac};${lease.ip};`);
         await page.unroute('**/api/lmn/dhcp/leases');
         const reloaded = page.waitForResponse('**/api/lmn/dhcp/leases');
         await page.goto('/view/lmn/dhcp');

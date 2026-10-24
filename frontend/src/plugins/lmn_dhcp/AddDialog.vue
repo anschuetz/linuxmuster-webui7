@@ -37,9 +37,10 @@ function saveImport() {
     save();
     aj.modal.open(ApplyDialog, {}, { static: true }).catch(() => {});
 }
-function update(field, value) {
-    device.value = { ...device.value, [field]: value.trim() };
-}
+const textModels = Object.fromEntries(['room', 'mac', 'ip', 'hostname', 'group'].map((field) => [field, computed({
+    get: () => device.value[field],
+    set: (value) => { device.value = { ...device.value, [field]: value }; },
+})]));
 const textFields = [['room', 'Room:'], ['mac', 'Mac:']];
 </script>
 <template>
@@ -47,12 +48,12 @@ const textFields = [['room', 'Room:'], ['mac', 'Mac:']];
     <div class="modal-body">
         <form class="form-group" @submit.prevent>
             <table class="table"><tbody>
-                <tr v-for="[key, label] in textFields" :key="key"><td><span>{{ aj.gettext(label) }}</span><input :value="device[key]" @input="update(key, $event.target.value)" class="form-control" type="text" /></td></tr>
-                <tr><td :class="{ 'has-error': duplicateIP }"><div>IP <span v-if="duplicateIP" style="color:red;">{{ aj.gettext('(Already used)') }}</span> :</div><input :value="device.ip" @input="update('ip', $event.target.value)" class="form-control" type="text" /></td></tr>
-                <tr><td :class="{ 'has-error': duplicateHost }"><div><span>{{ aj.gettext('Hostname') }}</span><span v-if="duplicateHost" style="color:red;">{{ aj.gettext('Already used') }}</span> :</div><input :value="device.hostname" @input="update('hostname', $event.target.value)" class="form-control" type="text" /></td></tr>
-                <tr><td><span>{{ aj.gettext('Group:') }}</span><input :value="device.group" @input="update('group', $event.target.value)" class="form-control" type="text" /></td></tr>
-                <tr><td><span>{{ aj.gettext('PXE Boot:') }}</span><select :value="device.pxeFlag" @change="update('pxeFlag', $event.target.value)" class="form-control"><option v-for="[value, label] in pxe" :key="value" :value="value">{{ aj.gettext(label) }}</option></select></td></tr>
-                <tr><td><span>{{ aj.gettext('Sophomorix role:') }}</span><select :value="device.sophomorixRole" @change="update('sophomorixRole', $event.target.value)" class="form-control"><option v-for="[value, label] in roles" :key="value" :value="value">{{ aj.gettext(label) }}</option></select></td></tr>
+                <tr v-for="[key, label] in textFields" :key="key"><td><span>{{ aj.gettext(label) }}</span><input v-model.trim="textModels[key].value" class="form-control" type="text" /></td></tr>
+                <tr><td :class="{ 'has-error': duplicateIP }"><div>IP <span v-if="duplicateIP" style="color:red;">{{ aj.gettext('(Already used)') }}</span> :</div><input v-model.trim="textModels.ip.value" class="form-control" type="text" /></td></tr>
+                <tr><td :class="{ 'has-error': duplicateHost }"><div><span>{{ aj.gettext('Hostname') }}</span><span v-if="duplicateHost" style="color:red;">{{ aj.gettext('Already used') }}</span> :</div><input v-model.trim="textModels.hostname.value" class="form-control" type="text" /></td></tr>
+                <tr><td><span>{{ aj.gettext('Group:') }}</span><input v-model.trim="textModels.group.value" class="form-control" type="text" /></td></tr>
+                <tr><td><span>{{ aj.gettext('PXE Boot:') }}</span><select :value="device.pxeFlag" @change="device = { ...device, pxeFlag: $event.target.value }" class="form-control"><option v-for="[value, label] in pxe" :key="value" :value="value">{{ aj.gettext(label) }}</option></select></td></tr>
+                <tr><td><span>{{ aj.gettext('Sophomorix role:') }}</span><select :value="device.sophomorixRole" @change="device = { ...device, sophomorixRole: $event.target.value }" class="form-control"><option v-for="[value, label] in roles" :key="value" :value="value">{{ aj.gettext(label) }}</option></select></td></tr>
             </tbody></table>
         </form>
     </div>
