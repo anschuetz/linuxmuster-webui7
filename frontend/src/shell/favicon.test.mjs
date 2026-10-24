@@ -1,0 +1,42 @@
+import { afterEach, expect, it, vi } from 'vitest';
+import { readFileSync } from 'node:fs';
+import { JSDOM } from 'jsdom';
+import { nextTick, reactive } from 'vue';
+import { createFavicon } from './favicon.mjs';
+
+const cleanups = [];
+afterEach(() => { cleanups.splice(0).reverse().forEach(fn => fn()); document.head.innerHTML = ''; vi.restoreAllMocks(); });
+it.each(['blue', 'green', 'red', undefined])('draws the same favicon/theme as core for color %s and follows identity until disposal', async color => {
+    const markup = '<link rel="shortcut icon"><meta name="theme-color">';
+    const dom = new JSDOM(markup, { url: 'https://example.test', runScripts: 'outside-only' }); cleanups.push(() => dom.window.close());
+    const oldContext = { fillRect: vi.fn() }, context = { fillRect: vi.fn() };
+    const { window } = dom;
+    window.eval(readFileSync('test-fixtures/shell/angular.min.js', 'utf8'));
+    window.HTMLCanvasElement.prototype.getContext = () => oldContext;
+    window.HTMLCanvasElement.prototype.toDataURL = () => 'data:image/png;base64,ZGVtbw==';
+    window.$ = selector => window.document.querySelectorAll(selector);
+    const oldIdentity = { color };
+    window.angular.module('core', []).value('identity', oldIdentity).value('customization', { plugins: { core: {} } });
+    window.eval(readFileSync('test-fixtures/shell/presentation/favicon.service.es', 'utf8'));
+    const injector = window.angular.injector(['ng', 'core']), root = injector.get('$rootScope'), old = injector.get('favicon');
+    document.head.innerHTML = markup;
+    vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockReturnValue(context);
+    vi.spyOn(HTMLCanvasElement.prototype, 'toDataURL').mockReturnValue('data:image/png;base64,ZGVtbw==');
+    const identity = reactive({ color }), favicon = createFavicon({ identity, customization: {} }); cleanups.push(favicon.dispose);
+    old.init(); root.$digest(); favicon.init();
+    expect(context.fillStyle).toBe(oldContext.fillStyle); expect(context.fillRect.mock.calls).toEqual(oldContext.fillRect.mock.calls);
+    expect(favicon.state.themeColor).toBe(root.themeColorValue);
+    expect(document.querySelector('link').href).toBe(window.document.querySelector('link').href);
+    expect(document.querySelector('link').type).toBe('image/x-icon');
+    oldContext.fillRect.mockClear(); context.fillRect.mockClear();
+    identity.color = oldIdentity.color = 'teal'; root.$digest(); await nextTick();
+    expect(context.fillRect.mock.calls).toEqual(oldContext.fillRect.mock.calls); expect(favicon.state.themeColor).toBe(root.themeColorValue);
+    favicon.dispose(); context.fillRect.mockClear(); identity.color = 'red'; await nextTick(); expect(context.fillRect).not.toHaveBeenCalled();
+});
+it('uses customization URL without drawing, and supports a missing favicon link/meta', () => {
+    document.head.innerHTML = '<link rel="shortcut icon">';
+    const canvas = vi.spyOn(HTMLCanvasElement.prototype, 'getContext');
+    const favicon = createFavicon({ identity: {}, customization: { plugins: { core: { faviconURL: '/brand.png' } } } }); cleanups.push(favicon.dispose);
+    favicon.init(); expect(document.querySelector('link').getAttribute('href')).toBe('/brand.png'); expect(canvas).not.toHaveBeenCalled();
+    document.head.innerHTML = ''; favicon.setURL('/new.png');
+});

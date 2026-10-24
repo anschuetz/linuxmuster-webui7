@@ -154,3 +154,10 @@ it('does not publish pending identity or activity after disposal', async () => {
     const activity = other.activity(); other.dispose(); resolve(response(30)); await activity;
     expect(other.state.remaining).toBe(0);
 });
+it('publishes refreshed identity color for the Angular-free favicon owner', async () => {
+    const h = harness(); await h.identity.refresh();
+    expect(h.identity.color).toBe('blue');
+    h.setIdentity({ ...admin, color: 'green' }); await h.identity.refresh();
+    expect(h.identity.color).toBe('green'); h.dispose();
+    expect(h.identity.color).toBeUndefined();
+});
