@@ -28,6 +28,12 @@ const fields = computed(() => editing.value?.type === 'normal_tasks'
         ? [{ name: 'special', label: 'Special', select: true }, { name: 'command', label: 'Command', area: true }, { name: 'comment', label: 'Comment', area: true }]
         : [{ name: 'name', label: 'Name' }, { name: 'value', label: 'Value', area: true }, { name: 'comment', label: 'Comment', area: true }]);
 
+// Writable field models keep job updates immutable while Vue preserves spaces during typing.
+const textModels = Object.fromEntries(['minute', 'hour', 'day_of_month', 'month', 'day_of_week', 'command', 'comment', 'name', 'value'].map((name) => [name, computed({
+    get: () => editing.value.job[name],
+    set: (value) => update(name, value),
+})]));
+
 aj.pageTitle.set(aj.gettext('Cron'));
 watch(() => aj.identity.user, async (identity) => {
     if (identity == null) return;
@@ -54,8 +60,7 @@ function add() {
 }
 function update(name, value) {
     const current = editing.value;
-    const trimmed = typeof value === 'string' && name !== 'special' ? value.trim() : value;
-    const job = { ...current.job, [name]: trimmed === '' && name !== 'comment' ? undefined : trimmed };
+    const job = { ...current.job, [name]: value === '' && name !== 'comment' ? undefined : value };
     editing.value = { ...current, job };
     // Angular binds existing jobs immediately, including when Cancel is pressed.
     if (current.index !== null) replace(current.type, crontab.value[current.type].map((item, i) => i === current.index ? job : item));
@@ -128,8 +133,8 @@ async function save() {
                             <label :for="`cron-${field.name}`">{{ aj.gettext(field.label) }}</label>
                             <div class="input-group">
                                 <select v-if="field.select" :id="`cron-${field.name}`" class="form-control" :name="field.name" :value="editing.job[field.name]" @change="update(field.name, $event.target.value)"><option v-for="special in specials" :key="special">{{ special }}</option></select>
-                                <textarea v-else-if="field.area" :id="`cron-${field.name}`" class="form-control" :name="field.name" :value="editing.job[field.name]" :required="field.name !== 'comment'" :rows="field.name === 'comment' ? 15 : undefined" cols="80" @input="update(field.name, $event.target.value)"></textarea>
-                                <input v-else :id="`cron-${field.name}`" class="form-control" :name="field.name" :value="editing.job[field.name]" required size="80" @input="update(field.name, $event.target.value)">
+                                <textarea v-else-if="field.area" :id="`cron-${field.name}`" class="form-control" :name="field.name" v-model.trim="textModels[field.name].value" :required="field.name !== 'comment'" :rows="field.name === 'comment' ? 15 : undefined" cols="80"></textarea>
+                                <input v-else :id="`cron-${field.name}`" class="form-control" :name="field.name" v-model.trim="textModels[field.name].value" required size="80">
                             </div>
                         </template>
                         <div v-if="editing.type !== 'env_settings'"><label for="cron-holiday">{{ aj.gettext('Disable holidays') }}</label> <input id="cron-holiday" type="checkbox" :checked="editing.job.disable_holiday" @change="update('disable_holiday', $event.target.checked)"></div>

@@ -73,6 +73,23 @@ describe('devices original view contract', () => {
         await button(w, 'Save').trigger('click'); await flushPromises();
         expect(aj.http.post.mock.calls[1][1][0]).toMatchObject(device());
     });
+    it('preserves a character-by-character room name with an inner space in the add dialog', async () => {
+        const { wrapper: w } = setup([]); await flushPromises();
+        await button(w, 'Add a device').trigger('click'); await flushPromises();
+        const dialog = document.querySelector('[role="dialog"]');
+        const input = dialog.querySelector('input');
+        input.value = '';
+        input.focus();
+        for (const character of 'Room West') {
+            input.value += character;
+            input.dispatchEvent(new Event('input'));
+            await flushPromises();
+        }
+        expect(input.value).toBe('Room West');
+        [...dialog.querySelectorAll('button')].find((b) => b.textContent === 'Add').click();
+        await flushPromises();
+        expect(cell(w, 'room').element.value).toBe('Room West');
+    });
     it('shows all ten matching typeahead groups', async () => {
         const groups = Array.from({ length: 10 }, (_, i) => `group${i}`);
         const { wrapper: w } = setup([device()], { http: {
