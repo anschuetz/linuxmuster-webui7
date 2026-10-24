@@ -51,15 +51,16 @@ it('online checks are manual, update status icon/class, and cover all hosts in o
     expect(http.mock.calls.slice(2).map(([r]) => r.url)).toEqual(['p52client1', 'p52client1', 'p52client2', 'p52client3'].map(h => '/api/lmn/linbosync/isOnline/' + h));
     expect(w.findAll('a.btn-danger').map(a => a.text())).toEqual(['No response', 'No response', 'No response']);
 });
-it('number editing stays editable, WOL-only has no command, min-invalid/empty values omit timeout as Angular does', async () => {
+it('number editing stays editable, WOL-only has no command, min-invalid omits timeout and empty sends null as Angular does', async () => {
     const { w, http } = await setup();
     await click(w, 'Wake on lan'); await w.findAll('.tab-pane.active input[type="checkbox"]')[1].trigger('click');
     expect(w.find('pre').exists()).toEqual(false);
     await click(w, 'Sync'); const input = w.get('input[type="number"]');
     await input.setValue('12'); expect(input.element.value).toEqual('12'); expect(w.get('pre').text()).toContain(' -w 12');
     await input.setValue('0'); expect(w.get('pre').text()).toContain(' -w undefined');
-    await input.setValue(''); expect(w.get('pre').text()).toContain(' -w undefined');
     await click(w, 'Apply'); const { timeout, ...withoutTimeout } = parameters(); expect(JSON.parse(JSON.stringify(http.mock.calls.at(-1)[0].data))).toEqual({ cmd_parameters: withoutTimeout });
+    await input.setValue(''); expect(w.get('pre').text()).toContain(' -w null');
+    await click(w, 'Apply'); expect(JSON.parse(JSON.stringify(http.mock.calls.at(-1)[0].data))).toEqual({ cmd_parameters: { ...parameters(), timeout: null } });
 });
 it('partition toggles command but original checkbox stays unchecked; start is exclusive and power toggles', async () => {
     const { w } = await setup();
