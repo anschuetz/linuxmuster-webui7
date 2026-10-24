@@ -26,7 +26,7 @@ it('starts undefined, filters schools before linking images and preserves API or
     expect([groups.state.configs, groups.state.images, groups.state.examples, groups.state.changed]).toEqual([undefined, undefined, undefined, false]);
     await groups.load();
     expect(groups.state.configs).toEqual([configs()[0], configs()[2], configs()[3]]);
-    expect(groups.state.images).toEqual([{ ...images()[0], backups_list: [{ timestamp: 1, date: '20241001' }], used_in: ['zulu', 'alpha'] }]);
+    expect(groups.state.images).toEqual([{ ...images()[0], backups: { '20241001': { timestamp: 1, date: '20241001' } }, backups_list: [{ timestamp: 1, date: '20241001' }], used_in: ['zulu', 'alpha'] }]);
     expect(groups.state.examples).toEqual(examples);
     expect(calls.map(c => [c.method, c.url])).toEqual([['get', base + '/configs'], ['get', base + '/examples/config'], ['get', base + '/images']]);
 });

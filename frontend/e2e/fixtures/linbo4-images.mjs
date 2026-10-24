@@ -3,7 +3,7 @@ export const imageConfigs = () => [
     {file:'start.conf.other',images:['p86.qcow2'],settings:{School:'other-school'}},
     {file:'start.conf.part.two',images:['p86.qcow2'],settings:{School:'default-school'}},
 ];
-export const backupImage = () => ({name:'p86',backup:true,timestamp:123,date:'20261001',size:512,desc:'Backup\ntext',info:'',reg:'backup reg',postsync:'backup post',prestart:'backup pre'});
+export const backupImage = () => ({name:'p86',backup:true,timestamp:123,size:512,desc:'Backup\ntext',info:'',reg:'backup reg',postsync:'backup post',prestart:'backup pre'});
 export const imageList = () => [
     {name:'p86',size:1536,desc:'First\r\nsecond',info:'info',reg:'  main reg\n',postsync:'main post',prestart:'main pre',
         diff_image:{name:'p86',diff:true,size:1024,desc:'diff',info:'',reg:'diff reg',prestart:'diff pre'},

@@ -1,7 +1,9 @@
 import { afterEach, expect, it, vi } from 'vitest';
 import { createMockAj } from '../../adapter/mock.mjs';
-import { imageBytes, textRows, createImageActions } from './images.mjs';
+import { imageBytes, textRows, copyImage, createImageActions } from './images.mjs';
 import ImageDialog from './ImageDialog.vue';
+import { createGroups } from './groups.mjs';
+import { imageList } from '../../../e2e/fixtures/linbo4-images.mjs';
 const base = '/api/lmn/linbo4';
 afterEach(() => window.history.replaceState({}, '', '/'));
 function setup(overrides = {}) {
@@ -50,4 +52,21 @@ it('restart failure reports the original error, without hash/reload; rename reje
     expect(notify.mock.calls).toEqual([['info','Restarting multicast and torrent services, please wait ...','',{timeout:7000}],['error','Failed to restart multicast and torrent services. Please see the log files',undefined]]);
     expect(reload.mock.calls).toEqual([]); expect(window.location.hash).toEqual('');
     notify.mockClear(); await actions.renameImage({name:'p86'}); expect(notify.mock.calls).toEqual([]);
+});
+
+it('saves backup dates derived from API map keys in the main image payload', async () => {
+    const source = imageList();
+    const calls = [];
+    const aj = createMockAj({
+        modal: { open: async (_component, { image }) => copyImage(image) },
+        http: async request => {
+            calls.push(request);
+            return { data: request.url === base + '/images' ? source : [] };
+        },
+    });
+    const groups = createGroups(aj);
+    await groups.load();
+    await createImageActions(aj).editImage(groups.state.images[0], groups.state.images);
+    const saved = calls.find(request => request.method === 'post' && request.url === base + '/images/p86');
+    expect(saved.data.data.backups['20261001']).toEqual({ ...source[0].backups['20261001'], date: '20261001' });
 });
