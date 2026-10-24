@@ -13,3 +13,8 @@ angular.module('lmn.setup_wizard').run(($http, $location, identity) => {
       }
     })
 })
+
+// Plugin-local Core compatibility; no shared adapter service is introduced.
+angular.module('lmn.setup_wizard').run((config, locale, $rootScope) => {
+    window.LmnVue_lmn_setup_wizard.configure({ config, locale, $rootScope });
+});
