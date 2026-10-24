@@ -617,8 +617,9 @@ div.membership-item {
 }
 // Authentication windows; #login-form typography/flip-cycle come from core.css.
 .auth-page {
-    min-height: 100vh;
-    min-height: 100dvh;
+    // .navbar / .navbar-brand in the pinned core.css are 60px high.
+    min-height: calc(100vh - 60px);
+    min-height: calc(100dvh - 60px);
     display: flex;
     align-items: center;
     justify-content: center;

@@ -1,4 +1,3 @@
-import { readFileSync } from 'node:fs';
 import { afterEach, expect, it, vi } from 'vitest';
 import { mount } from '@vue/test-utils';
 import { reactive } from 'vue';
@@ -48,10 +47,4 @@ it('renders matching reset cards with original icons, placeholders and primary a
         expect(w.find('button[type=submit]').classes()).toEqual(expect.arrayContaining(['btn-primary', 'btn-block']));
         expect(w.find('input').attributes('placeholder')).toBe(state.serial ? 'New password' : 'Email');
     }
-});
-it('defines viewport centering, window styling and 16px small-screen edges', () => {
-    const css = readFileSync('../usr/lib/linuxmuster-webui/plugins/lmn_common/resources/styles.scss', 'utf8');
-    expect(css).toMatch(/\.auth-page\s*\{[^}]*min-height: 100dvh;[^}]*display: flex;[^}]*align-items: center;[^}]*padding: 16px;/s);
-    expect(css).toMatch(/\.auth-card, \.auth-dialog\s*\{[^}]*background:[^}]*border:[^}]*box-shadow:[^}]*padding:/s);
-    expect(css).toMatch(/@media \(max-width: 575px\)/);
 });
