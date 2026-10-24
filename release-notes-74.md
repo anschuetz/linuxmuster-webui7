@@ -18,6 +18,16 @@ really owns.
 
 ---
 
+## Third-party Ajenti plugins
+
+The web interface no longer uses AngularJS. Third-party Ajenti plugins with an
+AngularJS frontend are no longer supported and will not be displayed;
+linuxmuster.net's own plugins are not affected. Plugin authors can port their
+frontend to Vue; see [plugins/lmn_common/README.md](usr/lib/linuxmuster-webui/plugins/lmn_common/README.md)
+(`window.LmnVue_<plugin>.mount(element, aj)`).
+
+---
+
 ## 🔑 Password management
 
 - Password constraints are now editable from the UI, scoped by role

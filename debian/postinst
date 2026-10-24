@@ -41,6 +41,32 @@ remove_system_ajenti()
     /usr/bin/python3 -m pip uninstall -y aj ajenti-panel ajenti.plugin.ace ajenti.plugin.core ajenti.plugin.dashboard ajenti.plugin.filesystem ajenti.plugin.plugins ajenti.plugin.settings ajenti.plugin.session-list
 }
 
+warn_third_party_plugins()
+{
+    # Keep this allowlist readable; normalize underscores for matching below.
+    stock_plugins="core ace dashboard filesystem plugins settings session-list passwd"
+    installed_plugins=$(/opt/linuxmuster/bin/pip list --format=freeze 2>/dev/null) || return 0
+    third_party_plugins=$(printf '%s\n' "$installed_plugins" | awk -v stock="$stock_plugins" '
+        BEGIN { split(stock, names, " "); for (i in names) own[names[i]] = 1 }
+        {
+            name = $0
+            sub(/[ =@].*$/, "", name)
+            normalized = tolower(name)
+            gsub(/_/, "-", normalized)
+            if (normalized !~ /^ajenti\.plugin\./) next
+            sub(/^ajenti\.plugin\./, "", normalized)
+            if (normalized in own || normalized ~ /^(lmn-|linuxmuster($|[.-]))/) next
+            print name
+        }
+    ') || return 0
+    if [ -n "$third_party_plugins" ]; then
+        msg "The web interface no longer uses AngularJS. Third-party Ajenti plugins that ship an AngularJS frontend are not supported any more and will not be displayed. Plugin authors can port their frontend to Vue, see \`plugins/lmn_common/README.md\` (\`window.LmnVue_<plugin>.mount(element, aj)\`). linuxmuster.net's own plugins are not affected.
+
+$third_party_plugins"
+    fi
+    return 0
+}
+
 case "$1" in
     install|configure)
         ajcfg="/etc/ajenti/config.yml"
@@ -71,6 +97,7 @@ Installing linuxmuster-webui
             $PYTHON3 -m pip install -U pip wheel #setuptools #distribute
             hash -r
             $PYTHON3 -m pip install -r $webuietc/requirements.txt
+            warn_third_party_plugins
 
             msg "Copy default config files for webui"
             mkdir -p /etc/linuxmuster/webui/
@@ -180,6 +207,7 @@ Updating linuxmuster-webui
 
             # Requirements must always be checked
             $PYTHON3 -m pip install -r $webuietc/requirements.txt
+            warn_third_party_plugins
 
             msg "Set default sophomorix webui rights"
             $PYTHON3 $update_scripts/merge-permissions.py
@@ -223,6 +251,7 @@ Updating linuxmuster-webui ...done
         # our own requirements went with it and have to be reinstalled.
         msg "Reinstalling Python requirements in the linuxmuster venv"
         /opt/linuxmuster/bin/python3 -m pip install -r /usr/lib/linuxmuster-webui/etc/requirements.txt
+        warn_third_party_plugins
 
         msg "Restart service linuxmuster-webui"
         systemctl restart linuxmuster-webui
