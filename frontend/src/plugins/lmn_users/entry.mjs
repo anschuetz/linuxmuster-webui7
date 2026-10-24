@@ -11,7 +11,7 @@ import GlobalAdmins from './GlobalAdmins.vue';
 import SchoolAdmins from './SchoolAdmins.vue';
 const views = { globaladmins: GlobalAdmins, schooladmins: SchoolAdmins, listmanagement: ListManagement, students: Students, teachers: Teachers, staff: Staff, parents: Parents, 'extra-students': ExtraStudents, 'extra-courses': ExtraCourses, 'print-passwords': PrintPasswords };
 // Admin and printing routes are active; P118/P120 tables remain available to the fixture harness.
-// P123 adds listmanagement only for the fixture harness; its Angular route stays active.
+// Listmanagement is complete, including CSV upload/import, and mounts on its existing route.
 export function mount(element, aj, { view = element.getAttribute('view') || 'students' } = {}) {
     const app = createApp(views[view]);
     app.provide('aj', aj);

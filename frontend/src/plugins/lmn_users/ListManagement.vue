@@ -2,6 +2,7 @@
 import { inject, onMounted, onBeforeUnmount, ref, watch } from 'vue';
 import ListTable from './ListTable.vue';
 import AddUserDialog from './AddUserDialog.vue';
+import UploadDialog from './UploadDialog.vue';
 import { createLists, listTabs, hotkeyTabs, listLabels, validateListField, cleanupEmptyRow } from './lists.mjs';
 import { createValidation } from '../../common/validation.mjs';
 import { openFileEditor } from '../../common/fileEditor.mjs';
@@ -55,6 +56,10 @@ async function save(kind, check = false) {
     try { await api.save(kind, lists.value[kind], encodings.value); if (check) await openUsersCheck(aj); }
     catch { /* HTTP errors handled by shell; never proceed to Check on rejection. */ }
 }
+async function upload(kind) {
+    try { await aj.modal.open(UploadDialog, { role: kind, refresh: () => load(kind, true) }, { backdrop: 'static' }); }
+    catch { /* Dismissed upload dialogs leave the list intact. */ }
+}
 async function editor(kind) {
     try { await openFileEditor(aj, api.path(school.value, kind), ''); aj.reload(); }
     catch { /* Dismissal does not reload. */ }
@@ -85,5 +90,5 @@ onBeforeUnmount(() => document.removeEventListener('keydown', hotkey));
     <div v-if="showErrors && errorSummary.empty + errorSummary.messages.length" id="error_messages" class="alert alert-danger"><ul><li v-if="errorSummary.empty">{{ errorSummary.empty }} {{ aj.gettext('empty cells') }}.</li><li v-for="message in errorSummary.messages" :key="message">{{ message }}</li></ul></div>
     <ul class="nav nav-tabs"><li v-for="(kind,index) in listTabs" :key="kind" :class="{active:active === index}"><a href="#" :data-tab="kind" @click.prevent="active = index; load(kind)">{{ aj.gettext(listLabels[kind]) }}</a></li></ul>
     <ListTable v-for="(kind,index) in listTabs" v-show="active === index" :key="kind" :kind="kind" :rows="lists[kind]" :size="size" :first-save="firstSave[kind]" :validate="validate"
-        @update="(row,key,value) => update(kind,row,key,value)" @remove="(row,i,page,n) => remove(kind,row,i,page,n)" @add="add(kind)" @save="save(kind)" @check="save(kind,true)" @editor="editor(kind)" @backups="backups(kind)" @size="size = $event" />
+        @update="(row,key,value) => update(kind,row,key,value)" @remove="(row,i,page,n) => remove(kind,row,i,page,n)" @add="add(kind)" @save="save(kind)" @check="save(kind,true)" @upload="upload(kind)" @editor="editor(kind)" @backups="backups(kind)" @size="size = $event" />
 </template>

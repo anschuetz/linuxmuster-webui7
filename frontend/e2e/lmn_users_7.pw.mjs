@@ -15,7 +15,7 @@ const action=(p,name)=>vue?p.locator(`[data-list]:visible [data-action="${name}"
 const footer=(p,re)=>modal(p).locator('.modal-footer :is(button,a)').filter({hasText:re});
 const clean=s=>{expect(s.blocked).toEqual([]);expect(s.errors).toEqual([]);};
 test.afterEach(async({page})=>{await page.request.post('/api/core/logout');});
-test.beforeAll(async()=>{if(vue)await build({build:{lib:{entry:fileURLToPath(new URL('./users_7.harness.mjs',import.meta.url)),name:'LmnUsersListsTest',formats:['iife'],fileName:()=>basename(harness)},outDir:dirname(harness),emptyOutDir:false,rolldownOptions:{external:['vue'],output:{globals:{vue:'Vue'},codeSplitting:false}}}});});
+test.beforeAll(async()=>{if(vue&&process.env.P123_PRODUCTION!=='1')await build({build:{lib:{entry:fileURLToPath(new URL('./users_7.harness.mjs',import.meta.url)),name:'LmnUsersListsTest',formats:['iife'],fileName:()=>basename(harness)},outDir:dirname(harness),emptyOutDir:false,rolldownOptions:{external:['vue'],output:{globals:{vue:'Vue'},codeSplitting:false}}}});});
 async function setup(p,context,role=roles[0]){
  const checkResult=result();checkResult.CHECK_RESULT.ERRORLIST=['p119-error'];
  const s={writes:[],gets:[],blocked:[],errors:[],fail:'',lists:{},school:'school-x',checks:0,checkResult};
@@ -44,7 +44,7 @@ async function setup(p,context,role=roles[0]){
 }
 async function navigate(p){
  await p.evaluate(()=>{const i=angular.element(document).injector();i.get('$rootScope').$apply(()=>i.get('$location').path('/view/lmn/users/listmanagement'));});await p.waitForLoadState('networkidle');
- if(vue){await p.addScriptTag({path:fileURLToPath(new URL('../../usr/lib/linuxmuster-webui/plugins/lmn_common/resources/vue/bridge.js',import.meta.url))});await p.addScriptTag({path:harness});await p.evaluate(()=>{
+ if(vue&&process.env.P123_PRODUCTION!=='1'){await p.addScriptTag({path:fileURLToPath(new URL('../../usr/lib/linuxmuster-webui/plugins/lmn_common/resources/vue/bridge.js',import.meta.url))});await p.addScriptTag({path:harness});await p.evaluate(()=>{
   const i=angular.element(document).injector(),current=i.get('$route').current,el=document.querySelector('[ng-view]')||document.querySelector('[ng\\:view]');current.scope.$destroy();const scope=i.get('$rootScope').$new();current.scope=scope;el.innerHTML='';const host=document.createElement('div');el.append(host);const names=['$http','notify','toaster','gettextCatalog','identity','$location','$route','pageTitle','messagebox','$rootScope'];LmnVueBridge.mountBridge(scope,host,{mount(el,aj){window.p123Aj=aj;return LmnUsersListsTest.mount(el,aj,{view:'listmanagement'});}},Object.fromEntries(names.map(n=>[n,i.get(n)])));
  });await p.waitForLoadState('networkidle');}
 }

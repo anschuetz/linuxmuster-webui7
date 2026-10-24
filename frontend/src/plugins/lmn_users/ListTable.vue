@@ -3,7 +3,7 @@ import { computed, inject, onMounted, onBeforeUnmount, ref, watch } from 'vue';
 import ExtraInput from './ExtraInput.vue';
 import { listFields, listRows, listSorts, addLabels } from './lists.mjs';
 const props = defineProps({ kind: String, rows: [Array, String], size: Number, firstSave: Boolean, validate: Function });
-const emit = defineEmits(['update', 'remove', 'add', 'save', 'check', 'editor', 'backups', 'size']);
+const emit = defineEmits(['update', 'remove', 'add', 'save', 'check', 'editor', 'upload', 'backups', 'size']);
 const aj = inject('aj'), query = ref(''), page = ref(1), sort = ref(), fields = ref(listFields(props.kind)), menu = ref('');
 const sorts = listSorts(props.kind);
 const closeMenu = () => { menu.value = ''; };
@@ -66,7 +66,7 @@ const loginHint = 'This entry is directly read from the CSV file and could diffe
                 <button class="btn btn-lmn" data-action="save" @click="emit('save')">{{ aj.gettext('Save') }}</button>
                 <button class="btn btn-lmn" data-action="check" @click="emit('check')">{{ saveCheckLabel() }}</button>
                 <button v-if="kind === 'extrastudents'" class="btn btn-lmn" data-action="editor" @click="emit('editor')">{{ aj.gettext('Edit CSV') }}</button>
-                <div v-else class="btn-group dropup" :class="{open:menu === 'csv'}" @click.stop><button class="btn btn-lmn" data-action="csv-menu" @click="menu = menu === 'csv' ? '' : 'csv'">{{ aj.gettext('CSV') }} <span class="caret"></span></button><ul v-if="menu === 'csv'" class="dropdown-menu dropdown-menu-left"><li><a data-action="editor" @click="emit('editor'); menu = ''">{{ aj.gettext('Edit CSV') }}</a></li></ul></div>
+                <div v-else class="btn-group dropup" :class="{open:menu === 'csv'}" @click.stop><button class="btn btn-lmn" data-action="csv-menu" @click="menu = menu === 'csv' ? '' : 'csv'">{{ aj.gettext('CSV') }} <span class="caret"></span></button><ul v-if="menu === 'csv'" class="dropdown-menu dropdown-menu-left"><li><a data-action="editor" @click="emit('editor'); menu = ''">{{ aj.gettext('Edit CSV') }}</a></li><li><a data-action="upload" @click="emit('upload'); menu = ''">{{ aj.gettext('Upload CSV') }}</a></li></ul></div>
             </div></div></div></div></component>
         </div>
     </section>
