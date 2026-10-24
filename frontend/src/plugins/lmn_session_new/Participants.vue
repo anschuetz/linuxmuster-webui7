@@ -61,6 +61,7 @@ function bytes(value) {
     <table v-else class="table table-bordered" style="margin-bottom:60px">
         <thead><tr>
             <th style="text-align:center">{{ aj.gettext('Users') }}<br><span class="label label-info">{{ store.state.current.members.length }} {{ aj.gettext('student(s)') }}</span></th>
+            <th style="text-align:center">{{ aj.gettext('Transfer') }}</th>
             <th style="text-align:center">{{ aj.gettext('Working directory') }}<br><span class="label label-default">transfer/{{ aj.identity.user }}/_collect</span>
                 <button v-if="!files.active.value" data-files-start class="btn btn-default" :aria-label="aj.gettext('Start autorefresh')" @click="files.start"><i class="fas fa-sync"></i></button>
                 <button v-else data-files-stop class="btn btn-default" :aria-label="aj.gettext('Stop autorefresh')" @click="files.stop"><i class="fas fa-sync fa-spin"></i></button>
@@ -68,6 +69,7 @@ function bytes(value) {
         </tr></thead>
         <tbody><tr v-for="(user, index) in rows" :key="index">
             <td><span v-if="user.computer" class="label label-success pull-right">{{ user.computer }}</span><a><b>{{ user.sn }}, {{ user.givenName }}</b></a><br><span class="label label-default pull-right">{{ user.sophomorixAdminClass }}</span><i>{{ user.sAMAccountName }}</i></td>
+            <td><slot name="files" :user="user" /></td>
             <td v-if="!isStudent(user)"><div class="alert alert-danger">{{ aj.gettext("It's currently not possible to create share directory in other teacher's home or to handle their management groups.") }}</div></td>
             <td v-else style="text-align:center">
                 <button v-if="user.files_error === 'NOTJOINED'" data-membership class="btn btn-danger" @click="action(api.fixMembership)">{{ joinLabel() }}</button>
