@@ -1,4 +1,7 @@
 import { afterEach, expect, it, vi } from 'vitest';
+import { readFileSync } from 'node:fs';
+import { runInNewContext } from 'node:vm';
+import { resolve } from 'node:path';
 import { flushPromises, mount } from '@vue/test-utils';
 import { createMockAj } from '../../adapter/mock.mjs';
 import SambaShares from './SambaShares.vue';
@@ -196,4 +199,23 @@ it('keeps both floating toolbars aligned when the shell sidebar toggles', async 
     expect(wrapper.findAll('.toolbar-content').map(x => x.classes().includes('col-md-9'))).toEqual([true, true]);
     window.dispatchEvent(new CustomEvent('lmn-samba-shares-sidebar', { detail: false })); await flushPromises();
     expect(wrapper.findAll('.toolbar-content').map(x => x.classes().includes('col-md-12'))).toEqual([true, true]);
+});
+
+it('keeps the legacy ngStorage cache synchronized so shell writes cannot restore a stale clipboard', async () => {
+    const key = 'ngStorage-sambaSharesClipboard';
+    const storage = { sambaSharesClipboard: [] };
+    const flushLegacy = () => localStorage.setItem(key, JSON.stringify(storage.sambaSharesClipboard));
+    flushLegacy();
+    let factory, destroy;
+    const module = { config: () => module, directive: (_name, provider) => { factory = provider; return module; } };
+    const source = readFileSync(resolve('../usr/lib/linuxmuster-webui/plugins/lmn_samba_shares/resources/js/routing.es'), 'utf8');
+    runInNewContext(source, { angular: { module: () => module }, window, CustomEvent });
+    factory(storage).link({ $watch: () => () => {}, $on: (_event, callback) => { destroy = callback; } });
+    try {
+        setup(); await flushPromises(); await select('A.txt'); await click('Copy');
+        // ngStorage 0.3 writes all cached keys when an unrelated shell preference changes.
+        flushLegacy(); wrapper.unmount(); setup(); await flushPromises();
+        expect(JSON.parse(localStorage.getItem(key)).map(x => [x.mode, x.item.path])).toEqual([['copy', `${home}/A.txt`]]);
+        expect(wrapper.get('[data-clipboard]').text()).toBe('1');
+    } finally { destroy(); }
 });

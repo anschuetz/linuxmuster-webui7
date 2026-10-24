@@ -90,6 +90,7 @@ async function rename(item) {
 function setClipboard(value) {
     clipboard.value = value;
     localStorage.setItem(clipboardKey, JSON.stringify(value));
+    window.dispatchEvent(new CustomEvent('lmn-samba-shares-clipboard', { detail: value }));
 }
 function addClipboard(mode) {
     for (const item of selected.value) {
@@ -197,7 +198,7 @@ function keyboardFocus(event) {
                     <div style="min-height:600px">
                         <div v-show="progress.length * 100 !== progress.reduce((sum, item) => sum + item.progress, 0)" class="uploads">
                             <h3>{{ aj.gettext('Uploading ...') }}</h3>
-                            <template v-for="item in progress" :key="item.id"><div v-show="item.progress < 100" style="margin-top:10px"><span>{{ item.name }} ({{ item.progress }} %) </span><div class="progress"><div class="progress-bar progress-bar-warning" role="progressbar" :aria-label="item.name" aria-valuemin="0" aria-valuemax="100" :aria-valuenow="item.progress" :style="{ width: item.progress + '%' }"></div></div></div></template>
+                            <template v-for="item in progress" :key="item.id"><div v-show="item.progress < 100" style="margin-top:10px"><span>{{ item.name }} ({{ item.progress }} %) </span><component :is="'smart-progress'" type="warning" :max="100" :value="item.progress"><div class="progress"><div class="progress-bar progress-bar-warning" role="progressbar" :aria-label="item.name" aria-valuemin="0" aria-valuemax="100" :aria-valuenow="item.progress" :style="{ width: item.progress + '%' }"></div></div></component></div></template>
                         </div>
                         <div v-for="item in sortedItems" :key="item.path" class="list-group-item list-group-item-small" :test-bind-item="item.name" :style="item.selected && { background: '#ffc876' }">
                             <a v-if="item.isFile || (item.isDir && !isProtected(item))" class="list-group-btn" @click="deleteItem(item)"><i class="fa fa-trash"></i></a>
