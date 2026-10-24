@@ -43,6 +43,8 @@
  * keyboard: false disables Escape independently. Scope destruction still rejects.
  *
  * @typedef {Object} Aj
+ * @property {{setLanguage: (language: string) => Promise<unknown>}} locale Change the shell language and load its catalog.
+ * @property {() => Promise<unknown>} restart Open the shell restart confirmation and preserve its result.
  * @property {() => void} reload Reload the active route through the shell digest.
  * @property {PageTitle} pageTitle
  * @property {Messagebox} messagebox
