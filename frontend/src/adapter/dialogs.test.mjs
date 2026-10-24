@@ -181,11 +181,31 @@ it('handles a close emitted during component mounting and restores focus', async
 
 it('keeps static modals open on Escape and backdrop, permitting component close', async () => {
     const aj = createAjentiAdapter(base());
-    const result = aj.modal.open(dialog, { value: 'done' }, { static: true });
+    const result = aj.modal.open(dialog, { value: 'done' }, { backdrop: 'static', keyboard: false });
     document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
     document.querySelector('.modal').click();
     await Promise.resolve();
     expect(document.querySelector('.modal')).not.toBeNull();
     document.querySelector('.modal-content button').click();
     await expect(result).resolves.toBe('done');
+});
+
+it.each([{}, { keyboard: true }])('allows Escape with a static backdrop and keyboard options %j', async (options) => {
+    const aj = createAjentiAdapter(base());
+    const result = aj.modal.open(dialog, {}, { backdrop: 'static', ...options });
+    document.querySelector('.modal').click();
+    await Promise.resolve();
+    expect(document.querySelector('.modal')).not.toBeNull();
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+    await expect(result).rejects.toThrow('Modal cancelled');
+});
+
+it('allows backdrop dismissal with keyboard disabled', async () => {
+    const aj = createAjentiAdapter(base());
+    const result = aj.modal.open(dialog, {}, { backdrop: true, keyboard: false });
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+    await Promise.resolve();
+    expect(document.querySelector('.modal')).not.toBeNull();
+    document.querySelector('.modal').click();
+    await expect(result).rejects.toThrow('Modal cancelled');
 });

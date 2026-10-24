@@ -19,12 +19,13 @@ const click = async (w, text) => { await w.findAll('button').find(b => b.text() 
 it('loads peers then status with exact envelopes and formats connected fields', async () => {
     const { w, http } = await setup();
     expect(http.mock.calls.map(([r]) => r)).toEqual([body('peers'), body('peers/status')].map(data => ({ method: 'post', url: '/api/lmn/wireguard', data, cfg: undefined })));
+    expect(w.get('floating-toolbar').exists()).toBe(true);
     expect(w.text()).toContain('test:123'); expect(w.text()).toContain('13 seconds ago'); expect(w.text()).toContain('1.23 MiB'); expect(w.text()).toContain('2.50 MiB');
     await click(w, 'Query status'); expect(http.mock.calls.at(-1)[0].data).toEqual(body('peers/status'));
 });
 it.each([false, 'pending', 'rejected'])('keeps original connection warning for %s', async kind => {
     const { w } = await setup({ http: () => kind === 'pending' ? new Promise(() => {}) : kind === 'rejected' ? Promise.reject({}) : { data: false } });
-    expect(w.find('.alert-warning').exists()).toEqual(true); expect(w.find('.floating-toolbar').exists()).toEqual(false);
+    expect(w.find('.alert-warning').exists()).toEqual(true); expect(w.find('floating-toolbar').exists()).toEqual(false);
 });
 it('empty peers retain toolbar; disconnected status and status rejection have no connected detail', async () => {
     const { w } = await setup({ http: ({ data }) => data.url.endsWith('/status') ? Promise.reject({}) : { data: [peer] } });
@@ -63,8 +64,10 @@ it('HTTP failures do not notify success or open dialogs', async () => {
     expect(notify.mock.calls).toEqual([]); expect(open.mock.calls).toEqual([]);
 });
 it.each([true, false, 'cancel'])('import close=%s preserves original inverted restart decision', async result => {
-    const { w, show, http, open } = await setup({ modal: { open: result === 'cancel' ? () => Promise.reject() : vi.fn(() => Promise.resolve(result)) } });
+    const open = vi.fn(() => result === 'cancel' ? Promise.reject() : Promise.resolve(result));
+    const { w, show, http } = await setup({ modal: { open } });
     await w.get('button:has(.fa-upload)').trigger('click'); await flushPromises();
+    expect(open).toHaveBeenCalledWith(ImportDialog, { peers: [peer] }, { backdrop: 'static', keyboard: true });
     expect(show.mock.calls.length).toEqual(result === true ? 1 : 0);
     if (result === 'cancel') expect(http.mock.calls.length).toEqual(2);
 });

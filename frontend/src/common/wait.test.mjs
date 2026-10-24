@@ -6,7 +6,10 @@ const base = () => ({ identity: {}, gettextCatalog: { getString: (text) => `tran
 afterEach(() => { document.body.innerHTML = ''; vi.restoreAllMocks(); });
 it('keeps a static translated spinner open on Escape/backdrop and cleans up on close', async () => {
     const remove = vi.spyOn(document, 'removeEventListener');
-    const wait = openWait(createAjentiAdapter(base()), { status: 'Working', style: 'spinner' });
+    const aj = createAjentiAdapter(base());
+    const open = vi.spyOn(aj.modal, 'open');
+    const wait = openWait(aj, { status: 'Working', style: 'spinner' });
+    expect(open).toHaveBeenCalledWith(expect.any(Object), {}, { backdrop: 'static', keyboard: false });
     expect(document.querySelector('.modal-header').textContent).toBe('translated:Working');
     expect(document.querySelector('.spinner')).not.toBeNull();
     document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));

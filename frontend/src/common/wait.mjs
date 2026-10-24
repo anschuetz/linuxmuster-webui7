@@ -35,7 +35,7 @@ export function openWait(aj, { status = '', style = 'spinner' } = {}) {
             };
         },
     };
-    const result = aj.modal.open(WaitDialog, {}, { static: true });
+    const result = aj.modal.open(WaitDialog, {}, { backdrop: 'static', keyboard: false });
     // Both settlement paths release state and prevent updates after bridge teardown.
     result.then(close, close);
     if (getCurrentScope()) onScopeDispose(close);

@@ -50,7 +50,7 @@ async function remove(peer) {
 }
 async function importUsers() {
     try {
-        const result = await aj.modal.open(ImportDialog, { peers: peers.value }, { static: true });
+        const result = await aj.modal.open(ImportDialog, { peers: peers.value }, { backdrop: 'static', keyboard: true });
         if (result) restart(true);
         loadPeers();
     } catch { /* Dismissal leaves the parent unchanged, as in the original. */ }

@@ -35,10 +35,11 @@
  * @property {(text: string, value: string) => Promise<{value: string}>} prompt
  *
  * @typedef {Object} Modal
- * @property {(Component: import('vue').Component, props?: Record<string, unknown>, options?: {static?: boolean}) => Promise<unknown>} open
+ * @property {(Component: import('vue').Component, props?: Record<string, unknown>, options?: {backdrop?: 'static' | true, keyboard?: boolean}) => Promise<unknown>} open
  * Component supplies modal-header/body/footer; emit('close', result) resolves,
  * emit('cancel'), Escape, backdrop or bridge scope destruction reject.
- * With {static: true}, Escape and backdrop do nothing; scope destruction still rejects.
+ * Defaults: backdrop: true, keyboard: true. backdrop: 'static' disables backdrop dismissal;
+ * keyboard: false disables Escape independently. Scope destruction still rejects.
  *
  * @typedef {Object} Aj
  * @property {() => void} reload Reload the active route through the shell digest.

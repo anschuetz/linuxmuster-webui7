@@ -84,7 +84,7 @@ it('validates IP/host on Save and still opens the shared import dialog on invali
     await button(w, 'Save & import').trigger('click'); await flushPromises();
     expect(aj.http.post.mock.calls).toEqual([]);
     expect(aj.notify.error.mock.calls).toEqual([['bad is not valid or duplicated'], ['bad host does not contain valid chars, is duplicated or too long (>15 chars)']]);
-    expect(aj.modal.open.mock.calls).toEqual([[ApplyDialog, {}, { static: true }]]);
+    expect(aj.modal.open.mock.calls).toEqual([[ApplyDialog, {}, { backdrop: 'static', keyboard: true }]]);
     expect(w.emitted('close')).toBeUndefined();
     await button(w, 'Cancel').trigger('click'); expect(w.emitted('close')).toEqual([[]]);
 });
@@ -93,7 +93,7 @@ it('starts import before register completes; failed saving keeps the form open w
     const { w, aj } = dialog([known], { http: { post: vi.fn(() => new Promise((_, no) => { reject = no; })) }, modal: { open: vi.fn(async () => { throw Error('cancel'); }) } });
     await fill(w, ['', lease.mac, '10.0.0.36', 'pc36', '']);
     await button(w, 'Save & import').trigger('click');
-    expect(aj.modal.open.mock.calls).toEqual([[ApplyDialog, {}, { static: true }]]);
+    expect(aj.modal.open.mock.calls).toEqual([[ApplyDialog, {}, { backdrop: 'static', keyboard: true }]]);
     reject(Error('failed')); await flushPromises();
     expect(aj.notify.success.mock.calls).toEqual([]); expect(w.emitted('close')).toBeUndefined();
 });

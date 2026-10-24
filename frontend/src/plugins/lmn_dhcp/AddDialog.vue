@@ -35,7 +35,7 @@ function save() {
 }
 function saveImport() {
     save();
-    aj.modal.open(ApplyDialog, {}, { static: true }).catch(() => {});
+    aj.modal.open(ApplyDialog, {}, { backdrop: 'static', keyboard: true }).catch(() => {});
 }
 const textModels = Object.fromEntries(['room', 'mac', 'ip', 'hostname', 'group'].map((field) => [field, computed({
     get: () => device.value[field],
