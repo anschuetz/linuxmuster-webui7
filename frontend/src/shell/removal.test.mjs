@@ -2,6 +2,13 @@ import { expect, it } from 'vitest';
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { resolve } from 'node:path';
 const root = resolve('..');
+it('packages checked-in frontend assets without Node or npm build dependencies', () => {
+    const rules = readFileSync(`${root}/debian/rules`, 'utf8')
+        .split('\n').filter(line => !line.trimStart().startsWith('#')).join('\n');
+    expect(rules).not.toMatch(/\$\(MAKE\)|\b(?:node|nodejs|npm|npx)\b/);
+    const control = readFileSync(`${root}/debian/control`, 'utf8');
+    expect(control.match(/^Build-Depends:[^\n]*(?:\n[ \t]+[^\n]*)*/m)?.[0]).not.toMatch(/\b(?:nodejs|npm)\b/);
+});
 function files(dir) {
     return readdirSync(dir, { withFileTypes: true }).flatMap(item => item.isDirectory() ? files(`${dir}/${item.name}`) : [`${dir}/${item.name}`]);
 }

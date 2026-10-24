@@ -2,7 +2,7 @@ Source: linuxmuster-webui7
 Section: admin
 Priority: optional
 Maintainer: Arnaud Kientz <arnaud@linuxmuster.net>
-Build-Depends: debhelper (>= 4.0.0), fakeroot, nodejs (>= 22.12), npm
+Build-Depends: debhelper (>= 4.0.0), fakeroot
 
 Package: linuxmuster-webui7
 Architecture: all
