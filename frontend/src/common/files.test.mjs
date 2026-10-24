@@ -203,3 +203,10 @@ it('does not delete after confirmation when the owning dialog was destroyed', as
     wrapper.unmount(); wrapper = undefined; confirm(); await flushPromises();
     expect(http).toHaveBeenCalledTimes(1);
 });
+it('delegates plugin deletion only after closing the backup dialog',async()=>{
+ const deleteAction=vi.fn(), events=[];
+ setup(FileBackupsDialog,{http:async()=>({data:{items:[{name:'.a.csv.bak.200'}]}})},{deleteAction,onClose:()=>events.push('close')});
+ await flushPromises();
+ deleteAction.mockImplementation(backup=>{events.push('delegate');expect(backup.name).toEqual('.a.csv.bak.200');});
+ await click('Delete');expect(events).toEqual(['close','delegate']);expect(deleteAction.mock.calls.length).toEqual(1);
+});
