@@ -57,3 +57,43 @@ Mounted under `/api/lmn/`. None of these use an `@authorize` guard; the file-rel
 - Config files read at import time: `/etc/linuxmuster/webui/config.yml`, `/etc/linuxmuster/api/config.yml`, `/etc/samba/smb.conf`, `/var/lib/linuxmuster/setup.ini`, and the per-school configs under `/etc/linuxmuster/sophomorix/<school>/`.
 - A reachable `linuxmuster-api` for the `LmnapiClient` helpers, and `sophomorix` on the server for `lmn_getSophomorixValue`.
 - `permissions.yml` here only sets role defaults for core/sidebar permissions; the plugin declares no permission of its own.
+
+## Vue shell and temporary fallback
+
+`resources/content/main_view.html` is the version 1 bootstrap entry selected by the
+existing Ajenti view configuration. It supplies the same server bootstrap values;
+`resources/vue/manifest.json` lists the compiled plugin resources. Vue loads the
+shared runtime, shell and installed plugin IIFEs directly, plus the existing Ace
+and standalone Flow assets. `all.vendor.css` and `all.css` retain Bootstrap 3 and
+plugin styling. No Angular JavaScript bundle or bridge is loaded in Vue mode.
+Stock/Core packages and their fallback template are unchanged (ENT9).
+
+Until shell acceptance, `?shell=angular` opens the previous interface and
+`?shell=vue` opens the Vue shell. An explicit choice persists in this tab's
+`sessionStorage` across navigation, F5, login and logout. The default is the
+`defaultShell` value in the versioned entry template; no new server config key is
+required. The previous HTML is retained verbatim as `main_view.angular.html` and
+receives the same bootstrap values before its original scripts run. A failed Vue
+bootstrap offers a link to the previous interface.
+
+### Vue plugin contract (ENT10)
+
+Angular-only third-party frontends are unsupported by the Vue shell; the plugin
+installer displays this restriction. Backend package installation still uses the
+unchanged stock tasks and permissions. Plugin authors must provide an IIFE at
+`/resources/<plugin>/resources/vue/<plugin>.js`, exposing
+`window.LmnVue_<plugin>.mount(element, aj)` (replace non-word characters in the
+global name with `_`). Return an idempotent cleanup function which unmounts the
+app, cancels page timers and removes subscriptions/listeners. Obtain backend,
+identity, navigation, translations, notifications and dialogs only through `aj`
+(`frontend/src/adapter/aj.mjs`); native URL prefix is available as `aj.prefix`.
+Do not depend on Angular, its injector or global shell state.
+
+Add the entry under `frontend/src/plugins/<plugin>/entry.mjs` and its explicit
+routes/host attributes to `frontend/src/shell/router.mjs`; `npm run build` updates
+the manifest and IIFE. Routes are enabled only when the server bootstrap lists
+the plugin. RouteHost sets attributes before calling `mount`. Vue Router owns
+HTML5 History, queries, fragments, leave guards and reload; the existing server
+`/view/.*` handler still serves deep links. Sidebar visibility grants no API
+permissions. Core/stock route implementations are composed by the shell, not by
+third-party Angular registration.

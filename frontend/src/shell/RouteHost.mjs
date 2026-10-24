@@ -6,6 +6,8 @@ export default defineComponent({
     props: {
         plugin: { type: String, default: null },
         aj: { type: Object, required: true },
+        attrs: { type: Object, default: () => ({}) },
+        registerStop: Function,
     },
     setup(props) {
         const element = ref(null);
@@ -23,7 +25,9 @@ export default defineComponent({
             if (typeof entry?.mount !== 'function') {
                 throw new Error(`Missing plugin entry: ${name}.mount`);
             }
+            for (const [key, value] of Object.entries(props.attrs)) element.value.setAttribute(key, value);
             dispose = entry.mount(element.value, props.aj);
+            props.registerStop?.(unmount);
         }
         onMounted(mount);
         watch(() => [props.plugin, props.aj], mount, { flush: 'post' });

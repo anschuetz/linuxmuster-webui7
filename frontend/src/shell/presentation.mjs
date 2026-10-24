@@ -4,10 +4,10 @@ import { createNotifications } from './notifications.mjs';
 import { createModalService } from './modal.mjs';
 import { createFavicon } from './favicon.mjs';
 
-/** Isolated presentation owner. No product entry or Angular adapter imports it. */
+/** Presentation owner; the root shell shares notifications across route owners. */
 export function createPresentation({ http, identity, navigate, gettext = text => text, getAj,
-    browserLocation = window.location, customization = {} }) {
-    const notifications = createNotifications(navigate), messages = createMessages();
+    browserLocation = window.location, customization = {}, notifications: sharedNotifications }) {
+    const notifications = sharedNotifications ?? createNotifications(navigate), messages = createMessages();
     const title = shallowRef(''), scope = effectScope();
     let disposed = false, timers = [];
     const later = (fn, delay) => { timers = [...timers, setTimeout(() => { if (!disposed) fn(); }, delay)]; };
@@ -34,7 +34,7 @@ export function createPresentation({ http, identity, navigate, gettext = text =>
         }
     }
     const services = {
-        state, gettext, http, identity, navigate, notify: notifications.notify, messagebox: messages.messagebox, modal,
+        state, gettext, http, identity, navigate, notify: Object.fromEntries(Object.entries(notifications.notify).map(([level, fn]) => [level, (...args) => { if (!disposed) fn(...args); }])), messagebox: messages.messagebox, modal,
         pageTitle: { set: value => { title.value = value; } }, favicon,
         forceRestart,
         restart: () => messages.messagebox.show({ title: gettext('Restart'), text: gettext('Restart the panel?'),
@@ -44,7 +44,7 @@ export function createPresentation({ http, identity, navigate, gettext = text =>
         dispose() {
             if (disposed) return;
             disposed = true; timers.forEach(clearTimeout); timers = [];
-            scope.stop(); favicon.dispose(); notifications.dispose(); messages.dispose(); modal.dispose();
+            scope.stop(); favicon.dispose(); if (!sharedNotifications) notifications.dispose(); messages.dispose(); modal.dispose();
         },
     };
     return services;

@@ -180,3 +180,18 @@ it('keeps the most recent directory on racing loads and ignores responses after 
     await w.setProps({ path: '/late' }); w.unmount(); wrappers.pop();
     pending[2]({ data: { items, parent: '/' } }); await flushPromises();
 });
+it('prefixes standalone Flow chunk targets and Ace worker assets through the native adapter', () => {
+    let flowOptions;
+    vi.stubGlobal('Flow', class extends FakeFlow {
+        constructor(options) { super(); flowOptions = options; }
+        assignBrowse() {} assignDrop() {} unAssignDrop() {}
+    });
+    const aj = { ...createMockAj(), prefix: '/panel' };
+    const uploader = mount(FileUpload, { props: { uploadpath: '/tmp' }, global: { provide: { aj } } }); wrappers.push(uploader);
+    expect(flowOptions.target).toBe('/panel/api/filesystem/upload');
+    const set = vi.fn();
+    const editor = { setOptions() {}, setValue() {}, on() {}, off() {}, destroy() {}, setReadOnly() {}, getSession: () => ({ setUseWrapMode() {} }) };
+    vi.stubGlobal('ace', { edit: () => editor, config: { set } });
+    const view = mount(CodeEditor, { global: { provide: { aj } } }); wrappers.push(view);
+    expect(set).toHaveBeenCalledWith('basePath', '/panel/resources/ace/resources/vendor/ace-builds/src-min-noconflict');
+});

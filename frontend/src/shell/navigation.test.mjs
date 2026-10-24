@@ -91,7 +91,8 @@ it('keeps profile/school routes, customization and mobile gestures, and delegate
     const { nav, aj, routes } = setup({ logout, customization });
     const wrapper = mount(ShellNavigation, { attachTo: document.body, props: { nav, aj } }); cleanups.push(() => wrapper.unmount());
     expect(nav.customization.plugins.settings.hideLanguageSettings).toBe(true);
-    expect(wrapper.get('a.school-change').attributes('href')).toBe('/view/lmn/change-school');
+    // P112 corrects the original absolute link so a configured prefix is retained.
+    expect(wrapper.get('a.school-change').attributes('href')).toBe('/panel/view/lmn/change-school');
     await wrapper.get('.profile-button').trigger('click');
     expect(wrapper.get('a.extra-profile').attributes('href')).toBe('/extra');
     await wrapper.get('a.totp').trigger('click'); expect(routes).toEqual(['/panel/view/totp']);
@@ -183,4 +184,10 @@ it('intentionally renders clickable navbox results where the original template r
     expect(wrapper.findAll('.list-group-item')).toHaveLength(1);
     await wrapper.get('.list-group-item').trigger('click');
     expect(routes).toEqual(['/view/lmn/users']);
+});
+it('keeps the authenticated development restart control and delegates to the existing forceRestart service', async () => {
+    const { nav, aj } = setup(); aj.forceRestart = vi.fn();
+    const wrapper = mount(ShellNavigation, { props: { nav, aj, devMode: true } }); cleanups.push(() => wrapper.unmount());
+    await wrapper.get('[data-action=restart-panel]').trigger('click');
+    expect(aj.forceRestart).toHaveBeenCalledOnce();
 });

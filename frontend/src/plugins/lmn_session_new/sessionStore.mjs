@@ -67,3 +67,6 @@ export function getSessionStore(aj) {
     }, { flush: 'sync' });
     return store;
 }
+
+// A SPA logout must clear the cache that the old full-page logout discarded.
+export function resetSession() { clear(undefined); adapter = undefined; }

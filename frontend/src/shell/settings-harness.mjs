@@ -2,7 +2,7 @@ import { createApp } from 'vue';
 import StockSettings from './StockSettings.vue';
 import { createSettings } from './settings.mjs';
 
-/** Explicit stock route mount for the future shell; no production entry imports this. */
+/** Stock settings route mount, shared by the root shell and fixture harnesses. */
 export function mountStockSettings(element, aj, { path = '/view/settings', machine = aj.identity.machine, customization = {} } = {}) {
     if (path !== '/view/settings') throw new Error(`Not a stock settings route: ${path}`);
     const model = createSettings(aj, { machine });

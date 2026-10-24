@@ -59,6 +59,7 @@ export const PluginsPage = defineComponent({
             const repository = sort(s.repoList).filter(plugin => (plugin.type === 'official') === (tab.value === 'official'))
                 .filter(plugin => tab.value !== 'community' || matches(plugin, filter.value.trim().toLowerCase()));
             return h('div', { class: 'shell-plugins' }, [
+                h('div', { class: 'alert alert-warning' }, t('AngularJS plugins are not supported. Install only plugins implementing the Vue mount contract.')),
                 owner.isAnythingUpgradeable() && h('div', [h('h3', t('Updates')), button('Update everything', owner.upgradeEverything)]),
                 h('h3', t('Core')), h('div', { class: `alert alert-${s.coreUpgradeAvailable ? 'warning' : 'info'}` },
                     interpolate(s.coreUpgradeAvailable ? 'Ajenti core {{ajentiVersion}}. An upgrade to {{coreUpgradeAvailable}} is available.' : 'Ajenti Core version {{ajentiVersion}}, no upgrades available.', { ajentiVersion: s.version, coreUpgradeAvailable: s.coreUpgradeAvailable })),

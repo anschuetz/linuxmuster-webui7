@@ -1,5 +1,5 @@
 <script setup>
-import { onBeforeUnmount, onMounted, ref, watch } from 'vue';
+import { inject, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 const props = defineProps({
     modelValue: { type: String, default: '' }, path: String,
     options: { type: Object, default: () => ({}) }, aceOptions: { type: Object, default: () => ({}) },
@@ -7,6 +7,7 @@ const props = defineProps({
 });
 const emit = defineEmits(['update:modelValue']);
 const host = ref();
+const aj = inject('aj', null);
 const hasAce = Boolean(globalThis.ace?.edit);
 let editor;
 const changed = () => { if (!props.readonly) emit('update:modelValue', editor.getValue()); };
@@ -24,7 +25,7 @@ function mode() {
 }
 onMounted(() => {
     if (!hasAce) return;
-    globalThis.ace.config?.set('basePath', '/resources/ace/resources/vendor/ace-builds/src-min-noconflict');
+    globalThis.ace.config?.set('basePath', `${aj?.prefix || ''}/resources/ace/resources/vendor/ace-builds/src-min-noconflict`);
     editor = globalThis.ace.edit(host.value);
     editor.$blockScrolling = Infinity;
     configure();

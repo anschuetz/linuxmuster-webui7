@@ -335,3 +335,35 @@ preferences. The harness has no tasks sidebar (P114), global loading overlay or
 session countdown decoration; those owners remain separate. Touch swipe thresholds
 match ngTouch; mouse-swipe emulation and Angular animations are omitted. Production
 layout behavior is still delegated to Angular until the final switch.
+
+## Complete shell activation (P112)
+
+`routes.json` is the exact 55-route register from P106's read-only E1-bereit
+inventory (`logs/p106-e-inventory.json`, 2026-10-24, core 0.116/webui7 7.4.13).
+The router test compares the complete register (plus a root redirect/catch-all),
+not just its count. Original controllers, services and directives above remain
+the contract oracle. `e2e/shell.pw.mjs` runs both full entries on Satz E with the
+same fixtures from `shell-fixtures.mjs`: four synthetic roles, TOTP nonce/three
+failures/success, all stock routes, school switch, dirty guards, route teardown,
+F5/History/404 and a prefixed reverse-proxy fixture. A separate real-session
+login/logout/F5 test runs each entry for all four E accounts; Vue additionally
+requires a real successful socket task-update request and absence of Angular.
+No TOTP data, school switch, configuration write or package operation is sent to
+the VM by the fixture tests. Synthetic UID/permission fixtures prove frontend
+behavior, not server authorization. The prefix test proxies to the unchanged VM
+root; it does not reconfigure Ajenti's actual listener. Existing part oracles
+continue to verify the exact stock service/controller payloads.
+
+Activation-specific differences: leave guards cannot block an expired-session
+redirect; route changes reject dialogs/modals and stop route-owned timers/abos;
+notifications survive normal navigation but clear when identity changes. The
+old Angular UI retained some global messageboxes across routes. Native login
+keeps the logo and fields with native buttons rather than the animated lock and
+Angular layout/disabled links. The prefix is applied to school/reset links,
+Ace workers and standalone Flow chunk targets (the old absolute school link lost
+it). Existing stored widescreen choices are preserved instead of the LM run hook
+forcing `true` on each bootstrap. The SPA rechecks wizard configuration after
+login and clears the session plugin's cached exam/session state on logout,
+including re-login as the same user. `/view/ui-test` retains its inert stock
+sample controls; 404 includes the escaped URL. Only one shell is ever bootstrapped,
+so the Angular adapter's modal owner and the Vue owner's modal stacks cannot mix.

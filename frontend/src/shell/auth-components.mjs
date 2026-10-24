@@ -14,17 +14,19 @@ const field = (model, name, label, { type = 'text', change, disabled } = {}) => 
 const form = (submit, children) => h('form', { onSubmit: event => { event.preventDefault(); void submit(); } }, children);
 
 export const Login = defineComponent({
-    props: ['model'],
-    setup({ model: m }) {
+    props: ['model', 'customization', 'prefix'],
+    setup(props) {
+        const m = props.model;
         onBeforeUnmount(m.dispose);
         return () => {
             const s = m.state, t = m.gettext;
             return h('div', { class: 'container' }, [form(m.login, [
+                props.customization?.plugins?.core?.bigLogoURL ? h('img', { src: props.customization.plugins.core.bigLogoURL, alt: '', style: { maxWidth: '100%' } }) : null,
                 s.mode === 'normal' ? field(m, 'username', t('Username'), { disabled: s.working }) : null,
                 field(m, 'password', t('Password'), { type: s.showPassword ? 'text' : 'password', disabled: s.working }),
                 button(t(s.showPassword ? 'Hide password' : 'Show password'), () => { s.showPassword = !s.showPassword; }, { 'data-action': 'show-password' }),
                 button(t(s.mode === 'sudo' ? 'Authenticate' : 'Log in'), undefined, { type: 'submit', disabled: !s.username || !s.password || s.working }),
-                s.showPWReset ? h('a', { href: '/view/reset_password_send' }, t('Password forgotten ?')) : null,
+                s.showPWReset ? h('a', { href: `${props.prefix || ''}/view/reset_password_send` }, t('Password forgotten ?')) : null,
             ]), s.verif_code ? h('dialog', { open: true, 'aria-label': t('Please enter TOTP verification code:') }, [
                 field(m, 'code', t('Please enter TOTP verification code:'), { change: m.verify }),
                 button(t('Cancel'), m.cancel, { 'data-action': 'cancel' }),
@@ -81,16 +83,16 @@ export const Totp = defineComponent({
     },
 });
 
-/** Explicit isolated mount only; no product router, bootstrap or Angular adapter imports this. */
+/** Authentication routes shared by the root shell and isolated contract fixtures. */
 export function mountAuthentication(element, options) {
     const { path } = options;
     let component, model;
     const login = /^\/view\/login\/([^/]+)(?:\/(.*))?$/.exec(path);
     const reset = /^\/view\/reset_password\/([^/]+)$/.exec(path);
-    if (login) { component = Login; model = createLogin({ ...options, mode: login[1] }); }
+    if (login) { component = Login; model = createLogin({ ...options, mode: options.mode ?? login[1] }); }
     else if (path === '/view/totp') { component = Totp; model = createTotp(options); }
-    else if (reset || path === '/view/reset_password_send') { component = PasswordReset; model = createPasswordReset({ ...options, serial: reset ? reset[1] : undefined }); }
+    else if (reset || path === '/view/reset_password_send') { component = PasswordReset; model = createPasswordReset({ ...options, serial: reset ? options.serial ?? reset[1] : undefined }); }
     else throw new Error('Unknown authentication route');
-    const app = createApp(component, { model }); app.mount(element); void model.start();
+    const app = createApp(component, { model, customization: options.customization, prefix: options.prefix }); app.mount(element); void model.start();
     return () => app.unmount();
 }

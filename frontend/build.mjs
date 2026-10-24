@@ -1,4 +1,4 @@
-import { copyFile, readdir } from 'node:fs/promises';
+import { copyFile, readdir, writeFile } from 'node:fs/promises';
 import { createRequire } from 'node:module';
 import { join, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
@@ -42,6 +42,10 @@ async function buildAll() {
     for (const pluginBuild of await discoverPluginBuilds()) {
         await build({ build: pluginBuild });
     }
+    await build({ build: bundle(join(frontendRoot, 'src/shell/startup-entry.mjs'), commonOutput, 'LmnShellStartup', 'startup.js') });
+    await build({ define: { 'process.env.NODE_ENV': JSON.stringify('production') }, build: bundle(join(frontendRoot, 'src/shell/runtime.mjs'), commonOutput, 'LmnVueShell', 'shell.js') });
+    const pluginBuilds = await discoverPluginBuilds();
+    await writeFile(join(commonOutput, 'manifest.json'), JSON.stringify({ version: 1, plugins: pluginBuilds.map(b => b.lib.fileName().slice(0, -3)) }) + '\n');
     // Vue's official global runtime is an IIFE shared by all bundles.
     const require = createRequire(import.meta.url);
     await copyFile(require.resolve('vue/dist/vue.runtime.global.prod.js'), join(commonOutput, 'vendor.js'));

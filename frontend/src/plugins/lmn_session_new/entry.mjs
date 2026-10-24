@@ -1,11 +1,11 @@
 import { createApp } from 'vue';
 import SessionsList from './SessionsList.vue';
 import SessionPage from './SessionPage.vue';
-export { getSessionStore } from './sessionStore.mjs';
+export { getSessionStore, resetSession } from './sessionStore.mjs';
 
-// Angular owns both routes; the entry selects the corresponding Vue page.
+// The native host supplies a view; the retained Angular host uses the URL.
 export function mount(element, aj) {
-    const app = createApp(window.location.pathname.replace(/\/$/, '') === '/view/lmn/session' ? SessionPage : SessionsList); app.provide('aj', aj); app.mount(element);
+    const app = createApp((element.dataset.view ? element.dataset.view === 'detail' : window.location.pathname.replace(/\/$/, '').endsWith('/view/lmn/session')) ? SessionPage : SessionsList); app.provide('aj', aj); app.mount(element);
     return () => app.unmount();
 }
 

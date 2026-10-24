@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 import { effectScope } from 'vue';
 import { createMockAj } from '../../adapter/mock.mjs';
-import { getSessionStore } from './sessionStore.mjs';
+import { getSessionStore, resetSession } from './sessionStore.mjs';
 import { fixtures, members } from '../../../e2e/fixtures/session_new.mjs';
 const setup = () => {
     const calls = [], data = fixtures();
@@ -84,4 +84,14 @@ it('central member replacement preserves all group references and polling stop l
     const next=old.map(u=>({...u,wifi:true}));store.replaceMembers(next);
     expect(store.state.examUsers[0]).toBe(next[1]);expect(store.state.extExamUsers[0]).toBe(next[2]);expect(store.state.user_missing_membership[0]).toBe(next[0]);
     const stop=vi.fn(),dispose=vi.fn();store.state.filePolling={stop,dispose};store.stopFilePolling();expect(stop.mock.calls).toEqual([[]]);expect(dispose.mock.calls).toEqual([]);expect(store.state.filePolling.stop).toBe(stop);
+});
+
+it('clears cached session and exam data even when the same account logs in again after a SPA logout', async () => {
+    const { store } = setup(); await store.start(fixtures().sessions[0]);
+    store.state.examUsers = [{ sAMAccountName: 'fixture' }];
+    const dispose = vi.fn(); store.state.filePolling = { dispose };
+    resetSession();
+    const next = getSessionStore(createMockAj({ identity: { user: 'zem' } }));
+    expect(next.state.current.sid).toBe(''); expect(next.state.examUsers).toEqual([]);
+    expect(dispose).toHaveBeenCalledOnce();
 });

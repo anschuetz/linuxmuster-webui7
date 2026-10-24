@@ -19,10 +19,11 @@ export function createNotifications(navigate) {
     }
     const notify = Object.fromEntries(['success', 'info', 'warning', 'error'].map(level => [level,
         (title, text, options) => add(level, title, text, options)]));
+    const clear = () => { timers.forEach(clearTimeout); timers = new Map(); toasts.value = []; };
     return {
         notify: { ...notify, custom: (level, title, text, url) => add(level, title, text, {}, url) },
-        state: reactive({ toasts: computed(() => toasts.value) }), pause, resume,
+        state: reactive({ toasts: computed(() => toasts.value) }), pause, resume, clear,
         click(toast) { try { if (toast.url) navigate(toast.url); } finally { remove(toast); } },
-        dispose() { disposed = true; timers.forEach(clearTimeout); timers = new Map(); toasts.value = []; },
+        dispose() { disposed = true; clear(); },
     };
 }

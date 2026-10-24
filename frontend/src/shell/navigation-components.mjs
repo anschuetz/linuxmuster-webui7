@@ -46,7 +46,7 @@ const SidebarItem = defineComponent({
 });
 
 export const ShellNavigation = defineComponent({
-    props: ['nav', 'aj', 'identityDetails'],
+    props: ['nav', 'aj', 'identityDetails', 'sessionState', 'devMode'],
     setup(props, { slots }) {
         const dropdown = ref(false), input = ref(null), draft = ref('');
         useBodyClasses(props.nav);
@@ -69,12 +69,14 @@ export const ShellNavigation = defineComponent({
             const sidebar = mobile => h('div', { class: mobile ? 'sidebar overlay-sidebar animate-sidebar hide-desktop hide-large' : 'col-md-3 sidebar hide-tablet hide-phone',
                 style: { display: layout.navigationPresent && (mobile ? layout.overlay : layout.sidebar) ? '' : 'none' },
                 onTouchstart: swipeStart, onTouchend: swipeEnd }, [
+                slots.tasks?.(),
                 h('div', core.sidebarUpperContent ?? ''),
                 nav.sidebar.item ? h(SidebarItem, { item: nav.sidebar.item, nav, gettext: t }) : null,
                 h('div', core.sidebarLowerContent ?? ''),
             ]);
             return [
                 h('nav', { class: 'navbar navbar-default navbar-fixed-top' }, [
+                    props.devMode && identity.user ? h('button', { class: 'btn btn-danger navbar-btn pull-right', 'data-action': 'restart-panel', onClick: () => aj.forceRestart() }, [h('i', { class: 'fas fa-redo' })]) : null,
                     h('div', { class: 'container' }, [
                         ...[false, true].map(mobile => h('button', { class: ['navbar-brand navigation-toggle', mobile ? 'mobile-navigation hide-desktop hide-large' : 'hide-phone hide-tablet'],
                             style: { display: layout.navigationPresent ? '' : 'none' }, 'aria-label': t('Navigation'),
@@ -95,8 +97,9 @@ export const ShellNavigation = defineComponent({
                             ]),
                         ]) : null,
                         h('p', { class: 'navbar-text pull-right hide-phone' }, details.machine?.name),
+                        identity.user && props.sessionState ? h('span', { class: 'pull-right sessiontime hide-phone' }, `${t('Session time :')} ${props.sessionState.counter.join(':')}`) : null,
                         identity.user && identity.profile.school_show ? h('p', { class: 'navbar-text pull-right hide-phone' }, [
-                            identity.profile.activeSchool, ' ', h('a', { class: 'school-change', href: '/view/lmn/change-school' }, `(${t('change')})`),
+                            identity.profile.activeSchool, ' ', h('a', { class: 'school-change', href: `${nav.prefix}/view/lmn/change-school` }, `(${t('change')})`),
                         ]) : null,
                     ]),
                 ]),

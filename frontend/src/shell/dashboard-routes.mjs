@@ -4,7 +4,7 @@ import SessionList from './SessionList.vue';
 import { createDashboard } from './dashboard.mjs';
 import { createSessionList } from './session-list.mjs';
 
-/** Isolated route mount for fixtures and the future shell router; no activation. */
+/** Stock dashboard/session routes with one cleanup function per mount. */
 export function mountDashboardRoute(element, { aj, path, initialConfig, customization }) {
     let component, model;
     if (path === '/view/dashboard') { component = Dashboard; model = createDashboard(aj, { customization }); }
