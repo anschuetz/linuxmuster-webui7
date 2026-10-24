@@ -24,14 +24,21 @@ const sections = computed(() => {
     const attic = data?.filter(user => user.sophomorixAdminClass === 'attic');
     return [{ key: 'students', users: students, shown: true, empty: students?.length === 0, table: students?.length > 0 }, { key: 'attic', users: attic, shown: !!attic?.length, empty: false, table: data != null }];
 });
-const current = computed(() => sections.value.find(section => props.role !== 'students' || section.key === activeTab.value));
-const pageCount = computed(() => Math.ceil((current.value?.users?.length || 0) / (pageSize.value || 10)));
+// Both Angular pagination directives stay live, including the hidden attic tab.
+const pageCounts = computed(() => sections.value.map(section => {
+    const size = parseInt(pageSize.value, 10);
+    const total = size < 1 ? 1 : Math.ceil((section.users?.length || 0) / size);
+    return Math.max(total || 0, 1);
+}));
+const pageCount = computed(() => pageCounts.value[props.role === 'students' && activeTab.value === 'attic' ? 1 : 0]);
 const pages = computed(() => {
-    const start = Math.max(1, page.value - 5), end = Math.min(pageCount.value, start + 9);
-    return Array.from({ length: Math.max(0, end - start + 1) }, (_, i) => start + i);
+    const end = Math.min(pageCount.value, Math.max(1, page.value - 5) + 9);
+    const start = Math.max(1, end - 9);
+    return Array.from({ length: end - start + 1 }, (_, i) => start + i);
 });
-// uib-pagination clamps against the raw list length (not the filtered length).
-watch(pageSize, () => { if (page.value > Math.max(1, pageCount.value)) page.value = Math.max(1, pageCount.value); });
+watch(pageCounts, (next, previous) => {
+    next.forEach((count, index) => { if (count !== previous[index] && page.value > count) page.value = count; });
+});
 const shown = section => pageUsers(section.users || [], props.role, queries.value[section.key], sort.value, page.value, pageSize.value);
 function setSize(value) { pageSize.value = value === '' ? null : value; }
 function selectAll(section) {

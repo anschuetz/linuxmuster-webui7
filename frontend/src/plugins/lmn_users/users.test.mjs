@@ -143,3 +143,12 @@ it('batch print uses source selection and reports shared print failure; row rese
     await action(w,'password-p118-0').trigger('click');await action(w,'reset-p118-0').trigger('click');await flushPromises();
     await action(w,'password-p118-0').trigger('click');await action(w,'random-p118-0').trigger('click');await flushPromises();expect(requests.slice(-2).map(r=>[r.url,r.data])).toEqual([['/api/lmn/users/passwords/reset-first',{users:'p118-0'}],['/api/lmn/users/passwords/set-random',{users:'p118-0'}]]);w.unmount();
 });
+it('both live student paginators clamp the shared page when their raw totals change',async()=>{
+    // Angular uib-pagination probe: active=160, attic=70, page=4;
+    // pageSize 50 -> 100 -> null gives pages [4,1,1].
+    const list=Array.from({length:230},(_,i)=>({...users()[0],sAMAccountName:'page-'+i,sophomorixAdminClass:i<160?'active':'attic'}));
+    const {w}=render('students',{http:async r=>({data:r.url.includes('/config/')?config():list})});await flushPromises();
+    await section(w).find('[data-page="4"]').trigger('click');await action(w,'rows-menu').trigger('click');await section(w).find('[data-size="100"]').trigger('click');
+    expect(section(w).find('.pagination .active').text()).toEqual('1');
+    await section(w).find('input[type=number]').setValue('');await section(w).find('input[type=number]').trigger('change');expect(section(w).findAll('[data-page]').map(x=>x.text())).toEqual(['1']);w.unmount();
+});
