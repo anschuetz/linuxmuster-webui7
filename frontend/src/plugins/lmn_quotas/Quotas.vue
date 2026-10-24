@@ -86,7 +86,7 @@ function changeGroup(group, quota, value) {
     const type = groupType.value;
     const item = groups.value[type][group];
     groups.value = { ...groups.value, [type]: { ...groups.value[type], [group]: { ...item, QUOTA: { ...item.QUOTA, [quota]: { ...item.QUOTA[quota], value } } } } };
-    groupChanges.value = { ...groupChanges.value, [type]: { ...groupChanges.value[type], [`${group}_${quota}`]: { group, quota, type, value: value != 0 ? value : '---' } } };
+    groupChanges.value = { ...groupChanges.value, [type]: { ...groupChanges.value[type], [`${group}_${quota}`]: { group, quota, type, value: value !== 0 ? value : '---' } } };
 }
 function resetGroup(group) { for (const [quota] of groupTypes) changeGroup(group, quota, 0); }
 function clearCheck() { checkUser.value = null; checkReset.value += 1; }

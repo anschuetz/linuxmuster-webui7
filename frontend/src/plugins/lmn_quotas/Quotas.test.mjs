@@ -136,6 +136,13 @@ it('lazily loads groups once and posts class edits and project resets with origi
     await w.get('tbody button').trigger('click');
     expect(w.findAll('input[type=number]').map((n) => n.element.value)).toEqual(['0', '0', '0']);
 });
+it('sends null when a group quota number field is cleared', async () => {
+    const { w, http } = await setup();
+    await click(w, 'Classes'); await flushPromises();
+    await w.findAll('input[type=number]')[0].setValue('');
+    await click(w, 'Save & apply'); await flushPromises();
+    expect(posts(http)[0].data.groups.adminclass['5a_linuxmuster-global']).toEqual({ group: '5a', quota: 'linuxmuster-global', type: 'adminclass', value: null });
+});
 it('keeps group wait open on rejection and retries on the next group tab', async () => {
     const { w, modal, http } = await setup(async ({ url }) => { if (url.endsWith('/groups')) throw {}; return { data: sample() }; });
     await click(w, 'Classes'); await flushPromises();
