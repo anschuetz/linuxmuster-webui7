@@ -1,16 +1,24 @@
 <script setup>
-import { inject, onMounted, ref } from 'vue';
+import { inject, onMounted, onUnmounted, ref } from 'vue';
 import LmLog from '../LmLog.vue';
 const props = defineProps({ params: { type: Object, required: true } });
 const emit = defineEmits(['close']);
 const aj = inject('aj');
 const isWorking = ref(true);
+let applied = false;
+let closed = false;
+onUnmounted(() => {
+    closed = true;
+    if (applied) aj.reload();
+});
 onMounted(async () => {
     try {
         await aj.http.post('/api/lmn/users/lists/apply', props.params);
         isWorking.value = false;
         aj.notify.success(aj.gettext('Changes applied'));
-        aj.reload();
+        applied = true;
+        // Escape may have closed the dialog while the request was running.
+        if (closed) aj.reload();
     } catch (response) {
         isWorking.value = false;
         aj.notify.error(aj.gettext('Failed'), response.data?.message);

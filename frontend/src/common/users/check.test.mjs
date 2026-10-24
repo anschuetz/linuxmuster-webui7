@@ -75,7 +75,19 @@ it('data.error hides summary details without disabling the legacy Apply action',
 it.each([false,true])('Apply failure=%s posts only supplied flags, reports completion, reloads only on success',async fail=>{
     let resolve,reject;const {aj,requests,notify,reload}=setup({http:r=>{requests.push(r);return new Promise((done,no)=>{resolve=done;reject=no;});}});
     const params={doAdd:false,doMove:true,doKill:false};const w=render(ApplyDialog,aj,{params});expect(w.find('[role=status]').isVisible()).toBe(true);expect(button(w).isVisible()).toBe(false);expect(requests.map(r=>[r.method,r.url,r.data])).toEqual([['post','/api/lmn/users/lists/apply',params]]);
-    if(fail)reject({data:{message:'failed fixture'}});else resolve({data:''});await flushPromises();expect(w.find('[role=status]').isVisible()).toBe(false);expect(button(w).isVisible()).toBe(true);expect(reload.mock.calls).toEqual(fail?[]:[[]]);expect(notify.mock.calls).toEqual([fail?['error','Failed','failed fixture']:['success','Changes applied',undefined]]);await button(w).trigger('click');expect(w.emitted('close')).toEqual([[]]);
+    if(fail)reject({data:{message:'failed fixture'}});else resolve({data:''});await flushPromises();expect(w.find('[role=status]').isVisible()).toBe(false);expect(button(w).isVisible()).toBe(true);expect(reload.mock.calls).toEqual([]);expect(notify.mock.calls).toEqual([fail?['error','Failed','failed fixture']:['success','Changes applied',undefined]]);await button(w).trigger('click');expect(w.emitted('close')).toEqual([[]]);w.unmount();wrappers.splice(wrappers.indexOf(w),1);expect(reload.mock.calls).toEqual(fail?[]:[[]]);
+});
+it('keeps successful Apply and its final log visible until Close, then reloads Settings',async()=>{
+    vi.useFakeTimers();let destroy;
+    const {aj,reload}=setup({http:async r=>({data:r.url.includes('/log')?'final sophomorix log\n':{}})});
+    aj.modal=createModalService(()=>aj,{$on:(_event,callback)=>{destroy=callback;return ()=>{};}});
+    reload.mockImplementation(()=>destroy());
+    const pending=aj.modal.open(ApplyDialog,{params:{doAdd:true,doMove:false,doKill:false}},{backdrop:'static'});
+    await flushPromises();await vi.advanceTimersByTimeAsync(1000);await flushPromises();
+    expect(document.querySelector('.modal pre').textContent).toContain('final sophomorix log');
+    expect(document.querySelector('.modal-footer').style.display).not.toBe('none');expect(reload).not.toHaveBeenCalled();
+    document.querySelector('.modal-footer button').click();await pending;
+    expect(document.querySelector('.modal')).toBeNull();expect(reload).toHaveBeenCalledTimes(1);
 });
 it.each([[CheckDialog,'/tmp/sophomorix-check.log'],[ApplyDialog,'/tmp/sophomorix.log']])('reuses LmLog in %s with offsets, autoscroll and timer cleanup',async(component,path)=>{
     vi.useFakeTimers();const {aj,requests}=setup({http:async r=>{requests.push(r);return {data:r.url.includes('/log')?'abc\n':new Promise(()=>{})};}});const w=render(component,aj,{params:{doAdd:true,doMove:false,doKill:false}});

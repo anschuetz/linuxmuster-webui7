@@ -95,9 +95,10 @@ for(const [index,mode,params] of [[0,'all',{doAdd:false,doMove:true,doKill:true}
         const pre=modal(p).locator('pre');await expect.poll(()=>pre.evaluate(e=>e.scrollTop>0)).toBe(true);
         await boxes(p).last().click();await pre.evaluate(e=>{e.scrollTop=0;});
         await expect.poll(()=>s.logs.length).toBeGreaterThanOrEqual(3);expect(await pre.evaluate(e=>e.scrollTop)).toBe(0);
-        s.releases.shift()();await expect.poll(()=>s.reloads).toBeGreaterThan(before);
-        // Angular modal survives reload; bridge-owned Vue modal is destroyed (F19).
-        if(!vue)await click(p,/Close|Schließen/);
+        s.releases.shift()();await count(modal(p).locator('.modal-footer:visible'),1);
+        await text(modal(p).locator('pre'),'p119-log');
+        if(vue)expect(s.reloads).toBe(before);else await expect.poll(()=>s.reloads).toBeGreaterThan(before);
+        await click(p,/Close|Schließen/);await expect.poll(()=>s.reloads).toBeGreaterThan(before);
         await count(p.locator('.modal:visible'),0);
         const stopped=s.logs.length;await p.waitForTimeout(1200);expect(s.logs.length).toBe(stopped);check(s);
     });
@@ -142,7 +143,10 @@ for(const role of roles.slice(0,2))test(role.name+': Settings Save → Check →
     await title(p,/Checking users|Überprüfe Benutzer/);s.releases.shift()();await title(p,/Check result|Prüfergebnis/);
     await modal(p).locator('.modal-footer :is(a,button):visible').first().click();await expect.poll(()=>s.writes.length).toBe(2);
     expect(s.writes[1]).toEqual(['POST','/api/lmn/users/lists/apply',{doAdd:true,doMove:true,doKill:true}]);
-    const before=s.reloads;s.releases.shift()();await expect.poll(()=>s.reloads).toBeGreaterThan(before);await count(p.locator('.modal:visible'),vue?0:1);if(!vue)await click(p,/Close|Schließen/);await p.waitForLoadState('networkidle');check(s);
+    const before=s.reloads;s.releases.shift()();await count(modal(p).locator('.modal-footer:visible'),1);
+    await expect.poll(()=>s.logs.length).toBeGreaterThan(0);await text(modal(p).locator('pre'),'p119-log');
+    if(vue)expect(s.reloads).toBe(before);else await expect.poll(()=>s.reloads).toBeGreaterThan(before);
+    await click(p,/Close|Schließen/);await expect.poll(()=>s.reloads).toBeGreaterThan(before);await count(p.locator('.modal:visible'),0);await p.waitForLoadState('networkidle');check(s);
 });
 
 test('all status labels and unknown status remain untranslated',async({page:p,context})=>{
