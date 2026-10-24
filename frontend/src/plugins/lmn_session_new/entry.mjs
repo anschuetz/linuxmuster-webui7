@@ -3,13 +3,13 @@ import SessionsList from './SessionsList.vue';
 import SessionPage from './SessionPage.vue';
 export { getSessionStore } from './sessionStore.mjs';
 
-// Fixture-mount only until all five parts are ready; plugin.yml stays Angular.
+// Angular owns both routes; the entry selects the corresponding Vue page.
 export function mount(element, aj) {
-    const app = createApp(SessionsList); app.provide('aj', aj); app.mount(element);
+    const app = createApp(window.location.pathname.replace(/\/$/, '') === '/view/lmn/session' ? SessionPage : SessionsList); app.provide('aj', aj); app.mount(element);
     return () => app.unmount();
 }
 
-// Detail is exposed only for the isolated oracle mount, never the Angular route.
+// Retained for the preceding isolated part oracles.
 export function mountDetail(element, aj) {
     const app = createApp(SessionPage); app.provide('aj', aj); app.mount(element);
     return () => app.unmount();

@@ -1,12 +1,14 @@
+import { observeRoute } from './session_route.mjs';
 import { expect, test } from '@playwright/test';
 import { fileURLToPath } from 'node:url';
 import { settings } from './playwright.config.mjs';
 import { fixtures, members } from './fixtures/session_new.mjs';
+const fullRoute = process.env.P96_ROUTE === '1';
 const vue = process.env.P92_UI === 'vue', base = '/api/lmn/session/', list = '/view/lmn/sessionsList', detail = '/view/lmn/session';
 const admin = settings.roles[0], teacher = settings.roles[1];
 const roles = [admin, { name: 'school-admin', login: 'pgmadmin', pw: admin.pw }, teacher, { name: 'student', login: 'serdarje', pw: admin.pw }];
 const box = p => p.locator('.messagebox:visible').last();
-const pane = p => p.locator(vue ? '#p92-mount' : '[ng\\:view]');
+const pane = p => p.locator(vue && !fullRoute ? '#p92-mount' : '[ng\\:view]');
 const cards = (p, i) => pane(p).locator('.list-group').nth(i).locator('.list-group-item:visible');
 function listen(p) {
     const errors = []; p.on('pageerror', e => errors.push(e.message));
@@ -40,6 +42,7 @@ async function path(p, value) {
 }
 async function open(p) {
     if (!vue) return path(p, list);
+    if (fullRoute) { await observeRoute(p, 'p92'); return path(p, list); }
     await path(p, '/view/lmn/landingpage');
     for (const file of ['lmn_common/resources/vue/bridge.js', 'lmn_session_new/resources/vue/lmn_session_new.js']) await p.addScriptTag({ path: fileURLToPath(new URL('../../usr/lib/linuxmuster-webui/plugins/' + file, import.meta.url)) });
     await p.evaluate(() => {
@@ -88,12 +91,12 @@ for (const [section, type, name] of [[0, 'room', 'p92-room'], [1, 'schoolclass',
     expect(state.current.name).toBe(name); expect(state.current.type).toBe(type); expect(state.current.generated).toBe(type !== 'group'); expect(typeof state.current.sid).toBe(type === 'group' ? 'string' : 'number');
     expect(state.current.members).toEqual(members().map(u => u.cn)); expect(state.examUsers).toEqual(['p92-exam']); expect(state.extExamUsers).toEqual(['p92-foreign']); expect(state.examMode).toBe(false);
     expect(s.writes).toEqual([['POST', base + 'userinfo', { users: section === 0 ? ['p92-student'] : fixtures().sessions[0].members }]]);
-    if (vue) await p.evaluate(() => { window.p92unmount(); window.p92unmount = LmnVue_lmn_session_new.mount(document.getElementById('p92-mount'), window.p92aj); }); else await path(p, list);
+    if (vue && !fullRoute) await p.evaluate(() => { window.p92unmount(); window.p92unmount = LmnVue_lmn_session_new.mount(document.getElementById('p92-mount'), window.p92aj); }); else await path(p, list);
     await expect(cards(p, 2)).toHaveCount(3); check(s);
 });
 test('teacher: direct detail without SID returns to list', async ({ page: p, context }) => {
     const s = await setup(p, context);
-    if (vue) { await open(p); await p.evaluate(() => LmnVue_lmn_session_new.getSessionStore(window.p92aj).enterDetail()); await expect.poll(() => p.evaluate(() => window.p92path)).toBe(list); }
+    if (vue && !fullRoute) { await open(p); await p.evaluate(() => LmnVue_lmn_session_new.getSessionStore(window.p92aj).enterDetail()); await expect.poll(() => p.evaluate(() => window.p92path)).toBe(list); }
     else { await path(p, detail); await p.waitForURL('**' + list); } check(s);
 });
 test('teacher: German headings and class-dependent project notice even with projects', async ({ page: p, context }) => {

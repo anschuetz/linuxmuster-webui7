@@ -1,9 +1,11 @@
+import { observeRoute } from './session_route.mjs';
 import { expect, test } from '@playwright/test';
 import { fileURLToPath } from 'node:url';
 import { settings } from './playwright.config.mjs';
 import { session, users } from './fixtures/session_exam.mjs';
+const fullRoute = process.env.P96_ROUTE === '1';
 const vue = process.env.P95_UI === 'vue', base = '/api/lmn/session/', detail = '/view/lmn/session';
-const pane = p => p.locator(vue ? '#p95-mount' : '[ng\\:view]');
+const pane = p => p.locator(vue && !fullRoute ? '#p95-mount' : '[ng\\:view]');
 async function path(p, value) { await p.evaluate(v => { const i = angular.element(document).injector(); i.get('$rootScope').$evalAsync(() => i.get('$location').path(v)); }, value); await p.waitForURL('**' + value); }
 async function setup(p, context, mode = 'mixed') {
     const s = { calls: [], blocked: [], errors: [], members: users(settings.roles[1].login, mode), fail: '', hold: null };
@@ -32,7 +34,7 @@ async function setup(p, context, mode = 'mixed') {
     await path(p, '/view/lmn/landingpage');
     await p.clock.setFixedTime(new Date('2026-10-24T12:34:56'));
     await p.evaluate(() => { angular.element(document).injector().get('identity').profile.homeDirectory = '\\\\P95\\fixture\\teacher'; });
-    if (vue) {
+    if (vue && fullRoute) { await observeRoute(p, 'p95', session(settings.roles[1].login, mode)); await path(p, detail); } else if (vue) {
         for (const file of ['lmn_common/resources/vue/bridge.js', 'lmn_session_new/resources/vue/lmn_session_new.js']) await p.addScriptTag({ path: fileURLToPath(new URL('../../usr/lib/linuxmuster-webui/plugins/' + file, import.meta.url)) });
         await p.evaluate(data => {
             const i = angular.element(document).injector(), node = document.createElement('div'); node.id = 'p95-mount'; document.querySelector('[ng\\:view]').style.display = 'none'; document.body.append(node);

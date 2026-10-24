@@ -9,12 +9,13 @@ import Participants from './Participants.vue';
 import SessionFiles from './SessionFiles.vue';
 import { createTransfers } from './transfers.mjs';
 import ExamActions from './ExamActions.vue';
+import PasswordActions from './PasswordActions.vue';
 import ManagementControls from './ManagementControls.vue';
 import { createExam } from './exam.mjs';
 const aj = inject('aj'), store = getSessionStore(aj), allowed = useSambaAccess(aj);
 const api = createParticipants(aj, store), groups = createSessions(aj), menu = ref(false);
 const transfers = createTransfers(aj, store, api), exam = createExam(aj, store, api);
-const current = computed(() => store.state.current), ready = ref(false);
+const current = computed(() => store.state.current), ready = ref(false), blurred = ref(false);
 const room = createPolling(api.updateParticipants), files = createPolling(api.updateFileList);
 let cleaned = false, offLeave = () => {};
 const leave = () => !api.isCurrent() || !api.sessionChanged.value || window.confirm(aj.gettext('Do you really want to quit this session ? You can restart it later if you want.'));
@@ -54,14 +55,15 @@ async function kill() { await groups.kill(current.value.sid, current.value.name)
     <br>
     <div v-if="ready && allowed">
         <component :is="'progress-spinner'" v-if="store.state.stateChanged" role="status"><div><div class="one"></div><div class="two"></div></div></component>
-        <Participants :store="store" :api="api" :files="files">
+        <Participants :store="store" :api="api" :files="files" :blurred="blurred">
+            <template #password="{ user }"><PasswordActions :user="user" @blur="blurred = $event" /></template>
             <template #exam-header><ExamActions :store="store" :api="exam" /></template>
             <template #exam="{ user }"><ExamActions :store="store" :api="exam" :user="user" /></template>
             <template #management-header><ManagementControls :store="store" :api="exam" /></template>
             <template #management="{ user }"><ManagementControls :store="store" :api="exam" :user="user" /></template>
             <template #files="{ user }"><SessionFiles :store="store" :api="transfers" :user="user" /></template>
             <template #actions>
-                <div v-if="!current.generated" class="input-group-btn" @focusout="event => { if (!event.currentTarget.contains(event.relatedTarget)) menu = false; }">
+                <div v-if="!current.generated" class="input-group-btn" :class="{ open: menu }" @focusout="event => { if (!event.currentTarget.contains(event.relatedTarget)) menu = false; }">
                     <button class="btn btn-default" :aria-expanded="menu" @click="menu = !menu">{{ aj.gettext('Edit group') }} <span class="caret"></span></button>
                     <ul v-show="menu" class="dropdown-menu dropdown-menu-right">
                         <li><a href="" data-rename @click.prevent="action(rename)">{{ aj.gettext('Rename group') }}</a></li>

@@ -1,9 +1,11 @@
+import { observeRoute } from './session_route.mjs';
 import { expect, test } from '@playwright/test';
 import { fileURLToPath } from 'node:url';
 import { settings } from './playwright.config.mjs';
 import { session, users } from './fixtures/session_participants.mjs';
+const fullRoute = process.env.P96_ROUTE === '1';
 const vue = process.env.P93_UI === 'vue', base = '/api/lmn/session/', detail = '/view/lmn/session';
-const pane = p => p.locator(vue ? '#p93-mount' : '[ng\\:view]');
+const pane = p => p.locator(vue && !fullRoute ? '#p93-mount' : '[ng\\:view]');
 async function path(p, value) { await p.evaluate(v => { const i = angular.element(document).injector(); i.get('$rootScope').$evalAsync(() => i.get('$location').path(v)); }, value); await p.waitForURL('**' + value); }
 async function setup(p, context, type = 'group', mkdir = {}) {
     const s = { calls: [], blocked: [], errors: [], room: [], mkdir, membership: ['LOG', 'fixture membership'], kerberos: { type: 'success', msg: 'fixture kerberos' } };
@@ -19,6 +21,7 @@ async function setup(p, context, type = 'group', mkdir = {}) {
         else if (path === base + 'participants') result = ['LOG', 'fixture'];
         else if (path.includes('/user-search/')) result = users();
         else if (path.includes('/schoolClass-search/')) result = [{ cn: 'p93-class', sophomorixMembers: ['p93-a', 'p93-c'], membersCount: 2 }];
+        else if (['sessions', 'schoolclasses', 'projects'].some(key => path === base + key)) result = [];
         else if (path === base + 'userInRoom') result = { usersList: s.room, objects: Object.fromEntries(s.room.map(cn => [cn, { COMPUTER: 'p93-pc' }])) };
         else if (path.endsWith('/createSessionWorkingDirectory')) result = s.mkdir;
         else if (path.endsWith('/listCollectDir')) result = Object.fromEntries(data.participants.map(u => [u.cn, { items: [{ name: 'z.txt', isFile: true, isDir: false, size: 12 }, { name: 'a', isDir: true }] }]));
@@ -30,7 +33,7 @@ async function setup(p, context, type = 'group', mkdir = {}) {
     await p.goto('/'); await p.locator('input[ng\\:model="username"]').fill(settings.roles[1].login); await p.locator('input[type=password][ng\\:model="password"]').fill(settings.roles[1].pw); await p.locator('a[ng\\:click^="login"]').click(); await p.waitForURL('**/view/**'); await p.waitForLoadState('networkidle');
     await p.evaluate(() => { const i = angular.element(document).injector(); i.get('$rootScope').$apply(() => i.get('gettextCatalog').setCurrentLanguage('de')); });
     await path(p, '/view/lmn/landingpage');
-    if (vue) {
+    if (vue && fullRoute) { await observeRoute(p, 'p93', session(type)); await path(p, detail); } else if (vue) {
         for (const file of ['lmn_common/resources/vue/bridge.js', 'lmn_session_new/resources/vue/lmn_session_new.js']) await p.addScriptTag({ path: fileURLToPath(new URL('../../usr/lib/linuxmuster-webui/plugins/' + file, import.meta.url)) });
         await p.evaluate(data => {
             const i = angular.element(document).injector(), node = document.createElement('div'); node.id = 'p93-mount'; document.querySelector('[ng\\:view]').style.display = 'none'; document.body.append(node);
@@ -69,6 +72,8 @@ test('room: immediate refresh, empty retains members, nonempty replaces with com
 });
 test('real membership: duplicate, user/class addition and removal payloads', async ({ page: p, context }) => {
     const s = await setup(p, context);
+    const edit = pane(p).getByRole('button', { name: 'Gruppe bearbeiten' }); await edit.click();
+    await expect(pane(p).locator(vue ? '[data-rename]' : '[ng\\:click="renameSession()"]')).toBeVisible(); await edit.click();
     const input = pane(p).locator('input').first(); await input.fill('p93'); await pane(p).locator(vue ? '[data-users] button' : '.dropdown-menu:visible a').filter({ hasText: /\(p93-a\)$/ }).click();
     expect(s.calls.filter(c => c[1] === base + 'participants')).toEqual([]);
     await input.fill('p93'); await pane(p).locator(vue ? '[data-users] button' : '.dropdown-menu:visible a').filter({ hasText: /\(p93-c\)$/ }).click();
@@ -81,10 +86,12 @@ test('generated change, leave cancel/accept, unload guard', async ({ page: p, co
     const s = await setup(p, context, 'schoolclass'), input = pane(p).locator('input').nth(1); await input.fill('p'); await pane(p).locator(vue ? '[data-classes] button' : '.dropdown-menu:visible a').filter({ hasText: 'p93-class' }).click();
     await expect.poll(async () => (await state(p)).members.length).toBe(3); expect(s.calls.filter(c => c[1] === base + 'participants')).toEqual([]);
     const close = vue ? pane(p).getByRole('button', { name: 'Schließen', exact: true }) : pane(p).locator('[ng\\:click="backToSessionList()"]');
-    if (vue) {
-        expect(await p.evaluate(() => { const e = new Event('beforeunload', { cancelable: true }); window.dispatchEvent(e); return e.defaultPrevented; })).toBe(true);
-        p.once('dialog', d => d.dismiss()); await close.click(); expect(await p.evaluate(() => window.p93path)).toBe(detail); p.once('dialog', d => d.accept()); await close.click(); expect(await p.evaluate(() => window.p93path)).toBe('/view/lmn/sessionsList');
-    } else { p.once('dialog', d => d.dismiss()); await close.click(); expect(new URL(p.url()).pathname).toBe(detail); p.once('dialog', d => d.accept()); await close.click(); await p.waitForURL('**/view/lmn/sessionsList'); } check(s);
+    if (vue) expect(await p.evaluate(() => { const e = new Event('beforeunload', { cancelable: true }); window.dispatchEvent(e); return e.defaultPrevented; })).toBe(true);
+    const leave = async accept => { const handled = p.waitForEvent('dialog').then(d => accept ? d.accept() : d.dismiss()); await close.click(); await handled; };
+    await leave(false); expect(await p.evaluate(v => v ? window.p93path : location.pathname, vue)).toBe(detail);
+    await leave(true);
+    if (vue && !fullRoute) expect(await p.evaluate(() => window.p93path)).toBe('/view/lmn/sessionsList'); else await p.waitForURL('**/view/lmn/sessionsList');
+    check(s);
 });
 test('missing membership and kerberos repair reuse identity refresh', async ({ page: p, context }) => {
     const s = await setup(p, context, 'group', { 'p93-a': 'missing' });
@@ -106,7 +113,7 @@ test('membership ERROR and kerberos cancel/rejection retain missing class', asyn
 
 test('empty SID redirects after legacy empty workdir request', async ({ page: p, context }) => {
     const s = await setup(p, context, 'direct');
-    if (vue) expect(await p.evaluate(() => window.p93path)).toBe('/view/lmn/sessionsList'); else await p.waitForURL('**/view/lmn/sessionsList');
+    await p.waitForURL('**/view/lmn/sessionsList');
     expect(s.calls.filter(c => c[1].endsWith('/createSessionWorkingDirectory'))).toEqual([['POST','/api/lmn/smbclient/createSessionWorkingDirectory',{users:[]}]]); check(s);
 });
 
