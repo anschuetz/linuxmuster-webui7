@@ -63,6 +63,14 @@ export function createAjentiAdapter({ $http, notify, toaster, gettextCatalog, id
                 identity.profile = { ...identity.profile, ...profileFields };
                 current.value = snapshot();
             }),
+            refresh: () => new Promise((resolve, reject) => inDigest(() => {
+                try {
+                    Promise.resolve(identity.init()).then(() => {
+                        current.value = snapshot();
+                        resolve();
+                    }, reject);
+                } catch (error) { reject(error); }
+            })),
             get user() { return current.value.user; },
             get profile() { return current.value.profile; },
             get isSuperuser() { return current.value.isSuperuser; },

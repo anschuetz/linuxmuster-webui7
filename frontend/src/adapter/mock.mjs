@@ -33,7 +33,7 @@ export function createMockAj({
     },
     modal = { open: async () => undefined },
 } = {}) {
-    const currentIdentity = reactive({ user: null, profile: {}, isSuperuser: false, ...identity });
+    const currentIdentity = reactive({ user: null, profile: {}, isSuperuser: false, refresh: async () => {}, ...identity });
     currentIdentity.patch = (profileFields) => {
         currentIdentity.profile = { ...currentIdentity.profile, ...profileFields };
     };

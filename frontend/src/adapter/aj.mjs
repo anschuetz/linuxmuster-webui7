@@ -21,6 +21,7 @@
  * @property {Notification} error
  *
  * @typedef {Object} Identity Reactive identity supplied by the shell/adapter.
+ * @property {() => Promise<void>} refresh Renew identity and publish a fresh snapshot.
  * @property {string|null} user
  * @property {Record<string, unknown>} profile
  * @property {(profileFields: Record<string, unknown>) => void} patch Merge profile fields through the shell digest and publish a fresh reactive snapshot.

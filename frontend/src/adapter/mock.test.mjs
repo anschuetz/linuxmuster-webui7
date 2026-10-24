@@ -47,7 +47,8 @@ describe('aj mock contract', () => {
         const aj = createMockAj();
         expect(await aj.http.get('/api/demo')).toEqual({ data: null, status: 200 });
         expect(aj.gettext('Hello')).toBe('Hello');
-        expect(aj.identity).toEqual({ user: null, profile: {}, isSuperuser: false, patch: expect.any(Function) });
+        expect(aj.identity).toEqual({ user: null, profile: {}, isSuperuser: false, patch: aj.identity.patch, refresh: aj.identity.refresh });
+        await expect(aj.identity.refresh()).resolves.toBeUndefined();
         expect(aj.identity).not.toBe(createMockAj().identity);
         expect(aj.notify.info('Title')).toBeUndefined();
         expect(aj.navigate('/view/demo')).toBeUndefined();

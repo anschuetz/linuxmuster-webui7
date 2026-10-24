@@ -65,7 +65,7 @@ it('uses an already loaded identity and tolerates failed identity loading', asyn
     deps.identity = { user: 'root', profile: { role: 'admin' }, isSuperuser: true, promise: Promise.reject('failed') };
     const aj = createAjentiAdapter(deps);
     await deps.identity.promise.catch(() => {});
-    expect(aj.identity).toEqual({ user: 'root', profile: { role: 'admin' }, isSuperuser: true, patch: expect.any(Function) });
+    expect(aj.identity).toEqual({ user: 'root', profile: { role: 'admin' }, isSuperuser: true, patch: aj.identity.patch, refresh: aj.identity.refresh });
 });
 
 it('reloads the route inside the Angular digest', () => {
@@ -102,4 +102,17 @@ it('patches the shell profile inside the digest and then publishes the Vue snaps
     expect(aj.identity.profile).toEqual(deps.identity.profile);
     expect(seen).toEqual(['old', 'new']);
     stop();
+});
+
+it('refreshes shell identity in the digest, publishes the new snapshot and forwards init failures', async () => {
+    const deps = services();
+    deps.$rootScope = { $evalAsync: vi.fn() };
+    deps.identity = { user: 'zem', profile: { projects: [] }, init: vi.fn(async () => { deps.identity.profile = { projects: ['p73'] }; }) };
+    const aj = createAjentiAdapter(deps), stable = aj.identity;
+    const refreshed = aj.identity.refresh();
+    expect(deps.identity.init.mock.calls).toEqual([]);
+    deps.$rootScope.$evalAsync.mock.calls[0][0](); await refreshed;
+    expect(deps.identity.init.mock.calls).toEqual([[]]); expect(aj.identity).toBe(stable); expect(aj.identity.profile).toEqual({ projects: ['p73'] });
+    deps.identity.init.mockRejectedValueOnce('failed'); const failed = aj.identity.refresh(); deps.$rootScope.$evalAsync.mock.calls[1][0](); await expect(failed).rejects.toBe('failed');
+    deps.identity.init.mockImplementationOnce(() => { throw new Error('sync'); }); const sync = aj.identity.refresh(); deps.$rootScope.$evalAsync.mock.calls[2][0](); await expect(sync).rejects.toThrow('sync');
 });
