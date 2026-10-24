@@ -3,7 +3,7 @@ import { inject, onMounted, onBeforeUnmount, ref } from 'vue';
 import { fileUrl } from './fileEditor.mjs';
 import FileDiffDialog from './FileDiffDialog.vue';
 
-const props = defineProps({ path: { type: String, required: true }, encoding: String });
+const props = defineProps({ path: { type: String, required: true }, encoding: String, deleteAction: Function });
 const emit = defineEmits(['close', 'cancel']);
 const aj = inject('aj');
 const backups = ref([]);
@@ -54,6 +54,8 @@ function restore(backup) {
     });
 }
 function remove(backup) {
+    // Some legacy editors close before confirmation and own the subsequent reopen.
+    if (props.deleteAction) { emit('close'); return props.deleteAction(backup); }
     return run(async () => {
         try {
             await aj.messagebox.show({ title: aj.gettext('Confirmation'), text: aj.gettext('Do you really want to delete') + ' ' + backup.name + ' ?', positive: 'OK', negative: aj.gettext('Cancel') });
