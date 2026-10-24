@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 import { settings } from './playwright.config.mjs';
 
-test('global-admin: Vue bridge mounts and destroys the demo (read-only)', async ({ page }) => {
+test('global-admin: Vue bridge mounts and destroys the school switcher (read-only)', async ({ page }) => {
     const errors = [];
     page.on('pageerror', (error) => errors.push(error.message));
     const onConsole = (message) => {
@@ -30,23 +30,20 @@ test('global-admin: Vue bridge mounts and destroys the demo (read-only)', async 
             const container = document.createElement('div');
             container.id = 'p09-bridge';
             document.body.append(container);
-            window.p68BridgeDemo = window.LmnVue_lmn_common.demo;
-            container.innerHTML = '<lmn-vue-mount entry="p68BridgeDemo"></lmn-vue-mount>';
+            container.innerHTML = '<lmn-vue-mount entry="LmnVue_lmn_common"></lmn-vue-mount>';
             injector.get('$compile')(container)(scope);
             scope.$digest();
             window.p09BridgeCleanup = () => scope.$destroy();
         });
-        const demo = page.locator('#p09-bridge lmn-vue-mount');
-        await expect(demo.locator('h1')).toHaveText('Frontend ready');
-        await expect(demo.locator('p')).toHaveText(admin.login);
-        await expect(demo.locator('small')).toHaveText('Demo');
+        const switcher = page.locator('#p09-bridge lmn-vue-mount');
+        await expect(switcher.locator('.alert-info')).toBeVisible();
+        await expect(switcher.locator('.info-cards')).toBeHidden();
         await page.evaluate(() => window.p09BridgeCleanup());
-        await expect(demo).toBeEmpty();
+        await expect(switcher).toBeEmpty();
     } finally {
         await page.evaluate(() => {
             window.p09BridgeCleanup?.();
             delete window.p09BridgeCleanup;
-            delete window.p68BridgeDemo;
             document.getElementById('p09-bridge')?.remove();
         });
         page.off('console', onConsole);

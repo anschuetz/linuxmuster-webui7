@@ -85,7 +85,7 @@ test('global-admin: identical multischool fixture, Angular filter and switch/rel
     const card = page.locator('.info-cards');
     await expect(card).toBeVisible();
     await expect(card.locator('.panel-heading')).toHaveText('Schul-Umschalter');
-    await expect(page).toHaveTitle(/Schoolswitcher/);
+    await expect(page).toHaveTitle(/^(Schoolswitcher|Schul-Umschalter) \| Zulu Schule$/);
     const rows = card.locator('.school-item');
     await expect(rows).toHaveText(['z-school - Zulu Schule', 'a-school - Alpha Campus', 'b-school -']);
     const input = card.locator('input');
@@ -96,6 +96,10 @@ test('global-admin: identical multischool fixture, Angular filter and switch/rel
     await expect(rows).toHaveText(['a-school - Alpha Campus']);
     await rows.first().click();
     await expect(card.locator('.list-group-item').first()).toContainText('a-school - Alpha Campus');
+    await expect(page).toHaveTitle(/^(Schoolswitcher|Schul-Umschalter) \| Alpha Campus$/);
+    const shellSchool = page.locator('p.navbar-text').filter({ has: page.locator('a[href="/view/lmn/change-school"]') });
+    await expect(shellSchool).toContainText('a-school');
+    await expect(shellSchool).not.toContainText('z-school');
     await expect.poll(() => reads.filter(s => s === 'list-schools').length).toEqual(2);
     await expect(page.getByText('School changed successfully', { exact: true })).toBeVisible();
     result = false; await input.fill('Zulu'); await rows.first().click();
@@ -110,5 +114,6 @@ test('global-admin: identical multischool fixture, Angular filter and switch/rel
     await expect(card.locator('.list-group-item').first()).toContainText('a-school - Alpha Campus');
     paused = false; releases.forEach(resolve => resolve());
     await expect(rows).toHaveCount(3);
+    await page.unrouteAll({ behavior: 'wait' });
     expect(errors).toEqual([]);
 });

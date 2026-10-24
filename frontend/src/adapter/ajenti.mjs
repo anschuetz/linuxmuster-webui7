@@ -59,6 +59,10 @@ export function createAjentiAdapter({ $http, notify, toaster, gettextCatalog, id
             return gettextCatalog.getString(text);
         },
         identity: reactive({
+            patch: (profileFields) => inDigest(() => {
+                identity.profile = { ...identity.profile, ...profileFields };
+                current.value = snapshot();
+            }),
             get user() { return current.value.user; },
             get profile() { return current.value.profile; },
             get isSuperuser() { return current.value.isSuperuser; },

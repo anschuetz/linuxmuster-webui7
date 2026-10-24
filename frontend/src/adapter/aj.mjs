@@ -23,6 +23,7 @@
  * @typedef {Object} Identity Reactive identity supplied by the shell/adapter.
  * @property {string|null} user
  * @property {Record<string, unknown>} profile
+ * @property {(profileFields: Record<string, unknown>) => void} patch Merge profile fields through the shell digest and publish a fresh reactive snapshot.
  * @property {boolean} isSuperuser
  *
  * @typedef {Object} PageTitle

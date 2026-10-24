@@ -33,6 +33,10 @@ export function createMockAj({
     },
     modal = { open: async () => undefined },
 } = {}) {
+    const currentIdentity = reactive({ user: null, profile: {}, isSuperuser: false, ...identity });
+    currentIdentity.patch = (profileFields) => {
+        currentIdentity.profile = { ...currentIdentity.profile, ...profileFields };
+    };
     return {
         pageTitle, messagebox, modal, reload,
         http: Object.fromEntries(['get', 'delete', 'post', 'put', 'patch'].map((method) => [
@@ -46,7 +50,7 @@ export function createMockAj({
             level, (title, text, ...options) => notify(level, title, text, ...options),
         ])),
         gettext,
-        identity: reactive({ user: null, profile: {}, isSuperuser: false, ...identity }),
+        identity: currentIdentity,
         navigate,
     };
 }

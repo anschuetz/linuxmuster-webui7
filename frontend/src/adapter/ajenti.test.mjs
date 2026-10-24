@@ -65,7 +65,7 @@ it('uses an already loaded identity and tolerates failed identity loading', asyn
     deps.identity = { user: 'root', profile: { role: 'admin' }, isSuperuser: true, promise: Promise.reject('failed') };
     const aj = createAjentiAdapter(deps);
     await deps.identity.promise.catch(() => {});
-    expect(aj.identity).toEqual({ user: 'root', profile: { role: 'admin' }, isSuperuser: true });
+    expect(aj.identity).toEqual({ user: 'root', profile: { role: 'admin' }, isSuperuser: true, patch: expect.any(Function) });
 });
 
 it('reloads the route inside the Angular digest', () => {
@@ -83,4 +83,23 @@ it('replaces the full browser location for the password-change redirect', () => 
     aj.navigate('landingpage', { replace: true });
     expect(browserLocation.replace.mock.calls).toEqual([['landingpage']]);
     expect(deps.$location.path.mock.calls).toEqual([]);
+});
+
+it('patches the shell profile inside the digest and then publishes the Vue snapshot', async () => {
+    const deps = { ...services(), identity: { profile: { activeSchool: 'old', school_show: true } }, $rootScope: { $evalAsync: vi.fn() } };
+    const aj = createAjentiAdapter(deps);
+    const previous = deps.identity.profile;
+    const seen = [];
+    const stop = watchEffect(() => seen.push(aj.identity.profile.activeSchool));
+    aj.identity.patch({ activeSchool: 'new', schoolname: 'New School' });
+    expect(deps.$rootScope.$evalAsync).toHaveBeenCalledOnce();
+    expect(deps.identity.profile).toBe(previous);
+    expect(seen).toEqual(['old']);
+    deps.$rootScope.$evalAsync.mock.calls[0][0]();
+    await nextTick();
+    expect(previous).toEqual({ activeSchool: 'old', school_show: true });
+    expect(deps.identity.profile).toEqual({ activeSchool: 'new', schoolname: 'New School', school_show: true });
+    expect(aj.identity.profile).toEqual(deps.identity.profile);
+    expect(seen).toEqual(['old', 'new']);
+    stop();
 });

@@ -1,5 +1,4 @@
 import { createApp } from 'vue';
-import Demo from './components/Demo.vue';
 import SchoolSwitcher from './components/SchoolSwitcher.vue';
 
 function mountComponent(Component, element, aj) {
@@ -14,6 +13,3 @@ function mountComponent(Component, element, aj) {
 export function mount(element, aj) {
     return mountComponent(SchoolSwitcher, element, aj);
 }
-
-// Retained solely for bridge.pw.mjs's read-only lifecycle probe.
-export const demo = { mount: (element, aj) => mountComponent(Demo, element, aj) };

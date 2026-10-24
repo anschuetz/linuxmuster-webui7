@@ -1,7 +1,7 @@
 import { expect, it, vi } from 'vitest';
 import { createApp, h, nextTick } from 'vue';
 import { mountBridge } from './mount.mjs';
-import { demo } from '../plugins/lmn_common/entry.mjs';
+import * as schoolEntry from '../plugins/lmn_common/entry.mjs';
 
 function scope() {
     const listeners = new Set();
@@ -47,19 +47,22 @@ it('mounts the selected entry with an adapter and unmounts once without leaked l
     expect($scope.listeners.size).toBe(0);
 });
 
-it('renders the actual demo entry, including late identity, and removes its DOM on destroy', async () => {
+it('renders the actual school switcher entry, including late identity, and removes its DOM on destroy', async () => {
     const $scope = scope();
     const host = document.createElement('div');
     const deps = services();
     let loaded;
     deps.identity.promise = new Promise((resolve) => { loaded = resolve; });
-    mountBridge($scope, host, demo, deps);
-    expect(host.textContent).toContain('Frontend ready');
+    deps.$http = { get: vi.fn().mockResolvedValue({ data: [] }), post: vi.fn().mockResolvedValue({ data: 'School' }) };
+    deps.pageTitle = { set: vi.fn() };
+    mountBridge($scope, host, schoolEntry, deps);
+    expect(host.querySelector('.info-cards').style.display).toBe('none');
     deps.identity.user = 'teacher';
+    deps.identity.profile = { school_show: true };
     loaded();
     await deps.identity.promise;
     await nextTick();
-    expect(host.textContent).toContain('teacher');
+    expect(host.querySelector('.info-cards').style.display).toBe('');
     $scope.destroy();
     expect(host.textContent).toBe('');
     expect($scope.listeners.size).toBe(0);

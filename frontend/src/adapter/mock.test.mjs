@@ -39,13 +39,15 @@ describe('aj mock contract', () => {
         expect(aj.identity.user).toBe('teacher');
         expect(aj.identity.profile).toEqual({ school: 'demo' });
         expect(aj.identity.isSuperuser).toBe(false);
+        aj.identity.patch({ activeSchool: 'new' });
+        expect(aj.identity.profile).toEqual({ school: 'demo', activeSchool: 'new' });
     });
 
     it('offers isolated defaults without backend access', async () => {
         const aj = createMockAj();
         expect(await aj.http.get('/api/demo')).toEqual({ data: null, status: 200 });
         expect(aj.gettext('Hello')).toBe('Hello');
-        expect(aj.identity).toEqual({ user: null, profile: {}, isSuperuser: false });
+        expect(aj.identity).toEqual({ user: null, profile: {}, isSuperuser: false, patch: expect.any(Function) });
         expect(aj.identity).not.toBe(createMockAj().identity);
         expect(aj.notify.info('Title')).toBeUndefined();
         expect(aj.navigate('/view/demo')).toBeUndefined();

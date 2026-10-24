@@ -14,10 +14,10 @@ function matches(value, term) {
 const shown = computed(() => schools.value?.filter(school => matches(school, query.value.toLowerCase())));
 function load() {
     aj.http.get('/api/lmn/activeschool').then(({ data }) => {
-        // This shared profile is also the shell's active school display, as in Angular.
-        aj.identity.profile.activeSchool = data;
+        // Publish the shared school context through the shell digest.
+        aj.identity.patch({ activeSchool: data });
         return aj.http.post('/api/lmn/get-schoolname', { school: data }).then(({ data }) => {
-            aj.identity.profile.schoolname = data;
+            aj.identity.patch({ schoolname: data });
         });
     }).catch(() => { /* HTTP error UI belongs to the adapter. */ });
     aj.http.get('/api/lmn/list-schools').then(({ data }) => { schools.value = data; })
