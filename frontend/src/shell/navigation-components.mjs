@@ -1,0 +1,118 @@
+import { defineComponent, h, nextTick, onBeforeUnmount, ref, watch, watchEffect } from 'vue';
+
+// Same anchor scheme allowlist as AngularJS $$sanitizeUri, including relative links.
+function href(value) {
+    const anchor = document.createElement('a'); anchor.href = value;
+    return /^(https?|ftp|mailto|tel|file):$/.test(anchor.protocol) ? value : `unsafe:${value}`;
+}
+
+function useBodyClasses(nav) {
+    const classes = ['widescreen-mode-on', 'widescreen-mode-off', ...(nav.customization.plugins?.core?.bodyClass ?? '').split(/\s+/).filter(Boolean)];
+    const original = classes.map(name => [name, document.body.classList.contains(name)]);
+    watchEffect(() => {
+        document.body.classList.toggle('widescreen-mode-on', Boolean(nav.layout.widescreen));
+        document.body.classList.toggle('widescreen-mode-off', !nav.layout.widescreen);
+        classes.slice(2).forEach(name => document.body.classList.add(name));
+    });
+    onBeforeUnmount(() => original.forEach(([name, present]) => document.body.classList.toggle(name, present)));
+}
+
+const SidebarItem = defineComponent({
+    props: ['item', 'nav', 'gettext'],
+    setup(props) {
+        const expanded = ref(false);
+        return () => {
+            const { item, nav, gettext } = props, children = item.children ?? [];
+            if (item.isTopLevel && !children.length) return null;
+            const open = item.isRoot || item.isTopLevel || expanded.value;
+            const ordered = item.isRoot ? children : [...children].sort((a, b) =>
+                (a.weight ?? Infinity) - (b.weight ?? Infinity) || (a.name.toLowerCase() < b.name.toLowerCase() ? -1 : a.name.toLowerCase() > b.name.toLowerCase() ? 1 : 0));
+            return h('div', { class: ['sidebar-item', { isRoot: item.isRoot, isTopLevel: item.isTopLevel,
+                hasChildren: children.length > 0, active: `${nav.prefix}${item.url}` === nav.layout.path }] }, [
+                item.isTopLevel ? h('h5', gettext(item.name)) : null,
+                !item.isRoot && !item.isTopLevel ? h('div', [
+                    children.length ? h('a', { href: '#', class: 'expander', onClick: event => {
+                        event.preventDefault(); event.stopPropagation(); expanded.value = !expanded.value;
+                    } }, [h('i', { class: `fa fa-fw fa-caret-${open ? 'down' : 'right'}` })]) : null,
+                    h('a', { class: 'link', href: href(`${item.url.startsWith('/') ? nav.prefix + item.url : item.url}/`) }, [
+                        h('i', { class: item.icon.includes(' ') ? `fa-fw ${item.icon}` : `fa fa-fw fa-${item.icon}` }), gettext(item.name),
+                    ]),
+                ]) : null,
+                h('div', { class: 'children', style: { display: open && children.length ? '' : 'none' } },
+                    ordered.map((child, index) => h(SidebarItem, { key: child.id ?? index, item: child, nav, gettext }))),
+            ]);
+        };
+    },
+});
+
+export const ShellNavigation = defineComponent({
+    props: ['nav', 'aj', 'identityDetails'],
+    setup(props, { slots }) {
+        const dropdown = ref(false), input = ref(null), draft = ref('');
+        useBodyClasses(props.nav);
+        const dismiss = event => { if (event.key === 'Escape' || (event.type === 'click' && !event.target.closest('.dropdown'))) dropdown.value = false; };
+        document.addEventListener('click', dismiss); document.addEventListener('keydown', dismiss);
+        onBeforeUnmount(() => { document.removeEventListener('click', dismiss); document.removeEventListener('keydown', dismiss); });
+        let touchX, touchY;
+        watch(() => props.nav.search.visible, async visible => {
+            if (visible) { draft.value = props.nav.search.query ?? ''; await nextTick(); input.value?.focus(); }
+        });
+        const swipeStart = event => { touchX = event.changedTouches[0].clientX; touchY = event.changedTouches[0].clientY ?? 0; };
+        const swipeEnd = event => {
+            const distance = event.changedTouches[0].clientX - touchX;
+            const vertical = Math.abs((event.changedTouches[0].clientY ?? 0) - touchY);
+            if (Math.abs(distance) > 30 && vertical < 75 && vertical / Math.abs(distance) < 0.3) props.nav.toggleOverlayNavigation(distance > 0);
+        };
+        return () => {
+            const { nav, aj } = props, { layout, search } = nav, identity = aj.identity, t = aj.gettext;
+            const core = nav.customization.plugins?.core ?? {}, details = props.identityDetails ?? {};
+            const sidebar = mobile => h('div', { class: mobile ? 'sidebar overlay-sidebar animate-sidebar hide-desktop hide-large' : 'col-md-3 sidebar hide-tablet hide-phone',
+                style: { display: layout.navigationPresent && (mobile ? layout.overlay : layout.sidebar) ? '' : 'none' },
+                onTouchstart: swipeStart, onTouchend: swipeEnd }, [
+                h('div', core.sidebarUpperContent ?? ''),
+                nav.sidebar.item ? h(SidebarItem, { item: nav.sidebar.item, nav, gettext: t }) : null,
+                h('div', core.sidebarLowerContent ?? ''),
+            ]);
+            return [
+                h('nav', { class: 'navbar navbar-default navbar-fixed-top' }, [
+                    h('div', { class: 'container' }, [
+                        ...[false, true].map(mobile => h('button', { class: ['navbar-brand navigation-toggle', mobile ? 'mobile-navigation hide-desktop hide-large' : 'hide-phone hide-tablet'],
+                            style: { display: layout.navigationPresent ? '' : 'none' }, 'aria-label': t('Navigation'),
+                            onClick: () => mobile ? nav.toggleOverlayNavigation() : nav.toggleNavigation() }, [h('i', { class: 'fa fa-navicon' })])),
+                        core.logoURL ? h('a', { class: 'navbar-brand', href: `${nav.prefix}/view/` }, [h('img', { src: core.logoURL })]) : null,
+                        h('a', { class: 'navbar-brand ellipsis', href: `${nav.prefix}/view/` }, [t('School Console'), aj.state?.pageTitle ? h('span', { class: 'subtitle hide-phone hide-tablet' }, ` > ${t(aj.state.pageTitle)}`) : null]),
+                        h('button', { class: 'navbar-brand navigation-toggle hide-phone hide-tablet pull-right', 'aria-label': t('Widescreen'), onClick: () => nav.toggleWidescreen() },
+                            [h('i', { class: `fa fa-${layout.widescreen ? 'compress' : 'expand'}` })]),
+                        identity.user ? h('div', { class: 'pull-right dropdown' }, [
+                            h('button', { class: ['btn btn-default profile-button', { superuser: identity.isSuperuser }], 'aria-expanded': dropdown.value,
+                                onClick: () => { dropdown.value = !dropdown.value; } }, [identity.user[0].toUpperCase(), identity.isSuperuser ? h('span', { class: 'rank' }, [h('i', { class: 'fa fa-angle-double-up' })]) : null]),
+                            h('ul', { class: 'dropdown-menu dropdown-menu-right', style: { display: dropdown.value ? 'block' : 'none' } }, [
+                                h('li', [h('div', [h('span', { class: 'subtle pull-right' }, `UID ${details.effective ?? ''}`), h('i', { class: 'fa fa-fw fa-user' }), ` ${identity.user}`])]),
+                                h('li', { class: 'hide-tablet hide-desktop hide-large' }, details.machine?.name),
+                                ...(core.extraProfileMenuItems ?? []).map(item => h('li', [h('a', { class: 'extra-profile', href: href(item.url) }, [h('i', { class: `fa fa-fw fa-${item.icon}` }), item.name])])),
+                                h('li', [h('a', { class: 'totp', href: '#', onClick: event => { event.preventDefault(); nav.manageTotp(); } }, [h('i', { class: 'fas fa-lock' }), ` ${t('TFA')}`])]),
+                                h('li', [h('a', { class: 'logout', href: '#', onClick: event => { event.preventDefault(); nav.logout(); } }, [h('i', { class: 'fa fa-fw fa-power-off' }), ` ${t('Log out')}`])]),
+                            ]),
+                        ]) : null,
+                        h('p', { class: 'navbar-text pull-right hide-phone' }, details.machine?.name),
+                        identity.user && identity.profile.school_show ? h('p', { class: 'navbar-text pull-right hide-phone' }, [
+                            identity.profile.activeSchool, ' ', h('a', { class: 'school-change', href: '/view/lmn/change-school' }, `(${t('change')})`),
+                        ]) : null,
+                    ]),
+                ]),
+                h('div', { class: 'container' }, [h('div', { class: 'row' }, [sidebar(false),
+                    h('div', { class: 'content shell-content', onTouchstart: swipeStart, onTouchend: swipeEnd }, slots.default?.())]), sidebar(true)]),
+                search.visible ? h('div', { class: 'navbox-overlay' }, [h('div', { class: 'navbox-box' }, [
+                    h('input', { ref: input, type: 'search', class: 'form-control', placeholder: t('Quick search'), value: draft.value,
+                        onInput: event => { draft.value = event.target.value; nav.setQuery(draft.value); },
+                        onKeydown: event => { if (event.key === 'Enter') nav.openResult(search.results?.[0]); },
+                        onKeyup: event => { if (event.key === 'Escape') nav.cancelSearch(); } }),
+                    h('div', { class: 'list-group' }, (search.results ?? []).map((result, index) => h('a', {
+                        class: 'list-group-item', href: href(`${nav.prefix}${result.url}`), onClick: event => { event.preventDefault(); nav.openResult(result); },
+                    }, [index === 0 ? h('code', { class: 'navbox-hotkey pull-right' }, t('Enter')) : null,
+                        h('i', { class: `fa fa-fw fa-${result.icon}` }), t(result.title)]))),
+                ])]) : null,
+            ];
+        };
+    },
+});

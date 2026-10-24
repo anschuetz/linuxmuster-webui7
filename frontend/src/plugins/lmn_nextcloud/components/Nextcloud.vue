@@ -1,8 +1,9 @@
 <script setup>
 import { inject, ref, watch } from 'vue';
-import { toggleFullscreen } from '../shell-layout.mjs';
+import { useShell } from '../../../shell/capability.mjs';
 
 const aj = inject('aj');
+const shell = useShell(aj);
 const responsecode = ref(1);
 aj.pageTitle.set(aj.gettext('Nextcloud'));
 watch(() => aj.identity.user, async user => {
@@ -16,7 +17,7 @@ watch(() => aj.identity.user, async user => {
     }
     responsecode.value = data[0];
     if (responsecode.value === 200) {
-        if (data[2]) toggleFullscreen();
+        if (data[2]) { shell.toggleNavigation(); shell.toggleWidescreen(); }
         const url = data[1] + (data[3] ? `/index.php/login?user=${aj.identity.user}` : '');
         window.open(url, 'iframe_nextcloud');
     }
