@@ -136,6 +136,36 @@ test('fixture: projects, quota check, reset and apply log', async ({ page }) => 
     await expect(visibleTable(page)).toContainText('12 MiB');
     expect(errors).toEqual([]);
 });
+test('fixture: exact string default and characterwise decimal quotas', async ({ page }) => {
+    const errors = listen(page);
+    await login(page, admin);
+    await page.route('**/api/lmn/quota/quotas', (route) => route.fulfill({ json: [
+        { teacher: { list: [{ login: 'p38-user', sn: 'User', givenname: 'P38' }], 'p38-user': { displayName: 'P38 User', QUOTA: { QUOTA_DEFAULT_GLOBAL: 501, QUOTA_DEFAULT_SCHOOL: 200, CLOUDQUOTA_PERCENTAGE: 50, MAILQUOTA_DEFAULT: 300 } } }, student: { list: [] }, schooladministrator: { list: [] } },
+        { 'role.teacher': { QUOTA_DEFAULT_GLOBAL: '500', QUOTA_DEFAULT_SCHOOL: 200, CLOUDQUOTA_PERCENTAGE: 50, MAILQUOTA_DEFAULT: 300 } },
+    ] }));
+    await page.route('**/api/lmn/quota/groups', (route) => route.fulfill({ json: { adminclass: { '5a': { QUOTA: { 'linuxmuster-global': { value: 0 }, 'default-school': { value: 0 }, mailquota: { value: 0 } } } }, project: {} } }));
+    await page.route('**/api/lmn/quota/save', (route) => route.fulfill({ json: null }));
+    await page.route('**/api/lmn/quota/apply', (route) => route.fulfill({ json: null }));
+    await page.route('**/api/lmn/log/tmp/apply-sophomorix.log?*', (route) => route.fulfill({ body: 'P38 fixture log\n' }));
+    await open(page);
+    const inputs = visibleTable(page).locator('input');
+    await inputs.nth(0).fill('500');
+    await inputs.nth(1).fill('');
+    await inputs.nth(1).pressSequentially('1.05');
+    await expect(inputs.nth(1)).toHaveValue('1.05');
+    await tab(page, 'Klassen').click();
+    const groupInput = visibleTable(page).locator('input').first();
+    await groupInput.fill('');
+    await groupInput.pressSequentially('1.05');
+    await expect(groupInput).toHaveValue('1.05');
+    const saved = response(page, '/api/lmn/quota/save', 'POST');
+    await toolbar(page, /^(Save & apply|Speichern.*Übernehmen)$/).click();
+    const body = (await saved).request().postDataJSON();
+    expect(body.users.teacher['p38-user_QUOTA_DEFAULT_GLOBAL'].value).toBe(500);
+    expect(body.users.teacher['p38-user_QUOTA_DEFAULT_SCHOOL'].value).toBe(1.05);
+    expect(body.groups.adminclass['5a_linuxmuster-global'].value).toBe(1.05);
+    expect(errors).toEqual([]);
+});
 for (const role of [settings.roles.find((r) => r.name === 'teacher'), { name: 'student', login: 'serdarje', pw: admin.pw }]) {
     test(`${role.name}: administration denied; own quota allowed and foreign denied`, async ({ page }) => {
         const errors = listen(page, true);

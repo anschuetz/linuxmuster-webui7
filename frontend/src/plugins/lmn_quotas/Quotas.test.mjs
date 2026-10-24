@@ -55,6 +55,34 @@ it('writes exact user changes with numeric, null and default marker values', asy
     expected.users.teacher = { a_QUOTA_DEFAULT_GLOBAL: { login: 'a', quota: 'QUOTA_DEFAULT_GLOBAL', value: 101.5 }, a_QUOTA_DEFAULT_SCHOOL: { login: 'a', quota: 'QUOTA_DEFAULT_SCHOOL', value: null }, a_MAILQUOTA_DEFAULT: { login: 'a', quota: 'MAILQUOTA_DEFAULT', value: '---' } };
     expect(posts(http)).toEqual([{ method: 'post', url: '/api/lmn/quota/save', data: expected, cfg: undefined }]);
 });
+it('sends numeric input when the default is the string 500', async () => {
+    const data = sample();
+    data[1]['role.teacher'].QUOTA_DEFAULT_GLOBAL = '500';
+    const { w, http } = await setup(async () => ({ data }));
+    const input = w.findAll('input[type=number]')[0];
+    await input.setValue('500');
+    await click(w, 'Save & apply'); await flushPromises();
+    expect(posts(http)[0].data.users.teacher.a_QUOTA_DEFAULT_GLOBAL.value).toBe(500);
+    expect(input.classes()).toContain('nondefault');
+});
+it('preserves characterwise decimal input in user and group quotas', async () => {
+    const { w, http } = await setup();
+    for (const tab of ['Teachers', 'Classes']) {
+        await click(w, tab); await flushPromises();
+        const input = w.findAll('input[type=number]')[0];
+        // jsdom sanitizes intermediate "1."; text mode models the browser edit buffer.
+        input.element.type = 'text';
+        input.element.value = '';
+        for (const char of '1.05') {
+            input.element.value += char;
+            await input.trigger('input');
+        }
+        expect(input.element.value).toBe('1.05');
+    }
+    await click(w, 'Save & apply'); await flushPromises();
+    expect(posts(http)[0].data.users.teacher.a_QUOTA_DEFAULT_GLOBAL.value).toBe(1.05);
+    expect(posts(http)[0].data.groups.adminclass['5a_linuxmuster-global'].value).toBe(1.05);
+});
 it('removes a user by resetting three quotas only, retaining unrelated edits', async () => {
     const { w, http } = await setup();
     await w.findAll('input')[4].setValue('199');
@@ -121,7 +149,7 @@ it('opens static apply only after save succeeds and reloads when closed', async 
     modal.open.mockImplementationOnce(() => Promise.resolve()); // wait
     modal.open.mockImplementationOnce(() => Promise.resolve()); // apply close
     await click(w, 'Save & apply'); await flushPromises();
-    expect(modal.open.mock.calls[1]).toEqual([ApplyDialog, {}]);
+    expect(modal.open.mock.calls[1]).toEqual([ApplyDialog, {}, { backdrop: 'static' }]);
     expect(reload).toHaveBeenCalledOnce();
 });
 it('save failure leaves wait visible and does not open apply', async () => {

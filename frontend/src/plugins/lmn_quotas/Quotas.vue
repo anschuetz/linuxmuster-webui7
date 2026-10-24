@@ -57,14 +57,18 @@ async function selectTab(index) {
         catch { /* Original leaves the wait dialog open on failure. */ }
     }
 }
-// Angular validates badInput/typeMismatch, but step only when explicitly configured.
-const number = (input) => input.validity.badInput || input.validity.typeMismatch ? undefined : input.value === '' ? null : Number(input.value);
+// Writable models keep immutable updates while v-model preserves the native edit buffer.
+function userQuota(login, quota) {
+    return computed({ get: () => nonDefault.value[role.value][login]?.QUOTA?.[quota], set: (value) => changeUser(login, quota, value === '' ? null : value) });
+}
+function groupQuota(group, quota) {
+    return computed({ get: () => groups.value[groupType.value][group].QUOTA[quota].value, set: (value) => changeGroup(group, quota, value === '' ? null : value) });
+}
 function changeUser(login, quota, value) {
     const r = role.value;
     const user = nonDefault.value[r][login] ?? {};
     nonDefault.value = { ...nonDefault.value, [r]: { ...nonDefault.value[r], [login]: { ...user, QUOTA: { ...user.QUOTA, [quota]: value } } } };
-    // Deliberately loose: Angular's original comparison accepts numeric defaults stored as strings.
-    userChanges.value = { ...userChanges.value, [r]: { ...userChanges.value[r], [`${login}_${quota}`]: { login, quota, value: value != settings.value[`role.${r}`][quota] ? value : '---' } } };
+    userChanges.value = { ...userChanges.value, [r]: { ...userChanges.value[r], [`${login}_${quota}`]: { login, quota, value: value !== settings.value[`role.${r}`][quota] ? value : '---' } } };
 }
 function remove(user) {
     const r = role.value;
@@ -99,7 +103,7 @@ async function save() {
     try {
         await aj.http.post('/api/lmn/quota/save', { users: userChanges.value, groups: groupChanges.value });
         wait.close();
-        aj.modal.open(ApplyDialog, {}).then(() => aj.reload(), () => {});
+        aj.modal.open(ApplyDialog, {}, { backdrop: 'static' }).then(() => aj.reload(), () => {});
     } catch { /* Original leaves the wait dialog open on failure. */ }
 }
 function hotkey(event) {
@@ -122,14 +126,14 @@ onBeforeUnmount(() => window.removeEventListener('keydown', hotkey));
                 <thead><tr><th>{{ aj.gettext(active === 1 ? 'Name (login)' : 'Name') }}</th><th v-for="[quota, title] in quotaTypes" :key="quota">{{ aj.gettext(title) }}<br>{{ aj.gettext('Default: ') }}<span style="font-weight:bold;color:#dc3545">{{ settings[`role.${role}`][quota] }}</span></th><th></th></tr></thead>
                 <tbody><tr v-for="(user, index) in users" :key="index">
                     <td>{{ nonDefault[role][user.login]?.displayName }}{{ active === 1 ? ` (${user.login})` : '' }}</td>
-                    <td v-for="[quota] in quotaTypes" :key="quota"><input type="number" class="form-control" :class="{ nondefault: nonDefault[role][user.login]?.QUOTA?.[quota] != settings[`role.${role}`][quota] }" :value="nonDefault[role][user.login]?.QUOTA?.[quota]" :disabled="quota === 'CLOUDQUOTA_PERCENTAGE'" @input="changeUser(user.login, quota, number($event.target))"></td>
+                    <td v-for="[quota] in quotaTypes" :key="quota"><input type="number" class="form-control" :class="{ nondefault: nonDefault[role][user.login]?.QUOTA?.[quota] !== settings[`role.${role}`][quota] }" v-model.number="userQuota(user.login, quota).value" :disabled="quota === 'CLOUDQUOTA_PERCENTAGE'"></td>
                     <td><button class="btn btn-default" title="Remove" @click="remove(user)"><i class="fa fa-trash-o"></i></button></td>
                 </tr></tbody>
             </table>
         </template>
         <table v-else-if="active <= 4" class="lm-table lm-table-padded">
             <thead><tr><th>{{ aj.gettext('Name') }}</th><th v-for="[quota, classname, projname] in groupTypes" :key="quota">{{ aj.gettext(active === 3 ? classname : projname) }}</th><th></th></tr></thead>
-            <tbody><tr v-for="name in groupNames" :key="name"><td>{{ name }}</td><td v-for="[quota] in groupTypes" :key="quota"><input type="number" class="form-control" :class="{ nondefault: groups[groupType][name].QUOTA[quota].value != 0 }" :value="groups[groupType][name].QUOTA[quota].value" @input="changeGroup(name, quota, number($event.target))"></td><td><button class="btn btn-default" title="Set to default" @click="resetGroup(name)"><i class="fa fa-trash-o"></i></button></td></tr></tbody>
+            <tbody><tr v-for="name in groupNames" :key="name"><td>{{ name }}</td><td v-for="[quota] in groupTypes" :key="quota"><input type="number" class="form-control" :class="{ nondefault: groups[groupType][name].QUOTA[quota].value != 0 }" v-model.number="groupQuota(name, quota).value"></td><td><button class="btn btn-default" title="Set to default" @click="resetGroup(name)"><i class="fa fa-trash-o"></i></button></td></tr></tbody>
         </table>
         <div v-else>
             <p class="alert alert-warning">{{ aj.gettext('This functionality is actually under development and displays imprecise values. It will not work with DFS shares or in multischool environment.') }}</p><br>
