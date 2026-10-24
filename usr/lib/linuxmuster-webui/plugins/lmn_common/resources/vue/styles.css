@@ -9536,6 +9536,70 @@ div.membership-item {
 .school-item:hover {
   background-color: lightgray;
 }
+
+.auth-page {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  width: 100%;
+}
+
+.auth-page #login-form {
+  width: 100%;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.auth-page #login-form > .col-sm-4:empty {
+  display: none;
+}
+
+.auth-card, .auth-dialog {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.16);
+  padding: 24px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.auth-page #login-form > .auth-card {
+  margin: 0;
+}
+
+.auth-password-toggle {
+  border: 0;
+  background: transparent;
+  pointer-events: auto;
+  cursor: pointer;
+  line-height: 34px;
+  padding: 0;
+}
+
+.auth-dialog {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  height: fit-content;
+  max-height: calc(100dvh - 32px);
+  overflow: auto;
+  z-index: 1050;
+}
+
+@media (max-width: 575px) {
+  .auth-card {
+    padding: 16px;
+  }
+  .auth-dialog {
+    width: calc(100% - 32px);
+    padding: 16px;
+  }
+}
 .lmp_deviceBoxSM {
   height: 130px;
   width: 120px;

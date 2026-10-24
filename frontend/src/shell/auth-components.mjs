@@ -7,11 +7,19 @@ const totpDate = seconds => {
     return `${pad(date.getDate())}-${pad(date.getMonth() + 1)}-${date.getFullYear()} ${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())} ${zone}`;
 };
 const button = (text, action, attrs = {}) => h('button', { type: 'button', class: 'btn btn-default', onClick: action, ...attrs }, text);
-const field = (model, name, label, { type = 'text', change, disabled } = {}) => h('label', [label,
-    h('input', { name, type, class: 'form-control', value: model.state[name], disabled, 'aria-label': label,
-        onInput: event => { const value = type === 'password' ? event.target.value : event.target.value.trim(); if (value !== model.state[name]) { model.state[name] = value; change?.(value); } } }),
-]);
+const field = (model, name, label, { type = 'text', change, disabled, autofocus } = {}) =>
+    h('input', { name, type, class: 'form-control', placeholder: label, value: model.state[name], disabled, autofocus, 'aria-label': label,
+        onInput: event => { const value = type === 'password' ? event.target.value : event.target.value.trim(); if (value !== model.state[name]) { model.state[name] = value; change?.(value); } } });
 const form = (submit, children) => h('form', { onSubmit: event => { event.preventDefault(); void submit(); } }, children);
+const icon = classes => h('i', { class: classes, 'aria-hidden': 'true' });
+const heading = classes => h('h1', { class: 'text-center', style: { perspective: '75px' } }, [icon(classes)]);
+const logo = customization => customization?.plugins?.core?.bigLogoURL
+    ? h('div', { class: 'text-center' }, [h('img', { src: customization.plugins.core.bigLogoURL, alt: '', style: { maxWidth: '100%' } })]) : null;
+const authPage = content => h('div', { class: 'container auth-page' }, [
+    h('div', { class: 'row', id: 'login-form' }, [h('div', { class: 'col-sm-4' }),
+        h('div', { class: 'col-sm-4 auth-card' }, content), h('div', { class: 'col-sm-4' })]),
+]);
+const primary = (text, disabled) => button(text, undefined, { type: 'submit', class: 'btn btn-primary btn-block', disabled });
 
 export const Login = defineComponent({
     props: ['model', 'customization', 'prefix'],
@@ -20,36 +28,45 @@ export const Login = defineComponent({
         onBeforeUnmount(m.dispose);
         return () => {
             const s = m.state, t = m.gettext;
-            return h('div', { class: 'container' }, [form(m.login, [
-                props.customization?.plugins?.core?.bigLogoURL ? h('img', { src: props.customization.plugins.core.bigLogoURL, alt: '', style: { maxWidth: '100%' } }) : null,
-                s.mode === 'normal' ? field(m, 'username', t('Username'), { disabled: s.working }) : null,
-                field(m, 'password', t('Password'), { type: s.showPassword ? 'text' : 'password', disabled: s.working }),
-                button(t(s.showPassword ? 'Hide password' : 'Show password'), () => { s.showPassword = !s.showPassword; }, { 'data-action': 'show-password' }),
-                button(t(s.mode === 'sudo' ? 'Authenticate' : 'Log in'), undefined, { type: 'submit', disabled: !s.username || !s.password || s.working }),
-                s.showPWReset ? h('a', { href: `${props.prefix || ''}/view/reset_password_send` }, t('Password forgotten ?')) : null,
-            ]), s.verif_code ? h('dialog', { open: true, 'aria-label': t('Please enter TOTP verification code:') }, [
-                field(m, 'code', t('Please enter TOTP verification code:'), { change: m.verify }),
-                button(t('Cancel'), m.cancel, { 'data-action': 'cancel' }),
+            return authPage([form(m.login, [
+                logo(props.customization),
+                heading(`fa ${s.success ? 'fa-unlock-alt' : 'fa-lock'}${s.working ? ' flip-cycle' : ''}`),
+                s.mode === 'normal' ? h('div', [field(m, 'username', t('Username'), { disabled: s.working, autofocus: true })]) : null,
+                h('div', { class: 'form-group has-feedback' }, [
+                    field(m, 'password', t('Password'), { type: s.showPassword ? 'text' : 'password', disabled: s.working }),
+                    button([icon(`fas ${s.showPassword ? 'fa-eye-slash' : 'fa-eye'}`)], () => { s.showPassword = !s.showPassword; }, {
+                        class: 'auth-password-toggle form-control-feedback', 'data-action': 'show-password',
+                        'aria-label': t(s.showPassword ? 'Hide password' : 'Show password'), 'aria-pressed': !!s.showPassword,
+                    }),
+                ]),
+                h('div', [primary(t(s.mode === 'sudo' ? 'Authenticate' : 'Log in'), !s.username || !s.password || s.working)]),
+                s.showPWReset ? h('div', [h('a', { href: `${props.prefix || ''}/view/reset_password_send` }, t('Password forgotten ?'))]) : null,
+            ]), s.verif_code ? h('dialog', { open: true, class: 'auth-dialog', 'aria-label': t('Please enter TOTP verification code:') }, [
+                h('div', { class: 'modal-header' }, [h('h4', t('Please enter TOTP verification code:'))]),
+                h('div', { class: 'modal-body' }, [h('div', { class: 'input-group' }, [field(m, 'code', t('Please enter TOTP verification code:'), { change: m.verify })])]),
+                h('div', { class: 'modal-footer' }, [button(t('Cancel'), m.cancel, { class: 'btn btn-default btn-flat', 'data-action': 'cancel' })]),
             ]) : null]);
         };
     },
 });
 
 export const PasswordReset = defineComponent({
-    props: ['model'],
-    setup({ model: m }) {
+    props: ['model', 'customization'],
+    setup(props) {
+        const m = props.model;
         onBeforeUnmount(m.dispose);
         return () => {
             const s = m.state, t = m.gettext;
-            if (s.serial === undefined) return form(m.send, [field(m, 'mail', t('Email')),
-                button(t('Send instructions to reset password'), undefined, { type: 'submit', disabled: !s.mail })]);
-            if (!s.ready) return h('div', { role: 'progressbar', 'aria-label': t('Please wait') });
-            if (!s.serial_ok) return h('div', { class: 'alert alert-danger' }, t('The used link is not valid or expired.'));
-            return form(m.save, [field(m, 'password1', t('New password'), { type: 'password' }),
-                field(m, 'password2', t('Reenter the new password'), { type: 'password' }),
-                s.password1 && s.password1 !== s.password2 ? h('p', t('The two entered passwords differ')) : null,
-                button(t('Reset password'), undefined, { type: 'submit', disabled: !s.password1 || !s.password2 || s.password1 !== s.password2 }),
-            ]);
+            if (s.serial === undefined) return authPage(form(m.send, [logo(props.customization), heading('far fa-envelope'),
+                h('div', [field(m, 'mail', t('Email'))]), h('div', [primary(t('Send instructions to reset password'), !s.mail)])]));
+            if (!s.ready) return authPage(h('div', { role: 'progressbar', 'aria-label': t('Please wait') }));
+            if (!s.serial_ok) return authPage(h('div', { class: 'alert alert-danger' }, [icon('fa fa-warning'), ' ', h('b', t('The used link is not valid or expired.'))]));
+            return authPage(form(m.save, [logo(props.customization), heading('fas fa-user-edit'),
+                h('div', [h('span', t('Please enter the new password')), field(m, 'password1', t('New password'), { type: 'password' })]),
+                h('div', [h('span', t('Please confirm the new password')), field(m, 'password2', t('Reenter the new password'), { type: 'password' })]),
+                h('div', [s.password1 && s.password1 !== s.password2 ? h('small', { class: 'text-danger' }, t('The two entered passwords differ')) : null,
+                    primary(t('Reset password'), !s.password1 || !s.password2 || s.password1 !== s.password2)]),
+            ]));
         };
     },
 });
