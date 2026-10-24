@@ -10,11 +10,11 @@ function matches(value, query) {
     return value !== undefined && value !== null && String(value).toLowerCase().includes(query.toLowerCase());
 }
 export function visibleGroups(groups, profile, query = '', field = 'groupname', reverse = false, includeHidden = false) {
-    return [...(groups ?? [])].sort((a, b) => {
+    return (groups ?? []).map((group, index) => ({ group, index })).sort(({ group: a, index: aIndex }, { group: b, index: bIndex }) => {
         const x = typeof a[field] === 'string' ? a[field].toLowerCase() : a[field];
         const y = typeof b[field] === 'string' ? b[field].toLowerCase() : b[field];
-        return (x === y ? 0 : x < y ? -1 : 1) * (reverse ? -1 : 1);
-    }).filter((g) => (includeHidden || !(g.sophomorixHidden && !g.admin && !profile.isAdmin && !g.membership)) && matches(g, query));
+        return (x === y ? aIndex - bIndex : x < y ? -1 : 1) * (reverse ? -1 : 1);
+    }).map(({ group }) => group).filter((g) => (includeHidden || !(g.sophomorixHidden && !g.admin && !profile.isAdmin && !g.membership)) && matches(g, query));
 }
 const member = (m) => ({ sn: m.sn, givenName: m.givenName, login: m.sAMAccountName, sophomorixAdminClass: m.sophomorixAdminClass, sophomorixRole: m.sophomorixRole });
 export function readDetails(data, groupType, groupName, identity = { profile: {} }) {

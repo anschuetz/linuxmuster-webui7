@@ -16,6 +16,10 @@ describe('groupmembership original contracts', () => {
         expect(visibleGroups(groups, { isAdmin: true }, 'hidden', 'membership', false).map((g) => g.groupname)).toEqual(['hidden']);
         expect(visibleGroups(undefined, {}, '')).toEqual([]);
     });
+    it('reverses the original order of membership ties when sorting descending', () => {
+        const groups = [group('a'), group('b'), group('c', { membership: true })];
+        expect(visibleGroups(groups, {}, '', 'membership', true).map((g) => g.groupname)).toEqual(['c', 'b', 'a']);
+    });
     it('uses LISTS for printers and ignores stale user references', () => {
         const data = { GROUP: { pr: { sophomorixType: 'printer', sophomorixAdmins: ['admin'], sophomorixAdminGroups: ['admins'], sophomorixMembers: ['wrong'], sophomorixMemberGroups: ['wrong'], sophomorixJoinable: 'TRUE', sophomorixHidden: 'FALSE', sophomorixMailList: 'TRUE' } }, LISTS: { MEMBERLIST: { pr: ['user', 'group', 'stale'] } }, MEMBERS: { pr: { user: { sn: 'User', givenName: 'Test', sAMAccountName: 'user', sophomorixAdminClass: '5a', sophomorixRole: 'student' }, group: { sn: 'null', sAMAccountName: '5b' }, admin: { sn: 'Admin', sAMAccountName: 'admin' } } } };
         expect(readDetails(data, 'printergroup', 'pr')).toEqual({ groupDetails: data.GROUP.pr, members: [{ sn: 'User', givenName: 'Test', login: 'user', sophomorixAdminClass: '5a', sophomorixRole: 'student' }], admins: [{ sn: 'Admin', givenName: undefined, login: 'admin', sophomorixAdminClass: undefined, sophomorixRole: undefined }], groupmemberlist: ['5b'], groupadminlist: ['admins'], joinable: true, hidden: false, maillist: true, type: 'group', editGroup: false, editMembers: false });
