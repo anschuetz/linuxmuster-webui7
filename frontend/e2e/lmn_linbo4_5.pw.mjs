@@ -63,7 +63,7 @@ async function start(page,context,role) {
         await expect(page.locator('lmn-vue-mount')).toHaveCount(1);
         expect(await page.evaluate(()=>angular.element(document).injector().get('$route').current.controller)).toBeUndefined();
     }
-    await expect(pane(page).locator('tbody tr, tr[ng\\:repeat="image in images"]').first()).toBeVisible();return state;
+    await expect(row(page)).toBeVisible();return state;
 }
 const row=(page,name='p86')=>pane(page).locator('tr').filter({has:page.locator('b',{hasText:new RegExp('^'+name+'$')})}).first();
 const clickAction=(target,action,angular)=>target.locator(vue?`[data-action="${action}"]`:`button[ng\\:click="${angular}"]`).click();
