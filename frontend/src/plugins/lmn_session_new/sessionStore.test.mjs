@@ -77,3 +77,11 @@ it('keeps the pending existing session on failure, and generates a SID only afte
     aj.http.post = async () => { throw new Error('HTTP'); };
     await expect(store.start(session)).rejects.toThrow('HTTP'); expect(store.state.current).toEqual(session);
 });
+
+it('central member replacement preserves all group references and polling stop leaves runtime reusable',()=>{
+    const {store}=setup();store.state.current={sid:'p95',members:members()};store.filterExamUsers();
+    const old=store.state.current.members;store.state.user_missing_membership=[old[0]];
+    const next=old.map(u=>({...u,wifi:true}));store.replaceMembers(next);
+    expect(store.state.examUsers[0]).toBe(next[1]);expect(store.state.extExamUsers[0]).toBe(next[2]);expect(store.state.user_missing_membership[0]).toBe(next[0]);
+    const stop=vi.fn(),dispose=vi.fn();store.state.filePolling={stop,dispose};store.stopFilePolling();expect(stop.mock.calls).toEqual([[]]);expect(dispose.mock.calls).toEqual([]);expect(store.state.filePolling.stop).toBe(stop);
+});

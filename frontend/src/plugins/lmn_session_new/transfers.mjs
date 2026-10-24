@@ -14,7 +14,7 @@ export function createTransfers(aj, store, participants, now = () => new Date())
     const background = promise => promise.catch(() => { /* Core HTTP interceptor owns errors, as for the legacy unawaited directory request. */ });
     function blocked() {
         if (!current()) return true;
-        if (!state.extExamUsers.length) return false;
+        if (!(state.examViewGroups?.external ?? state.extExamUsers).length) return false;
         background(aj.messagebox.show({ title: aj.gettext('User(s) in exam'), text: aj.gettext('This functionality can not be used when some users are in exam mode with another teacher.'), positive: 'OK' }));
         return true;
     }

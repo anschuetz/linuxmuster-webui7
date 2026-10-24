@@ -3,7 +3,7 @@ import { computed, inject, ref } from 'vue';
 import { isStudent } from './participants.mjs';
 const props = defineProps({ store: Object, api: Object, user: Object });
 const aj = inject('aj'), menu = ref(false);
-const available = computed(() => !props.user || (isStudent(props.user) && !props.user.files_error && !props.store.state.extExamUsers.includes(props.user)));
+const available = computed(() => !props.user || (isStudent(props.user) && !props.user.files_error && !(props.store.state.examViewGroups?.external ?? props.store.state.extExamUsers).includes(props.user)));
 async function action(fn) {
     menu.value = false;
     try { await fn(); } catch { /* Modal cancellation and HTTP failures belong to the shell. */ }

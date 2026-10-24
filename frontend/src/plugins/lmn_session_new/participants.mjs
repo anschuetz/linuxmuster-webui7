@@ -33,10 +33,7 @@ export function createParticipants(aj, store) {
     const error = text => aj.notify.error(text, undefined, { sticky: true });
     const background = promise => promise.catch(() => { /* Request errors already go through the shell interceptor. */ });
     function replaceReferences(replacements) {
-        const replace = rows => rows.map(user => replacements.get(user) ?? user);
-        state.current = { ...state.current, members: replace(state.current.members) };
-        state.examUsers = replace(state.examUsers); state.extExamUsers = replace(state.extExamUsers);
-        state.user_missing_membership = replace(state.user_missing_membership);
+        store.replaceMembers(state.current.members.map(user => replacements.get(user) ?? user));
     }
     async function add(names, single) {
         if (!names.length || !valid()) return false;
