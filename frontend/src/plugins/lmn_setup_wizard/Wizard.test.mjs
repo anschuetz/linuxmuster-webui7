@@ -11,7 +11,8 @@ const wrappers = [];
 function setup(step, options = {}) {
  const aj = { gettext: s => s, pageTitle: { set: vi.fn() }, navigate: vi.fn(), reload: vi.fn(), notify: { error: vi.fn(), success: vi.fn() },
   http: { get: vi.fn(async path => ({ data: path === url ? { ...ini } : path === '/api/core/languages' ? ['de', 'en'] : { setup: { hostip: '192.0.2.71' } } })), post: vi.fn(async () => ({})) },
-  wizard: { readConfig: () => ({ language: 'de', other: 'keep' }), saveConfig: vi.fn(async () => ({})), setLanguage: vi.fn() },
+  wizard: { readConfig: () => ({ language: 'de', other: 'keep' }), saveConfig: vi.fn(async () => ({})), setConfigLanguage: vi.fn() },
+  locale: { setLanguage: vi.fn() },
   messagebox: { show: vi.fn(() => Object.assign(Promise.resolve(), { close: vi.fn() })) }, ...options };
  const w = mount(Wizard, { props: { step }, global: { provide: { aj } }, attachTo: document.body }); wrappers.push(w); return { w, aj };
 }
@@ -24,7 +25,7 @@ it('welcome preserves the full GPL, requires acceptance, loads languages and sav
  await click(w, 'Next'); expect(aj.notify.error.mock.calls).toEqual([['Please accept the license !']]); expect(aj.wizard.saveConfig.mock.calls).toEqual([]);
  await w.find('input[type=checkbox]').setValue(true); await click(w, 'Next'); await flushPromises();
  expect(aj.wizard.saveConfig.mock.calls).toEqual([[{ language: 'de', other: 'keep' }]]); expect(aj.navigate.mock.calls).toEqual([['/view/lmn/init/school']]);
- await w.find('select').setValue('en'); expect(aj.wizard.setLanguage.mock.calls).toEqual([['en']]); expect(aj.reload.mock.calls).toEqual([[]]);
+ await w.find('select').setValue('en'); expect(aj.wizard.setConfigLanguage.mock.calls).toEqual([['en']]); expect(aj.locale.setLanguage.mock.calls).toEqual([['en']]); expect(aj.reload.mock.calls).toEqual([[]]);
 });
 it('school uses trimmed text without eating inner spaces and exact original full ini payload', async () => {
  const { w, aj } = setup('school'); await flushPromises(); const input = w.find('#schoolname-input'); await input.setValue(''); input.element.focus();
@@ -89,7 +90,7 @@ it('done fallback host and restart failure retain original notification', async 
 });
 it('entry mounts by template step and unmounts, using a plugin-local core facade', async () => {
  const core = { config: { data: { language: 'de', keep: true }, save: vi.fn(async () => ({})) }, locale: { setLanguage: vi.fn(async () => ({})) }, $rootScope: { $evalAsync: fn => fn() } }; const { aj } = setup('account');
- const connected = connectCore(aj, core); connected.wizard.setLanguage('en'); expect(core.config.data).toEqual({ language: 'en', keep: true }); expect(core.locale.setLanguage.mock.calls).toEqual([['en']]);
+ const connected = connectCore(aj, core); await connected.wizard.setConfigLanguage('en'); expect(core.config.data).toEqual({ language: 'en', keep: true }); expect(connected.wizard.readConfig().language).toBe('en'); expect(core.locale.setLanguage).not.toHaveBeenCalled();
  await connected.wizard.saveConfig({ language: 'de', keep: true }); expect(core.config.save.mock.calls).toEqual([[]]); expect(connected.wizard.readConfig()).toEqual({ language: 'de', keep: true });
  configure(core); const host = document.createElement('div'); host.dataset.step = 'account'; const unmount = entry(host, aj); expect(host.textContent).toContain('Account Information'); unmount(); expect(host.innerHTML).toBe('');
 });

@@ -14,7 +14,7 @@ angular.module('lmn.setup_wizard').run(($http, $location, identity) => {
     })
 })
 
-// Plugin-local Core compatibility; no shared adapter service is introduced.
-angular.module('lmn.setup_wizard').run((config, locale, $rootScope) => {
-    window.LmnVue_lmn_setup_wizard.configure({ config, locale, $rootScope });
+// Plugin-local Core config cache/persistence; language catalogs use aj.locale.
+angular.module('lmn.setup_wizard').run((config, $rootScope) => {
+    window.LmnVue_lmn_setup_wizard.configure({ config, $rootScope });
 });

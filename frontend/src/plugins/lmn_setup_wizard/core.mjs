@@ -1,9 +1,8 @@
-/** Plugin-local compatibility for Core config/locale, deliberately outside shared aj.
+/** Plugin-local compatibility for Core config, deliberately outside shared aj.
  * Core config.service.es owns initialConfigContent and /api/core/config persistence;
- * gettext.service.es owns /resources/all.locale.js and the shell's gettext catalog.
- * Keeping these existing services also preserves the selected language across reloads.
+ * The cache retains the selected language across route reloads; aj.locale loads the catalog.
  */
-export function connectCore(aj, { config, locale, $rootScope }) {
+export function connectCore(aj, { config, $rootScope }) {
     const inDigest = callback => new Promise((resolve, reject) => {
         $rootScope.$evalAsync(() => {
             try { resolve(callback()); } catch (error) { reject(error); }
@@ -17,9 +16,8 @@ export function connectCore(aj, { config, locale, $rootScope }) {
                 config.data = { ...data };
                 return config.save();
             }),
-            setLanguage: language => inDigest(() => {
+            setConfigLanguage: language => inDigest(() => {
                 config.data = { ...config.data, language };
-                return locale.setLanguage(language);
             }),
         },
     };
