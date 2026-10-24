@@ -58,3 +58,38 @@ notification bodies (including custom URL notifications) render text instead of
 trusted HTML; server error data renders as escaped JSON instead of ng-include.
 Restart transport failures show an error notice (core references an uninjected
 `notify`). Pending UI handles reject and timers/listeners stop on disposal.
+
+## Authentication oracle (P109)
+
+`auth/` copies the unmodified login, TOTP, password-reset controllers/templates and
+identity service from the P106 `ajenti_plugin_core-0.116` source archive. `auth.mjs`
+loads them in a separate AngularJS injector. HTTP and browser navigation are doubled;
+identity.auth runs the real success/error conversion, templates exercise real
+ngModel text/password trimming and the date filter. The promise boundary uses
+native promises for deterministic controller settling, not a replacement controller.
+Backend payloads were also checked against core `views/api.py`; LM's
+`lmn_common/resources/js/module.coffee` sets `loginredir='/'`.
+
+`mountAuthHarness(element, { fetch, prefix, path, navigate, pwReset, gettext })`
+in `src/shell/auth-harness.mjs` explicitly composes the P107 session and P108
+presentation owners. `path` is a prefix-free existing login/TOTP/reset route;
+HTTP uses `prefix`, `navigate` records full-page navigation. Dispose the returned
+owner on teardown. Nothing imports this mount from a product entry; the production
+Angular adapter, router, resources and bundles remain untouched. The node HTTP
+mock exercises synthetic login+nonce, QR/verify/save/delete, reset errors and logout.
+No VM, real credentials or real TOTP storage are involved.
+
+Preserved: exact string provider flag `'True'`, lowercase username, password
+spaces (revealed text input trims), six-character codes, three failed TOTP
+attempts, envelopes/endpoints, confirmation before deletion, LM redirect `/`,
+immediate reset-mail success/redirect even on HTTP failure, serial/complexity/update
+failure messages and shared HTTP policy (401 suppressed on login/reset only).
+Successful login refreshes identity before navigation as required by P107.
+
+Intentional differences: crypto.getRandomValues replaces Math.random for secrets;
+changing the key invalidates verification and ignores late QR/verify answers;
+teardown clears temporary secrets and ignores late workflow results. Reset Enter
+submits the actual save workflow (the original template calls a missing function).
+The isolated forms keep Bootstrap classes but omit the customization logo and
+animated lock/layout decorations; these are not a product entry. No server-side
+nonce/attempt/rate-limit behavior is replaced by the client.

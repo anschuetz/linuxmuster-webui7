@@ -10,7 +10,9 @@ export function createSession({ fetch, prefix = '', path, navigate, notify, mess
     const current = shallowRef(anonymous()), remaining = shallowRef(0);
     let epoch = 0, expired = false, disposed = false, timer, redirectTimer, finishLogout;
     const loginPath = () => `${prefix}/view/login/normal/${path()}`;
-    const isLogin = () => path().startsWith(`${prefix}/view/login`);
+    // Login and both reset controllers disable the original expired-session interceptor.
+    const isAuthenticationRoute = () => path().startsWith(`${prefix}/view/login`)
+        || path().startsWith(`${prefix}/view/reset_password`);
     const clearTimer = () => { clearInterval(timer); timer = undefined; };
     function clearIdentity() {
         current.value = anonymous();
@@ -26,7 +28,7 @@ export function createSession({ fetch, prefix = '', path, navigate, notify, mess
                 template: '/core:resources/partial/serverErrorMessage.html', scrollable: true, negative: gettext('Close'),
             });
         } else if (error.status === 403) notify.error(gettext('Security error'), error.data);
-        else if (error.status === 401 && !expired && !isLogin()) {
+        else if (error.status === 401 && !expired && !isAuthenticationRoute()) {
             expired = true;
             ++epoch;
             clearIdentity();
