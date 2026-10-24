@@ -8,51 +8,9 @@ angular.module('lmn.nextcloud', ['core']);
 
 angular.module('lmn.nextcloud').config(function ($routeProvider) {
     $routeProvider.when('/view/lmn/nextcloud', {
-        templateUrl: '/lmn_nextcloud:resources/partial/index.html',
-        controller: 'LMN_nextcloudIndexController'
+        templateUrl: '/lmn_nextcloud:resources/partial/index.html'
     });
 });
 
 
-'use strict';
-
-angular.module('lmn.nextcloud').controller('LMN_nextcloudIndexController', function ($scope, $http, pageTitle, gettext, notify) {
-    pageTitle.set(gettext('Nextcloud'));
-    $scope.responsecode = 1;
-
-    $scope.startNextcloud = function (user) {
-        $http.get('/api/lmn/nextcloud').then(function (resp) {
-            $scope.responsecode = 2;
-            $scope.responsecode = resp.data[0];
-            $scope.url = resp.data[1];
-            $scope.fullscreen = resp.data[2];
-            $scope.askuser = resp.data[3];
-            console.log("Nextcloud INFO: URL = " + $scope.url + " Code = " + $scope.responsecode);
-            if ($scope.responsecode == 200) {
-                if ($scope.fullscreen) {
-                    $scope.toggleNavigation();
-                    $scope.toggleWidescreen();
-                }
-                if ($scope.askuser) {
-                    $scope.url += "/index.php/login?user=" + $scope.identity.user;
-                }
-                window.open($scope.url, 'iframe_nextcloud');
-            }
-        });
-    };
-
-    $scope.$watch('identity.user', function () {
-        if ($scope.identity.user == undefined) {
-            return;
-        }
-        if ($scope.identity.user == null) {
-            return;
-        }
-        // if ($scope.identity.user == 'root') { return; }
-
-        $scope.user = $scope.identity.profile;
-        $scope.startNextcloud($scope.identity.user);
-    });
-});
-
-
+var LmnVue_lmn_nextcloud=(function(e,t){Object.defineProperty(e,Symbol.toStringTag,{value:`Module`});function n(){let e=window.angular.element(document.documentElement).scope();e.$evalAsync(()=>{e.toggleNavigation(),e.toggleWidescreen()})}var r={class:`alert alert-info`,style:{"margin-top":`10px`}},i={style:{width:`auto`,height:`100vh`,"margin-left":`-15px`,"margin-right":`-15px`,"margin-top":`-60px`}},a={__name:`Nextcloud`,setup(e){let a=(0,t.inject)(`aj`),o=(0,t.ref)(1);return a.pageTitle.set(a.gettext(`Nextcloud`)),(0,t.watch)(()=>a.identity.user,async e=>{if(e==null)return;let t;try{({data:t}=await a.http.get(`/api/lmn/nextcloud`))}catch{return}if(o.value=t[0],o.value===200){t[2]&&n();let e=t[1]+(t[3]?`/index.php/login?user=${a.identity.user}`:``);window.open(e,`iframe_nextcloud`)}},{immediate:!0}),(e,n)=>((0,t.openBlock)(),(0,t.createElementBlock)(t.Fragment,null,[(0,t.withDirectives)(((0,t.openBlock)(),(0,t.createBlock)((0,t.resolveDynamicComponent)(`progress-spinner`),{class:`nextcloud-spinner`,style:{"margin-top":`20px`}},{default:(0,t.withCtx)(()=>[...n[0]||=[(0,t.createElementVNode)(`div`,null,[(0,t.createElementVNode)(`div`,{class:`one`}),(0,t.createElementVNode)(`div`,{class:`two`})],-1)]]),_:1},512)),[[t.vShow,o.value===1]]),(0,t.withDirectives)((0,t.createElementVNode)(`div`,r,[n[1]||=(0,t.createElementVNode)(`i`,{class:`fa fa-info-circle`},null,-1),n[2]||=(0,t.createTextVNode)(),(0,t.createElementVNode)(`span`,null,(0,t.toDisplayString)((0,t.unref)(a).gettext(`URL not found or not valid! Please check config file.`)),1),n[3]||=(0,t.createElementVNode)(`span`,null,null,-1)],512),[[t.vShow,o.value!==200&&o.value!==1]]),(0,t.withDirectives)((0,t.createElementVNode)(`div`,i,[...n[4]||=[(0,t.createElementVNode)(`iframe`,{name:`iframe_nextcloud`,style:{width:`100%`,height:`100%`,border:`0`,"margin-top":`60px`}},null,-1)]],512),[[t.vShow,o.value===200]])],64))}};function o(e,n){let r=(0,t.createApp)(a);return r.provide(`aj`,n),r.mount(e),()=>r.unmount()}return e.mount=o,e})({},Vue);
