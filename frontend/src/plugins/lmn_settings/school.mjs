@@ -2,7 +2,7 @@ import { computed, reactive } from 'vue';
 import { createValidation } from '../../common/validation.mjs';
 import { openFileBackups } from '../../common/fileBackups.mjs';
 import ApplyDialog from '../lmn_quotas/ApplyDialog.vue';
-import { openUsersCheck as openLegacyUsersCheck } from './shell.mjs';
+import { openUsersCheck as openSharedUsersCheck } from '../../common/users/check.mjs';
 import { createCustomModels } from './custom-models.mjs';
 
 const classes = ['lower', 'upper', 'digit', 'special'];
@@ -22,7 +22,7 @@ function rulesFromForm(form) {
 }
 
 /** HTTP domain state for the original LMSettingsController. */
-export function createSchoolSettings(aj, { openUsersCheck = openLegacyUsersCheck } = {}) {
+export function createSchoolSettings(aj, { openUsersCheck = openSharedUsersCheck } = {}) {
     const validation = createValidation(aj);
     const gettext = aj.gettext;
     const notifySaved = () => aj.notify.success(gettext('Saved'));
@@ -74,7 +74,7 @@ export function createSchoolSettings(aj, { openUsersCheck = openLegacyUsersCheck
         },
         saveAndCheck() {
             if (!validPrinter()) return;
-            return handled(aj.http.post('/api/lmn/schoolsettings', state.settings).then(() => { handled(openUsersCheck()); notifySaved(); }));
+            return handled(aj.http.post('/api/lmn/schoolsettings', state.settings).then(() => { handled(openUsersCheck(aj)); notifySaved(); }));
         },
         saveApplyQuota() {
             handled(aj.http.post('/api/lmn/schoolsettings', state.settings).then(notifySaved));
