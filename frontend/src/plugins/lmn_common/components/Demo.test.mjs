@@ -3,7 +3,8 @@ import { mount } from '@vue/test-utils';
 import { nextTick } from 'vue';
 import Demo from './Demo.vue';
 import { createMockAj } from '../../../adapter/mock.mjs';
-import { mount as mountDemo } from '../entry.mjs';
+import { demo } from '../entry.mjs';
+const mountDemo = demo.mount;
 
 it('renders translated content and reactive identity through the injected adapter', async () => {
     const aj = createMockAj({ gettext: (text) => `DE: ${text}`, identity: { user: 'teacher' } });

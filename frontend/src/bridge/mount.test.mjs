@@ -1,7 +1,7 @@
 import { expect, it, vi } from 'vitest';
 import { createApp, h, nextTick } from 'vue';
 import { mountBridge } from './mount.mjs';
-import { mount } from '../plugins/lmn_common/entry.mjs';
+import { demo } from '../plugins/lmn_common/entry.mjs';
 
 function scope() {
     const listeners = new Set();
@@ -47,13 +47,13 @@ it('mounts the selected entry with an adapter and unmounts once without leaked l
     expect($scope.listeners.size).toBe(0);
 });
 
-it('renders the actual Vue entry, including late identity, and removes its DOM on destroy', async () => {
+it('renders the actual demo entry, including late identity, and removes its DOM on destroy', async () => {
     const $scope = scope();
     const host = document.createElement('div');
     const deps = services();
     let loaded;
     deps.identity.promise = new Promise((resolve) => { loaded = resolve; });
-    mountBridge($scope, host, { mount }, deps);
+    mountBridge($scope, host, demo, deps);
     expect(host.textContent).toContain('Frontend ready');
     deps.identity.user = 'teacher';
     loaded();

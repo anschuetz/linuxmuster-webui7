@@ -26,7 +26,7 @@ resources:
     - 'resources/js/services/wait.coffee'
     - 'resources/js/services/lmFileBackups.coffee'
     - 'resources/js/services/lmnNotify.es'
-    - 'resources/js/controllers/schoolswitcher.controller.es'
+    - 'resources/js/routing.es'
     - 'resources/styles.scss'
     - 'resources/partial/index.html'
     - 'resources/partial/lmFileBackups.modal.html'

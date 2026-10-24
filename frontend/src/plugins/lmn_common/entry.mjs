@@ -1,15 +1,19 @@
 import { createApp } from 'vue';
 import Demo from './components/Demo.vue';
+import SchoolSwitcher from './components/SchoolSwitcher.vue';
 
-/**
- * @param {Element} element
- * @param {import('../../adapter/aj.mjs').Aj} aj
- * @returns {() => void} Unmount callback for the host lifecycle.
- */
-export function mount(element, aj) {
-    const app = createApp(Demo);
+function mountComponent(Component, element, aj) {
+    const app = createApp(Component);
     app.provide('aj', aj);
     app.config.globalProperties.$gettext = aj.gettext;
     app.mount(element);
     return () => app.unmount();
 }
+
+/** Mount the change-school route with the injected backend adapter. */
+export function mount(element, aj) {
+    return mountComponent(SchoolSwitcher, element, aj);
+}
+
+// Retained solely for bridge.pw.mjs's read-only lifecycle probe.
+export const demo = { mount: (element, aj) => mountComponent(Demo, element, aj) };

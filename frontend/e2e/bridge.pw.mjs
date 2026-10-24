@@ -30,7 +30,8 @@ test('global-admin: Vue bridge mounts and destroys the demo (read-only)', async 
             const container = document.createElement('div');
             container.id = 'p09-bridge';
             document.body.append(container);
-            container.innerHTML = '<lmn-vue-mount entry="LmnVue_lmn_common"></lmn-vue-mount>';
+            window.p68BridgeDemo = window.LmnVue_lmn_common.demo;
+            container.innerHTML = '<lmn-vue-mount entry="p68BridgeDemo"></lmn-vue-mount>';
             injector.get('$compile')(container)(scope);
             scope.$digest();
             window.p09BridgeCleanup = () => scope.$destroy();
@@ -45,6 +46,7 @@ test('global-admin: Vue bridge mounts and destroys the demo (read-only)', async 
         await page.evaluate(() => {
             window.p09BridgeCleanup?.();
             delete window.p09BridgeCleanup;
+            delete window.p68BridgeDemo;
             document.getElementById('p09-bridge')?.remove();
         });
         page.off('console', onConsole);
