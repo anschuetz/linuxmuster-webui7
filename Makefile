@@ -1,5 +1,6 @@
 ## Flag for custom config file
 CONFIGFILE := ''
+AJENTI_PANEL ?= $(or $(wildcard /usr/local/bin/ajenti-panel),/opt/linuxmuster/bin/ajenti-panel)
 
 all: build
 
@@ -10,16 +11,16 @@ build:
 	cd frontend && npm ci && npm run build
 
 run:
-	/usr/local/bin/ajenti-panel -v --autologin --stock-plugins --plugins usr/lib/linuxmuster-webui/plugins $(CONFIGFILE)
+	$(AJENTI_PANEL) -v --autologin --stock-plugins --plugins usr/lib/linuxmuster-webui/plugins $(CONFIGFILE)
 
 rundev:
-	/usr/local/bin/ajenti-panel -v --autologin --stock-plugins --plugins usr/lib/linuxmuster-webui/plugins --dev $(CONFIGFILE)
+	$(AJENTI_PANEL) -v --autologin --stock-plugins --plugins usr/lib/linuxmuster-webui/plugins --dev $(CONFIGFILE)
 
 rundevlogin:
-	/usr/local/bin/ajenti-panel -v --stock-plugins --plugins usr/lib/linuxmuster-webui/plugins --dev $(CONFIGFILE)
+	$(AJENTI_PANEL) -v --stock-plugins --plugins usr/lib/linuxmuster-webui/plugins --dev $(CONFIGFILE)
 
 runprod:
-	/usr/local/bin/ajenti-panel --stock-plugins --plugins usr/lib/linuxmuster-webui/plugins $(CONFIGFILE)
+	$(AJENTI_PANEL) --stock-plugins --plugins usr/lib/linuxmuster-webui/plugins $(CONFIGFILE)
 
 push-crowdin:
 	ajenti-dev-multitool --xgettext
