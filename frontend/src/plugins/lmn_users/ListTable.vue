@@ -20,10 +20,6 @@ const pageNumbers = computed(() => {
 function chooseSort(key) { if (props.kind !== 'staff') sort.value = key; menu.value = ''; }
 function error(field, row, index) { return props.validate(field.validation, row[field.key], props.kind, index, page.value, props.size); }
 function remove(row, index) { emit('remove', row, index, page.value, props.size); }
-function addCourse() {
-    if (props.rows.length) page.value = Math.floor((props.rows.length - 1) / props.size) + 1;
-    query.value = ''; emit('add');
-}
 const saveCheckLabel = () => aj.gettext('Save &amp; check').replaceAll('&amp;', '&');
 const loginHint = 'This entry is directly read from the CSV file and could differ from the actual login of the user (saved in LDAP)';
 </script>
@@ -32,33 +28,32 @@ const loginHint = 'This entry is directly read from the CSV file and could diffe
         <br>
         <div v-if="rows == null" role="status" class="progress-spinner"><i class="fa fa-spinner fa-spin"></i></div>
         <div v-else>
-            <button v-if="kind !== 'courses'" class="btn btn-success pull-right" data-action="add" @click="emit('add')"><i class="fa fa-plus"></i> {{ aj.gettext(addLabels[kind]) }}</button>
+            <button class="btn btn-success pull-right" data-action="add" @click="emit('add')"><i class="fa fa-plus"></i> {{ aj.gettext(addLabels[kind]) }}</button>
             <div class="input-group">
                 <input v-model.trim="query" type="search" autofocus placeholder="Filter" class="form-control">
                 <div class="input-group-btn" @click.stop :class="{open: menu === 'sort'}">
                     <button class="btn btn-default" data-action="sort-menu" @click="menu = menu === 'sort' ? '' : 'sort'"><i class="fa fa-sort-amount-asc"></i> {{ aj.gettext(sorts.find(s => s.key === sort)?.label || '') }} <span class="caret"></span></button>
                     <ul v-if="menu === 'sort'" class="dropdown-menu dropdown-menu-right"><li v-for="option in sorts" :key="option.key"><a :data-sort="option.key" @click="chooseSort(option.key)"><i class="fa fa-sort-amount-asc"></i> {{ aj.gettext(option.label) }}</a></li></ul>
                 </div>
-                <div v-if="kind !== 'courses'" class="input-group-btn" @click.stop :class="{open: menu === 'fields'}">
+                <div class="input-group-btn" @click.stop :class="{open: menu === 'fields'}">
                     <button class="btn btn-default" data-action="fields-menu" @click="menu = menu === 'fields' ? '' : 'fields'"><i class="fa fa-ellipsis-h"></i> {{ aj.gettext('Fields') }} <span class="caret"></span></button>
                     <ul class="dropdown-menu dropdown-menu-right" :style="{display:menu === 'fields' ? 'block' : 'none'}"><li v-for="field in fields" :key="field.key"><label><input v-model="field.visible" :data-field="field.key" type="checkbox"> {{ aj.gettext(field.label) }}</label></li></ul>
                 </div>
-                <div v-if="kind !== 'courses'" class="input-group-btn" @click.stop :class="{open: menu === 'rows'}">
+                <div class="input-group-btn" @click.stop :class="{open: menu === 'rows'}">
                     <button class="btn btn-default" data-action="rows-menu" @click="menu = menu === 'rows' ? '' : 'rows'"><i class="fa fa-list-ol"></i> {{ aj.gettext('Rows') }} <span class="caret"></span></button>
                     <ul v-if="menu === 'rows'" class="dropdown-menu dropdown-menu-right"><li v-for="n in [10,50,100,500,1000]" :key="n"><a :data-size="n" @click="emit('size',n); menu = ''">{{ n }} {{ kind }}</a></li><li><input :value="size" type="number" class="form-control" @input="emit('size',$event.target.value === '' ? null : Number($event.target.value))"></li></ul>
                 </div>
             </div>
             <br>
             <table class="lm-table lm-table-inputs"><thead><tr><th v-for="field in visibleFields" :key="field.key">{{ aj.gettext(field.label) }} <i v-if="field.key === 'login'" class="fas fa-question-circle" :title="aj.gettext(loginHint)"></i></th><th></th></tr></thead>
-                <tbody><template v-for="(row,index) in visibleRows" :key="rows.indexOf(row)"><tr v-if="row[kind === 'courses' ? 'course' : 'class']?.[0] !== '#'">
+                <tbody><template v-for="(row,index) in visibleRows" :key="rows.indexOf(row)"><tr v-if="row.class?.[0] !== '#'">
                     <td v-for="field in visibleFields" :key="field.key" class="form-group" :class="error(field,row,index)">
-                        <ExtraInput :immediate="kind === 'teachers' && field.key === 'login'" :disabled="kind === 'teachers' && field.key === 'login' && !row._isNew" :value="row[field.key]" :type="field.key === 'password' ? 'password' : 'text'" :placeholder="field.placeholder" @commit="emit('update',row,field.key,$event)">
+                        <ExtraInput :immediate="kind === 'teachers' && field.key === 'login'" :disabled="kind === 'teachers' && field.key === 'login' && !row._isNew" :value="row[field.key]" type="text" :placeholder="field.placeholder" @commit="emit('update',row,field.key,$event)">
                         </ExtraInput>
                     </td><td width="1"><button class="btn btn-default" title="Remove" data-action="remove" @click="remove(row,index)"><i class="fa fa-trash-o"></i></button></td>
                 </tr></template></tbody>
             </table>
-            <button v-if="kind === 'courses'" class="btn btn-default" data-action="add" @click="addCourse"><i class="fa fa-plus"></i> {{ aj.gettext(addLabels[kind]) }}</button>
-            <ul v-if="kind !== 'courses' && pages > 1" class="pagination">
+            <ul v-if="pages > 1" class="pagination">
                 <li :class="{disabled:page === 1}"><a href="#" @click.prevent="page = 1">First</a></li>
                 <li :class="{disabled:page === 1}"><a href="#" @click.prevent="page = Math.max(1,page - 1)">Previous</a></li>
                 <li v-for="n in pageNumbers" :key="n" :class="{active:page === n}"><a href="#" :data-page="n" @click.prevent="page = n">{{ n }}</a></li>
@@ -70,7 +65,7 @@ const loginHint = 'This entry is directly read from the CSV file and could diffe
                 <button class="btn btn-lmn pull-right" data-action="backups" @click="emit('backups')"><i class="fa fa-history"></i></button>
                 <button class="btn btn-lmn" data-action="save" @click="emit('save')">{{ aj.gettext('Save') }}</button>
                 <button class="btn btn-lmn" data-action="check" @click="emit('check')">{{ saveCheckLabel() }}</button>
-                <button v-if="['extrastudents','courses'].includes(kind)" class="btn btn-lmn" data-action="editor" @click="emit('editor')">{{ aj.gettext('Edit CSV') }}</button>
+                <button v-if="kind === 'extrastudents'" class="btn btn-lmn" data-action="editor" @click="emit('editor')">{{ aj.gettext('Edit CSV') }}</button>
                 <div v-else class="btn-group dropup" :class="{open:menu === 'csv'}" @click.stop><button class="btn btn-lmn" data-action="csv-menu" @click="menu = menu === 'csv' ? '' : 'csv'">{{ aj.gettext('CSV') }} <span class="caret"></span></button><ul v-if="menu === 'csv'" class="dropdown-menu dropdown-menu-left"><li><a data-action="editor" @click="emit('editor'); menu = ''">{{ aj.gettext('Edit CSV') }}</a></li></ul></div>
             </div></div></div></div></component>
         </div>

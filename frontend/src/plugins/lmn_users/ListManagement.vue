@@ -2,13 +2,13 @@
 import { inject, onMounted, onBeforeUnmount, ref, watch } from 'vue';
 import ListTable from './ListTable.vue';
 import AddUserDialog from './AddUserDialog.vue';
-import { createLists, listTabs, hotkeyTabs, listLabels, validateListField, cleanupEmptyRow, newListUser } from './lists.mjs';
+import { createLists, listTabs, hotkeyTabs, listLabels, validateListField, cleanupEmptyRow } from './lists.mjs';
 import { createValidation } from '../../common/validation.mjs';
 import { openFileEditor } from '../../common/fileEditor.mjs';
 import { openFileBackups } from '../../common/fileBackups.mjs';
 import { openUsersCheck } from '../../common/users/check.mjs';
 const aj = inject('aj'), api = createLists(aj), validation = createValidation(aj);
-const active = ref(0), size = ref(50), lists = ref(Object.fromEntries([...listTabs, 'courses'].map(kind => [kind, '']))), encodings = ref({}), school = ref(), teacherSettings = ref();
+const active = ref(0), size = ref(50), lists = ref(Object.fromEntries(listTabs.map(kind => [kind, '']))), encodings = ref({}), school = ref(), teacherSettings = ref();
 const firstSave = ref({}), showErrors = ref(false), errorSummary = ref({ empty: 0, messages: [] });
 const errors = { emptyCells: {}, errorMessages: {} };
 let refreshPending = false;
@@ -32,9 +32,10 @@ async function load(kind, force = false) {
 }
 function update(kind, row, key, value) { lists.value = { ...lists.value, [kind]: lists.value[kind].map(item => item === row ? { ...item, [key]: value } : item) }; }
 async function add(kind) {
+    if (!Array.isArray(lists.value[kind])) return;
     try {
-        const row = kind === 'courses' ? newListUser(kind) : await aj.modal.open(AddUserDialog, { kind });
-        if (row) lists.value = { ...lists.value, [kind]: kind === 'courses' ? [...lists.value[kind], row] : [row, ...lists.value[kind]] };
+        const row = await aj.modal.open(AddUserDialog, { kind });
+        if (row) lists.value = { ...lists.value, [kind]: [row, ...lists.value[kind]] };
     } catch { /* Dismissed add dialogs never add a row. */ }
 }
 function remove(kind, row, index, page, pageSize) {
@@ -66,7 +67,7 @@ function hotkey(event) {
     if (!event.ctrlKey) return;
     const kind = hotkeyTabs[active.value], key = event.key.toUpperCase();
     if (key === 'B') backups(kind);
-    // Tabs beyond the four-name map have no save handler in the original.
+    // Staff Ctrl+I is deliberately ignored; Angular validates before calling an undefined save handler.
     else if (key === 'S' && kind) save(kind);
     else if (key === 'I' && kind) save(kind, true);
     else return;

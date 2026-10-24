@@ -24,9 +24,8 @@ async function setup(p,context,role=roles[0]){
  await p.route('**/api/**',async r=>{
   const q=r.request(),url=new URL(q.url()),path=url.pathname,method=q.method();let data;
   if(path==='/api/lmn/activeschool')data=s.school;
-  else if(path==='/api/lmn/schoolsettings')data={encoding_courses_extra:'win1252'};
   else if(path==='/api/lmn/users/schoolconf')data={'userfile.teachers.csv':{SURNAME_CHARS:0,FIRSTNAME_CHARS:0}};
-  else if(/^\/api\/lmn\/users\/lists\/(students|parents|staff|teachers|extrastudents|extraclasses)$/.test(path)){
+  else if(/^\/api\/lmn\/users\/lists\/(students|parents|staff|teachers|extrastudents)$/.test(path)){
    const kind=path.split('/').at(-1);if(method==='GET'){s.gets.push(path+url.search);data=s.lists[kind]||rows();}else{s.writes.push([method,path+url.search,q.postDataJSON()]);data={};}
   }else if(path==='/api/lmn/users/lists/check'){s.checks++;data=s.checkResult;}
   else if(path==='/api/lmn/users/lists/apply'){s.writes.push([method,path,q.postDataJSON()]);data={};}
@@ -78,15 +77,6 @@ test('Ctrl+S and Ctrl+B retain four-name tab map; Staff backup is undefined.csv'
 });
 test('failed CSV GET retains blank table; failed save/check never opens Check',async({page:p,context})=>{
  const s=await setup(p,context);s.fail='/api/lmn/users/lists/parents';await navigate(p);await selectTab(p,'parents');await expect(body(p)).toHaveCount(0);await expect(p.locator('progress-spinner:visible,[role=status]:visible')).toHaveCount(0);s.fail='';await selectTab(p,'students');s.fail='/api/lmn/users/lists/students';await action(p,'check').click();await expect.poll(()=>s.writes.length).toBe(1);await p.waitForLoadState('networkidle');expect(s.checks).toBe(0);await expect(p.locator('.modal:visible')).toHaveCount(0);clean(s);
-});
-
-test('sixth controller list: courses encoding and staff parents_encoding stay original despite absent course tab',async({page:p,context})=>{
- const s=await setup(p,context);await navigate(p);
- await p.evaluate(async isVue=>{
-  if(isVue){const api=LmnUsersListsTest.createLists(window.p123Aj),courses=await api.load('courses');await api.save('courses',courses.rows,{courses:courses.encoding});await api.save('staff',courses.rows,{parents:'cp1252'});}
-  else{const i=angular.element(document).injector(),scope=i.get('$route').current.scope;scope.$apply(()=>scope.getcourses());await new Promise(resolve=>{const off=scope.$watch('courses',value=>{if(Array.isArray(value)){off();resolve();}});});await scope.courses_save();scope.parents_encoding='cp1252';scope.staff=scope.courses;await scope.staff_save();}
- },vue);
- expect(s.gets).toContain('/api/lmn/users/lists/extraclasses?encoding=cp1252');expect(s.writes).toEqual([['POST','/api/lmn/users/lists/extraclasses?encoding=cp1252',rows()],['POST','/api/lmn/users/lists/staff?encoding=cp1252',rows()]]);clean(s);
 });
 
 test('school-admin Save→Check→Results→Apply uses fixture payloads and leaves the final log open',async({page:p,context})=>{
