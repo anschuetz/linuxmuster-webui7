@@ -9,9 +9,10 @@ dependencies:
     - !PluginDependency {
         plugin_name: core
     }
+    - !PluginDependency { plugin_name: lmn_common }
 resources:
     - 'resources/js/module.es'
     - 'resources/js/routing.es'
-    - 'resources/js/controllers/index.controller.es'
+    - 'resources/vue/lmn_docker.js'
     - 'resources/partial/index.html'
     - 'ng:lmn.docker'
