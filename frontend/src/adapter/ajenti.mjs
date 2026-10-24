@@ -42,7 +42,7 @@ export function createAjentiAdapter({ $http, notify, toaster, gettextCatalog, id
         pageTitle: { set: (text) => inDigest(() => pageTitle.set(text)) },
         messagebox: {
             show: (options) => showMessage('show', [{ ...options }]),
-            prompt: (text, value) => showMessage('prompt', [text, value]),
+            prompt: (text, value, inputType = 'text') => showMessage('prompt', [text, value, inputType]),
         },
         modal: createModalService(() => aj, $scope),
         http: Object.fromEntries(['get', 'post', 'put', 'delete', 'patch'].map((method) => [

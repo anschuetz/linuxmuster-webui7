@@ -53,7 +53,7 @@ it('loads the shared bridge and directive without a demo bundle', async () => {
     answer.close();
     expect(message.close).toHaveBeenCalledOnce();
     expect(await aj.messagebox.prompt('Name', 'initial')).toEqual({ value: 'answer' });
-    expect(messagebox.prompt).toHaveBeenCalledWith('Name', 'initial');
+    expect(messagebox.prompt).toHaveBeenCalledWith('Name', 'initial', 'text');
     destroy();
     expect(unmount).toHaveBeenCalledOnce();
     dom.window.close();

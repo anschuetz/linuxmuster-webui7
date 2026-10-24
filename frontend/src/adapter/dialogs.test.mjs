@@ -41,7 +41,7 @@ it.each(['show', 'prompt'])('adapts the core %s thenable, including rejection an
     expect(result).toBeInstanceOf(Promise);
     expect(service[method]).not.toHaveBeenCalled();
     queue.shift()();
-    expect(service[method]).toHaveBeenCalledWith(...args);
+    expect(service[method]).toHaveBeenCalledWith(...args, ...(method === 'prompt' ? ['text'] : []));
     const value = { value: 'answer' };
     resolve(value);
     expect(await result).toBe(value);
@@ -208,4 +208,11 @@ it('allows backdrop dismissal with keyboard disabled', async () => {
     expect(document.querySelector('.modal')).not.toBeNull();
     document.querySelector('.modal').click();
     await expect(result).rejects.toThrow('Modal cancelled');
+});
+
+it('forwards the optional password input type through the prompt bridge', async () => {
+    const prompt = vi.fn().mockResolvedValue({ value: 'secret' });
+    const aj = createAjentiAdapter({ ...base(), messagebox: { prompt } });
+    expect(await aj.messagebox.prompt('Password', '', 'password')).toEqual({ value: 'secret' });
+    expect(prompt).toHaveBeenCalledWith('Password', '', 'password');
 });
