@@ -62,8 +62,11 @@ for (const role of roles) test(`${role.name}: wizard has no additional role gate
 test('seven routes: language, validation, exact payloads, summary, synthetic provision/log/restart/redirect', async ({ page, context }) => {
  const state = await harness(page, context); await login(page, admin); await navigate(page, 'welcome');
  await next(page).click(); await expect(page.locator('.toast-title').last()).toContainText('Please accept the license !'); expect(state.posts).toEqual([]);
+ await dialog(page).locator('input[type=checkbox]').check();
  await dialog(page).locator('select').selectOption('en'); await expect(dialog(page)).toContainText('Welcome to linuxmuster.net V7');
+ await expect(dialog(page).locator('select')).toHaveValue('en'); await expect(dialog(page).locator('input[type=checkbox]')).not.toBeChecked();
  await dialog(page).locator('select').selectOption('de'); await expect(dialog(page)).toContainText('Willkommen zu Linuxmuster.net V7');
+ await expect(dialog(page).locator('select')).toHaveValue('de');
  await dialog(page).locator('input[type=checkbox]').check(); await next(page).click(); await expect(page).toHaveURL(/\/school$/);
  await dialog(page).locator('#schoolname-input').fill(''); await next(page).click(); await expect(page.locator('.toast-title').last()).toContainText('Required data missing');
  await dialog(page).locator('#schoolname-input').fill(' P71 Test School '); await dialog(page).locator('#servername-input').fill('bad name'); await next(page).click(); await expect(page.locator('.toast-title').last()).toContainText('Malformed input');

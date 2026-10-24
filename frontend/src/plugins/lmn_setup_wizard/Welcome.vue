@@ -8,7 +8,10 @@ aj.http.get('/api/core/languages').then(response => { languages.value = response
     // Keep the original empty selector; the adapter handles HTTP failures.
 });
 function updateLanguage() {
-    Promise.resolve(aj.wizard.setLanguage(config.value.language)).catch(() => {
+    Promise.all([
+        aj.wizard.setConfigLanguage(config.value.language),
+        aj.locale.setLanguage(config.value.language),
+    ]).catch(() => {
         // The existing Core locale service uses the same HTTP interceptor.
     });
     aj.reload();
