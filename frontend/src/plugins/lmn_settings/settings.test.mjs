@@ -46,7 +46,7 @@ it('preserves automatic encoding calls including the duplicate extrastudents ent
 
 it('validates printserver, saves the complete school config and only then opens Users check', async () => {
     const openUsersCheck = vi.fn().mockResolvedValue();
-    const { state, http, notify } = setup(createSchoolSettings, { dependencies: { openUsersCheck } });
+    const { state, aj, http, notify } = setup(createSchoolSettings, { dependencies: { openUsersCheck } });
     await state.ready;
     state.settings.school.PRINTSERVER = 'bad server';
     expect(state.saveAndCheck()).toBeUndefined();
@@ -58,7 +58,7 @@ it('validates printserver, saves the complete school config and only then opens 
     expect(openUsersCheck.mock.calls).toEqual([]);
     await done;
     expect(writes(http)).toEqual([request('post', '/api/lmn/schoolsettings', state.settings)]);
-    expect(openUsersCheck.mock.calls).toEqual([[]]);
+    expect(openUsersCheck.mock.calls).toEqual([[aj]]);
 });
 
 it('opens quota application before the school save resolves, as the original does', async () => {
