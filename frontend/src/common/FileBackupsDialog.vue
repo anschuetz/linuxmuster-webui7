@@ -1,11 +1,12 @@
 <script setup>
 import { inject, onMounted, onBeforeUnmount, ref } from 'vue';
-import { fileUrl } from './fileEditor.mjs';
+import { createFilesystem } from './filesystem.mjs';
 import FileDiffDialog from './FileDiffDialog.vue';
 
 const props = defineProps({ path: { type: String, required: true }, encoding: String, deleteAction: Function });
 const emit = defineEmits(['close', 'cancel']);
 const aj = inject('aj');
+const fs = createFilesystem(aj);
 const backups = ref([]);
 const busy = ref(false);
 const error = ref('');
@@ -21,7 +22,7 @@ async function run(action) {
     finally { busy.value = false; }
 }
 onMounted(() => run(async () => {
-    const { data } = await aj.http.get(`/api/filesystem/list/${dir.split('/').map(encodeURIComponent).join('/')}`);
+    const data = await fs.list(dir);
     if (!disposed) backups.value = data.items.filter((item) => item.name.startsWith(`.${name}.bak.`))
         .map((item) => ({ name: item.name, date: new Date(1000 * parseInt(item.name.split('.').at(-1), 10)) }))
         .sort((a, b) => b.date - a.date);
@@ -41,8 +42,8 @@ async function onlyRemove(backup) {
 }
 function restore(backup) {
     return run(async () => {
-        const { data } = await aj.http.get(fileUrl('read', backupPath(backup), props.encoding));
-        await aj.http.post(fileUrl('write', props.path, props.encoding), data);
+        const data = await fs.read(backupPath(backup), props.encoding);
+        await fs.write(props.path, data, props.encoding);
         onlyRemove(backup).catch((cause) => {
             aj.notify.error(aj.gettext('Backup operation failed') + ': ' + String(cause.message || cause));
         });

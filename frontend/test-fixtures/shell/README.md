@@ -58,3 +58,28 @@ notification bodies (including custom URL notifications) render text instead of
 trusted HTML; server error data renders as escaped JSON instead of ng-include.
 Restart transport failures show an error notice (core references an uninjected
 `notify`). Pending UI handles reject and timers/listeners stop on disposal.
+
+P111: `files/` contains unmodified filesystem 0.51 (`filesystem.service.es`,
+`pathSelector.es`, `fileDialog.es/html`, `views.py`) and ace 0.32 (`ace.es`)
+from the P106 package archives. `files.mjs` loads these directives/services into
+real AngularJS; only HTTP, hotkeys, the dialog layout and the Ace engine are
+fixture services. It compares defaults, encoding/payloads, selection/cancel,
+path-selector binding and upload descriptors/progress. The local HTTP server
+uses the read/write decorators and response shapes from `views.py`; it does
+not execute Python, POSIX ACLs, symlink resolution, or a real Flow chunk server.
+
+Shared Vue counterparts: `common/CodeEditor.vue`, `FileDialog.vue`,
+`PathSelector.vue`, `FileUpload.vue`, `filesystem.mjs` and `fileBrowser.mjs`.
+FileEditor/Backups, clients/linbo embedded editors, settings path selectors and
+SMB uploads reuse them; no Angular adapter or shell bootstrap is changed.
+The old Ace assets/global Flow remain required until the final shell switch.
+The browser retains eager loading and directory position per selector.
+Differences: paths/query parts are escaped; navigation and selection reject
+outside-root paths before use (the original only used a string prefix after
+loading); stale loads/disposal cannot overwrite newer state; load errors are
+visible and failed/busy save/directory selections are disabled. Upload failures
+reject and detach instead of leaving the original promise pending (shared with
+the existing SMB implementation). These are UI constraints, not server ACLs.
+`write` retains the original raw UTF-8 HTTP body and encoding query; the legacy
+Python implementation decodes UTF-8 and writes in its process encoding, even
+when a different encoding was requested. No new transcoding is claimed.

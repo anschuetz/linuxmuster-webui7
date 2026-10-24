@@ -8,6 +8,7 @@ it('binds embedded Ace verbatim, updates copied content, resizes tabs and destro
     window.ace={config:{set:vi.fn()},edit:vi.fn(()=>editor)};
     const wrapper=mount(ScriptEditor,{props:{modelValue:'  initial\n',field:'reg',active:false}});
     expect(editor.setValue.mock.calls).toEqual([['  initial\n',-1]]);expect(session.setUseWrapMode.mock.calls).toEqual([[true]]);
+    expect(editor.resize.mock.calls).toEqual([[]]);editor.resize.mockClear();
     value='  changed\n';change();expect(wrapper.emitted('update:modelValue')).toEqual([['  changed\n']]);
     await wrapper.setProps({modelValue:'  copied\n',active:true});expect(editor.setValue.mock.calls.at(-1)).toEqual(['  copied\n',-1]);expect(editor.resize.mock.calls).toEqual([[]]);
     await wrapper.setProps({modelValue:'  copied\n'});expect(editor.setValue.mock.calls.length).toEqual(2);
