@@ -63,7 +63,7 @@ const Message = defineComponent({
                     t(m.text || ''),
                     m.data ? h('pre', JSON.stringify(m.data, null, 2)) : null,
                     m.prompt ? h('label', [m.prompt, h('input', { class: 'form-control', type: m.input_type, value: value.value,
-                        onInput: event => { value.value = event.target.value; },
+                        onInput: event => { value.value = m.input_type === 'password' ? event.target.value : event.target.value.trim(); },
                         onKeydown: event => { if (event.key === 'Enter') answer(true); }, autofocus: true })]) : null,
                 ]),
                 h('div', { class: 'modal-footer' }, [

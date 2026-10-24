@@ -62,6 +62,23 @@ it('preserves messagebox positive/negative payload, prompt type/default and clos
     let settled = false; const hidden = s.messagebox.show(options); hidden.then(() => { settled = true; }, () => {}); await nextTick();
     hidden.close(); legacy.close(); old.flush(); await nextTick(); expect(settled).toBe(false); expect(w.find('dialog').exists()).toBe(false);
 });
+it('trims prompt input like the original directive while preserving password whitespace', async () => {
+    const old = oracle(), legacyView = old.mountMessageboxes(), { services: s, wrapper: w } = harness();
+    let legacyResult;
+    old.messagebox.prompt('Name').then(value => { legacyResult = value; });
+    const result = s.messagebox.prompt('Name');
+    old.flush(); await nextTick();
+    const input = legacyView.querySelector('input');
+    input.value = ' foo ';
+    input.dispatchEvent(new input.ownerDocument.defaultView.Event('input', { bubbles: true }));
+    legacyView.querySelector('.positive').click(); old.flush();
+    await w.find('input').setValue(' foo '); await button(w, 'OK').trigger('click');
+    expect(legacyResult.value).toBe('foo');
+    expect((await result).value).toBe(legacyResult.value);
+    const password = s.messagebox.prompt('Secret', '', 'password'); await nextTick();
+    await w.find('input').setValue(' foo '); await button(w, 'OK').trigger('click');
+    expect((await password).value).toBe(' foo ');
+});
 it('does not dismiss core messageboxes with Escape or backdrop and rejects open/hidden handles on unmount', async () => {
     const { services: s, wrapper: w } = harness();
     const result = s.messagebox.show({ title: 'Progress', progress: true }); const caught = result.catch(error => error);

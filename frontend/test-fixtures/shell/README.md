@@ -28,7 +28,7 @@ HTTP mock server need no VM.
 ## Presentation oracle (P108)
 
 `presentation/` contains the unmodified core 0.116 `gettext`, `messagebox`,
-`notify`, `pageTitle`, `core` and `favicon` services from the same P106 archive,
+`notify`, `pageTitle`, `core` and `favicon` services and the `messageboxContainer` directive from the same P106 archive,
 plus its vendored angular-gettext 2.4.2 (MIT license included).
 `presentation.mjs` runs the services in a separate AngularJS injector with fake
 HTTP, toaster and timeout boundaries; favicon tests compare real service drawing
