@@ -15,11 +15,10 @@ async function save() {
     const type = props.pwtype === 'current' ? 'current' : 'first';
     try {
         await aj.http.post(`/api/lmn/users/passwords/set-${type}`, { users: usernames, password: password.value });
-        if (!active) return;
         aj.notify.success(aj.gettext('New password set'), undefined, { sticky: true });
-        emit('close');
+        if (active) emit('close');
     } catch (error) {
-        if (active) aj.notify.error(aj.gettext('Password change failed: ') + (error.data?.message ?? ''), undefined, { sticky: true });
+        aj.notify.error(aj.gettext('Password change failed: ') + (error.data?.message ?? ''), undefined, { sticky: true });
     }
 }
 </script>

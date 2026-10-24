@@ -54,7 +54,7 @@ watch(query, async q => {
     if (q.length < 3) return;
     try {
         const response = await aj.http.post('/api/lmn/ldap-search', { role: '', login: q });
-        if (active) parents.value = response.data.filter(entry => entry.role !== 'student' && !entry.role.includes('administrator') && !entry.role.includes('binduser'));
+        if (active && q === query.value) parents.value = response.data.filter(entry => entry.role !== 'student' && !entry.role.includes('administrator') && !entry.role.includes('binduser'));
     } catch { error(); }
 });
 function searchKey(event) {
@@ -66,17 +66,19 @@ function searchKey(event) {
 }
 async function parentAction(parent, remove = false) {
     try {
-        const response = await aj.http.post(`/api/lmn/sophomorixUsers/${remove ? 'remove' : 'add'}-parent`, { student: props.id, parent: remove ? parent.cn : parent.login });
-        if (!active) return;
-        if (response.data !== '') { aj.notify.error(response.data); return; }
-        aj.notify.success(aj.gettext(remove ? `Parent ${parent.displayname} removed from ${props.id}` : `Parent ${parent.label} assigned to ${props.id}`));
-        setValue('parents', remove ? user.value.parents.filter(p => p !== parent) : [...user.value.parents, { cn: parent.login, displayname: parent.displayName }]);
+        const request = aj.http.post(`/api/lmn/sophomorixUsers/${remove ? 'remove' : 'add'}-parent`, { student: props.id, parent: remove ? parent.cn : parent.login });
         if (!remove) {
-            parentSearchVisible.value = false;
-            query.value = '';
+            if (active) {
+                parentSearchVisible.value = false;
+                query.value = '';
+            }
             aj.notify.success(parent.displayName + aj.gettext(' added with default values in the list.'));
         }
-    } catch { error(); }
+        const response = await request;
+        if (response.data !== '') { aj.notify.error(response.data); return; }
+        aj.notify.success(aj.gettext(remove ? `Parent ${parent.displayname} removed from ${props.id}` : `Parent ${parent.label} assigned to ${props.id}`));
+        if (active) setValue('parents', remove ? user.value.parents.filter(p => p !== parent) : [...user.value.parents, { cn: parent.login, displayname: parent.displayName }]);
+    } catch { aj.notify.error(aj.gettext('Error, please verify the user and/or your values.')); }
 }
 async function killUser() {
     const u = user.value;

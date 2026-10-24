@@ -113,3 +113,31 @@ it('shows true first-password status and ignores pending secret responses after 
 it('preserves old custom HTTP failure effects and leaves multi values on cancellation',async()=>{
  const original=sample();const {aj,notify}=setup();aj.http.get=async url=>({data:url.includes('/config/')?config:url.includes('/quota/')?{}:[original]});aj.http.post=async()=>{throw Error('failed');};aj.messagebox.prompt=async()=>({value:'new'});aj.messagebox.show=async()=>{throw Error('cancel');};const w=render(UserDetails,aj,{id:'p117-user',role:'students'});await flushPromises();await w.find('[data-action=edit-1]').trigger('click');await flushPromises();expect(w.find('[data-action=edit-1]').element.closest('tr').textContent).toEqual('Single');await w.find('[data-action=remove-multi-1]').trigger('click');await flushPromises();expect(w.find('[data-action=remove-multi-1]').exists()).toEqual(true);expect(original.sophomorixCustomMulti1).toEqual(['old']);expect(notify.mock.calls.map(c=>c[0])).toEqual(['error']);w.unmount();
 });
+it('reports pending password and parent results after the dialog closes',async()=>{
+ for(const failed of [false,true]){
+  let resolve,reject;const {aj,notify}=setup();aj.http.post=()=>new Promise((done,fail)=>{resolve=done;reject=fail;});
+  const w=render(CustomPassword,aj,{users:sample(),pwtype:'current'});await w.find('input').setValue(syntheticPassword);await w.findAll('.modal-footer a')[1].trigger('click');await w.findAll('.modal-footer a')[0].trigger('click');expect(w.emitted('close')).toEqual([[]]);w.unmount();
+  if(failed)reject({data:{message:'policy'}});else resolve({data:''});await flushPromises();
+  expect(notify.mock.calls).toEqual([failed?['error','Password change failed: policy',undefined,{sticky:true}]:['success','New password set',undefined,{sticky:true}]]);
+ }
+ for(const remove of [false,true])for(const failed of [false,true]){
+  let resolve;const {aj,notify}=setup();aj.http.get=async url=>({data:url.includes('/config/')?config:url.includes('/quota/')?{}:[{...sample(),parents:[{cn:'p117-parent',displayname:'Parent'}]}]});
+  aj.http.post=async url=>url.endsWith('ldap-search')?{data:[{login:'p117-parent',label:'Parent',displayName:'Parent',role:'parent'}]}:new Promise(done=>{resolve=done;});
+  const w=render(UserDetails,aj,{id:'p117-user',role:'students'});await flushPromises();
+  if(remove)await w.find('[data-action=remove-parent]').trigger('click');else{await w.find('[data-action=parent-search]').trigger('click');await w.find('dialog input').setValue('par');await flushPromises();await w.find('dialog li a').trigger('click');}
+  w.unmount();notify.mockClear();resolve({data:failed?'denied':''});await flushPromises();
+  expect(notify.mock.calls).toEqual([[failed?'error':'success',failed?'denied':`Parent Parent ${remove?'removed from':'assigned to'} p117-user`,undefined]]);
+ }
+});
+it('closes parent search and clears input immediately, reporting default values before backend error',async()=>{
+ let resolve;const {aj,notify}=setup();aj.http.post=async url=>url.endsWith('ldap-search')?{data:[{login:'p117-parent',label:'Parent',displayName:'Parent',role:'parent'}]}:new Promise(done=>{resolve=done;});
+ const w=render(UserDetails,aj,{id:'p117-user',role:'students'});await flushPromises();await w.find('[data-action=parent-search]').trigger('click');await w.find('dialog input').setValue('par');await flushPromises();await w.find('dialog li a').trigger('click');
+ expect(w.find('dialog').attributes('open')).toBeUndefined();expect(w.find('dialog input').element.value).toBe('');expect(notify.mock.calls).toEqual([['success','Parent added with default values in the list.',undefined]]);
+ resolve({data:'denied'});await flushPromises();expect(notify.mock.calls).toEqual([['success','Parent added with default values in the list.',undefined],['error','denied',undefined]]);expect(w.find('[data-action=remove-parent]').exists()).toBe(false);w.unmount();
+});
+it('discards a late parent search response for an older query',async()=>{
+ const pending={};const {aj,requests}=setup();aj.http.post=(url,data)=>{requests.push({url,data});return new Promise(done=>{pending[data.login]=done;});};
+ const w=render(UserDetails,aj,{id:'p117-user',role:'students'});await flushPromises();await w.find('[data-action=parent-search]').trigger('click');await w.find('dialog input').setValue('abc');await w.find('dialog input').setValue('abcd');
+ pending.abcd({data:[{login:'new',label:'Current parent',role:'parent'}]});await flushPromises();pending.abc({data:[{login:'old',label:'Old parent',role:'parent'}]});await flushPromises();
+ expect(w.findAll('dialog li').map(n=>n.text())).toEqual(['Current parent']);await w.find('dialog input').trigger('keydown',{key:'Enter'});expect(requests.at(-1)).toEqual({url:'/api/lmn/sophomorixUsers/add-parent',data:{student:'p117-user',parent:'new'}});w.unmount();
+});
