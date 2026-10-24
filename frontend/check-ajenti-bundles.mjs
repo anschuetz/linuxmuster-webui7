@@ -6,6 +6,7 @@ import { tmpdir } from 'node:os';
 import { basename, dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { discoverPluginBuilds } from './build.mjs';
+import { createIsolatedMultitool } from './isolated-multitool.mjs';
 
 const frontend = dirname(fileURLToPath(import.meta.url));
 const plugins = resolve(frontend, '../usr/lib/linuxmuster-webui/plugins');
@@ -13,6 +14,7 @@ const builds = await discoverPluginBuilds(frontend);
 const names = [...new Set(['lmn_common', ...builds.map(({ lib }) => basename(dirname(lib.entry)))])];
 const staging = await mkdtemp(join(tmpdir(), 'ajenti-bundle-check-'));
 try {
+    const multitool = await createIsolatedMultitool(staging);
     for (const name of names) {
         if (!/^[a-zA-Z0-9_-]+$/.test(name)) throw new Error(`Invalid plugin name: ${name}`);
         const source = join(plugins, name);
@@ -20,7 +22,7 @@ try {
         await cp(source, target, { recursive: true });
         // Never let a failed compilation pass by comparing an old copied bundle.
         await rm(join(target, 'resources/build/all.js'), { force: true });
-        const result = spawnSync('ajenti-dev-multitool', ['--rebuild'], { cwd: target, stdio: 'inherit' });
+        const result = spawnSync(multitool, ['--rebuild'], { cwd: target, stdio: 'inherit' });
         if (result.error) throw result.error;
         if (result.status !== 0) throw new Error(`Multitool failed for ${name} (${result.status})`);
         const built = await readFile(join(target, 'resources/build/all.js'));
