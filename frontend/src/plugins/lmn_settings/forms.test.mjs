@@ -105,6 +105,17 @@ it.each(['students', 'teachers', 'schooladministrators', 'globaladministrators']
     expect(writes(http)).toEqual([{ method: 'post', url: '/api/lmn/config/customfields', data: { config } }]);
 });
 
+it('renders missing custom roles as empty controls and only creates fields actually edited', async () => {
+    const config = { custom: {}, customMulti: {}, customDisplay: {}, proxyAddresses: {}, passwordTemplates: { multiple: '/multiple.tex', individual: '/individual.tex' } };
+    const { wrapper, http } = await form(SchoolSettings, { '/api/lmn/config/customfields/': config });
+    const panel = await tab(wrapper, 4);
+    await panel.find('select').setValue('globaladministrators');
+    const table = panel.findAll('table').find(t => t.isVisible());
+    await table.find('input').setValue(' P79 proxy ');
+    await save(wrapper);
+    expect(writes(http)).toEqual([{ method: 'post', url: '/api/lmn/config/customfields', data: { config: { ...config, proxyAddresses: { globaladministrators: { title: 'P79 proxy' } } } } }]);
+});
+
 it('edits holidays on blur, validates the dates, saves and confirms removal', async () => {
     const { wrapper, http } = await form(SchoolSettings);
     const panel = await tab(wrapper, 5);

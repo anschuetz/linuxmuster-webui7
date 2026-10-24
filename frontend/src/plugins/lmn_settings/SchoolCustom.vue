@@ -29,35 +29,35 @@ const aj = inject('aj');
 </Translated>
 </tr> <tr>
 <th>Proxy addresses</th> <td class="text-center">
-<input v-model.trim="s.proxyAddresses['teachers']['title']" type="text" class="form-control">
+<input v-model.trim="s.customModels.proxyAddresses['teachers']['title']" type="text" class="form-control">
 </td> <td class="text-center">
-<Checkbox v-model="s.proxyAddresses['teachers']['show']">
+<Checkbox v-model="s.customModels.proxyAddresses['teachers']['show']">
 </Checkbox>
 </td> <td class="text-center">
-<Checkbox v-model="s.proxyAddresses['teachers']['editable']">
+<Checkbox v-model="s.customModels.proxyAddresses['teachers']['editable']">
 </Checkbox>
 </td>
 </tr> <template v-for="(n, index) in [1,2,3,4,5]" :key="index">
 <tr>
 <th>Custom {{ n }}</th> <td class="text-center">
-<input v-model.trim="s.custom['teachers'][n]['title']" type="text" class="form-control">
+<input v-model.trim="s.customModels.custom['teachers'][n]['title']" type="text" class="form-control">
 </td> <td class="text-center">
-<Checkbox v-model="s.custom['teachers'][n]['show']">
+<Checkbox v-model="s.customModels.custom['teachers'][n]['show']">
 </Checkbox>
 </td> <td class="text-center">
-<Checkbox v-model="s.custom['teachers'][n]['editable']">
+<Checkbox v-model="s.customModels.custom['teachers'][n]['editable']">
 </Checkbox>
 </td>
 </tr>
 </template> <template v-for="(m, index) in [1,2,3,4,5]" :key="index">
 <tr>
 <th>Custom Multi {{ m }}</th> <td class="text-center">
-<input v-model.trim="s.customMulti['teachers'][m]['title']" type="text" class="form-control">
+<input v-model.trim="s.customModels.customMulti['teachers'][m]['title']" type="text" class="form-control">
 </td> <td class="text-center">
-<Checkbox v-model="s.customMulti['teachers'][m]['show']">
+<Checkbox v-model="s.customModels.customMulti['teachers'][m]['show']">
 </Checkbox>
 </td> <td class="text-center">
-<Checkbox v-model="s.customMulti['teachers'][m]['editable']">
+<Checkbox v-model="s.customModels.customMulti['teachers'][m]['editable']">
 </Checkbox>
 </td>
 </tr>
@@ -75,35 +75,35 @@ const aj = inject('aj');
 </Translated>
 </tr> <tr>
 <th>Proxy addresses</th> <td class="text-center">
-<input v-model.trim="s.proxyAddresses['students']['title']" type="text" class="form-control">
+<input v-model.trim="s.customModels.proxyAddresses['students']['title']" type="text" class="form-control">
 </td> <td class="text-center">
-<Checkbox v-model="s.proxyAddresses['students']['show']">
+<Checkbox v-model="s.customModels.proxyAddresses['students']['show']">
 </Checkbox>
 </td> <td class="text-center">
-<Checkbox v-model="s.proxyAddresses['students']['editable']">
+<Checkbox v-model="s.customModels.proxyAddresses['students']['editable']">
 </Checkbox>
 </td>
 </tr> <template v-for="(n, index) in [1,2,3,4,5]" :key="index">
 <tr>
 <th>Custom {{ n }}</th> <td class="text-center">
-<input v-model.trim="s.custom['students'][n]['title']" type="text" class="form-control">
+<input v-model.trim="s.customModels.custom['students'][n]['title']" type="text" class="form-control">
 </td> <td class="text-center">
-<Checkbox v-model="s.custom['students'][n]['show']">
+<Checkbox v-model="s.customModels.custom['students'][n]['show']">
 </Checkbox>
 </td> <td class="text-center">
-<Checkbox v-model="s.custom['students'][n]['editable']">
+<Checkbox v-model="s.customModels.custom['students'][n]['editable']">
 </Checkbox>
 </td>
 </tr>
 </template> <template v-for="(m, index) in [1,2,3,4,5]" :key="index">
 <tr>
 <th>Custom Multi {{ m }}</th> <td class="text-center">
-<input v-model.trim="s.customMulti['students'][m]['title']" type="text" class="form-control">
+<input v-model.trim="s.customModels.customMulti['students'][m]['title']" type="text" class="form-control">
 </td> <td class="text-center">
-<Checkbox v-model="s.customMulti['students'][m]['show']">
+<Checkbox v-model="s.customModels.customMulti['students'][m]['show']">
 </Checkbox>
 </td> <td class="text-center">
-<Checkbox v-model="s.customMulti['students'][m]['editable']">
+<Checkbox v-model="s.customModels.customMulti['students'][m]['editable']">
 </Checkbox>
 </td>
 </tr>
@@ -121,35 +121,35 @@ const aj = inject('aj');
 </Translated>
 </tr> <tr>
 <th>Proxy addresses</th> <td class="text-center">
-<input v-model.trim="s.proxyAddresses['schooladministrators']['title']" type="text" class="form-control">
+<input v-model.trim="s.customModels.proxyAddresses['schooladministrators']['title']" type="text" class="form-control">
 </td> <td class="text-center">
-<Checkbox v-model="s.proxyAddresses['schooladministrators']['show']">
+<Checkbox v-model="s.customModels.proxyAddresses['schooladministrators']['show']">
 </Checkbox>
 </td> <td class="text-center">
-<Checkbox v-model="s.proxyAddresses['schooladministrators']['editable']">
+<Checkbox v-model="s.customModels.proxyAddresses['schooladministrators']['editable']">
 </Checkbox>
 </td>
 </tr> <template v-for="(n, index) in [1,2,3,4,5]" :key="index">
 <tr>
 <th>Custom {{ n }}</th> <td class="text-center">
-<input v-model.trim="s.custom['schooladministrators'][n]['title']" type="text" class="form-control">
+<input v-model.trim="s.customModels.custom['schooladministrators'][n]['title']" type="text" class="form-control">
 </td> <td class="text-center">
-<Checkbox v-model="s.custom['schooladministrators'][n]['show']">
+<Checkbox v-model="s.customModels.custom['schooladministrators'][n]['show']">
 </Checkbox>
 </td> <td class="text-center">
-<Checkbox v-model="s.custom['schooladministrators'][n]['editable']">
+<Checkbox v-model="s.customModels.custom['schooladministrators'][n]['editable']">
 </Checkbox>
 </td>
 </tr>
 </template> <template v-for="(m, index) in [1,2,3,4,5]" :key="index">
 <tr>
 <th>Custom Multi {{ m }}</th> <td class="text-center">
-<input v-model.trim="s.customMulti['schooladministrators'][m]['title']" type="text" class="form-control">
+<input v-model.trim="s.customModels.customMulti['schooladministrators'][m]['title']" type="text" class="form-control">
 </td> <td class="text-center">
-<Checkbox v-model="s.customMulti['schooladministrators'][m]['show']">
+<Checkbox v-model="s.customModels.customMulti['schooladministrators'][m]['show']">
 </Checkbox>
 </td> <td class="text-center">
-<Checkbox v-model="s.customMulti['schooladministrators'][m]['editable']">
+<Checkbox v-model="s.customModels.customMulti['schooladministrators'][m]['editable']">
 </Checkbox>
 </td>
 </tr>
@@ -167,35 +167,35 @@ const aj = inject('aj');
 </Translated>
 </tr> <tr>
 <th>Proxy addresses</th> <td class="text-center">
-<input v-model.trim="s.proxyAddresses['globaladministrators']['title']" type="text" class="form-control">
+<input v-model.trim="s.customModels.proxyAddresses['globaladministrators']['title']" type="text" class="form-control">
 </td> <td class="text-center">
-<Checkbox v-model="s.proxyAddresses['globaladministrators']['show']">
+<Checkbox v-model="s.customModels.proxyAddresses['globaladministrators']['show']">
 </Checkbox>
 </td> <td class="text-center">
-<Checkbox v-model="s.proxyAddresses['globaladministrators']['editable']">
+<Checkbox v-model="s.customModels.proxyAddresses['globaladministrators']['editable']">
 </Checkbox>
 </td>
 </tr> <template v-for="(n, index) in [1,2,3,4,5]" :key="index">
 <tr>
 <th>Custom {{ n }}</th> <td class="text-center">
-<input v-model.trim="s.custom['globaladministrators'][n]['title']" type="text" class="form-control">
+<input v-model.trim="s.customModels.custom['globaladministrators'][n]['title']" type="text" class="form-control">
 </td> <td class="text-center">
-<Checkbox v-model="s.custom['globaladministrators'][n]['show']">
+<Checkbox v-model="s.customModels.custom['globaladministrators'][n]['show']">
 </Checkbox>
 </td> <td class="text-center">
-<Checkbox v-model="s.custom['globaladministrators'][n]['editable']">
+<Checkbox v-model="s.customModels.custom['globaladministrators'][n]['editable']">
 </Checkbox>
 </td>
 </tr>
 </template> <template v-for="(m, index) in [1,2,3,4,5]" :key="index">
 <tr>
 <th>Custom Multi {{ m }}</th> <td class="text-center">
-<input v-model.trim="s.customMulti['globaladministrators'][m]['title']" type="text" class="form-control">
+<input v-model.trim="s.customModels.customMulti['globaladministrators'][m]['title']" type="text" class="form-control">
 </td> <td class="text-center">
-<Checkbox v-model="s.customMulti['globaladministrators'][m]['show']">
+<Checkbox v-model="s.customModels.customMulti['globaladministrators'][m]['show']">
 </Checkbox>
 </td> <td class="text-center">
-<Checkbox v-model="s.customMulti['globaladministrators'][m]['editable']">
+<Checkbox v-model="s.customModels.customMulti['globaladministrators'][m]['editable']">
 </Checkbox>
 </td>
 </tr>
@@ -213,11 +213,11 @@ const aj = inject('aj');
 </tr> <template v-for="(d, index) in [1,2,3]" :key="index">
 <tr>
 <th>Custom Display {{ d }}</th> <td class="text-center">
-<select v-model="s.customDisplay['teachers'][d]" class="form-control">
+<select v-model="s.customModels.customDisplay['teachers'][d]" class="form-control">
 <option v-for="(x, optionIndex) in s.customDisplayOptions" :key="optionIndex" :value="x">{{ x }}</option>
 </select>
 </td> <td class="text-center">
-<select v-model="s.customDisplay['students'][d]" class="form-control">
+<select v-model="s.customModels.customDisplay['students'][d]" class="form-control">
 <option v-for="(x, optionIndex) in s.customDisplayOptions" :key="optionIndex" :value="x">{{ x }}</option>
 </select>
 </td>
@@ -235,11 +235,11 @@ const aj = inject('aj');
 </tr> <template v-for="(d, index) in [1,2,3]" :key="index">
 <tr>
 <th>Custom Display {{ d }}</th> <td class="text-center">
-<select v-model="s.customDisplay['globaladministrators'][d]" class="form-control">
+<select v-model="s.customModels.customDisplay['globaladministrators'][d]" class="form-control">
 <option v-for="(x, optionIndex) in s.customDisplayOptions" :key="optionIndex" :value="x">{{ x }}</option>
 </select>
 </td> <td class="text-center">
-<select v-model="s.customDisplay['schooladministrators'][d]" class="form-control">
+<select v-model="s.customModels.customDisplay['schooladministrators'][d]" class="form-control">
 <option v-for="(x, optionIndex) in s.customDisplayOptions" :key="optionIndex" :value="x">{{ x }}</option>
 </select>
 </td>

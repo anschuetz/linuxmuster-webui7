@@ -3,6 +3,7 @@ import { createValidation } from '../../common/validation.mjs';
 import { openFileBackups } from '../../common/fileBackups.mjs';
 import ApplyDialog from '../lmn_quotas/ApplyDialog.vue';
 import { openUsersCheck as openLegacyUsersCheck } from './shell.mjs';
+import { createCustomModels } from './custom-models.mjs';
 
 const classes = ['lower', 'upper', 'digit', 'special'];
 function ruleForm(rules) {
@@ -43,6 +44,7 @@ export function createSchoolSettings(aj, { openUsersCheck = openLegacyUsersCheck
         unit: 'MiB', encodings: ['auto', 'ASCII', 'ISO_8859-1', 'ISO_8859-15', 'WIN-1252', 'UTF8'],
         customDisplayOptions: ['', 'proxyAddresses', ...[1, 2, 3, 4, 5].map(n => `sophomorixCustom${n}`), ...[1, 2, 3, 4, 5].map(n => `sophomorixCustomMulti${n}`)],
     });
+    state.customModels = createCustomModels(state);
     const validPrinter = () => {
         const valid = validation.isValidDomain(state.settings.school.PRINTSERVER);
         if (valid !== true) aj.notify.error(valid);
