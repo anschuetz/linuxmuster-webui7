@@ -10,7 +10,3 @@ dependencies:
     - !PluginDependency { plugin_name: lmn_common }
 resources:
     - 'resources/vue/lmn_groupmembership.js'
-    - 'resources/js/module.coffee'
-    - 'resources/js/controllers/index.controller.coffee'
-    - 'resources/partial/index.html'
-    - 'ng:lmn.groupmembership'

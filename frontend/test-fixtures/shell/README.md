@@ -390,3 +390,20 @@ the next plugin sets its title.
 The welcome route also waits for pending Core config writes before taking its
 form snapshot. This covers an immediate Settings-Save→Wizard click while the
 save response is still in flight; failed saves cause an authorized reload.
+
+## Angular removal (P116)
+
+The production package has no Angular sources, templates, bridge, Bower or
+Multitool build. Historical Angular files above remain isolated test oracles;
+`src/adapter/ajenti.mjs` and its bridge-only tests are retired. The native adapter,
+HTTP/session/presentation and exact 55-route tests remain the replacement oracle.
+`e2e/shell.pw.mjs` now runs only Vue on Satz E, for all four roles with the same
+fixtures and real login/logout/F5. Every case checks network resources, DOM and
+trapped Angular global accesses. An old query/tab preference cannot restore Angular.
+`installed-plugins.json` lists all 36 installed IDs (8 unchanged Stock/Core,
+28 project plugins), `routes.json` lists all 55 routes; no third-party frontend
+is supported. `frontend/vendor/README.md` records the pinned static assets.
+Four remaining old toolbar event seams now use `aj.shell`; Devices' former
+Angular route listener uses the native leave guard and disposes with its route.
+Legacy plugin Alt/Neu Playwright runs belong to their original port commits;
+the shell suite is the acceptance entry for the Angular-free package.

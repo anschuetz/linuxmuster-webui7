@@ -25,7 +25,7 @@
  * @property {() => Promise<void>} refresh Renew identity and publish a fresh snapshot.
  * @property {string|null} user
  * @property {Record<string, unknown>} profile
- * @property {(profileFields: Record<string, unknown>) => void} patch Merge profile fields through the shell digest and publish a fresh reactive snapshot.
+ * @property {(profileFields: Record<string, unknown>) => void} patch Merge profile fields through the shell and publish a fresh reactive snapshot.
  * @property {boolean} isSuperuser
  *
  * @typedef {Object} PageTitle
@@ -40,9 +40,9 @@
  * @typedef {Object} Modal
  * @property {(Component: import('vue').Component, props?: Record<string, unknown>, options?: {backdrop?: 'static' | true, keyboard?: boolean, size?: 'lg'}) => Promise<unknown>} open
  * Component supplies modal-header/body/footer; emit('close', result) resolves,
- * emit('cancel'), Escape, backdrop or bridge scope destruction reject.
+ * emit('cancel'), Escape, backdrop or route disposal reject.
  * Defaults: backdrop: true, keyboard: true. backdrop: 'static' disables backdrop dismissal;
- * keyboard: false disables Escape independently. Scope destruction still rejects. size: 'lg' opts into the Bootstrap large frame.
+ * keyboard: false disables Escape independently. Route disposal still rejects. size: 'lg' opts into the Bootstrap large frame.
  *
  * @typedef {Object} ShellLayout
  * @property {{sidebar: boolean, widescreen: boolean, overlay: boolean}} layout Read-only reactive layout.
@@ -52,11 +52,11 @@
  * @property {(state?: boolean) => void} toggleOverlayNavigation Mobile state, never persisted.
  *
  * @typedef {Object} Aj
- * @property {ShellLayout} [shell] Native shell capability. Transitional consumers use useShell(aj) inside their Vue scope; the unchanged Angular adapter delegates via that shared facade.
+ * @property {ShellLayout} [shell] Native shell capability shared by all mounted plugins.
  * @property {{setLanguage: (language: string) => Promise<unknown>}} locale Change the shell language and load its catalog.
  * @property {() => Promise<unknown>} restart Open the shell restart confirmation and preserve its result.
- * @property {(fn: () => boolean|void) => (() => void)} guardLeave Register a synchronous route guard; exactly false prevents a location change. Returns an idempotent unsubscribe. The bridge scope also removes it on destruction.
- * @property {() => void} reload Reload the active route through the shell digest.
+ * @property {(fn: () => boolean|void) => (() => void)} guardLeave Register a synchronous route guard; exactly false prevents a location change. Returns an idempotent unsubscribe. The route owner also removes it on disposal.
+ * @property {() => void} reload Reload the active route through the shell.
  * @property {PageTitle} pageTitle
  * @property {Messagebox} messagebox
  * @property {Modal} modal

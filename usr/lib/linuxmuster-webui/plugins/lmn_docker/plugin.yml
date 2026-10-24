@@ -11,8 +11,4 @@ dependencies:
     }
     - !PluginDependency { plugin_name: lmn_common }
 resources:
-    - 'resources/js/module.es'
-    - 'resources/js/routing.es'
     - 'resources/vue/lmn_docker.js'
-    - 'resources/partial/index.html'
-    - 'ng:lmn.docker'

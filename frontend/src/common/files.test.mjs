@@ -1,7 +1,7 @@
 import { afterEach, expect, it, vi } from 'vitest';
 import { mount, flushPromises } from '@vue/test-utils';
 import { createMockAj } from '../adapter/mock.mjs';
-import { createModalService } from '../adapter/modal.mjs';
+import { createModalService } from '../shell/modal.mjs';
 import { openFileEditor } from './fileEditor.mjs';
 import { openFileBackups } from './fileBackups.mjs';
 import FileEditorDialog from './FileEditorDialog.vue';
@@ -131,12 +131,11 @@ it('closes and reloads a successful restore even when backup removal fails', asy
     expect(reload).toHaveBeenCalledOnce();
 });
 it('resolves openFileBackups after confirmed successful deletion', async () => {
-    let destroy;
     const http = vi.fn(async ({ url }) => ({ data: url.includes('/list/')
         ? { items: [{ name: '.a.csv.bak.100' }] } : '' }));
     const show = vi.fn().mockResolvedValue(undefined);
     const aj = createMockAj({ http, messagebox: { show } });
-    aj.modal = createModalService(() => aj, { $on: (_, cb) => { destroy = cb; return vi.fn(); } });
+    aj.modal = createModalService(() => aj);
     const resolved = vi.fn();
     const result = openFileBackups(aj, '/etc/a.csv', 'latin-1').then(resolved, () => {});
     try {
@@ -147,7 +146,7 @@ it('resolves openFileBackups after confirmed successful deletion', async () => {
         expect(http).toHaveBeenLastCalledWith(expect.objectContaining({ url: '/api/lmn/remove-file', data: { filepath: '/etc/.a.csv.bak.100' } }));
         expect(resolved).toHaveBeenCalledOnce();
         expect(document.querySelector('[role=dialog]')).toBeNull();
-    } finally { destroy(); await result; }
+    } finally { aj.modal.dispose(); await result; }
 });
 it.each([true, false])('deletion requires messagebox confirmation: %s', async (confirmed) => {
     const show = vi.fn(() => confirmed ? Promise.resolve() : Promise.reject(new Error('cancel')));
@@ -170,11 +169,11 @@ it('renders escaped diff lines, empty diff, and closes', async () => {
     await click('Close'); expect(wrapper.emitted('cancel')).toHaveLength(1);
     await wrapper.setProps({ lines: [] }); expect(wrapper.text()).toContain('No differences detected');
 });
-it('tears down an editor opened by the modal service on scope destruction', async () => {
-    let destroy; const aj = createMockAj();
-    aj.modal = createModalService(() => aj, { $on: (_, cb) => { destroy = cb; return vi.fn(); } });
+it('tears down an editor opened by the modal service on native route disposal', async () => {
+    const aj = createMockAj();
+    aj.modal = createModalService(() => aj);
     const result = openFileEditor(aj, '/tmp/a'); const rejected = expect(result).rejects.toThrow('cancelled');
-    await flushPromises(); destroy(); await rejected;
+    await flushPromises(); aj.modal.dispose(); await rejected;
     expect(document.querySelector('[role=dialog]')).toBeNull();
     expect(document.body.classList.contains('modal-open')).toBe(false);
 });

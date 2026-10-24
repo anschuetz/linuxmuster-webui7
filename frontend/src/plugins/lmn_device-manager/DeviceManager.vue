@@ -1,6 +1,5 @@
 <script setup>
 import { computed, inject, onUnmounted, ref, watch } from 'vue';
-import { useShell } from '../../shell/capability.mjs';
 import LinboRemote from './LinboRemote.vue';
 import Processes from './Processes.vue';
 import Prestart from './Prestart.vue';
@@ -9,7 +8,7 @@ const aj = inject('aj'), base = '/api/lmn/device-manager/';
 const devices = ref(), rooms = ref({}), filtered = ref(), checked = ref([]), allSelected = ref(false);
 const processes = ref([]), commands = ref([]), auto = ref(false), timerStart = ref(30), countdown = ref(30);
 const menus = ref({});
-const shell = useShell(aj), sidebar = computed(() => shell.layout.sidebar);
+const shell = aj.shell, sidebar = computed(() => shell.layout.sidebar);
 let interval;
 const timeouts = new Set();
 const closeMenus = event => { if (!event.target.closest('.input-group-btn')) menus.value = {}; };

@@ -52,7 +52,7 @@ function begin() {
     });
 }
 onMounted(() => {
-    // filesystem/plugin.yml loads ng-flow-standalone.min.js (including window.Flow).
+    // The shell loads the standalone Flow.js asset from the npm build.
     // Original smbUpload uses flow-init with exactly these options.
     flow = new globalThis.Flow({ target: `${aj.prefix || ''}${props.target}`, chunkSize: 1024 * 1024 });
     flow.assignBrowse(browse.value);

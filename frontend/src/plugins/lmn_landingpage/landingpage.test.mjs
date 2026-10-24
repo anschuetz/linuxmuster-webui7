@@ -151,7 +151,7 @@ it('missing options/empty fields keep optional cards hidden; duplicate group sor
 });
 
 it('WebDAV modal uses the original Bootstrap large dialog width', async () => {
-    const { createModalService } = await import('../../adapter/modal.mjs');
+    const { createModalService } = await import('../../shell/modal.mjs');
     const aj = createMockAj();
     const modal = createModalService(() => aj);
     const result = modal.open(WebappQR).catch(() => {});
@@ -169,7 +169,7 @@ it('keeps calculated profile quotas while quota loading fails, as the original u
     expect(w.text()).toContain('Mailquota Calculated in MB: 902 MB');
 });
 it('updates the profile card behind the still-open custom dialog, as Angular shared fields do', async () => {
-    const { createModalService } = await import('../../adapter/modal.mjs');
+    const { createModalService } = await import('../../shell/modal.mjs');
     const { w, aj } = await setup();
     aj.modal = createModalService(() => aj);
     aj.messagebox.prompt = async () => ({ value: 'changed while open' });

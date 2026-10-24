@@ -1,7 +1,7 @@
 import { afterEach, expect, it, vi } from 'vitest';
 import { mount, flushPromises } from '@vue/test-utils';
 import { createMockAj } from '../../adapter/mock.mjs';
-import { createModalService } from '../../adapter/modal.mjs';
+import { createModalService } from '../../shell/modal.mjs';
 import { result } from '../../../e2e/fixtures/users_3.mjs';
 import { responses } from '../../plugins/lmn_settings/fixtures.test-data.mjs';
 import { createSchoolSettings } from '../../plugins/lmn_settings/school.mjs';

@@ -1,6 +1,5 @@
 import { describe, expect, it } from 'vitest';
 import { createMockAj } from '../adapter/mock.mjs';
-import { createAjentiAdapter } from '../adapter/ajenti.mjs';
 import { useAdminAccess, useGlobalAdminAccess, useSambaAccess, useTeacherAccess } from './access.mjs';
 
 // Sources: lmn_common/resources/js/directives/*.es. All wait for identity.promise.
@@ -38,17 +37,7 @@ describe.each(checks)('%s', (source, useAccess, results) => {
         expect(allowed.value).toBe(results[6]);
     });
 
-    it('tracks the Ajenti adapter snapshot after the original identity promise resolves', async () => {
-        let resolve;
-        const identity = { promise: new Promise((done) => { resolve = done; }) };
-        const aj = createAjentiAdapter({ identity });
-        const allowed = useAccess(aj);
-        expect(allowed.value).toBe(true);
-        Object.assign(identity, { user: 'demo', profile: { sophomorixRole: 'student' } });
-        resolve();
-        await identity.promise;
-        expect(allowed.value).toBe(results[3]);
-    });
+
 });
 
 it.each([null, false, 0])('sambaAccess.es:17 denies falsy role %s after loading', (role) => {

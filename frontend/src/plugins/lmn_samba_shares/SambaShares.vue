@@ -19,10 +19,7 @@ const newName = ref('');
 const nameInput = ref();
 const clipboardKey = 'ngStorage-sambaSharesClipboard';
 const clipboard = ref(JSON.parse(localStorage.getItem(clipboardKey)) || []);
-const sidebar = ref(true);
-const sidebarChanged = event => { sidebar.value = event.detail; };
-window.addEventListener('lmn-samba-shares-sidebar', sidebarChanged);
-onBeforeUnmount(() => window.removeEventListener('lmn-samba-shares-sidebar', sidebarChanged));
+const sidebar = computed(() => aj.shell.layout.sidebar);
 const icons = {
     powerpoint: 'far fa-file-powerpoint', text: 'far fa-file-alt', code: 'far fa-file-code',
     word: 'far fa-file-word', pdf: 'far fa-file-pdf', excel: 'far fa-file-excel',
@@ -90,7 +87,6 @@ async function rename(item) {
 function setClipboard(value) {
     clipboard.value = value;
     localStorage.setItem(clipboardKey, JSON.stringify(value));
-    window.dispatchEvent(new CustomEvent('lmn-samba-shares-clipboard', { detail: value }));
 }
 function addClipboard(mode) {
     for (const item of selected.value) {

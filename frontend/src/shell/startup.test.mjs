@@ -1,18 +1,15 @@
 import { expect, it, vi } from 'vitest';
 import { readFileSync } from 'node:fs';
-import { selectShell, renderLegacy, start } from './startup.mjs';
-it('keeps the old entry reachable via query/config and remembers the explicit browser selection', () => {
-    const storage = { getItem: vi.fn(() => null), setItem: vi.fn() };
-    expect(selectShell({ config: {} }, new URL('https://fixture/view/?shell=vue'), storage)).toBe('vue');
-    expect(storage.setItem).toHaveBeenCalledWith('lmn-shell', 'vue');
-    expect(selectShell({ config: {}, defaultShell: 'angular' }, new URL('https://fixture/view/'), storage)).toBe('angular');
-    expect(selectShell({ config: {} }, new URL('https://fixture/view/?shell=angular'), storage)).toBe('angular');
-});
-it('renders the unchanged Angular template bootstrap using the same server values', () => {
-    const original = readFileSync('../usr/lib/linuxmuster-webui/plugins/lmn_common/resources/content/main_view.angular.html', 'utf8');
-    const html = renderLegacy(original, { prefix: '/panel', config: { language: 'en' }, plugins: { core: 'Core' }, platform: 'linux', platformUnmapped: 'Linux', version: '2', devMode: 'False', pwReset: 'True', bootstrapColor: 'blue' });
-    expect(html).toContain('/panel/resources/all.vendor.js'); expect(html).toContain("constant('pwReset', 'True')");
-    expect(html).not.toContain('%(');
+import { start } from './startup.mjs';
+it('always starts Vue despite an old Angular query or persisted choice', async () => {
+    const fetch = vi.fn(async () => new Response(JSON.stringify({ version: 1, plugins: [] })));
+    const mount = vi.fn();
+    await start({ prefix: '', plugins: {}, defaultShell: 'angular' }, {
+        url: new URL('https://fixture/view/?shell=angular'),
+        storage: { getItem: () => 'angular' }, fetch, load: async () => {}, mount,
+    });
+    expect(fetch).toHaveBeenCalledExactlyOnceWith('/resources/lmn_common/resources/vue/manifest.json');
+    expect(mount).toHaveBeenCalledOnce();
 });
 it('loads only explicit non-Angular scripts in Vue mode, restricts plugin resources to installed plugins', async () => {
     const loaded = [], mounted = vi.fn();

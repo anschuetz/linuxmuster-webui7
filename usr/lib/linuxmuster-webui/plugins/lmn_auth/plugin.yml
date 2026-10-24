@@ -9,8 +9,4 @@ dependencies:
     - !PluginDependency { plugin_name: core }
     - !PluginDependency { plugin_name: lmn_common }
 resources:
-  - resources/js/module.coffee
-  - resources/js/controllers/index.controller.coffee
   - resources/vue/lmn_auth.js
-  - resources/partial/index.html
-  - 'ng:lmn.auth'

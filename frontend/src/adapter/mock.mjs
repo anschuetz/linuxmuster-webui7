@@ -32,6 +32,7 @@ export function createMockAj({
     locale = { setLanguage: async () => undefined },
     restart = async () => undefined,
     guardLeave = () => () => {},
+    shell = reactive({ layout: { sidebar: true, widescreen: false, overlay: false }, customization: {} }),
     pageTitle = { set: () => {} },
     messagebox = {
         show: (options) => Object.assign(Promise.resolve({ ...options }), { close: () => {} }),
@@ -44,7 +45,7 @@ export function createMockAj({
         currentIdentity.profile = { ...currentIdentity.profile, ...profileFields };
     };
     return {
-        pageTitle, messagebox, modal, reload, locale, restart, guardLeave,
+        pageTitle, messagebox, modal, reload, locale, restart, guardLeave, shell,
         http: Object.fromEntries(['get', 'head', 'delete', 'post', 'put', 'patch'].map((method) => [
             method,
             async (url, ...args) => {

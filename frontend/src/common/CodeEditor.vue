@@ -25,7 +25,7 @@ function mode() {
 }
 onMounted(() => {
     if (!hasAce) return;
-    globalThis.ace.config?.set('basePath', `${aj?.prefix || ''}/resources/ace/resources/vendor/ace-builds/src-min-noconflict`);
+    globalThis.ace.config?.set('basePath', `${aj?.prefix || ''}/resources/lmn_common/resources/vue/assets/ace`);
     editor = globalThis.ace.edit(host.value);
     editor.$blockScrolling = Infinity;
     configure();

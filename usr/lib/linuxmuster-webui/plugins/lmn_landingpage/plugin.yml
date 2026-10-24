@@ -12,8 +12,4 @@ dependencies:
     - !PluginDependency { plugin_name: lmn_quotas }
 
 resources:
-    - 'resources/js/module.coffee'
-    - 'resources/js/routing.es'
     - 'resources/vue/lmn_landingpage.js'
-    - 'resources/partial/index.html'
-    - 'ng:lmn.landingpage'

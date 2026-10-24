@@ -3,6 +3,7 @@ import { createRequire } from 'node:module';
 import { join, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { build } from 'vite';
+import { buildStaticAssets } from './static-assets.mjs';
 import { pluginResource } from './src/shell/plugin-resources.mjs';
 
 const frontendRoot = fileURLToPath(new URL('.', import.meta.url));
@@ -39,7 +40,7 @@ export async function discoverPluginBuilds(root = frontendRoot) {
 
 async function buildAll() {
     const commonOutput = resolve(frontendRoot, '../usr/lib/linuxmuster-webui/plugins/lmn_common/resources/vue');
-    await build({ build: bundle(join(frontendRoot, 'src/bridge/entry.mjs'), commonOutput, 'LmnVueBridge', 'bridge.js') });
+    await buildStaticAssets(frontendRoot, commonOutput);
     for (const pluginBuild of await discoverPluginBuilds()) {
         await build({ build: pluginBuild });
     }

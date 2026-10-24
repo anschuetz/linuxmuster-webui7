@@ -8,8 +8,7 @@
     <title>School Console</title>
     <link rel="shortcut icon">
     <link rel="manifest" href="%(prefix)s/api/core/web-manifest">
-    <link rel="stylesheet" href="%(prefix)s/resources/all.vendor.css">
-    <link rel="stylesheet" href="%(prefix)s/resources/all.css">
+    <link rel="stylesheet" href="%(prefix)s/resources/lmn_common/resources/vue/styles.css">
     <link rel="stylesheet" href="%(prefix)s/resources/core/resources/vendor/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="%(prefix)s/resources/core/resources/vendor/fontawesome/css/v4-shims.css">
     <link rel="stylesheet" href="%(prefix)s/resources/core/resources/vendor/pt-sans/styles/pt_sans.css">
@@ -18,7 +17,7 @@
     <div id="lmn-shell" aria-live="polite">Loading…</div>
     <script>
         window.LmnShellBootstrap = {
-            schema: 1, defaultShell: 'vue', prefix: '%(prefix)s', plugins: %(plugins)s, config: %(config)s,
+            schema: 1, prefix: '%(prefix)s', plugins: %(plugins)s, config: %(config)s,
             platform: '%(platform)s', platformUnmapped: '%(platformUnmapped)s', version: '%(version)s',
             devMode: '%(devMode)s', bootstrapColor: '%(bootstrapColor)s', pwReset: '%(pwReset)s'
         };

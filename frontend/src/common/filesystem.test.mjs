@@ -193,5 +193,5 @@ it('prefixes standalone Flow chunk targets and Ace worker assets through the nat
     const editor = { setOptions() {}, setValue() {}, on() {}, off() {}, destroy() {}, setReadOnly() {}, getSession: () => ({ setUseWrapMode() {} }) };
     vi.stubGlobal('ace', { edit: () => editor, config: { set } });
     const view = mount(CodeEditor, { global: { provide: { aj } } }); wrappers.push(view);
-    expect(set).toHaveBeenCalledWith('basePath', '/panel/resources/ace/resources/vendor/ace-builds/src-min-noconflict');
+    expect(set).toHaveBeenCalledWith('basePath', '/panel/resources/lmn_common/resources/vue/assets/ace');
 });

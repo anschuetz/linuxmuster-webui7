@@ -104,9 +104,10 @@ it('false config response retains original literal undefined text; false mutatio
 it('toolbar follows the shell sidebar; entry mounts and disposes through adapter', async () => {
     const { mount: mountWireguard } = await import('../entry.mjs');
     const element = document.createElement('div'); document.body.append(element);
-    const dispose = mountWireguard(element, createMockAj({ http: async () => ({ data: [] }) }));
+    const aj = createMockAj({ http: async () => ({ data: [] }) });
+    const dispose = mountWireguard(element, aj);
     await flushPromises(); expect(element.querySelector('floating-toolbar .col-md-9') !== null).toEqual(true);
-    window.dispatchEvent(new CustomEvent('lmn-wireguard-sidebar', { detail: false })); await flushPromises();
+    aj.shell.layout.sidebar = false; await flushPromises();
     expect(element.querySelector('floating-toolbar .col-md-12') !== null).toEqual(true);
     dispose(); expect(element.textContent).toEqual(''); element.remove();
 });

@@ -14,8 +14,4 @@ dependencies:
         plugin_name: lmn_common 
     }
 resources:
-    - 'resources/js/module.es'
-    - 'resources/js/routing.es'
     - 'resources/vue/lmn_wireguard.js'
-    - 'resources/partial/index.html'
-    - 'ng:lmn.wireguard'

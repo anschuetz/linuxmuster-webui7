@@ -6,12 +6,8 @@ all: build
 deb:
 	dpkg-buildpackage -rfakeroot -tc -sa -us -uc -I".github" -I".git" -I"buildpackage.sh" -I".crowdin.key" -I".deepsource.toml" -I"docs" -I"docs_src" 
 
-bower:
-	ajenti-dev-multitool --bower install
-
 build:
-	ajenti-dev-multitool --msgfmt
-	ajenti-dev-multitool --build
+	cd frontend && npm ci && npm run build
 
 run:
 	/usr/local/bin/ajenti-panel -v --autologin --stock-plugins --plugins usr/lib/linuxmuster-webui/plugins $(CONFIGFILE)

@@ -1,37 +1,24 @@
-// Requires the environment printed by tools/setup-ajenti-build.sh in the coordination repo.
-// Deliberately separate from npm test: this check needs Python, Babel, CoffeeScript and Sass.
-import { spawnSync } from 'node:child_process';
-import { cp, mkdtemp, readFile, rm } from 'node:fs/promises';
-import { tmpdir } from 'node:os';
-import { basename, dirname, join, resolve } from 'node:path';
+// Compatibility entry point for the package/deployment bundle check. No Multitool.
+import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
+import { readFile, readdir } from 'node:fs/promises';
+import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { discoverPluginBuilds } from './build.mjs';
-import { createIsolatedMultitool } from './isolated-multitool.mjs';
-
-const frontend = dirname(fileURLToPath(import.meta.url));
-const plugins = resolve(frontend, '../usr/lib/linuxmuster-webui/plugins');
-const builds = await discoverPluginBuilds(frontend);
-const names = [...new Set(['lmn_common', ...builds.map(({ lib }) => basename(dirname(lib.entry)))])];
-const staging = await mkdtemp(join(tmpdir(), 'ajenti-bundle-check-'));
-try {
-    const multitool = await createIsolatedMultitool(staging);
-    for (const name of names) {
-        if (!/^[a-zA-Z0-9_-]+$/.test(name)) throw new Error(`Invalid plugin name: ${name}`);
-        const source = join(plugins, name);
-        const target = join(staging, name);
-        await cp(source, target, { recursive: true });
-        // Never let a failed compilation pass by comparing an old copied bundle.
-        await rm(join(target, 'resources/build/all.js'), { force: true });
-        const result = spawnSync(multitool, ['--rebuild'], { cwd: target, stdio: 'inherit' });
-        if (result.error) throw result.error;
-        if (result.status !== 0) throw new Error(`Multitool failed for ${name} (${result.status})`);
-        const built = await readFile(join(target, 'resources/build/all.js'));
-        const checkedIn = await readFile(join(source, 'resources/build/all.js'));
-        if (!built.equals(checkedIn)) {
-            throw new Error(`${name}/resources/build/all.js is stale; rebuild and commit the Ajenti bundle.`);
-        }
-        console.log(`Ajenti bundle current: ${name}`);
+const root = fileURLToPath(new URL('.', import.meta.url));
+const plugins = resolve(root, '../usr/lib/linuxmuster-webui/plugins');
+const output = join(plugins, 'lmn_common/resources/vue');
+const hashes = JSON.parse(await readFile(join(root, 'vendor/SHA256.json'), 'utf8'));
+for (const [name, expected] of Object.entries(hashes)) {
+    const input = await readFile(join(root, 'vendor', name));
+    assert.equal(createHash('sha256').update(input).digest('hex'), expected, `Changed pinned asset: ${name}`);
+    if (name.startsWith('ace/') || name.startsWith('fonts/') || ['flow.min.js', 'FLOW-LICENSE', 'BOOTSTRAP-LICENSE', 'AJENTI-LICENSE', 'TOASTER-LICENSE', 'LOADINGBAR-LICENSE'].includes(name)) {
+        assert.deepEqual(await readFile(join(output, 'assets', name)), input, `Stale static asset: ${name}`);
     }
-} finally {
-    await rm(staging, { recursive: true, force: true });
 }
+for (const name of await readdir(plugins)) {
+    const metadata = await readFile(join(plugins, name, 'plugin.yml'), 'utf8');
+    assert.doesNotMatch(metadata, /ng:|resources\/(?:js|partial|build)\//, name);
+}
+assert.match(await readFile(join(output, 'styles.css'), 'utf8'), /assets\/fonts\/glyphicons/);
+await import('./check-built-resources.mjs');
+console.log('Vue bundles, pinned static assets and plugin metadata current; no Angular build.');

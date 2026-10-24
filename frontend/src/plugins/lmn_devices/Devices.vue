@@ -17,9 +17,7 @@ const page = ref(1);
 const pageSize = ref(100);
 const menu = ref('');
 const dirty = ref(false);
-const sidebar = ref(true);
-const sidebarChanged = (event) => { sidebar.value = event.detail; };
-window.addEventListener('lmn-devices-sidebar', sidebarChanged);
+const sidebar = computed(() => aj.shell.layout.sidebar);
 const showErrors = ref(false);
 const closeMenus = (event) => { if (!event.target.closest('.input-group-btn')) menu.value = ''; };
 window.addEventListener('click', closeMenus);
@@ -131,16 +129,12 @@ function keydown(event) {
     const action = actions[event.key.toLowerCase()];
     if (action) { event.preventDefault(); action(); }
 }
-function leave(event) {
-    if (dirty.value && !window.confirm(aj.gettext('Changes are not saved, continue anyway ?'))) event.preventDefault();
-}
+const offLeave = aj.guardLeave(() => !dirty.value || window.confirm(aj.gettext('Changes are not saved, continue anyway ?')));
 window.addEventListener('keydown', keydown);
-window.addEventListener('lmn-devices-leave', leave);
 onBeforeUnmount(() => {
     window.removeEventListener('click', closeMenus);
-    window.removeEventListener('lmn-devices-sidebar', sidebarChanged);
     window.removeEventListener('keydown', keydown);
-    window.removeEventListener('lmn-devices-leave', leave);
+    offLeave();
 });
 aj.pageTitle.set(aj.gettext('Devices'));
 async function load(url, receive) {

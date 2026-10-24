@@ -114,14 +114,13 @@ it('wires image editing/copying and publishes the returned main/diff draft befor
     prompt.mockResolvedValue({value:'copy'});await wrapper.find('[data-action="duplicate"]').trigger('click');await flushPromises();
     expect(calls.filter(c=>c.url.includes('/duplicateImage/')).map(c=>c.data)).toEqual([{new_name:'copy'}]);
 });
-it('keeps both toolbars aligned with shell sidebar changes and removes the listener on unmount',async()=>{
- const remove=vi.spyOn(window,'removeEventListener');
- const {wrapper}=setup();await flushPromises();
- window.dispatchEvent(new CustomEvent('lmn-linbo4-sidebar',{detail:false}));await wrapper.vm.$nextTick();
+it('keeps both toolbars aligned with shell sidebar changes through the native capability',async()=>{
+ const {wrapper,aj}=setup();await flushPromises();
+ aj.shell.layout.sidebar=false;await wrapper.vm.$nextTick();
  expect(wrapper.findComponent(GroupsTab).find('floating-toolbar .col-md-12 .bar').exists()).toEqual(true);
- window.dispatchEvent(new CustomEvent('lmn-linbo4-sidebar',{detail:true}));await wrapper.vm.$nextTick();
+ aj.shell.layout.sidebar=true;await wrapper.vm.$nextTick();
  expect(wrapper.findComponent(GroupsTab).find('floating-toolbar .col-md-9 .bar').exists()).toEqual(true);
  await wrapper.findAll('.nav-tabs a')[1].trigger('click');await wrapper.find('input[type="checkbox"]').setValue(true);
  expect(wrapper.find('[data-action="delete-selected"]').element.closest('.bar')).not.toEqual(null);
- wrapper.unmount();wrappers.pop();expect(remove.mock.calls.map(c=>c[0])).toContain('lmn-linbo4-sidebar');
+ wrapper.unmount();wrappers.pop();
 });

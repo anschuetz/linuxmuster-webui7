@@ -12,9 +12,4 @@ dependencies:
     - !PluginDependency {
         plugin_name: dashboard
     }
-resources:
-    - 'resources/js/module.coffee'
-    - 'resources/js/controllers/widget.controller.coffee'
-    - 'resources/partial/widget.html'
-    - 'resources/partial/widget.config.html'
-    - 'ng:lmn.wdatetime'
+resources: []

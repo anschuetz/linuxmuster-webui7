@@ -1,5 +1,5 @@
 <script setup>
-import { inject, onBeforeUnmount, ref } from 'vue';
+import { computed, inject, onBeforeUnmount, ref } from 'vue';
 import { editConfig } from './config.mjs';
 import { importDevices } from './import.mjs';
 import GroupsTab from './GroupsTab.vue';
@@ -30,10 +30,7 @@ async function showBackups(image) {
         });
     } catch { /* Modal dismissal. */ }
 }
-const sidebar = ref(true);
-const sidebarChanged = event => { sidebar.value = event.detail; };
-window.addEventListener('lmn-linbo4-sidebar', sidebarChanged);
-onBeforeUnmount(() => window.removeEventListener('lmn-linbo4-sidebar', sidebarChanged));
+const sidebar = computed(() => aj.shell.layout.sidebar);
 const tab = ref(initialTab(window.location.hash));
 aj.pageTitle.set(aj.gettext('LINBO 4'));
 const offLeave = aj.guardLeave(() => !state.changed || window.confirm(aj.gettext('You should call an import devices process to apply the new changes, quit this page anyway ?')));

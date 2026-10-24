@@ -1,13 +1,10 @@
 <script setup>
-import { inject, onBeforeUnmount, ref } from 'vue';
+import { computed, inject, onBeforeUnmount, ref } from 'vue';
 import ConfigDialog from './ConfigDialog.vue';
 import ImportDialog from './ImportDialog.vue';
 const aj = inject('aj');
 const peers = ref(), status = ref({});
-const sidebar = ref(true);
-const sidebarChanged = event => { sidebar.value = event.detail; };
-window.addEventListener('lmn-wireguard-sidebar', sidebarChanged);
-onBeforeUnmount(() => window.removeEventListener('lmn-wireguard-sidebar', sidebarChanged));
+const sidebar = computed(() => aj.shell.layout.sidebar);
 const api = (url, method = 'GET', data) => aj.http.post('/api/lmn/wireguard', { url: '/api/wireguard/' + url, method, ...(data === undefined ? {} : { data }) });
 aj.pageTitle.set(aj.gettext('Wireguard'));
 async function loadStatus() {

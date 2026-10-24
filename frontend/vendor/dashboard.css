@@ -1,0 +1,56 @@
+.dashboard-widgets-container > .row > div {
+  padding: 0 0 50px;
+}
+.dashboard-widgets-container .widget {
+  margin: 20px;
+  padding: 5px 10px;
+  background: white;
+  position: relative;
+}
+.dashboard-widgets-container .widget.sv-helper {
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.25);
+}
+.dashboard-widgets-container .widget .widget-header {
+  font-size: 12px;
+}
+.dashboard-widgets-container .widget .widget-value {
+  font-size: 24px;
+}
+.dashboard-widgets-container .widget .widget-value sup {
+  font-size: 10px;
+  top: -12px;
+}
+.dashboard-widgets-container .widget .widget-btn {
+  position: absolute;
+  top: -15px;
+  opacity: 0;
+  transition: all 0.5s;
+}
+.dashboard-widgets-container .widget .config-btn {
+  right: 110px;
+}
+.dashboard-widgets-container .widget .move-btn {
+  right: 60px;
+}
+.dashboard-widgets-container .widget .remove-btn {
+  right: 10px;
+}
+.dashboard-widgets-container .widget:hover .widget-btn {
+  opacity: 1;
+}
+.dashboard-widgets-container .placeholder {
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.25);
+  opacity: .5;
+  height: 20px;
+}
+.dashboard-widgets-container .trash-container {
+  padding: 20px 0;
+}
+.dashboard-widgets-container .trash {
+  padding: 20px;
+  display: none;
+}
+.dashboard-widgets-container:hover .trash {
+  display: block;
+}
+

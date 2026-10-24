@@ -2,7 +2,7 @@ import { afterEach, expect, it, vi } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { createLocale } from '../../shell/locale.mjs';
 import { mount, flushPromises } from '@vue/test-utils';
-import { createModalService } from '../../adapter/modal.mjs';
+import { createModalService } from '../../shell/modal.mjs';
 import { createMockAj } from '../../adapter/mock.mjs';
 import { createValidation } from '../../common/validation.mjs';
 import { createLists, listFields, newListUser, validateListField, listRows, listTabs, hotkeyTabs, listLabels, addLabels } from './lists.mjs';

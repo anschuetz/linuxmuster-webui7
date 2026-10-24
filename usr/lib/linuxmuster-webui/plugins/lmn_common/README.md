@@ -1,6 +1,6 @@
 # lmn_common
 
-Shared foundation plugin for the [linuxmuster.net](https://www.linuxmuster.net) web interface (Ajenti). It is not a feature page of its own but the common layer every other `lmn_*` plugin depends on: the webui/Samba configuration, the multischool school context, the `linuxmuster-api` HTTP client, the sophomorix connector, the sidebar categories, and a set of shared Angular directives, services and the school switcher.
+Shared foundation plugin for the [linuxmuster.net](https://www.linuxmuster.net) web interface (Ajenti). It is not a feature page of its own but the common layer every other `lmn_*` plugin depends on: the webui/Samba configuration, the multischool school context, the `linuxmuster-api` HTTP client, the sophomorix connector, the sidebar categories, and the shared Vue components and school switcher.
 
 Most of it is backend/library code consumed via `from aj.plugins.lmn_common.api import …`; the few HTTP endpoints it mounts are generic file/version/school helpers used across the webui.
 
@@ -13,11 +13,7 @@ Most of it is backend/library code consumed via `from aj.plugins.lmn_common.api 
 - **Application skeleton** (`resources/content/main_view.html`) — the "School Console" page template: top navbar (logo, page title, quick search, session timer, profile menu with TFA / logout, machine name) and the current-school badge with a **(change)** link when the setup is multischool.
 - **School switcher** (route `/view/lmn/change-school`) — a panel showing the **Current** school, a **Filter** search box and a list of all schools; clicking one switches the active school. Shown only when `school_show` is set (multischool and allowed); otherwise an info banner explains it is not a multischool setup.
 - **Sidebar categories** — `main.py` registers the top-level sidebar groups other plugins attach to: *User Management*, *List Management*, *Quota*, *Device Management*, *Classroom*, *Settings*, *Global Settings*.
-- **Shared Angular directives** used as access guards and widgets throughout the webui:
-  - `admin-access`, `global-admin-access`, `teacher-access`, `samba-access` — replace a restricted page with a warning banner depending on `sophomorixRole` (the `samba-access` one also points a root user to the setup wizard).
-  - `lm-log` — live tail of a server log file (polls `/api/lmn/log`), with an autoscroll toggle.
-  - `lm-drag-upload` — drag-and-drop file upload widget.
-- **Shared services / modals** — `lmFileEditor` (ace-based config editor with the `lmFileEditor.modal`), `lmFileBackups` (backup list and diff modals), `lmnNotify` (persistent notifications), `validation`, `wait`.
+- **Shared Vue components** — role guards, live log polling, uploads, Ace file editor, backup/diff dialogs, validation, notifications and wait dialogs. All use the `aj` adapter.
 
 ### Backend
 
@@ -58,23 +54,20 @@ Mounted under `/api/lmn/`. None of these use an `@authorize` guard; the file-rel
 - A reachable `linuxmuster-api` for the `LmnapiClient` helpers, and `sophomorix` on the server for `lmn_getSophomorixValue`.
 - `permissions.yml` here only sets role defaults for core/sidebar permissions; the plugin declares no permission of its own.
 
-## Vue shell and temporary fallback
+## Vue shell
 
 `resources/content/main_view.html` is the version 1 bootstrap entry selected by the
 existing Ajenti view configuration. It supplies the same server bootstrap values;
 `resources/vue/manifest.json` lists the compiled plugin resources. Vue loads the
-shared runtime, shell and installed plugin IIFEs directly, plus the existing Ace
-and standalone Flow assets. `all.vendor.css` and `all.css` retain Bootstrap 3 and
-plugin styling. No Angular JavaScript bundle or bridge is loaded in Vue mode.
+shared runtime, shell and installed plugin IIFEs directly, plus the pinned Ace
+and standalone Flow assets. `styles.css` retains Bootstrap 3 and plugin styling. No Angular JavaScript bundle or bridge is loaded by the shell.
 Stock/Core packages and their fallback template are unchanged (ENT9).
 
-Until shell acceptance, `?shell=angular` opens the previous interface and
-`?shell=vue` opens the Vue shell. An explicit choice persists in this tab's
-`sessionStorage` across navigation, F5, login and logout. The default is the
-`defaultShell` value in the versioned entry template; no new server config key is
-required. The previous HTML is retained verbatim as `main_view.angular.html` and
-receives the same bootstrap values before its original scripts run. A failed Vue
-bootstrap offers a link to the previous interface.
+AngularJS has been removed from this package. `?shell=angular` and saved shell
+choices no longer switch runtimes. Angular-only third-party plugins are unsupported.
+The npm build supplies Bootstrap 3/Ajenti CSS, Ace and standalone Flow from pinned
+static inputs in `frontend/vendor`; Stock/Core Python packages remain unchanged.
+Locale JSON and the resource/locale backend remain available.
 
 ### Vue plugin contract (ENT10)
 

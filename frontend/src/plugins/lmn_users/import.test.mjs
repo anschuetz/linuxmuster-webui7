@@ -60,12 +60,6 @@ it('loads actual German PO for upload warning, controls and sort labels',async()
  const sort=render(SortListDialog,s.aj,{userlist:'teachers.csv',columns:columns()});expect(sort.text()).toContain('Liste sortieren');expect(sort.text()).toContain('Linuxmuster muss wissen');expect(sort.text()).toContain('Sortierung akzeptieren');expect(sort.findAll('[data-column-title]').map(x=>x.text())).toEqual(['Nachname','Vorname','Geburtsdatum','benutzername','nicht verwendet','nicht verwendet']);
 });
 
-it('production list route mounts the registered Vue view without the old page controller',()=>{
- const root='../usr/lib/linuxmuster-webui/plugins/lmn_users/';
- expect(readFileSync(root+'resources/partial/listmanagement.html','utf8').trim()).toEqual('<lmn-vue-mount entry="LmnVue_lmn_users" view="listmanagement"></lmn-vue-mount>');
- expect(readFileSync(root+'resources/js/listmanagement.route.es','utf8')).not.toContain('controller:');
-});
-
 it.each(['parents.csv','staff.csv'])('retains raw numeric columns for undefined %s mapping',async userlist=>{
  const s=setup(),w=render(SortListDialog,s.aj,{userlist,columns:columns()});expect(w.findAll('[data-column-title]')).toEqual([]);expect(w.find('input[type=checkbox]').exists()).toEqual(false);await button(w,'Accept Sorting').trigger('click');expect(w.emitted('close')).toEqual([[columns()]]);
 });

@@ -1,8 +1,7 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { readFileSync } from 'node:fs';
-import vm from 'node:vm';
+import { reactive } from 'vue';
 import { mount, flushPromises } from '@vue/test-utils';
-import { createModalService } from '../../adapter/modal.mjs';
+import { createModalService } from '../../shell/modal.mjs';
 import Devices from './Devices.vue';
 import ApplyDialog from './ApplyDialog.vue';
 import AddDialog from './AddDialog.vue';
@@ -12,7 +11,10 @@ const device = (changes = {}) => ({ room: 'r100', hostname: 'pc01', group: 'ubun
 const comment = { room: '# P17 comment' };
 let wrappers = [];
 function setup(data = [comment, device()], overrides = {}) {
+    const guards = [], offLeave = vi.fn();
     const aj = {
+        shell: reactive({ layout: { sidebar: true } }),
+        guardLeave: fn => { guards.push(fn); return offLeave; },
         gettext: (s) => s, identity: { user: 'admin', profile: {} },
         pageTitle: { set: vi.fn() }, reload: vi.fn(),
         http: { get: vi.fn(async (url) => ({ data: url.endsWith('/groups') ? ['ubuntu', 'win'] : url.endsWith('/activeschool') ? 'default-school' : structuredClone(data) })), post: vi.fn(async () => ({})) },
@@ -21,7 +23,7 @@ function setup(data = [comment, device()], overrides = {}) {
     aj.modal = createModalService(() => aj);
     const wrapper = mount(Devices, { attachTo: document.body, global: { provide: { aj } } });
     wrappers.push(wrapper);
-    return { wrapper, aj };
+    return { wrapper, aj, guards, offLeave };
 }
 const button = (w, text) => w.findAll('button, a.btn').find((b) => b.text() === text);
 const rows = (w) => w.findAll('tr.device-row');
@@ -143,14 +145,15 @@ describe('devices original view contract', () => {
         expect(w.find('#error_messages').exists()).toBe(false);
     });
     it('keeps legacy visible-page-only validation and pristine-before-response behavior', async () => {
-        const { wrapper: w, aj } = setup([device(), device({ hostname: 'bad', mac: 'invalid', ip: '10.0.0.2' })]); await flushPromises();
+        const { wrapper: w, aj, guards } = setup([device(), device({ hostname: 'bad', mac: 'invalid', ip: '10.0.0.2' })]); await flushPromises();
         await w.find('input[type="search"]').setValue('pc01');
         aj.http.post.mockRejectedValueOnce(new Error('backend'));
         await cell(w, 'room').setValue('r101'); await cell(w, 'room').trigger('blur');
         await button(w, 'Save').trigger('click'); await flushPromises();
         expect(aj.http.post).toHaveBeenCalledOnce();
         const confirm = vi.spyOn(window, 'confirm');
-        window.dispatchEvent(new Event('lmn-devices-leave', { cancelable: true }));
+        // The native guard sees the pristine state after the save starts.
+        expect(guards[0]()).toBe(true);
         expect(confirm).not.toHaveBeenCalled();
         expect(aj.notify.success).not.toHaveBeenCalled();
     });
@@ -188,20 +191,18 @@ describe('devices original view contract', () => {
         expect(aj.reload).toHaveBeenCalledOnce();
     });
     it('handles Ctrl S/I/B and cancels leaving dirty forms, removing handlers on unmount', async () => {
-        const { wrapper: w, aj } = setup(); await flushPromises();
+        const { wrapper: w, aj, guards, offLeave } = setup(); await flushPromises();
         aj.modal.open = vi.fn().mockResolvedValue();
         await cell(w, 'room').setValue('r102'); await cell(w, 'room').trigger('blur');
         const confirm = vi.spyOn(window, 'confirm').mockReturnValue(false);
-        const leave = new Event('lmn-devices-leave', { cancelable: true }); window.dispatchEvent(leave);
-        expect(leave.defaultPrevented).toBe(true);
+        expect(guards[0]()).toBe(false);
         confirm.mockReturnValue(true);
-        const accepted = new Event('lmn-devices-leave', { cancelable: true }); window.dispatchEvent(accepted);
-        expect(accepted.defaultPrevented).toBe(false);
+        expect(guards[0]()).toBe(true);
         for (const key of ['s', 'i', 'b']) { window.dispatchEvent(new KeyboardEvent('keydown', { key, ctrlKey: true, cancelable: true })); await flushPromises(); }
         expect(aj.http.post).toHaveBeenCalledTimes(2);
         expect(aj.modal.open.mock.calls[0][0]).toBe(ApplyDialog);
         expect(aj.modal.open).toHaveBeenCalledTimes(2);
-        w.unmount(); wrappers = [];
+        w.unmount(); wrappers = []; expect(offLeave).toHaveBeenCalledOnce();
         window.dispatchEvent(new KeyboardEvent('keydown', { key: 's', ctrlKey: true }));
         expect(aj.http.post).toHaveBeenCalledTimes(2);
     });
@@ -215,13 +216,13 @@ describe('devices original view contract', () => {
         expect(w.findAll('.has-error-new')).toHaveLength(1);
     });
     it('normalizes MAC input using the same visible-row index as the legacy validator', async () => {
-        const { wrapper: w } = setup([device({ mac: '021700000002' })]); await flushPromises();
+        const { wrapper: w, aj } = setup([device({ mac: '021700000002' })]); await flushPromises();
         expect(cell(w, 'mac').element.value).toBe('02:17:00:00:00:02');
         await cell(w, 'mac').setValue('021700000001'); await cell(w, 'mac').trigger('blur');
         expect(cell(w, 'mac').element.value).toBe('02:17:00:00:00:01');
         await cell(w, 'group').setValue('other');
         expect(cell(w, 'group').element.value).toBe('other');
-        window.dispatchEvent(new CustomEvent('lmn-devices-sidebar', { detail: false })); await flushPromises();
+        aj.shell.layout.sidebar = false; await flushPromises();
         expect(w.find('floating-toolbar .col-md-12').exists()).toBe(true);
     });
     it('keeps the spinner on failed load and does not render an empty table', async () => {
@@ -270,24 +271,5 @@ describe('device dialogs', () => {
         const aj = { gettext: (s) => s, http: { post: vi.fn().mockRejectedValue({ data: { message: 'failed' } }), get: vi.fn().mockResolvedValue({ data: '' }) }, notify: { success: vi.fn(), error: vi.fn() } };
         const w = mount(ApplyDialog, { global: { provide: { aj } } }); wrappers.push(w); await flushPromises();
         expect(aj.notify.error).toHaveBeenCalledWith('Import failed', 'failed'); expect(button(w, 'Details')).toBeDefined(); expect(button(w, 'Close')).toBeDefined();
-    });
-});
-
-
-describe('Angular shell glue', () => {
-    it('cancels location changes through the local Vue event and removes scope watches', () => {
-        let directive; let route;
-        const module = { config: (fn) => fn({ when: (path, config) => { route = { path, config }; } }), directive: (_, fn) => { directive = fn(); } };
-        vm.runInNewContext(readFileSync('../usr/lib/linuxmuster-webui/plugins/lmn_devices/resources/js/routing.es', 'utf8'), { angular: { module: () => module }, window, Event, CustomEvent });
-        expect(route.path).toBe('/view/lmn/devices');
-        expect(route.config.controller).toBeUndefined();
-        const events = {}; const off = vi.fn(); const offWatch = vi.fn();
-        const scope = { $on: (name, fn) => { events[name] = fn; return off; }, $watch: (_, fn) => { fn(false); return offWatch; } };
-        const cancel = (e) => e.preventDefault(); window.addEventListener('lmn-devices-leave', cancel);
-        directive.link(scope);
-        const event = { preventDefault: vi.fn() }; events.$locationChangeStart(event);
-        expect(event.preventDefault).toHaveBeenCalledOnce();
-        window.removeEventListener('lmn-devices-leave', cancel);
-        events.$destroy(); expect(off).toHaveBeenCalledOnce(); expect(offWatch).toHaveBeenCalledOnce();
     });
 });

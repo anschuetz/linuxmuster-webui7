@@ -9,13 +9,6 @@ dependencies:
     - !PluginDependency { plugin_name: core}
     - !PluginDependency { plugin_name: lmn_common }
 resources:
-    - 'resources/js/module.coffee'
-    - 'resources/js/routing.es'
     - 'resources/vue/lmn_session_new.js'
-    - 'resources/partial/session.html'
-    - 'resources/partial/sessionsList.html'
-    - 'resources/partial/selectFile.modal.html'
-    - 'resources/partial/roomDetails.modal.html'
     - 'resources/styles.scss'
-    - 'ng:lmn.session_new'
 

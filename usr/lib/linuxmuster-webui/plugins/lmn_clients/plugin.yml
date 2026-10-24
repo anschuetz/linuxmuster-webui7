@@ -8,8 +8,4 @@ icon: fas fa-toolbox
 dependencies:
     - !PluginDependency { plugin_name: lmn_common}
 resources:
-    - 'resources/js/module.es'
-    - 'resources/js/routing.es'
     - 'resources/vue/lmn_clients.js'
-    - 'resources/partial/index.html'
-    - 'ng:lmn.clients'

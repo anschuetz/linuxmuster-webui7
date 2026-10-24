@@ -1,9 +1,8 @@
 <script setup>
 import { inject, ref, watch } from 'vue';
-import { useShell } from '../../../shell/capability.mjs';
 
 const aj = inject('aj');
-const shell = useShell(aj);
+const shell = aj.shell;
 const responsecode = ref(1);
 aj.pageTitle.set(aj.gettext('Nextcloud'));
 watch(() => aj.identity.user, async user => {

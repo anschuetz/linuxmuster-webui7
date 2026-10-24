@@ -1,14 +1,35 @@
 import { test, expect as baseExpect } from '@playwright/test';
 import { settings } from './playwright.config.mjs';
 const expect = baseExpect.configure({ timeout: 15000 });
-test.afterEach(async ({ page }) => { await page.unrouteAll({ behavior: 'wait' }); });
-const modes = ['angular', 'vue'];
+test.beforeEach(async ({ page }) => {
+    page.angularResources = [];
+    page.bootstrapErrors = [];
+    page.on('console', message => { if (message.type() === 'error' && message.text().includes('Shell bootstrap failed')) page.bootstrapErrors.push(message.text()); });
+    page.on('request', request => {
+        if (/\/(?:all\.(?:vendor\.|init\.|partials\.)?js|all(?:\.vendor)?\.css)(?:\?|$)|angular|ng-flow|bridge\.js/.test(new URL(request.url()).pathname)) page.angularResources.push(request.url());
+    });
+    await page.addInitScript(() => {
+        window.__angularReads = 0;
+        Object.defineProperty(window, 'angular', {
+            get() { window.__angularReads++; return undefined; },
+            set() { throw new Error('Angular runtime loaded'); }, configurable: false,
+        });
+    });
+});
+test.afterEach(async ({ page }) => {
+    expect(page.bootstrapErrors).toEqual([]);
+    expect(page.angularResources).toEqual([]);
+    expect(await page.evaluate(() => window.__angularReads)).toBe(0);
+    expect(await page.evaluate(() => [...document.querySelectorAll('*')].flatMap(el => [...el.attributes].map(a => a.name)).filter(name => /^(?:ng[-:]|data-ng-|lmn-vue-mount)/.test(name)))).toEqual([]);
+    await page.unrouteAll({ behavior: 'wait' });
+});
+const modes = ['vue'];
 const roles = [settings.roles[0], { name: 'school-admin', login: process.env.E2E_SCHOOL_LOGIN, pw: process.env.E2E_SCHOOL_PASSWORD }, settings.roles[1], { name: 'student', login: process.env.E2E_STUDENT_LOGIN, pw: process.env.E2E_STUDENT_PASSWORD }];
-const username = (p, mode) => p.locator(mode === 'vue' ? 'input[name=username]' : 'input[ng\\:model=username]');
-const password = (p, mode) => p.locator(mode === 'vue' ? 'input[name=password]' : 'input[type=password][ng\\:model=password]');
+const username = p => p.locator('input[name=username]');
+const password = p => p.locator('input[name=password]');
 async function login(p, mode, role) {
     await username(p, mode).fill(role.login); await password(p, mode).fill(role.pw);
-    await p.locator(mode === 'vue' ? 'button[type=submit]' : 'a[ng\\:click="login()"]:visible').click();
+    await p.locator('button[type=submit]').click();
 }
 for (const mode of modes) for (const role of roles) test(`${mode} real session ${role.name}`, async ({ page }) => {
     test.setTimeout(60000);
@@ -23,13 +44,12 @@ for (const mode of modes) for (const role of roles) test(`${mode} real session $
     await page.reload(); await expect(page.locator('.profile-button:visible')).toHaveCount(1);
     if (mode === 'vue') {
         await expect.poll(() => updates.includes(200)).toBe(true);
-        expect(await page.evaluate(() => typeof window.angular)).toBe('undefined');
         expect(scripts.filter(s => /\/all\.(vendor|init|partials)?\.?js$/.test(s))).toEqual([]);
         expect(await page.evaluate(() => typeof window.Flow)).toBe('function');
         expect(await page.evaluate(() => typeof window.ace?.edit)).toBe('function');
     }
     await page.locator('.profile-button:visible').click();
-    await page.locator(mode === 'vue' ? 'a.logout:visible' : 'a[ng\\:click="identity.logout()"]:visible').click();
+    await page.locator('a.logout:visible').click();
     await expect(username(page, mode)).toBeVisible();
     expect(errors).toEqual([]);
 });
@@ -39,7 +59,7 @@ for (const mode of modes) for (const role of roles) test(`${mode} same auth and 
     test.setTimeout(90000);
     const s = await shellFixtures(page, role);
     await page.goto(`/view/login/normal?shell=${mode}`); await login(page, mode, role);
-    const code = page.locator(mode === 'vue' ? 'input[name=code]' : 'input[ng\\:model=code]');
+    const code = page.locator('input[name=code]');
     await expect(code).toBeVisible();
     for (let i = 0; i < 3; i++) { await code.fill('654321'); await expect.poll(() => s.attempts).toBe(i + 1); }
     await expect(code).not.toBeVisible();
@@ -101,7 +121,7 @@ for (const mode of modes) test(`${mode} sudo changes an authenticated identity a
     const s = await shellFixtures(page, roles[2], { authenticated: true });
     await page.goto(`/view/login/sudo:fixture-other/ignored/next?shell=${mode}`);
     await password(page, mode).fill('fixture');
-    await page.locator(mode === 'vue' ? 'button[type=submit]' : 'a[ng\\:click="login()"]:visible').click();
+    await page.locator('button[type=submit]').click();
     await expect(page).toHaveURL(/\/view\/lmn\/landingpage/);
     expect(s.sudo).toBe(true); expect(s.user).toBe('fixture-other');
     expect(s.unexpected ?? []).toEqual([]);
@@ -111,7 +131,6 @@ test('the entry defaults to Vue after the green parity oracle without a query se
     await shellFixtures(page, roles[0]);
     await page.goto('/view/login/normal');
     await expect(username(page, 'vue')).toBeVisible();
-    expect(await page.evaluate(() => typeof window.angular)).toBe('undefined');
 });
 
 test('Vue mounts Device Manager using its dotted bootstrap ID and the common resource alias', async ({ page }) => {
@@ -131,8 +150,8 @@ test('Vue mounts Device Manager using its dotted bootstrap ID and the common res
 for (const mode of modes) test(`${mode} wizard preserves config saved in stock settings (fixture)`, async ({ page }) => {
     const s = await shellFixtures(page, roles[0], { authenticated: true });
     await page.goto(`/view/settings?shell=${mode}`);
-    await page.locator(mode === 'vue' ? 'input[aria-label="Machine name"]' : 'input[ng\\:model="config.data.name"]').fill('saved in settings');
-    await page.locator(mode === 'vue' ? 'button[data-action=save]' : 'a[ng\\:click="save()"]:visible').click();
+    await page.locator('input[aria-label="Machine name"]').fill('saved in settings');
+    await page.locator('button[data-action=save]').click();
     await expect.poll(() => s.coreWrites.length).toBe(1);
     expect(s.coreWrites[0].name).toBe('saved in settings');
     await go(page, '/view/lmn/init/welcome');
@@ -141,4 +160,35 @@ for (const mode of modes) test(`${mode} wizard preserves config saved in stock s
     await expect.poll(() => s.coreWrites.length).toBe(2);
     expect(s.coreWrites[1]).toMatchObject({ name: 'saved in settings', auth: { provider: 'fixture' }, ssl: { certificate: '/tmp/fixture.pem' }, trusted_proxies: ['192.0.2.1'] });
     expect(s.unexpected ?? []).toEqual([]);
+});
+
+test('old Angular query/storage always loads Vue and the complete installed plugin register', async ({ page }) => {
+    const { readFileSync } = await import('node:fs');
+    const installed = JSON.parse(readFileSync(new URL('../test-fixtures/shell/installed-plugins.json', import.meta.url)));
+    await page.addInitScript(() => sessionStorage.setItem('lmn-shell', 'angular'));
+    await page.goto('/view/login/normal?shell=angular');
+    await expect(username(page)).toBeVisible();
+    expect(await page.evaluate(() => window.LmnShellBootstrap.plugins)).toEqual(installed);
+    const manifest = await page.evaluate(async () => (await fetch('/resources/lmn_common/resources/vue/manifest.json')).json());
+    for (const { id } of manifest.plugins) expect(Object.hasOwn(installed, id)).toBe(true);
+});
+
+test('pinned Bootstrap, Ace mode/worker and standalone Flow are served by the new build', async ({ page }) => {
+    const responses = [];
+    page.on('response', response => { if (response.url().includes('/vue/assets/')) responses.push([response.url(), response.status()]); });
+    await shellFixtures(page, roles[0]);
+    await page.goto('/view/login/normal'); await expect(username(page)).toBeVisible();
+    await page.evaluate(() => {
+        const host = document.createElement('div'); host.id = 'asset-editor'; document.body.append(host);
+        host.style.cssText = 'width:300px;height:100px';
+        ace.config.set('basePath', '/resources/lmn_common/resources/vue/assets/ace');
+        window.assetEditor = ace.edit(host);
+        assetEditor.session.setMode('ace/mode/javascript'); assetEditor.setValue('const fixture = 1;');
+        const button = document.createElement('button'); button.id = 'asset-button'; button.className = 'btn btn-default'; document.body.append(button);
+    });
+    await expect.poll(() => responses.some(([url, status]) => url.endsWith('/mode-javascript.js') && status === 200)).toBe(true);
+    await expect.poll(() => responses.some(([url, status]) => url.endsWith('/worker-javascript.js') && status === 200)).toBe(true);
+    expect(await page.evaluate(() => [assetEditor.getValue(), typeof Flow, getComputedStyle(document.getElementById('asset-button')).display])).toEqual(['const fixture = 1;', 'function', 'inline-block']);
+    expect(responses.filter(([, status]) => status !== 200)).toEqual([]);
+    await page.evaluate(() => assetEditor.destroy());
 });

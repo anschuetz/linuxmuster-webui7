@@ -13,8 +13,4 @@ dependencies:
         plugin_name: lmn_common
     }
 resources:
-    - 'resources/js/module.es'
-    - 'resources/js/routing.es'
     - 'resources/vue/lmn_samba_dns.js'
-    - 'resources/partial/index.html'
-    - 'ng:lmn.samba_dns'

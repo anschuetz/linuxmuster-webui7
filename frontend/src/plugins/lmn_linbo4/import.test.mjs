@@ -1,7 +1,7 @@
 import { afterEach, expect, it, vi } from 'vitest';
 import { mount, flushPromises } from '@vue/test-utils';
 import { createMockAj } from '../../adapter/mock.mjs';
-import { createModalService } from '../../adapter/modal.mjs';
+import { createModalService } from '../../shell/modal.mjs';
 import ImportDialog from './ImportDialog.vue';
 import { importDevices } from './import.mjs';
 const wrappers = [];
@@ -53,16 +53,16 @@ it('Escape/scope cancellation keeps early clean state without reloading',async()
     const operation=importDevices(aj,clean);expect(clean.mock.calls).toEqual([[]]);
     pending.reject(new Error('cancel'));await operation;expect(reload.mock.calls).toEqual([]);
 });
-it('real modal ignores backdrop, allows Escape and clears the log timer on scope destruction',async()=>{
-    const listeners={}, pending=deferred(), reload=vi.fn();
+it('real modal ignores backdrop, allows Escape and clears the log timer on route disposal',async()=>{
+    const pending=deferred(), reload=vi.fn();
     const aj=createMockAj({reload,http:async request=>request.method==='post'?pending.promise:{data:''}});
-    aj.modal=createModalService(()=>aj,{$on:(event,fn)=>{listeners[event]=fn;return ()=>{};}});
+    aj.modal=createModalService(()=>aj);
     let operation=importDevices(aj,()=>{});await flushPromises();
     expect(document.querySelector('.modal-dialog').classList.contains('modal-lg')).toBe(true);
     document.querySelector('.modal').click();await flushPromises();expect(document.querySelector('.modal')).not.toBeNull();
     document.dispatchEvent(new KeyboardEvent('keydown',{key:'Escape'}));await operation;
     expect(document.querySelector('.modal')).toBeNull();expect(reload.mock.calls).toEqual([]);
     vi.useFakeTimers({toFake:['setInterval','clearInterval']});operation=importDevices(aj,()=>{});await flushPromises();expect(vi.getTimerCount()).toBe(1);
-    listeners.$destroy();await operation;expect(vi.getTimerCount()).toBe(0);
+    aj.modal.dispose();await operation;expect(vi.getTimerCount()).toBe(0);
     pending.resolve({data:null});await flushPromises();
 });
