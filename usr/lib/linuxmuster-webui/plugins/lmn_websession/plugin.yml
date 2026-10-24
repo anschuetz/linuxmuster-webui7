@@ -10,10 +10,10 @@ dependencies:
     - !PluginDependency { plugin_name: lmn_common }
 resources:
     - 'resources/js/module.coffee'
-    - 'resources/js/controllers/index.controller.coffee'
+    - 'resources/js/routing.es'
+    - 'resources/vue/lmn_websession.js'
     - 'resources/js/services/websessionService.es'
     - 'resources/partial/index.html'
     - 'resources/partial/public.html'
-    - 'resources/partial/createSession.modal.html'
     - 'resources/styles.scss'
     - 'ng:lmn.websession'
