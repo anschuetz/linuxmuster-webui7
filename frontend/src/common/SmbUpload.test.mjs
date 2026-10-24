@@ -55,9 +55,32 @@ it('cancels an active upload on unmount without success/error notification', asy
     const { notify } = setup(); flow.fire('filesSubmitted'); wrapper.unmount(); await flushPromises();
     expect(flow.cancel).toHaveBeenCalledOnce(); expect(notify).not.toHaveBeenCalled();
 });
-it('ignores duplicate submissions and cancels from the UI', async () => {
+it('ignores duplicate submissions and offers no Cancel button', async () => {
     const { notify } = setup(); flow.fire('filesSubmitted'); flow.fire('filesSubmitted'); await flushPromises();
     expect(flow.upload).toHaveBeenCalledOnce();
-    await wrapper.get('[data-cancel]').trigger('click'); await flushPromises();
-    expect(flow.cancel).toHaveBeenCalledOnce(); expect(notify).not.toHaveBeenCalled();
+    expect(wrapper.find('[data-cancel]').exists()).toBe(false);
+    expect(wrapper.findAll('button').map((button) => button.text())).toEqual(['Upload file']);
+    expect(notify).not.toHaveBeenCalled();
+});
+
+it('reports success and uploaded when unmounted during finish-upload', async () => {
+    let finish;
+    const http = vi.fn(() => new Promise((resolve) => { finish = resolve; }));
+    const uploaded = vi.fn();
+    const { notify } = setup({ onUploaded: uploaded }, http);
+    flow.fire('filesSubmitted'); flow.fire('complete'); flow.fire('complete');
+    wrapper.unmount();
+    expect(flow.cancel).not.toHaveBeenCalled();
+    finish({ data: [{ name: 'synthetic.txt' }] });
+    await flushPromises();
+    expect(http).toHaveBeenCalledOnce();
+    expect(notify).toHaveBeenCalledWith('success', 'Uploaded synthetic.txt', undefined);
+    expect(uploaded).toHaveBeenCalledExactlyOnceWith([{ name: 'synthetic.txt' }]);
+    expect(flow.cancel).toHaveBeenCalledOnce();
+});
+it('shows the backend message from an Angular HTTP failure', async () => {
+    const { notify } = setup({}, vi.fn().mockRejectedValue({ status: 403, data: { message: 'SMB access denied' } }));
+    flow.fire('filesSubmitted'); flow.fire('complete'); await flushPromises();
+    expect(wrapper.get('[role=alert]').text()).toBe('SMB access denied');
+    expect(notify).toHaveBeenCalledWith('error', 'SMB access denied', undefined);
 });

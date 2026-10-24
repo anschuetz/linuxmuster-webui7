@@ -91,11 +91,3 @@ it.each(['fileError', 'error', 'finish', 'cancel', 'throw'])('settles and cleans
     expect(f.cancel).toHaveBeenCalledOnce();
     f.fire('complete'); if (kind !== 'finish') expect(http).not.toHaveBeenCalled();
 });
-it('cancellation while finishing cannot resolve or finish twice', async () => {
-    const { client, http } = setup(); const f = flow(); let finish;
-    http.mockImplementationOnce(() => new Promise((resolve) => { finish = resolve; }));
-    const result = client.startFlowUpload(f, 'home'); f.fire('complete'); f.fire('complete');
-    result.cancel(); await expect(result).rejects.toMatchObject({ name: 'AbortError' });
-    finish({ data: 'late' }); await Promise.resolve();
-    expect(http).toHaveBeenCalledOnce(); expect(f.cancel).toHaveBeenCalledOnce();
-});

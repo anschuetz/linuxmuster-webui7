@@ -72,7 +72,10 @@ function startFlowUpload(aj, flow, path, onProgress) {
         error: (message) => settle(new Error(String(message))),
     };
     for (const [event, handler] of Object.entries(handlers)) flow.on(event, handler);
-    const cancel = () => settle(new DOMException('Upload cancelled', 'AbortError'));
+    // Once finish-upload starts, the backend write must complete and report its result.
+    const cancel = () => {
+        if (!finishing) settle(new DOMException('Upload cancelled', 'AbortError'));
+    };
     try { flow.upload(); } catch (error) { settle(error); }
     return Object.assign(promise, { cancel });
 }

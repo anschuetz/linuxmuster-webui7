@@ -6,6 +6,7 @@ const props = defineProps({
     uploadpath: { type: String, required: true },
     target: { type: String, default: '/api/lmn/smbclient/upload' },
     reload: Boolean,
+    onUploaded: [Function, Array],
     items: { type: Array, default: () => [] },
 });
 const emit = defineEmits(['uploaded', 'update:items']);
@@ -30,14 +31,16 @@ function begin() {
         progress.value = [...value].sort((a, b) => Number(a.name > b.name));
     });
     transfer.then((descriptors) => {
-        if (disposed) return;
         aj.notify.success(aj.gettext('Uploaded ') + names);
         if (props.reload) emit('update:items', [...props.items, ...descriptors]);
-        emit('uploaded', descriptors);
+        // Vue suppresses emits after unmount; finish-upload must still notify its consumer.
+        if (disposed) {
+            for (const listener of [props.onUploaded].flat()) listener?.(descriptors);
+        } else emit('uploaded', descriptors);
     }, (failure) => {
         if (disposed || failure.name === 'AbortError') return;
-        error.value = failure.message;
-        aj.notify.error(failure.message);
+        error.value = failure.message ?? failure.data?.message ?? failure.statusText;
+        aj.notify.error(error.value);
     }).finally(() => {
         transfer = undefined;
         uploading.value = false;
@@ -78,7 +81,6 @@ onBeforeUnmount(() => {
                 </div>
             </div>
         </template>
-        <button v-if="uploading" type="button" data-cancel class="btn btn-default" @click="transfer.cancel()">{{ aj.gettext('Cancel') }}</button>
         <p v-if="error" role="alert">{{ error }}</p>
     </div>
 </template>
