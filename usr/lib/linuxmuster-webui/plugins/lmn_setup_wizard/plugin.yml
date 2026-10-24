@@ -9,8 +9,9 @@ dependencies:
     - !PluginDependency { plugin_name: core }
     - !PluginDependency { plugin_name: lmn_common }
 resources:
+    - 'resources/vue/lmn_setup_wizard.js'
     - 'js/index.es'
-    - 'js/init.controller.es'
+    - 'js/routing.es'
     - 'partial/init-welcome.html'
     - 'partial/init-school.html'
     - 'partial/init-account.html'
