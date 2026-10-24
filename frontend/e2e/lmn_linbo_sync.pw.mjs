@@ -128,6 +128,10 @@ test('school-specific multiple-host previews and every online classification', a
     await click(page, /^(Apply|Anwenden|Übernehmen)$/); await expect.poll(() => calls.length).toBe(4);
     const { timeout, ...withoutTimeout } = parameters();
     expect(calls.slice(2)).toEqual([{ cmd_parameters: withoutTimeout }, { cmd_parameters: { ...withoutTimeout, target: { type: 'host', host: '192.0.2.2' } } }]);
+    await pane(page).locator('input[type="number"]').fill('');
+    await expect(preview(page)).toHaveText(['/usr/sbin/linbo-remote -s p52-school -i 192.0.2.1 -w null -c sync:1', '/usr/sbin/linbo-remote -s p52-school -i 192.0.2.2 -w null -c sync:1']);
+    await click(page, /^(Apply|Anwenden|Übernehmen)$/); await expect.poll(() => calls.length).toBe(6);
+    expect(calls.slice(4)).toEqual([{ cmd_parameters: { ...parameters(), timeout: null } }, { cmd_parameters: { ...parameters('192.0.2.2'), timeout: null } }]);
     const check = pane(page).locator('a.btn-default').first();
     for (const [value, icon] of [['Off', 'fa-power-off'], ['No response', 'fa-power-off'], ['OS Linux', 'fa-linux'], ['OS Windows', 'fa-windows'], ['Linbo', 'fa-laptop-medical']]) {
         status = value; await check.click(); await expect(check).toContainText(value); await expect(check.locator(`i.${icon}`)).toBeVisible();

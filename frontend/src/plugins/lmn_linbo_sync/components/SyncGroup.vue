@@ -14,7 +14,7 @@ const osAction = (index, action) => update(changeOS(details.value, index, action
 const auto = key => update(changeAuto(details.value, key));
 const power = value => update(changePower(details.value, value));
 watch(timeout, value => update({ ...details.value, power: { ...details.value.power,
-    timeout: value === '' || value < 1 ? undefined : value } }), { flush: 'sync' });
+    timeout: value === '' ? null : value < 1 ? undefined : value } }), { flush: 'sync' });
 function isUp(index) {
     const hostname = details.value.hosts[index].hostname;
     aj.http.get(`/api/lmn/linbosync/isOnline/${hostname}`).then(resp => {
