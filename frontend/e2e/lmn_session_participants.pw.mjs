@@ -109,3 +109,14 @@ test('empty SID redirects after legacy empty workdir request', async ({ page: p,
     if (vue) expect(await p.evaluate(() => window.p93path)).toBe('/view/lmn/sessionsList'); else await p.waitForURL('**/view/lmn/sessionsList');
     expect(s.calls.filter(c => c[1].endsWith('/createSessionWorkingDirectory'))).toEqual([['POST','/api/lmn/smbclient/createSessionWorkingDirectory',{users:[]}]]); check(s);
 });
+
+test('identity refresh failure after kerberos does not retry credentials or lose participants', async ({ page: p, context }) => {
+    const s = await setup(p, context, 'group', { 'p93-a': 'missing' });
+    await p.evaluate(() => { const i = angular.element(document).injector(); window.p93identityCalls = 0; i.get('identity').init = () => { window.p93identityCalls += 1; return i.get('$q').reject('P93 identity fixture'); }; });
+    await (vue ? pane(p).locator('[data-membership]').first() : pane(p).locator('[ng\\:click="fixMembership()"]').first()).click();
+    const prompt = p.locator('.messagebox:visible').last(); await expect(prompt.locator('input[type=password]')).toBeVisible(); await prompt.locator('input').fill('synthetic-only'); await prompt.locator('.positive').click();
+    await expect.poll(() => p.evaluate(() => window.p93identityCalls)).toBe(1);
+    await expect.poll(async () => (await state(p)).members[0].files_error).toBe('');
+    expect((await state(p)).members.map(u => u.cn)).toEqual(['p93-a','p93-b']);
+    expect(s.calls.filter(c => c[1].endsWith('/refresh_krbcc'))).toEqual([['POST','/api/lmn/smbclient/refresh_krbcc',{pw:'synthetic-only'}]]); check(s);
+});
