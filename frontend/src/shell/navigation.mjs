@@ -47,6 +47,7 @@ export function createNavigation({ aj, storage = createLayoutStorage(), prefix =
         toggleNavigation: value => toggle('sidebar', value, 'showSidebar'),
         toggleWidescreen: value => toggle('widescreen', value, 'isWidescreen'),
         toggleOverlayNavigation: value => toggle('overlay', value),
+        // Browser location.pathname, including urlPrefix (unlike Angular $location.path()).
         routeChanged(path) {
             layout.path = path; layout.overlay = false;
             layout.navigationPresent = !path.includes('/view/login') && !path.includes('/view/reset_password');

@@ -41,8 +41,8 @@ export function navigationOracle({ storage = {}, path = '/view/lmn/landingpage',
                 return [name, Boolean(scope.$eval(expression))];
             }));
         },
-        mount(template) {
-            const element = injector.get('$compile')(template)(scope);
+        mount(template, target = scope) {
+            const element = injector.get('$compile')(template)(target);
             window.document.body.append(element[0]); root.$digest(); return element[0];
         },
         close: () => window.close(),

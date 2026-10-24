@@ -19,7 +19,7 @@ async function setup(role, extra = {}) {
     await owner.ready; await flushPromises();
     return { ...owner, server, routes, notices, element, reload };
 }
-it.each(['globaladministrator', 'schooladministrator', 'teacher', 'student'])('renders backend sidebar and preserves direct API authority for %s', async role => {
+it.each(['globaladministrator', 'schooladministrator', 'teacher', 'student'])('passes through synthetic sidebar, identity and API responses for fixture role %s (no authorization oracle)', async role => {
     const s = await setup(role);
     expect(s.element.querySelector('.school-change') !== null).toBe(role !== 'student');
     expect(s.element.textContent).toContain(`fixture-${role}`);
@@ -78,4 +78,16 @@ it.each(['results', 'check', 'apply'])('cancels %s without inventing extra write
     if (phase !== 'apply') expect(s.server.requests.filter(([method]) => method === 'POST')).toEqual([]);
     else await vi.waitFor(() => expect(s.reload).toHaveBeenCalledOnce());
     expect(s.nav.layout.sidebar).toBe(true);
+});
+
+it('marks the active sidebar route with prefix /panel and follows prefixed routeChanged paths', async () => {
+    const s = await setup('globaladministrator');
+    const activeLinks = () => [...s.element.querySelectorAll('.sidebar.hide-tablet .sidebar-item.active > div > a.link')]
+        .map(link => link.getAttribute('href'));
+    expect(s.nav.layout.path).toBe('/panel/view/lmn/landingpage');
+    expect(activeLinks()).toEqual([]);
+    s.nav.routeChanged('/panel/view/lmn/users/students'); await flushPromises();
+    expect(activeLinks()).toEqual(['/panel/view/lmn/users/students/']);
+    s.nav.routeChanged('/panel/view/lmn/users/globaladmins'); await flushPromises();
+    expect(activeLinks()).toEqual(['/panel/view/lmn/users/globaladmins/']);
 });

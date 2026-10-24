@@ -5,7 +5,7 @@ import { createPresentation, ShellServices } from './presentation.mjs';
 import RouteHost from './RouteHost.mjs';
 
 /** Explicit fixture composition. No product entry/router imports this mount. */
-export function mountNavigationHarness(element, { session, storage, prefix = '', path = '/view/lmn/landingpage',
+export function mountNavigationHarness(element, { session, storage, prefix = '', path = `${prefix}/view/lmn/landingpage`,
     navigate, reload = () => {}, customization, plugin = null, gettext = text => text }) {
     let aj;
     const services = createPresentation({ http: session.http, identity: session.identity, navigate, gettext, customization,

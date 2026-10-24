@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs';
 import { afterEach, expect, it, vi } from 'vitest';
 import { mount, flushPromises } from '@vue/test-utils';
 import { nextTick } from 'vue';
@@ -163,4 +164,23 @@ it('cancels the pending debounced search when input returns to the already commi
     nav.setQuery('users'); await vi.advanceTimersByTimeAsync(500);
     nav.setQuery('usersX'); nav.setQuery('users'); await vi.advanceTimersByTimeAsync(500);
     expect(http.mock.calls.map(([request]) => request.url)).toEqual(['/api/core/navbox/users']);
+});
+
+it('intentionally renders clickable navbox results where the original template renders zero matches', async () => {
+    vi.useFakeTimers();
+    const results = [{ title: 'Users', icon: 'user', url: '/view/lmn/users' }];
+    const old = navigationOracle({ results }); cleanups.push(old.close);
+    const template = readFileSync('test-fixtures/shell/navigation/main_view.html', 'utf8')
+        .match(/<div class="list-group">[\s\S]*?<\/div>/)[0];
+    const legacy = old.mount(template, old.navbox);
+    old.navbox.query = 'Users'; old.flush();
+    expect(old.navbox.results).toEqual(results);
+    expect(legacy.querySelectorAll('.list-group-item')).toHaveLength(0);
+    const { nav, aj, routes } = setup();
+    const wrapper = mount(ShellNavigation, { props: { nav, aj } }); cleanups.push(() => wrapper.unmount());
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'p', ctrlKey: true }));
+    nav.setQuery('Users'); await vi.advanceTimersByTimeAsync(500);
+    expect(wrapper.findAll('.list-group-item')).toHaveLength(1);
+    await wrapper.get('.list-group-item').trigger('click');
+    expect(routes).toEqual(['/view/lmn/users']);
 });

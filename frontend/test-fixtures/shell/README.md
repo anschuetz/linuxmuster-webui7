@@ -134,8 +134,10 @@ clock, translation and hotkey boundaries are fixture services.
 widescreen, overlay), customization, sidebar tree and navbox. Toggles accept an
 optional explicit boolean; the first two persist under the original
 `ngStorage-showSidebar` / `ngStorage-isWidescreen` JSON keys, overlay closes on
-`routeChanged(path)`. `useShell(aj)` must run in a Vue scope. With `aj.shell` it
-returns the native capability; until activation it shares a facade over the
+`routeChanged(path)`. The path must include `prefix`, exactly like browser
+`location.pathname` (e.g. `/panel/view/lmn/users/students`); sidebar active state
+compares it with `prefix + item.url`, as in the original template. `useShell(aj)`
+must run in a Vue scope. With `aj.shell` it returns the native capability; until activation it shares a facade over the
 existing Angular root scope, delegates original toggles through `$evalAsync` and
 releases its watchers with the last consumer. It creates no session or socket.
 The product Angular adapter/bootstrap/router remain unchanged. Settings and
@@ -144,22 +146,29 @@ F15 continues to use the unchanged shared Vue Users workflow from P119.
 
 `mountNavigationHarness(element, {session, storage, prefix, path, navigate,
 reload, customization, plugin, gettext})` composes session, presentation, native
-navigation and RouteHost explicitly. A full fixture page mounts on `document.body`
+navigation and RouteHost explicitly. Its `path` follows the same prefixed
+`location.pathname` contract; the default is `${prefix}/view/lmn/landingpage`.
+A full fixture page mounts on `document.body`
 so existing `body > .container` CSS selectors apply; embedded test hosts inspect
 DOM/state. ShellNavigation applies/restores its body classes, and the owner disposes
 services and session. No product entry imports this mount. The session exposes
 its already loaded UID/machine snapshot for the profile, without another request.
 
-The actual localhost HTTP fixture reads four roles' shipped Users permission
-entries. Sidebar grants and direct Students/Check/Apply authority are independent:
-teachers have Students API access despite a hidden Students sidebar link. Core
-Navbox searches provider entries without sidebar authorization; the port retains
-this behavior and lets the backend enforce direct API rights. These tests emulate
-those decisions and response shapes, not Python/LDAP/aj.auth execution. All saves,
-Check/Apply and log content are synthetic. No VM is accessed.
+The localhost HTTP fixture uses four roles' shipped Users permission entries
+for synthetic sidebar filtering and API status responses. The tests use the same
+`permission()` helper for expectations: they are pass-through tests of supplied
+sidebar/identity/API responses, not independent authorization tests. UID and
+`school_show` are invented fixture values, not verified role behavior. No
+Python/LDAP/aj.auth execution is covered. The synthetic Navbox response is not
+filtered by sidebar grants. All saves, Check/Apply and log content are synthetic.
+No VM is accessed.
 
 Explicit differences from Core: the navbox fixes its `j` ReferenceError and avoids
-its invalid `rankMatch:'title|translate'` lookup; server result order is retained,
+its invalid `rankMatch:'title|translate'` lookup. With actual results, the original
+filter accesses the undefined `title|translate` property and renders **zero list
+entries**; only Enter navigation works. The native Navbox intentionally renders a
+clickable result list instead. A DOM comparison runs the original list fragment
+and filter to pin that difference. Server result order is retained,
 nonfunctional Shift-number badges/shortcuts are omitted, Enter with no result is
 ignored. Custom sidebar upper/lower content is escaped text rather than trusted
 HTML, and the legacy feedback telemetry hook is omitted. Native teardown removes
