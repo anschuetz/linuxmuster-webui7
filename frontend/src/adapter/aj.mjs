@@ -46,6 +46,7 @@
  * @typedef {Object} Aj
  * @property {{setLanguage: (language: string) => Promise<unknown>}} locale Change the shell language and load its catalog.
  * @property {() => Promise<unknown>} restart Open the shell restart confirmation and preserve its result.
+ * @property {(fn: () => boolean|void) => (() => void)} guardLeave Register a synchronous route guard; exactly false prevents a location change. Returns an idempotent unsubscribe. The bridge scope also removes it on destruction.
  * @property {() => void} reload Reload the active route through the shell digest.
  * @property {PageTitle} pageTitle
  * @property {Messagebox} messagebox

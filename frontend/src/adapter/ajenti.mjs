@@ -43,6 +43,20 @@ export function createAjentiAdapter({ $http, notify, toaster, gettextCatalog, id
     const aj = {
         locale: { setLanguage: (language) => shellAction(() => locale.setLanguage(language)) },
         restart: () => shellAction(() => core.restart()),
+        guardLeave: (fn) => {
+            const offChange = $scope.$on('$locationChangeStart', (event) => {
+                if (fn() === false) event.preventDefault();
+            });
+            let active = true;
+            const unsubscribe = () => {
+                if (!active) return;
+                active = false;
+                offChange();
+                offDestroy();
+            };
+            const offDestroy = $scope.$on('$destroy', unsubscribe);
+            return unsubscribe;
+        },
         reload: () => inDigest(() => $route.reload()),
         pageTitle: { set: (text) => inDigest(() => pageTitle.set(text)) },
         messagebox: {
