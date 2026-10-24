@@ -367,3 +367,23 @@ login and clears the session plugin's cached exam/session state on logout,
 including re-login as the same user. `/view/ui-test` retains its inert stock
 sample controls; 404 includes the escaped URL. Only one shell is ever bootstrapped,
 so the Angular adapter's modal owner and the Vue owner's modal stacks cannot mix.
+
+The installed-ID fixture (`installed-plugins.json`, same P106 inventory) also
+checks route availability against the actual metadata names. Device Manager is
+`lmn.device-manager` in that inventory, while its directory is
+`lmn_device-manager`. Core 0.116's static handler only matches `\w+` plugin URL
+segments. The build therefore copies this one IIFE byte-for-byte into
+`lmn_common/resources/vue/lmn_device-manager.js`; the explicit manifest maps the
+metadata ID to that URL. No stock endpoint or foreign package is patched.
+
+Review correction: stock settings, LM global settings and the wizard now share
+confirmed Core config GET/POST snapshots through the native HTTP adapter. Before
+its first welcome page the wizard loads a complete authorized config; failure
+shows an error instead of allowing a partial bootstrap config to overwrite it.
+The cache is cleared at identity changes, and late responses cannot repopulate
+another session's cache. Local unsaved language changes survive a wizard reload;
+unsaved settings-form changes are not transferred to another page. The legacy
+shared mutable config object could expose those unsaved edits between pages.
+The global auth guard also protects 404, UI sample and disabled-quota pages
+(the old shell displayed those without login). Route-owned titles reset before
+the next plugin sets its title.

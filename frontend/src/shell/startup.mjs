@@ -37,9 +37,9 @@ export async function start(boot, { url, storage, fetch = window.fetch.bind(wind
         'ace/resources/vendor/ace-builds/src-min-noconflict/ext-modelist.js',
         'ace/resources/vendor/ace-builds/src-min-noconflict/theme-solarized_dark.js',
         'filesystem/resources/vendor/flow.js/dist/flow.min.js']) await load(`${boot.prefix}/resources/${file}`);
-    await Promise.all(manifest.plugins.map(async name => {
-        if (!/^[a-zA-Z0-9_-]+$/.test(name)) throw new Error('Invalid Vue plugin name');
-        if (Object.hasOwn(boot.plugins, name)) await load(`${boot.prefix}/resources/${name}/resources/vue/${name}.js`);
+    await Promise.all(manifest.plugins.map(async ({ id, resource }) => {
+        if (!/^[a-zA-Z0-9_.-]+$/.test(id) || !/^[a-zA-Z0-9_]+\/resources\/vue\/[a-zA-Z0-9_-]+\.js$/.test(resource)) throw new Error('Invalid Vue plugin name');
+        if (Object.hasOwn(boot.plugins, id)) await load(`${boot.prefix}/resources/${resource}`);
     }));
     await load(`${root}/vue/shell.js`);
     const owner = mount();

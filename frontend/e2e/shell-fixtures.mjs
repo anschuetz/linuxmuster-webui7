@@ -1,7 +1,7 @@
 // Identical synthetic boundaries for both complete shells; no write reaches the VM.
 export async function shellFixtures(page, role, { authenticated = false, prefix = '' } = {}) {
     const root = ['global-admin', 'school-admin'].includes(role.name);
-    const s = { user: authenticated ? role.login : null, nonce: 'fixture-nonce', attempts: 0, requests: [], school: 'school-a' };
+    const s = { user: authenticated ? role.login : null, nonce: 'fixture-nonce', attempts: 0, requests: [], school: 'school-a', coreWrites: [] };
     const profile = () => ({ schoolname: s.school, activeSchool: s.school, school_show: true, permissions: {} });
     const identity = () => ({ identity: { user: s.user, effective: root ? 0 : 1000, profile: profile() }, machine: { name: 'fixture-server', hostname: 'fixture.test' }, color: 'blue' });
     const item = (name, url) => ({ name, url, icon: 'cog', children: [] });
@@ -41,6 +41,7 @@ export async function shellFixtures(page, role, { authenticated = false, prefix 
             }
         } else if (path === '/api/core/logout') { s.user = null; data = {}; }
         else if (path === '/api/core/languages') data = ['en'];
+        else if (path === '/api/lmn/setup-wizard/setup') data = {};
         else if (path === '/api/lmn/setup-wizard/is-configured') data = true;
         else if (path === '/api/core/tasks/request-update') data = {};
         else if (path === '/api/core/user-config') data = { dashboard: { tabs: [{ name: 'Fixture tab', width: 2, widgetsLeft: [], widgetsRight: [] }] } };
@@ -50,8 +51,10 @@ export async function shellFixtures(page, role, { authenticated = false, prefix 
         } else if (path === '/api/core/totps') data = [];
         else if (path === '/api/core/config') {
             if (!root) return route.fulfill({ status: 403, json: 'fixture denied' });
-            data = { language: 'en', name: 'fixture-server', color: 'blue', session_max_time: 3600,
-                ssl: { certificate: '/tmp/fixture.pem' }, auth: { provider: 'fixture' }, bind: { host: '0.0.0.0', port: 443 } };
+            if (method === 'POST') { s.coreConfig = structuredClone(payload); s.coreWrites.push(structuredClone(payload)); }
+            s.coreConfig ??= { language: 'en', name: 'fixture-server', color: 'blue', session_max_time: 3600,
+                ssl: { certificate: '/tmp/fixture.pem' }, auth: { provider: 'fixture' }, trusted_proxies: ['192.0.2.1'], bind: { mode: 'tcp', host: '0.0.0.0', port: 443 } };
+            data = s.coreConfig;
         } else if (path === '/api/passwds') data = [{ name: 'root' }];
         else if (path === '/api/core/authentication-providers') data = [{ id: 'fixture', name: 'Fixture' }];
         else if (path === '/api/core/smtp-config') data = {};

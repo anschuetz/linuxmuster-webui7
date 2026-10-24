@@ -47,7 +47,8 @@ const StockRoute = defineComponent({
 export function mountShell(element, boot, { fetch = window.fetch.bind(window), io, history, initialPath } = {}) {
     const prefix = boot.prefix || '', scope = effectScope(), active = shallowRef(), presentation = shallowRef();
     let app, aj, nav, locale, tasks, stopRoute, disposed = false, revision = 0;
-    let config = structuredClone(boot.config || {});
+    const bootstrapConfig = () => structuredClone(boot.config || {});
+    let config = bootstrapConfig(), configLoaded = false, configEpoch = 0;
     const clearRoute = () => { ++revision; stopRoute?.(); stopRoute = undefined; presentation.value?.dispose(); routing.clearGuards(); };
     const routing = createShellRouter({ prefix, history, plugins: Object.keys(boot.plugins || {}), onRoute(to, from) {
         // A fragment change is local state (e.g. Linbo's Images tab), not a new page.
@@ -67,6 +68,17 @@ export function mountShell(element, boot, { fetch = window.fetch.bind(window), i
     const session = createSession({ fetch, prefix, path: () => routing.router.currentRoute.value.matched.length ? `${prefix}${routing.router.currentRoute.value.path}` : `${prefix}${initialPath ? new URL(initialPath, window.location.href).pathname : window.location.pathname.slice(prefix.length)}`,
         navigate: forceNavigate, notify, messagebox: { show: (...args) => { const p = presentation.value?.messagebox.show(...args); p?.catch(() => {}); return p; } },
         gettext: text => locale?.gettext(text) ?? text });
+    // All three configuration writers share successful server snapshots. Never
+    // publish an old session's late response into the next session's cache.
+    const http = { ...session.http, ...Object.fromEntries(['get', 'post'].map(method => [method, async (...args) => {
+        const epoch = configEpoch;
+        const snapshot = args[0] === '/api/core/config' && method === 'post' ? JSON.parse(JSON.stringify(args[1])) : undefined;
+        const response = await session.http[method](...args);
+        if (args[0] === '/api/core/config' && epoch === configEpoch) {
+            config = structuredClone(method === 'get' ? response.data : snapshot); configLoaded = true;
+        }
+        return response;
+    }])) };
     locale = createLocale({ http: session.http, initialConfig: config });
     const custom = customization(prefix, locale.gettext);
     const storage = createLayoutStorage();
@@ -93,12 +105,17 @@ export function mountShell(element, boot, { fetch = window.fetch.bind(window), i
         await nextTick();
         if (disposed || current !== revision) return;
         presentation.value = makePresentation();
+        if (route.meta.plugin === 'lmn_setup_wizard' && route.meta.attrs['data-step'] === 'welcome' && !configLoaded) {
+            try { await http.get('/api/core/config'); }
+            catch { route = { ...route, meta: { kind: 'configuration-error' } }; }
+            if (disposed || current !== revision) return;
+        }
         aj = { ...presentation.value, locale, shell: nav, navigate, reload: routing.reload, guardLeave: routing.guardLeave, identity: session.identity,
-            http: session.http, prefix, path: route.path, sessionState: session.state,
+            http, prefix, path: route.path, sessionState: session.state,
             socket: tasks?.socket, push: tasks?.push, tasks: tasks?.tasks,
             wizard: { readConfig: () => ({ ...config }),
                 setConfigLanguage: language => { config = { ...config, language }; },
-                saveConfig: data => { config = { ...data }; return session.http.post('/api/core/config', config); } },
+                saveConfig: data => http.post('/api/core/config', data) },
         };
         presentation.value.favicon.init();
         nav.cancelSearch(); nav.routeChanged(`${prefix}${route.path}`);
@@ -107,6 +124,7 @@ export function mountShell(element, boot, { fetch = window.fetch.bind(window), i
     }
     scope.run(() => {
         watch(() => session.identity.user, (user, previous) => {
+            ++configEpoch; config = bootstrapConfig(); configLoaded = false;
             if (previous != null && user !== previous) {
                 notifications.clear(); nav.cancelSearch(); nav.routeChanged(`${prefix}/view/login/normal`);
                 window.LmnVue_lmn_session_new?.resetSession?.();
@@ -131,11 +149,11 @@ export function mountShell(element, boot, { fetch = window.fetch.bind(window), i
                 const { route, aj: adapter } = a;
                 if (route.meta.kind === 'plugin') return h(RouteHost, { key: a.key, plugin: route.meta.plugin, aj: adapter, attrs: route.meta.attrs,
                     registerStop: fn => { stopRoute = fn; } });
-                if (['404', 'ui-test', 'quotas-disabled'].includes(route.meta.kind)) return h(StaticPage, { kind: route.meta.kind, prefix, route, gettext: locale.gettext });
+                if (['404', 'ui-test', 'quotas-disabled', 'configuration-error'].includes(route.meta.kind)) return h(StaticPage, { kind: route.meta.kind, prefix, route, gettext: locale.gettext });
                 return h(StockRoute, { key: a.key, ...a, session, boot, customization: custom, registerStop: fn => { stopRoute = fn; } });
             };
             return [h(ShellNavigation, { nav, aj: a?.aj ?? { ...presentation.value, identity: session.identity }, identityDetails: session.identity, sessionState: session.state, devMode: boot.devMode === 'True' },
-                { default: content, tasks: () => a && session.identity.user ? h(TaskSidebar, { aj: a.aj }) : null }),
+                { default: content, tasks: () => a && session.identity.user && tasks ? h(TaskSidebar, { aj: { gettext: locale.gettext, tasks: tasks.tasks } }) : null }),
             h(ShellServices, { key: revision, services: presentation.value })];
         };
     } });

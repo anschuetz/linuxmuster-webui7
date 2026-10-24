@@ -113,3 +113,31 @@ test('the entry defaults to Vue after the green parity oracle without a query se
     await expect(username(page, 'vue')).toBeVisible();
     expect(await page.evaluate(() => typeof window.angular)).toBe('undefined');
 });
+
+test('Vue mounts Device Manager using its dotted bootstrap ID and the common resource alias', async ({ page }) => {
+    const s = await shellFixtures(page, roles[0], { authenticated: true });
+    const calls = [];
+    await page.route('**/api/lmn/device-manager/*', route => {
+        calls.push(new URL(route.request().url()).pathname);
+        return route.fulfill({ json: [] });
+    });
+    await page.goto('/view/lmn/device-manager?shell=vue');
+    await expect(page.locator('body')).toContainText('This plugin is deprecated');
+    await expect.poll(() => calls.some(path => path.endsWith('/getdevices'))).toBe(true);
+    expect(await page.evaluate(() => typeof window.LmnVue_lmn_device_manager.mount)).toBe('function');
+    expect(s.unexpected ?? []).toEqual([]);
+});
+
+for (const mode of modes) test(`${mode} wizard preserves config saved in stock settings (fixture)`, async ({ page }) => {
+    const s = await shellFixtures(page, roles[0], { authenticated: true });
+    await page.goto(`/view/settings?shell=${mode}`);
+    await page.locator(mode === 'vue' ? 'input[aria-label="Machine name"]' : 'input[ng\\:model="config.data.name"]').fill('saved in settings');
+    await page.locator(mode === 'vue' ? 'button[data-action=save]' : 'a[ng\\:click="save()"]:visible').click();
+    await expect.poll(() => s.coreWrites.length).toBe(1);
+    await go(page, '/view/lmn/init/welcome');
+    await page.getByText('I accept the license terms', { exact: false }).locator('input[type=checkbox]').check();
+    await page.locator('.modal-footer a').filter({ hasText: /^Next$/ }).click();
+    await expect.poll(() => s.coreWrites.length).toBe(2);
+    expect(s.coreWrites[1]).toMatchObject({ name: 'saved in settings', auth: { provider: 'fixture' }, ssl: { certificate: '/tmp/fixture.pem' }, trusted_proxies: ['192.0.2.1'] });
+    expect(s.unexpected ?? []).toEqual([]);
+});

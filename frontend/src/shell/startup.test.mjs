@@ -16,12 +16,13 @@ it('renders the unchanged Angular template bootstrap using the same server value
 });
 it('loads only explicit non-Angular scripts in Vue mode, restricts plugin resources to installed plugins', async () => {
     const loaded = [], mounted = vi.fn();
-    await start({ prefix: '/panel', plugins: { lmn_links: 'Links', core: 'Core' }, config: {} }, {
+    await start({ prefix: '/panel', plugins: { lmn_links: 'Links', core: 'Core', 'lmn.device-manager': 'Device Manager' }, config: {} }, {
         url: new URL('https://fixture/panel/view/?shell=vue'), storage: { getItem: () => null, setItem() {} },
-        fetch: async () => new Response(JSON.stringify({ version: 1, plugins: ['lmn_links', 'lmn_users'] })),
+        fetch: async () => new Response(JSON.stringify({ version: 1, plugins: [{ id: 'lmn_links', resource: 'lmn_links/resources/vue/lmn_links.js' }, { id: 'lmn_users', resource: 'lmn_users/resources/vue/lmn_users.js' }, { id: 'lmn.device-manager', resource: 'lmn_common/resources/vue/lmn_device-manager.js' }] })),
         load: async src => loaded.push(src), mount: mounted,
     });
     expect(loaded).toContain('/panel/resources/lmn_links/resources/vue/lmn_links.js');
+    expect(loaded).toContain('/panel/resources/lmn_common/resources/vue/lmn_device-manager.js');
     expect(loaded.some(s => s.includes('lmn_users'))).toBe(false);
     expect(loaded.some(s => /all\.|angular|bridge/.test(s))).toBe(false);
     expect(loaded[0]).toBe('/panel/resources/lmn_common/resources/vue/vendor.js'); expect(mounted).toHaveBeenCalledTimes(1);

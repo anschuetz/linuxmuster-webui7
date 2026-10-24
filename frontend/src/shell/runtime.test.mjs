@@ -7,10 +7,14 @@ afterEach(() => { owners.splice(0).forEach(o => o.dispose()); document.body.inne
 function socket() { const handlers = {}; const s = { handlers, on: vi.fn((name, fn) => { handlers[name] = fn; }), off: vi.fn(name => { delete handlers[name]; }), connect: vi.fn(), disconnect: vi.fn(), io: { on: vi.fn(), off: vi.fn() } }; return s; }
 async function setup(prefix = '') {
     const transport = socket(), calls = [];
-    let user = 'fixture', configured = true;
+    let user = 'fixture', configured = true, coreConfig = {};
     const fetch = vi.fn(async (url, options) => {
         const path = url.slice(prefix.length); calls.push([path, options]);
         let data = {};
+        if (path === '/api/core/config') {
+            if (options.method === 'POST') coreConfig = JSON.parse(options.body);
+            data = coreConfig;
+        }
         if (path === '/api/core/auth') data = { success: true };
         if (path === '/api/core/identity') data = { identity: { user, effective: 0, profile: { schoolname: 'School', school_show: true } }, machine: { name: 'fixture-host' }, color: 'blue' };
         if (path === '/api/core/sidebar') data = { sidebar: { children: [] } };
@@ -27,7 +31,7 @@ async function setup(prefix = '') {
     const host = document.createElement('div'); document.body.append(host);
     const o = mountShell(host, { prefix, config: {}, plugins: { lmn_links: 'Links', lmn_users: 'Users', lmn_setup_wizard: 'Wizard', lmn_landingpage: 'Home' } }, { fetch, io: () => transport, history: createMemoryHistory(prefix), initialPath: '/view/lmn/links' });
     owners.push(o); await o.ready; await flushPromises();
-    return { o, fetch, transport, calls, setUser: value => { user = value; }, setConfigured: value => { configured = value; } };
+    return { o, fetch, transport, calls, setUser: value => { user = value; }, setConfigured: value => { configured = value; }, setCoreConfig: value => { coreConfig = value; } };
 }
 it('composes one session/socket owner and passes full aj to unchanged IIFEs; route/reload disposes dialogs and guards', async () => {
     const stopped = vi.fn(); let aj;
@@ -99,4 +103,28 @@ it('finishes sudo authentication when refresh changes an already signed-in ident
     await flushPromises();
     expect(o.router.currentRoute.value.path).toBe('/view/lmn/landingpage');
     expect(document.body.textContent).toContain('landing fixture');
+});
+
+it('shares confirmed Core loads/saves with the wizard, retains its language on reload and discards config on a session switch', async () => {
+    vi.stubGlobal('LmnVue_lmn_links', { mount: () => () => {} });
+    vi.stubGlobal('LmnVue_lmn_landingpage', { mount: () => () => {} });
+    let wizard;
+    vi.stubGlobal('LmnVue_lmn_setup_wizard', { mount(el, aj) { wizard = aj.wizard; return () => {}; } });
+    const { o, setCoreConfig, setUser } = await setup();
+    setCoreConfig({ language: 'en', ssl: { certificate: '/new.pem' }, auth: { provider: 'fresh' }, trusted_proxies: ['192.0.2.1'] });
+    // Stock settings and LM global settings both use these exact shared adapter endpoints.
+    const { data } = await o.aj.http.get('/api/core/config');
+    await o.aj.http.post('/api/core/config', { ...data, name: 'latest settings' });
+    await o.navigate('/view/lmn/init/welcome'); await flushPromises();
+    expect(wizard.readConfig()).toMatchObject({ name: 'latest settings', ssl: { certificate: '/new.pem' }, auth: { provider: 'fresh' } });
+    wizard.setConfigLanguage('de'); o.reload(); await flushPromises();
+    expect(wizard.readConfig().language).toBe('de');
+    await wizard.saveConfig(wizard.readConfig());
+    const { data: saved } = await o.aj.http.get('/api/core/config');
+    expect(saved).toMatchObject({ language: 'de', name: 'latest settings', trusted_proxies: ['192.0.2.1'], ssl: { certificate: '/new.pem' } });
+    setUser(null); await o.session.identity.refresh(); await flushPromises();
+    await o.navigate('/view/login/normal'); await flushPromises();
+    setCoreConfig({ language: 'en', name: 'new session config' }); setUser('different'); await o.session.identity.refresh(); await flushPromises();
+    await o.navigate('/view/lmn/init/welcome'); await flushPromises();
+    expect(wizard.readConfig()).toEqual({ language: 'en', name: 'new session config' });
 });

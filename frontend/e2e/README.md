@@ -29,3 +29,13 @@ Use the role accounts from the migration project's `notes/vm-zugang.md`; keep
 credentials outside Git. Do not create users, change school data or create
 snapshots as part of this smoke. The reset leaves both VMs at `E1-bereit`;
 login and logout only affect the test sessions.
+
+`e2e/shell.pw.mjs` compares the complete Angular and Vue entries on E. In addition
+to the admin/teacher settings above, set `E2E_SCHOOL_LOGIN`,
+`E2E_SCHOOL_PASSWORD`, `E2E_STUDENT_LOGIN`, and `E2E_STUDENT_PASSWORD` from the
+migration project's authorized E accounts. Run this file explicitly with
+`npx playwright test --config e2e/playwright.config.mjs e2e/shell.pw.mjs`.
+The same API fixtures exercise both shells; only the separate real-session smoke
+uses actual login/logout/session APIs. No fixture config/TOTP/school/package
+write reaches the VM. The `/panel` cases simulate a reverse proxy in the browser
+and leave the VM listener configuration unchanged.

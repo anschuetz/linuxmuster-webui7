@@ -1,6 +1,7 @@
+import { pluginResource } from './plugin-resources.mjs';
 import { createRouter, createWebHistory } from 'vue-router';
 
-const plugin = (path, name, attrs = {}) => ({ path, component: {}, meta: { kind: 'plugin', sourcePlugin: name, plugin: name.replace(/\W/g, '_'), attrs } });
+const plugin = (path, name, attrs = {}) => ({ path, component: {}, meta: { kind: 'plugin', sourcePlugin: pluginResource(name).id, plugin: name.replace(/\W/g, '_'), attrs } });
 const stock = (path, kind) => ({ path, component: {}, meta: { kind } });
 // Explicit register replaces ngRoute's plugin-module registration. Paths match the shipped routes.
 export const shellRoutes = [

@@ -97,3 +97,10 @@ HTML5 History, queries, fragments, leave guards and reload; the existing server
 `/view/.*` handler still serves deep links. Sidebar visibility grants no API
 permissions. Core/stock route implementations are composed by the shell, not by
 third-party Angular registration.
+
+The manifest separates the metadata `id` from the `resource` URL. The existing
+Device Manager uses ID `lmn.device-manager`; its hyphenated package directory
+cannot be addressed by Core 0.116's static `\w+` plugin handler. Its generated
+IIFE is therefore also copied under `lmn_common/resources/vue/` and loaded through
+that alias. Other plugin resource paths follow the convention above. Manifest
+entries are sorted for reproducible builds.

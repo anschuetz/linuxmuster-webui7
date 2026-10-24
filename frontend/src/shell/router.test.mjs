@@ -42,3 +42,17 @@ it('does not register routes for plugins absent from the bootstrap inventory', a
     await o.navigate('/view/lmn/users/students'); expect(o.router.currentRoute.value.meta.kind).toBe('404');
     await o.navigate('/view/lmn/links'); expect(o.router.currentRoute.value.meta.kind).toBe('plugin');
 });
+
+it('registers the real dotted Device Manager bootstrap ID under the existing global mount', async () => {
+    const o = createShellRouter({ history: createMemoryHistory(), plugins: ['lmn.device-manager'] }); owners.push(o);
+    await o.navigate('/view/lmn/device-manager');
+    expect(o.router.currentRoute.value.meta).toMatchObject({ kind: 'plugin', plugin: 'lmn_device_manager' });
+});
+
+it('resolves all inventoried routes using the actual server metadata IDs', () => {
+    const plugins = Object.keys(JSON.parse(readFileSync('test-fixtures/shell/installed-plugins.json', 'utf8')));
+    const o = createShellRouter({ history: createMemoryHistory(), plugins }); owners.push(o);
+    for (const route of shellRoutes.filter(r => r.meta?.kind === 'plugin')) {
+        expect(o.router.resolve(route.path).meta.kind, route.path).toBe('plugin');
+    }
+});

@@ -6,6 +6,7 @@ export const StaticPage = defineComponent({
     setup(props) {
         return () => {
             const t = props.gettext;
+            if (props.kind === 'configuration-error') return h('div', { role: 'alert', class: 'alert alert-danger' }, t('Could not load config'));
             if (props.kind === 'quotas-disabled') return h('div', { class: 'text-center' }, [
                 h('h2', 'Quotas are disabled'), h('a', { class: 'btn btn-default btn-lg', href: `${props.prefix}/view/lmn/settings` }, ['Enable quotas in the Settings ', h('i', { class: 'fa fa-arrow-right' })]),
             ]);

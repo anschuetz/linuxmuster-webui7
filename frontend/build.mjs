@@ -3,6 +3,7 @@ import { createRequire } from 'node:module';
 import { join, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { build } from 'vite';
+import { pluginResource } from './src/shell/plugin-resources.mjs';
 
 const frontendRoot = fileURLToPath(new URL('.', import.meta.url));
 
@@ -45,7 +46,9 @@ async function buildAll() {
     await build({ build: bundle(join(frontendRoot, 'src/shell/startup-entry.mjs'), commonOutput, 'LmnShellStartup', 'startup.js') });
     await build({ define: { 'process.env.NODE_ENV': JSON.stringify('production') }, build: bundle(join(frontendRoot, 'src/shell/runtime.mjs'), commonOutput, 'LmnVueShell', 'shell.js') });
     const pluginBuilds = await discoverPluginBuilds();
-    await writeFile(join(commonOutput, 'manifest.json'), JSON.stringify({ version: 1, plugins: pluginBuilds.map(b => b.lib.fileName().slice(0, -3)) }) + '\n');
+    const directories = pluginBuilds.map(b => b.lib.fileName().slice(0, -3)).sort();
+    await copyFile(resolve(commonOutput, '../../..', 'lmn_device-manager/resources/vue/lmn_device-manager.js'), join(commonOutput, 'lmn_device-manager.js'));
+    await writeFile(join(commonOutput, 'manifest.json'), JSON.stringify({ version: 1, plugins: directories.map(pluginResource) }) + '\n');
     // Vue's official global runtime is an IIFE shared by all bundles.
     const require = createRequire(import.meta.url);
     await copyFile(require.resolve('vue/dist/vue.runtime.global.prod.js'), join(commonOutput, 'vendor.js'));
