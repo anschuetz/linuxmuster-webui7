@@ -118,3 +118,57 @@ submits the actual save workflow (the original template calls a missing function
 The isolated forms keep Bootstrap classes but omit the customization logo and
 animated lock/layout decorations; these are not a product entry. No server-side
 nonce/attempt/rate-limit behavior is replaced by the client.
+
+## Tasks/push/plugins (P114)
+
+`tasks/` contains unmodified core 0.116 socket/push/tasks services and sidebar
+markup, plus plugins 0.55 controller/template from the P106 package archives.
+`tasks.mjs` runs the actual services/controller and Angular's repository filter in
+an isolated AngularJS injector; HTTP, transport, native promises and dialogs are
+fixture boundaries. Tests compare refresh order/loading, version comparison,
+all three task classes/arguments, completion/failure and notifications. No test
+executes pip, Python task processes, real credentials or a real panel restart.
+`tasks-server.test.mjs` uses an actual local Socket.IO 4 server/client and HTTP
+server for prefix, namespace, acknowledgements, reconnect, task lifecycle, plugin
+refresh/update/restart confirmation and fixture class/action denial. The mock
+models the allowlist in core `views/tasks.py` and per-action decorators in plugins
+`tasks.py`; it does not prove Python authorization at runtime.
+
+Server inventory: aj 2.2.17 pins python-socketio 5.16.2 / Engine.IO 4; JS client
+4.8.3 uses Socket.IO protocol 5 / Engine.IO 4. Compatibility reference:
+https://python-socketio.readthedocs.io/en/stable/intro.html#version-compatibility
+This deliberately replaces the core service's legacy `resource`/reconnect/Safari
+JSONP options with the supported client API (`path`, Manager reconnect events,
+same-origin cookies). Namespace remains `/socket`, transport path is
+`<prefix>/socket.io`. Tests use polling through this path; no VM is contacted.
+
+Explicit future composition: create one `createTaskServices({ http, notify,
+gettext, prefix })`, assign its `socket`, `push`, `tasks` to the shared aj object,
+subscribe consumers before calling `start()`, mount `TaskSidebar` with that aj.
+Subscriptions return an unsubscribe function. Dispose the owner on session teardown;
+this removes Socket/Manager listeners and rejects outstanding tasks/acks. It never
+replays a task start on reconnect; each connect requests the current task list.
+As in the original protocol, terminal events missed while offline are not replayed
+by request-update; there is no status-history endpoint or completion guarantee.
+`mountPlugins(element, aj, { version })` returns route cleanup for `/view/plugins`;
+no product entry, Angular facade, route registry or bundle imports these modules.
+Presentation now exposes its existing `forceRestart` for the original post-task
+confirmation; normal toolbar restart still uses `restart()` with confirmation.
+
+The page retains superuser gating, core-not-uninstallable/pip availability,
+original numeric version comparison (including the boolean core-upgrade display),
+official/community lists, case-insensitive/negated filter and selected details.
+Task classes are unchanged; backend class allowlist and plugins:install/uninstall/
+upgrade authorization remain authoritative. LmLog is unchanged HTTP polling.
+Differences: task snapshots are replaced rather than copied into old objects;
+malformed JSON is ignored, request-update errors are exposed in owner state;
+cleanup ignores late responses and rejects pending promises; start failures close
+the install progress and notify instead of stranding it. Install version selection
+uses local variables instead of original accidental globals. Uninstall has no
+undefined `msg.close()` call; dismissing restart/confirmation is handled normally.
+Direct page actions also stop for denied/disposed owners (original relies on the
+root-access template and backend). Native buttons/progress/icons replace custom Angular directives and animation;
+details use the existing Bootstrap modal classes, escaped text and safe HTTP(S)/
+mailto links. They have Close buttons and, like the original inline `dialog`, no
+Escape/backdrop dismissal. Core/pip metadata errors remain subject to the shared
+HTTP error policy (also exposed as state.error), not a new empty-list fallback.
