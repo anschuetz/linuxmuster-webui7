@@ -152,3 +152,16 @@ it('both live student paginators clamp the shared page when their raw totals cha
     expect(section(w).find('.pagination .active').text()).toEqual('1');
     await section(w).find('input[type=number]').setValue('');await section(w).find('input[type=number]').trigger('change');expect(section(w).findAll('[data-page]').map(x=>x.text())).toEqual(['1']);w.unmount();
 });
+
+it('staff last-name sort choice preserves class order and heading',async()=>{
+    const list=users('staff').slice(0,2).map((u,i)=>({...u,sophomorixAdminClass:i?'a':'b',sn:i?'Zulu':'Alpha'}));
+    const {w}=render('staff',{http:async r=>({data:r.url.includes('/config/')?config():list})});await flushPromises();
+    const logins=()=>rows(w).map(r=>r.find('i').text());
+    expect(logins()).toEqual(['p118-1','p118-0']);expect(action(w,'sort-menu').text()).toBe('Class');
+    await action(w,'sort-menu').trigger('click');await section(w).find('[data-sort="sn"]').trigger('click');
+    expect(logins()).toEqual(['p118-1','p118-0']);expect(action(w,'sort-menu').text()).toBe('Class');w.unmount();
+});
+it('renders legacy pagination boundary and direction labels',async()=>{
+    const {w}=render();await flushPromises();
+    expect(section(w).findAll('.pagination a').filter(a=>!a.attributes('data-page')).map(a=>a.text())).toEqual(['First','Previous','Next','Last']);w.unmount();
+});

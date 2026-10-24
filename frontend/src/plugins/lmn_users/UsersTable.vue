@@ -47,6 +47,8 @@ function selectAll(section) {
     list.value = list.value.map(user => changes.get(user) ?? user);
 }
 function selectOne(user, checked) { list.value = list.value.map(row => row === user ? { ...row, selected: checked } : row); }
+// Legacy staff writes to a missing $st scope, retaining Class and its ordering.
+function setSort(key) { if (props.role !== 'staff') sort.value = key; menu.value = ''; }
 function toggle(value) { menu.value = menu.value === value ? '' : value; }
 function closeMenu(event) { if (event.type === 'click' || event.key === 'Escape') menu.value = ''; }
 window.addEventListener('click', closeMenu); window.addEventListener('keydown', closeMenu);
@@ -92,7 +94,7 @@ function customValue(user, index) {
                 <input v-model.trim="queries[section.key]" type="search" autofocus class="form-control" placeholder="Filter">
                 <div class="input-group-btn" :class="{open: menu === 'sort'}" @click.stop>
                     <button class="btn btn-default" data-action="sort-menu" @click="toggle('sort')"><i class="fa fa-sort-amount-asc"></i> {{ aj.gettext(sortOptions(role).find(option => option[0] === sort)[1]) }} <span class="caret"></span></button>
-                    <ul v-if="menu === 'sort'" class="dropdown-menu dropdown-menu-right" style="width:150px"><li v-for="[key,label] in sortOptions(role)" :key="key"><a :data-sort="key" @click="sort = key; menu = ''"><i class="fa fa-sort-amount-asc"></i> {{ aj.gettext(label) }}</a></li></ul>
+                    <ul v-if="menu === 'sort'" class="dropdown-menu dropdown-menu-right" style="width:150px"><li v-for="[key,label] in sortOptions(role)" :key="key"><a :data-sort="key" @click="setSort(key)"><i class="fa fa-sort-amount-asc"></i> {{ aj.gettext(label) }}</a></li></ul>
                 </div>
                 <div class="input-group-btn" :class="{open: menu === 'rows'}" @click.stop>
                     <button class="btn btn-default" data-action="rows-menu" @click="toggle('rows')"><i class="fa fa-list-ol"></i> {{ aj.gettext('Rows') }} <span class="caret"></span></button>
@@ -119,7 +121,7 @@ function customValue(user, index) {
                     <td width="1"><span :class="`label label-${user.sophomorixStatus?.color}`">{{ user.sophomorixStatus?.tag }}</span></td>
                 </tr>
             </tbody></table>
-            <br><ul v-if="section.users.length > pageSize" class="pagination"><li :class="{disabled:page === 1}"><a @click="page = 1">«</a></li><li :class="{disabled:page === 1}"><a @click="page = Math.max(1,page-1)">‹</a></li><li v-for="n in pages" :key="n" :class="{active: page === n}"><a :data-page="n" @click="page = n">{{ n }}</a></li><li :class="{disabled:page === pageCount}"><a @click="page = Math.min(pageCount,page+1)">›</a></li><li :class="{disabled:page === pageCount}"><a @click="page = pageCount">»</a></li></ul>
+            <br><ul v-if="section.users.length > pageSize" class="pagination"><li :class="{disabled:page === 1}"><a @click="page = 1">First</a></li><li :class="{disabled:page === 1}"><a @click="page = Math.max(1,page-1)">Previous</a></li><li v-for="n in pages" :key="n" :class="{active: page === n}"><a :data-page="n" @click="page = n">{{ n }}</a></li><li :class="{disabled:page === pageCount}"><a @click="page = Math.min(pageCount,page+1)">Next</a></li><li :class="{disabled:page === pageCount}"><a @click="page = pageCount">Last</a></li></ul>
             <div class="floating-toolbar-padder"></div><div class="users-toolbar"><component :is="'floating-toolbar'"><div class="container"><div class="row"><div class="col-md-3"></div><div class="col-md-9"><div class="bar row">
                 <button v-if="role === 'teachers'" class="btn btn-lmn pull-right" data-action="quotas" @click="getQuotas()">{{ aj.gettext('Show quota') }}</button>
                 <div v-if="section.users.some(user => user.selected)" class="btn-group dropup" :class="{open:menu === 'batch'}" @click.stop><button class="btn btn-lmn" data-action="batch-menu" @click="toggle('batch')"><i class="fa fa-key"></i> {{ aj.gettext('For selected') }} <span class="caret"></span></button><ul v-if="menu === 'batch'" class="dropdown-menu dropdown-menu-left"><li v-for="[cmd,key,label] in [['reset-first','reset','Set initial password'],['random-first','random','Set random password'],['custom-first','custom','Set custom password'],['print','print','Print passwords']]" :key="key"><a :data-action="'batch-' + key" @click="batch(section,cmd)">{{ aj.gettext(label) }}</a></li></ul></div>
