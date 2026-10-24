@@ -12,6 +12,6 @@ dependencies:
 resources:
     - resources/js/module.es
     - resources/js/routing.es
-    - resources/js/controllers/index.controller.coffee
+    - resources/vue/lmn_linbo_sync.js
     - resources/partial/index.html
     - ng:lmn.linbo_sync
