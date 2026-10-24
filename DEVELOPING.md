@@ -136,14 +136,19 @@ Use `aj.gettext` for visible strings. Existing catalogs are `locale/*/LC_MESSAGE
 despite the suffix); `.po` files are their translation sources. `make push-crowdin`, `make
 add-crowdin` and `make pull-crowdin` still invoke Multitool. Its extractor misses Vue/.mjs sources
 but scans generated plugin JS: xgettext extracted the example's `Link URL` from the rebuilt bundle.
-Build first. Remote Crowdin operations were **not checked** (credentials/network writes). **Known
-gap:** editing a `.po` then running `make build` leaves `app.js` stale. The previous `--msgfmt` step
-is gone; Multitool 1.4.0 writes JSON `app.js`, not `.mo` (its native msgfmt call is commented out).
-`pull-crowdin` still calls it, but needs separately installed legacy Multitool/gettext tools; not
-checked here. The rehearsal package contains 966 JSON catalogs, zero `.mo`. Existing German
+Build first. `make build` and `npm test` check all 966 non-English catalogs with
+`node frontend/check-translations.mjs` (from the repository root). The check compares content,
+ignores file times and does not compile translations or need extra packages. A stale or missing
+`app.js` stops the build and lists the plugin, language and an example key. To regenerate catalogs,
+run `make pull-crowdin` or `ajenti-dev-multitool --msgfmt` with the separately installed legacy
+Multitool/gettext tools. Multitool 1.4.0 writes JSON `app.js`, not `.mo` (its native msgfmt call is
+commented out). The check mirrors its line-based conversion, including empty translations and
+its limitations for multiline strings, escapes, context, fuzzy entries and plurals. English sources
+are skipped, as in Multitool. Remote Crowdin operations were **not checked** (credentials/network
+writes). The rehearsal package contains 966 JSON catalogs, zero `.mo`. Existing German
 translations and DE/EN/DE switching passed through the real HTTP/locale adapters against rundev.
 Browser language switching and the example display are **not checked**: native browser input
-automation failed. The Vue login form was visible from the readable checkout. No pipeline fix is included.
+automation failed. The Vue login form was visible from the readable checkout.
 
 Rehearsed on set F (Ubuntu 26.04.1/webui 7.4.13): full suite, build, example RED/GREEN,
 HTTP 200 for run/rundev, package without Node/npm. `runprod` was dry-run checked only.

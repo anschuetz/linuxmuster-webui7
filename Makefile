@@ -8,6 +8,7 @@ deb:
 	dpkg-buildpackage -rfakeroot -tc -sa -us -uc -I".github" -I".git" -I"buildpackage.sh" -I".crowdin.key" -I".deepsource.toml" -I"docs" -I"docs_src" 
 
 build:
+	node frontend/check-translations.mjs
 	cd frontend && npm ci && npm run build
 
 run:

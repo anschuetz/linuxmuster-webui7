@@ -7,7 +7,7 @@
   },
   "scripts": {
     "e2e": "playwright test --config e2e/playwright.config.mjs",
-    "test": "vitest run --coverage && npm run build && node check-built-resources.mjs",
+    "test": "node check-translations.mjs && vitest run --coverage && npm run build && node check-built-resources.mjs",
     "build": "node build.mjs"
   },
   "dependencies": {
