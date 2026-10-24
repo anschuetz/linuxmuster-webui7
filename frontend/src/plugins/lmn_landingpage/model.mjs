@@ -20,7 +20,7 @@ export function groupsFor(memberOf, gettext) {
 // Angular orderBy compares strings case-insensitively.
 export const ordered = (items, keys) => items && [...items].sort((a, b) => {
     for (const key of keys) {
-        const left = a[key].toLowerCase(), right = b[key].toLowerCase();
+        const left = String(a[key] ?? '').toLowerCase(), right = String(b[key] ?? '').toLowerCase();
         if (left !== right) return left < right ? -1 : 1;
     }
     return 0;

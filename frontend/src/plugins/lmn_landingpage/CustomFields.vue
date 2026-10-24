@@ -38,7 +38,11 @@ async function remove(field, value) {
     try {
         await aj.http.patch(`/api/lmn/users/${props.user.sAMAccountName}/${proxy ? 'proxyaddresses' : `custommulti/${field.attr.slice(-1)}`}`, { [proxy ? 'address' : 'value']: value });
         aj.notify.success(aj.gettext('Value removed !'));
-    } catch { return; /* Adapter handles HTTP errors; original keeps the displayed value. */ }
+    } catch {
+        // Only proxy removal handles PATCH failure and still resolves in the original.
+        if (!proxy) return;
+        error();
+    }
     const current = values(field);
     const position = current.indexOf(value);
     replace(field, current.filter((_, i) => i !== (position < 0 ? current.length - 1 : position)));

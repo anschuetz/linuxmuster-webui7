@@ -189,3 +189,16 @@ it('retains both consecutive multi-value additions while HTTP replies are still 
     replies[0]({ data: null }); await flushPromises(); replies[1]({ data: null }); await flushPromises();
     expect(row(w, 'Multi').text()).toBe('A Multifirstsecondalphabeta');
 });
+
+it('failed proxy removal reports the error and hides the address', async () => {
+    const notify = vi.fn();
+    const { w } = await setup(CustomFields, { notify, http: () => Promise.reject('failed') }, { fields: structuredClone(fields), user: profile });
+    await row(w, 'Proxy').get('.label').trigger('click'); await flushPromises();
+    expect(notify.mock.calls).toEqual([['error', 'Error, please verify the user and/or your values.', undefined]]);
+    expect(row(w, 'Proxy').text()).toBe('C Proxy');
+});
+it('renders the landing page with a null custom-field title', async () => {
+    const nullableFields = fields.map((field, index) => ({ ...field, title: index === 0 ? null : field.title }));
+    const { w } = await setup(Landingpage, { http: ({ url }) => ({ data: url.endsWith('customfields') ? nullableFields : {} }) });
+    expect(w.findAll('[data-custom]').map((r) => r.text())).toEqual(['before', 'A Multifirst second', 'C Proxysmtp:first', 'D Lockedlocked']);
+});
