@@ -78,6 +78,21 @@ it('reuses global Ace and removes its change listener and instance on unmount', 
     expect(editor.off).toHaveBeenCalledWith('change', expect.any(Function));
     expect(editor.destroy).toHaveBeenCalledOnce();
 });
+it('bounds the editor and allows scrolling for a large devices.csv', async () => {
+    const content = 'device;00:11:22:33:44:55\n'.repeat(10000);
+    let host, value = '';
+    const editor = { setValue: vi.fn(text => { value = text; }),
+        getValue: () => value, on: vi.fn(), destroy: vi.fn() };
+    vi.stubGlobal('ace', { edit: element => { host = element; return editor; } });
+    setup(FileEditorDialog, { http: vi.fn(async () => ({ data: content })) }, { path: '/etc/devices.csv' });
+    await flushPromises();
+    expect(editor.setValue).toHaveBeenLastCalledWith(content, -1);
+    // Simulate Ace's maxLines: Infinity layout; jsdom does not measure text.
+    host.style.height = `${content.split('\n').length * 16}px`;
+    const viewport = host.parentElement;
+    expect(viewport.style.maxHeight).toBe('70vh');
+    expect(getComputedStyle(viewport).overflow).toBe('auto');
+});
 function backups(options = {}) {
     const http = vi.fn(async ({ url }) => ({ data: url.includes('/list/') ? { items: [
         { name: '.a.csv.bak.100' }, { name: 'other' }, { name: '.a.csv.bak.200' },

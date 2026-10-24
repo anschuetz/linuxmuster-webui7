@@ -1,5 +1,6 @@
 import { afterEach, expect, it, vi } from 'vitest';
 import { mount, flushPromises } from '@vue/test-utils';
+import { defineComponent, ref } from 'vue';
 import { createMockAj } from '../adapter/mock.mjs';
 import { filesOracle } from '../../test-fixtures/shell/files.mjs';
 import { createFilesystem } from './filesystem.mjs';
@@ -75,6 +76,26 @@ it('path selector starts at the root like the original and changes its model onl
     legacy.scope.select('/picked'); old.flush(); expect(legacy.parent.value).toBe('/picked');
     await w.get('[role=button]').trigger('click'); await flushPromises(); expect(w.emitted('update:modelValue')).toEqual([['/picked']]);
     await w.get('input').setValue('  /typed  '); expect(w.emitted('update:modelValue').at(-1)).toEqual(['/typed']);
+});
+it('keeps an inner space while typing a path character by character across renders', async () => {
+    const value = ref('');
+    const required = ref(false);
+    const Parent = defineComponent({ components: { PathSelector }, setup: () => ({ value, required }),
+        template: '<PathSelector v-model="value" :required="required" />' });
+    const w = mount(Parent, { attachTo: document.body, global: { provide: { aj: createMockAj() } } });
+    wrappers.push(w);
+    const input = w.get('input');
+    input.element.focus();
+    let typed = '';
+    for (const char of '/x y') {
+        typed += char;
+        input.element.value += char;
+        await input.trigger('input');
+        required.value = !required.value;
+        await flushPromises();
+        expect(value.value).toBe(typed.trim());
+        expect(input.element.value).toBe(typed);
+    }
 });
 it('shares original Ace defaults, verbatim content, mode reload, readonly and cleanup', async () => {
     let value = ''; const session = { setUseWrapMode: vi.fn(), setMode: vi.fn() };
