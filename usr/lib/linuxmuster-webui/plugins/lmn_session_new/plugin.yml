@@ -11,9 +11,7 @@ dependencies:
 resources:
     - 'resources/js/module.coffee'
     - 'resources/js/routing.es'
-    - 'resources/js/services/sessionService.es'
-    - 'resources/js/controllers/session.controller.coffee'
-    - 'resources/js/controllers/sessionsList.controller.coffee'
+    - 'resources/vue/lmn_session_new.js'
     - 'resources/partial/session.html'
     - 'resources/partial/sessionsList.html'
     - 'resources/partial/selectFile.modal.html'

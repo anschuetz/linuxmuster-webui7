@@ -45,6 +45,8 @@ it('identity change tears down polling and redirects, old beforeunload handler i
 });
 it('detail group actions reuse part 1 payloads, cancel keeps name, generated save clears leave flag',async()=>{
     const s=setup();await flushPromises();s.aj.messagebox.prompt=vi.fn().mockRejectedValueOnce('cancel').mockResolvedValueOnce({value:'p93-renamed'}).mockResolvedValueOnce({value:'p93-copy'});
+    await s.wrapper.get('[data-rename]').element.closest('.input-group-btn').querySelector('button').click(); await flushPromises();
+    expect(s.wrapper.get('[data-rename]').element.closest('.input-group-btn').classList.contains('open')).toBe(true);
     await s.wrapper.get('[data-rename]').trigger('click');await flushPromises();expect(s.store.state.current.name).toBe('p93-fixture');
     await s.wrapper.get('[data-rename]').trigger('click');await flushPromises();expect(s.store.state.current.name).toBe('p93-renamed');
     await s.wrapper.get('[data-clone]').trigger('click');await flushPromises();expect(s.calls.filter(c=>c[1].includes('/sessions'))).toEqual([
@@ -70,16 +72,16 @@ it('detail entry remount retains session but owns and destroys its timer and gua
 
 it('places transfers between Users and Working directory with an empty foreign-exam cell', async () => {
     const s = setup('group', fileSession(true)); s.store.filterExamUsers(); await flushPromises();
-    expect(s.wrapper.findAll('thead th').map(h => h.element.firstChild?.textContent ?? '')).toEqual(['Users', 'Transfer', 'Working directory', '', '', '', '', '']);
+    expect(s.wrapper.findAll('thead th').map(h => h.element.firstChild?.textContent ?? '')).toEqual(['Users', 'Transfer', 'Working directory', '', '', '', '', '', '']);
     const rows = s.wrapper.findAll('tbody tr');
     const own = rows.find(row => row.findAll('td')[0].text().includes('p94-1')).findAll('td');
-    expect(own).toHaveLength(8);
+    expect(own).toHaveLength(9);
     expect(own[1].find('[data-share-user]').exists()).toBe(true);
     expect(own[1].find('[data-collect-toggle]').exists()).toBe(true);
     expect(own[2].find('button').exists()).toBe(false);
-    expect(own[7].find('[data-remove]').exists()).toBe(true);
+    expect(own[8].find('[data-remove]').exists()).toBe(true);
     const foreign = rows.find(row => row.findAll('td')[0].text().includes('p94-0')).findAll('td');
-    expect(foreign).toHaveLength(8);
+    expect(foreign).toHaveLength(9);
     expect(foreign[1].text()).toBe('');
     expect(foreign[1].find('button').exists()).toBe(false);
 });
