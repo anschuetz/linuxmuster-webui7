@@ -11,6 +11,11 @@ const record = computed(() => editing.value?.record);
 const titles = { modify: aj.gettext('Modify this entry'), delete: aj.gettext('Delete this entry') };
 const fields = [['host', 'Subdomain : '], ['type', 'Type : '], ['value', 'Value : '], ['priority', 'Priority : ']];
 
+const models = Object.fromEntries(fields.map(([name]) => [name, computed({
+    get: () => record.value[name],
+    set: (value) => change(name, value),
+})]));
+
 aj.pageTitle.set(aj.gettext('Samba_dns'));
 watch(() => aj.identity.user, async (user) => {
     if (user == null) return;
@@ -32,7 +37,7 @@ function modify(index) {
 }
 function change(name, value) {
     const current = editing.value;
-    const updated = { ...current.record, [name]: value.trim() };
+    const updated = { ...current.record, [name]: value };
     editing.value = { ...current, record: updated };
     // Keep Angular's live editing, including edits followed by Close.
     if (current.mode === 'update') entries.value = {
@@ -97,7 +102,7 @@ async function remove(sub) {
                     <template v-for="[name, label] in fields" :key="name">
                         <span v-show="name !== 'priority' || record.type === 'MX'">{{ aj.gettext(label) }}</span>
                         <select v-if="name === 'type' && editing.mode === 'new'" class="form-control" :name="name" :value="record[name]" @change="change(name, $event.target.value)"><option v-for="type in types" :key="type">{{ type }}</option></select>
-                        <input v-else v-show="name !== 'priority' || record.type === 'MX'" type="text" class="form-control" :name="name" :value="record[name]" :disabled="editing.mode === 'update' && (name === 'host' || name === 'type')" @input="change(name, $event.target.value)">
+                        <input v-else v-show="name !== 'priority' || record.type === 'MX'" type="text" class="form-control" :name="name" v-model.trim="models[name].value" :disabled="editing.mode === 'update' && (name === 'host' || name === 'type')">
                     </template>
                 </form></div>
                 <div class="modal-footer">

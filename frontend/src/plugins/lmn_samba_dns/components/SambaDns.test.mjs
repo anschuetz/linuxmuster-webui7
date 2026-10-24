@@ -53,6 +53,24 @@ it.each(['A', 'AAAA', 'PTR', 'CNAME', 'NS', 'MX', 'TXT'])('adds %s with trimmed 
     w.unmount();
 });
 
+it('preserves typed TXT spaces while trimming the payload edges', async () => {
+    const { w, http } = await setup();
+    await button(w, 'Add an entry').trigger('click');
+    await w.get('[name=type]').setValue('TXT');
+    const input = w.get('[name=value]');
+    document.body.appendChild(w.element);
+    input.element.focus();
+    for (const character of 'v=spf1 mx -all ') {
+        input.element.value += character;
+        await input.trigger('input');
+    }
+    await button(w, 'Save').trigger('click');
+    await flushPromises();
+    expect(call(http).data.sub.value).toBe('v=spf1 mx -all');
+    w.element.remove();
+    w.unmount();
+});
+
 it('discards cancelled new entries and resets defaults; empty fields remain empty strings', async () => {
     const { w, http } = await setup();
     await button(w, 'Add an entry').trigger('click');
