@@ -11,6 +11,8 @@ import { reactive } from 'vue';
  * @property {import('./aj.mjs').PageTitle} [pageTitle]
  * @property {import('./aj.mjs').Messagebox} [messagebox]
  * @property {import('./aj.mjs').Modal} [modal]
+ * @property {import('./aj.mjs').Aj['locale']} [locale]
+ * @property {import('./aj.mjs').Aj['restart']} [restart]
  */
 
 /**
@@ -26,6 +28,8 @@ export function createMockAj({
     identity = {},
     navigate = () => {},
     reload = () => {},
+    locale = { setLanguage: async () => undefined },
+    restart = async () => undefined,
     pageTitle = { set: () => {} },
     messagebox = {
         show: (options) => Object.assign(Promise.resolve({ ...options }), { close: () => {} }),
@@ -38,7 +42,7 @@ export function createMockAj({
         currentIdentity.profile = { ...currentIdentity.profile, ...profileFields };
     };
     return {
-        pageTitle, messagebox, modal, reload,
+        pageTitle, messagebox, modal, reload, locale, restart,
         http: Object.fromEntries(['get', 'delete', 'post', 'put', 'patch'].map((method) => [
             method,
             async (url, ...args) => {

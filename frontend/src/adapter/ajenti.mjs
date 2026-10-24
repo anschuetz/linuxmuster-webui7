@@ -5,7 +5,7 @@ import { createModalService } from './modal.mjs';
  * Create the adapter contract using the existing Angular services and interceptors.
  * @returns {import('./aj.mjs').Aj}
  */
-export function createAjentiAdapter({ $http, notify, toaster, gettextCatalog, identity, $location, $route, pageTitle, messagebox, $rootScope, $scope, browserLocation = window.location }) {
+export function createAjentiAdapter({ $http, notify, toaster, gettextCatalog, identity, $location, $route, pageTitle, messagebox, core, locale, $rootScope, $scope, browserLocation = window.location }) {
     const translationVersion = shallowRef(0);
     if (getCurrentScope() && $rootScope?.$on) {
         // angular-gettext broadcasts this for both language and string changes.
@@ -26,6 +26,9 @@ export function createAjentiAdapter({ $http, notify, toaster, gettextCatalog, id
     });
 
     const inDigest = (callback) => $rootScope ? $rootScope.$evalAsync(callback) : callback();
+    const shellAction = (callback) => new Promise((resolve, reject) => inDigest(() => {
+        try { resolve(callback()); } catch (error) { reject(error); }
+    }));
     const showMessage = (method, args) => {
         let handle;
         const promise = new Promise((resolve, reject) => inDigest(() => {
@@ -38,6 +41,8 @@ export function createAjentiAdapter({ $http, notify, toaster, gettextCatalog, id
         return Object.assign(promise, { close: () => inDigest(() => handle.close()) });
     };
     const aj = {
+        locale: { setLanguage: (language) => shellAction(() => locale.setLanguage(language)) },
+        restart: () => shellAction(() => core.restart()),
         reload: () => inDigest(() => $route.reload()),
         pageTitle: { set: (text) => inDigest(() => pageTitle.set(text)) },
         messagebox: {
