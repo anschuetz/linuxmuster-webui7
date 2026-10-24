@@ -216,3 +216,63 @@ an existing tab. The sessions widget fixes the original shipped strict-mode
 the original exception is asserted while the port renders identities/addresses.
 The unused per-row `date` assignment is omitted (table formats timestamp seconds
 like the original), and no client-side datetime clock/strftime is introduced.
+
+## Stock settings and passwd (P115)
+
+`settings/` copies unmodified settings 0.35 controller/template/views, core 0.116
+config service/views and passwd 0.28 service/views from the P106 archives.
+`settings.mjs` invokes the real controller function through Angular's injector
+(the distributed ES arrow controller needs transpilation for `$controller`'s
+constructor call); config/passwd are real Angular services, ngModel/date are real
+Angular directives/filters. HTTP, confirmation, notifications and locale are
+fixture boundaries. The template is compiled without Bootstrap layout directives.
+`settings/backend.py` executes the original Python Handler method bodies after
+removing imports/decorators/class base via AST. UID, authorize, config providers,
+pwd and chpasswd are fixtures; it never imports OS authentication or executes
+chpasswd. This proves endpoint guards and payload parsing, not Ajenti's auth
+middleware, PAM or filesystem permissions. The local HTTP server uses these
+methods for core/user/SMTP/TFA/passwd and synthetic certificate responses only.
+
+`mountStockSettings(element, aj, {path:'/view/settings', machine, customization})`
+explicitly mounts the stock route with an already refreshed identity. It returns
+`{model, dispose}`; no product entry/router imports it. LM settings remains its
+own route. `createConfiguration(http)` exposes core, user-config, SMTP, TFA,
+authprovider and permissions operations without guessing API permissions from
+sidebar/customization. Root UI entry checks `identity.isSuperuser`; core read and
+write guards are independently exercised on the original endpoint bodies.
+The shared session now exposes its loaded machine metadata and writable color
+preview; a subsequent identity refresh replaces that preview as in the original.
+Language changes load locale only; persistence is still the explicit config POST.
+No new user-config UI or password-change form is invented for stock settings.
+
+Preserved subtleties: changed certificate => test then config POST, no SMTP POST;
+unchanged certificate => config/loaded SMTP POST independently; oldCertificate
+stays the originally loaded path. Server generation disables forced client auth
+before request, clears client certificates on success, then saves. Client request
+includes `generating:true` and subsequent generations retain original extra
+fields; descriptors and data URL/download filename match. User selection resets
+CN to the signed-in identity's user@hostname, not the selected user's name. TFA
+uses a string timestamp. Trusted removals confirm; revocation and TFA do not.
+Text fields trim models while preserving spaces during typing, passwords retain
+spaces unless the revealed text field is edited. Loading/failed config is not
+replaced by an empty successful configuration.
+
+Known original defect deliberately retained: passwd service sends `{user,password}`
+while passwd 0.28 Python reads `data['users']` (root also fails during chpasswd
+construction). The fixture demonstrates the failure; raw backend `{users,password}`
+proves root/own-identity authorization and CR/LF removal. No password change is
+claimed to succeed with this unchanged upstream contract. Certificate endpoints
+in settings 0.35 lack their own UID/core permission guards; those are not added
+or inferred by the fixture, and the new workflow restricts all certificate actions
+to the root route. Backend hardening is outside this port and needs independent
+coordinator review before activation.
+
+Differences: non-root route skips even controller requests (original rootAccess
+only replaces DOM); passwd service denies list/non-own changes locally in addition
+to backend checks. Teardown discards late responses/follow-up writes and clears
+loaded config/SMTP/certificate data; confirmation cancellation is consumed. Changed
+certificate config-save rejection now produces SSL Error instead of the original
+unhandled nested promise. Buttons/selects and an inline Bootstrap-styled client
+dialog replace uib tabs/radios/overlay and icon-only controls; no Escape/backdrop
+handling is added. SMTP fields wait for a loaded smtp object instead of creating
+one after a failed load. Help text remains text/title content, no trusted HTML.

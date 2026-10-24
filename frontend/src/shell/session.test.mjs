@@ -161,3 +161,11 @@ it('publishes refreshed identity color for the Angular-free favicon owner', asyn
     expect(h.identity.color).toBe('green'); h.dispose();
     expect(h.identity.color).toBeUndefined();
 });
+
+it('exposes machine metadata and applies unsaved stock settings color through the session owner', async () => {
+    const h = harness(); await h.identity.refresh();
+    expect(h.identity.machine).toEqual({ name: 'demo' });
+    h.identity.color = 'red'; expect(h.identity.color).toBe('red'); expect(admin.color).toBe('blue');
+    await h.identity.refresh(); expect(h.identity.color).toBe('blue');
+    h.dispose(); expect(h.identity.machine).toBeUndefined();
+});
