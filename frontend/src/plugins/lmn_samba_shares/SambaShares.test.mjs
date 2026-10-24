@@ -130,13 +130,15 @@ it('reports create and deletion errors without closing the dialog or reloading',
 });
 it('persists, replaces and removes clipboard entries, with conflict prompt and exact copy/move payloads', async () => {
     const prompt = vi.fn().mockResolvedValue({ value: 'copy.txt' });
-    const { http } = setup({ messagebox: { prompt } }); await flushPromises();
+    const { http } = setup({ items: [file('A.txt'), file('z.txt', { isFile: false, isDir: false, isLink: true })], messagebox: { prompt } }); await flushPromises();
     await select('A.txt'); await click('Copy'); await select('A.txt'); await click('Cut');
     const stored = JSON.parse(localStorage.getItem('ngStorage-sambaSharesClipboard'));
     expect(stored.map(({ mode, item }) => [mode, item.path])).toEqual([['move', `${home}/A.txt`]]);
     await select('z.txt'); await click('Copy');
     await wrapper.get('[data-clipboard]').trigger('click'); await flushPromises();
     expect(wrapper.get('dialog').text()).toContain('Clipboard');
+    // The legacy template renders a file/dir icon only when that flag is true.
+    expect(wrapper.get('dialog').findAll('.fa-file-o')).toHaveLength(1);
     await wrapper.get('dialog a:has(.fa-times)').trigger('click'); await click('Close');
     await click('Paste here');
     expect(prompt).toHaveBeenCalledWith('A file/directory with this name already exists, please give a new name :', 'z.txt');

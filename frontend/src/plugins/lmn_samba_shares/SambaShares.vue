@@ -234,7 +234,7 @@ function keyboardFocus(event) {
             <div class="modal-header"><h4>{{ aj.gettext('Clipboard') }}</h4></div>
             <div class="modal-body"><div class="list-group"><div v-for="(operation, index) in clipboard" :key="operation.item.path" class="list-group-item list-group-item-small">
                 <a class="list-group-btn subtle" :title="aj.gettext('Remove')" @click="setClipboard(clipboard.filter((_, position) => position !== index))"><i class="fa fa-times"></i></a>
-                <div class="list-group-main"><i class="fa fa-fw" :class="operation.mode === 'move' ? 'fa-cut' : 'fa-copy'"></i> &nbsp; <i class="fa fa-fw" :class="operation.item.isDir ? 'fa-folder-o' : 'fa-file-o'"></i> &nbsp; {{ operation.item.path }}</div>
+                <div class="list-group-main"><i class="fa fa-fw" :class="operation.mode === 'move' ? 'fa-cut' : 'fa-copy'"></i> &nbsp; <i v-if="operation.item.isDir" class="fa fa-fw fa-folder-o"></i><i v-if="operation.item.isFile" class="fa fa-fw fa-file-o"></i> &nbsp; {{ operation.item.path }}</div>
             </div></div></div>
             <div class="modal-footer"><a class="btn btn-default btn-flat" @click="clearClipboard">{{ aj.gettext('Remove all items') }}</a><a class="btn btn-default btn-flat" @click="dialog = null">{{ aj.gettext('Close') }}</a></div>
         </div></div></div></dialog>
