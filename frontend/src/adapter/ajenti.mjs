@@ -68,8 +68,8 @@ export function createAjentiAdapter({ $http, notify, toaster, gettextCatalog, id
             method, async (...args) => $http[method](...args),
         ])),
         notify: Object.fromEntries(['success', 'info', 'warning', 'error'].map((level) => [
-            level, (title, text, options) => options?.sticky
-                ? inDigest(() => toaster.pop({ type: level, title, body: text, timeout: 0 }))
+            level, (title, text, options) => (options?.sticky || options?.timeout !== undefined)
+                ? inDigest(() => toaster.pop({ type: level, title, body: text, timeout: options?.sticky ? 0 : options.timeout }))
                 : notify[level](title, text),
         ])),
         gettext: (text) => {
