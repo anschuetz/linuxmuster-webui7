@@ -11,7 +11,7 @@ import GlobalApi from './GlobalApi.vue';
 import GlobalTfa from './GlobalTfa.vue';
 import GlobalEdulution from './GlobalEdulution.vue';
 import GlobalVersion from './GlobalVersion.vue';
-defineProps({ customization: { default: () => ({}) } });
+defineProps({ customization: { default: () => ({}) }, layout: { default: () => ({ sidebar: true }) } });
 const aj = inject('aj');
 const s = createGlobalSettings(aj);
 aj.pageTitle.set(aj.gettext('Global Settings'));
@@ -72,7 +72,7 @@ function selectTab(index) {
 </div>
 <div class="floating-toolbar-padder">
 </div>
-<component :is="'floating-toolbar'">
+<component :is="'floating-toolbar'"><div class="container"><div class="row"><div :class="{ 'col-md-3': layout.sidebar }"></div><div :class="layout.sidebar ? 'col-md-9' : 'col-md-12'"><div class="bar row">
 <Translated tag="a" text="Save" v-show="s.activetab === 0" @click="s.save()" class="btn btn-lmn">
 </Translated> <Translated tag="a" text="Restart WebUI" v-show="s.activetab === 0" @click="s.restart()" class="btn btn-lmn">
 </Translated> <Translated tag="a" text="Save &amp;amp; Apply Subnets" v-show="s.activetab === 1" @click="s.saveApplySubnets()" class="btn btn-lmn">
@@ -81,7 +81,7 @@ function selectTab(index) {
 </Translated> <Translated tag="a" text="Save" v-show="s.activetab === 3" @click="s.saveWebui()" class="btn btn-lmn">
 </Translated> <Translated tag="a" text="Save" v-show="s.activetab === 4" @click="s.saveApiKeys()" class="btn btn-lmn">
 </Translated>
-</component>
+</div></div></div></div></component>
 <div v-if="s.showNewApiKey" class="block-element animate-modal">
 <div class="modal">
 <div class="modal-dialog">

@@ -1,5 +1,5 @@
 import { afterEach, expect, it, vi } from 'vitest';
-import { effectScope, nextTick, ref } from 'vue';
+import { effectScope, nextTick, reactive, ref } from 'vue';
 import { flushPromises, mount } from '@vue/test-utils';
 import { createMockAj } from '../../adapter/mock.mjs';
 import { createSchoolSettings } from './school.mjs';
@@ -258,4 +258,15 @@ it('updates translated tab headings when the shell catalog changes language', as
     expect(wrapper.find('.nav-tabs a').text()).toBe('General');
     language.value = 'de'; await nextTick();
     expect(wrapper.find('.nav-tabs a').text()).toBe('DE General');
+});
+
+it.each([SchoolSettings, GlobalSettings])('keeps the Core toolbar grid aligned with the changing sidebar', async Component => {
+    const layout = reactive({ sidebar: true });
+    const aj = createMockAj({ http: async r => ({ data: r.method === 'get' ? structuredClone(responses()[r.url]) : null }) });
+    const wrapper = mount(Component, { props: { layout }, global: { provide: { aj } } }); wrappers.push(wrapper); await flushPromises();
+    expect(wrapper.find('floating-toolbar > .container > .row > .col-md-3').exists()).toBe(true);
+    expect(wrapper.find('floating-toolbar .col-md-9 > .bar.row').exists()).toBe(true);
+    layout.sidebar = false; await nextTick();
+    expect(wrapper.find('floating-toolbar .col-md-3').exists()).toBe(false);
+    expect(wrapper.find('floating-toolbar .col-md-12 > .bar.row').exists()).toBe(true);
 });

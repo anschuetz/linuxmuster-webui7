@@ -9,6 +9,14 @@ export function readCustomization() {
     return window.angular.element(document.documentElement).injector().get('customization');
 }
 
+// The same temporary shell seam supplies floatingToolbar's inherited
+// showSidebar binding (Core floatingToolbar.es; local pattern as in P53).
+export function watchSidebar(changed) {
+    const scope = window.angular.element(document.documentElement).scope();
+    changed(Boolean(scope.showSidebar));
+    return scope.$watch('showSidebar', value => changed(Boolean(value)));
+}
+
 export function openUsersCheck() {
     const injector = window.angular.element(document.documentElement).injector();
     return new Promise((resolve, reject) => {

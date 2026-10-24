@@ -9,7 +9,7 @@ import SchoolPrinting from './SchoolPrinting.vue';
 import SchoolCustom from './SchoolCustom.vue';
 import SchoolHolidays from './SchoolHolidays.vue';
 import SchoolPassword from './SchoolPassword.vue';
-defineProps({ customization: { default: () => ({}) } });
+defineProps({ customization: { default: () => ({}) }, layout: { default: () => ({ sidebar: true }) } });
 const aj = inject('aj');
 const s = createSchoolSettings(aj);
 aj.pageTitle.set(aj.gettext('Settings'));
@@ -63,7 +63,7 @@ function selectTab(index) {
 </div>
 <div class="floating-toolbar-padder">
 </div>
-<component :is="'floating-toolbar'">
+<component :is="'floating-toolbar'"><div class="container"><div class="row"><div :class="{ 'col-md-3': layout.sidebar }"></div><div :class="layout.sidebar ? 'col-md-9' : 'col-md-12'"><div class="bar row">
 <button v-show="s.activetab !== 4 &amp;&amp; s.activetab !== 6" @click="s.backups()" class="btn btn-lmn pull-right">
 <i class="fa fa-history">
 </i>
@@ -75,7 +75,7 @@ function selectTab(index) {
 </Translated> <Translated tag="button" text="Save" v-show="s.activetab === 5" @click="s.saveApplyHolidays()" class="btn btn-lmn">
 </Translated> <Translated tag="button" text="Save" v-show="s.activetab === 6" @click="s.savePasswordConstraints()" class="btn btn-lmn">
 </Translated>
-</component>
+</div></div></div></div></component>
 
 </div>
 </template>
