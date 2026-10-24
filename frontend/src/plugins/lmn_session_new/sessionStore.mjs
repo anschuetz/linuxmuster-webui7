@@ -5,9 +5,11 @@ const emptyCurrent = () => ({ sid: '', name: '', generated: false, members: [], 
  * Plugin-local singleton, shared by both route mounts; never shared with Angular.
  * Parts 2–5 consume state.current (LDAP member objects), examUsers/extExamUsers,
  * examMode and user_missing_membership. Replace current/members when updating.
+ * Detail owns filePolling {active,start,stop,dispose}, clearing it on unmount.
+ * capture() invalidates async detail responses after reset/identity/SID changes.
  * Adapter binding is renewed at each mount; identity changes invalidate requests.
  */
-const state = shallowReactive({ current: emptyCurrent(), examUsers: [], extExamUsers: [], examMode: false, user_missing_membership: [] });
+const state = shallowReactive({ current: emptyCurrent(), examUsers: [], extExamUsers: [], examMode: false, user_missing_membership: [], filePolling: undefined });
 let identity, adapter, version = 0;
 function clear(user) {
     identity = user; version += 1;
@@ -32,6 +34,10 @@ const store = {
     state,
     reset() { version += 1; state.current = emptyCurrent(); },
     filterExamUsers,
+    capture() {
+        const requestVersion = version, owner = identity, sid = state.current.sid, aj = adapter;
+        return () => requestVersion === version && aj.identity.user === owner && state.current.sid === sid;
+    },
     start: session => startResolved({ ...session, generated: false, type: 'group' }, [...session.members], { ...session, members: [...session.members] }),
     startGenerated: (name, members, type) => startResolved(() => ({ sid: Date.now(), name, generated: true, type }), [...members]),
     enterDetail() {
