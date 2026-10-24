@@ -276,3 +276,62 @@ unhandled nested promise. Buttons/selects and an inline Bootstrap-styled client
 dialog replace uib tabs/radios/overlay and icon-only controls; no Escape/backdrop
 handling is added. SMTP fields wait for a loaded smtp object instead of creating
 one after a failed load. Help text remains text/title content, no trusted HTML.
+
+## Navigation/layout oracle (P110)
+
+`navigation/` pins the unmodified Core 0.116 root/navbox controllers, sidebar and
+floatingToolbar directives, sidebar template, customization/hotkey services and
+filters from the P106 package archive. It also includes Core's Sidebar/Navbox
+Python implementations, LM's current `main_view.html` and the original
+`globalSettings.html` from fork commit `7a9aa7018^` (before the Settings port).
+`navigation.mjs` executes the original controllers, recursive sidebar, toolbar
+and Settings visibility expressions with real AngularJS. Only HTTP, identity,
+clock, translation and hotkey boundaries are fixture services.
+
+`createNavigation` owns the native read-only reactive `layout` (sidebar,
+widescreen, overlay), customization, sidebar tree and navbox. Toggles accept an
+optional explicit boolean; the first two persist under the original
+`ngStorage-showSidebar` / `ngStorage-isWidescreen` JSON keys, overlay closes on
+`routeChanged(path)`. The path must include `prefix`, exactly like browser
+`location.pathname` (e.g. `/panel/view/lmn/users/students`); sidebar active state
+compares it with `prefix + item.url`, as in the original template. `useShell(aj)`
+must run in a Vue scope. With `aj.shell` it returns the native capability; until activation it shares a facade over the
+existing Angular root scope, delegates original toggles through `$evalAsync` and
+releases its watchers with the last consumer. It creates no session or socket.
+The product Angular adapter/bootstrap/router remain unchanged. Settings and
+Nextcloud are the only rebuilt consumers; F14 and F17 local seams are removed.
+F15 continues to use the unchanged shared Vue Users workflow from P119.
+
+`mountNavigationHarness(element, {session, storage, prefix, path, navigate,
+reload, customization, plugin, gettext})` composes session, presentation, native
+navigation and RouteHost explicitly. Its `path` follows the same prefixed
+`location.pathname` contract; the default is `${prefix}/view/lmn/landingpage`.
+A full fixture page mounts on `document.body`
+so existing `body > .container` CSS selectors apply; embedded test hosts inspect
+DOM/state. ShellNavigation applies/restores its body classes, and the owner disposes
+services and session. No product entry imports this mount. The session exposes
+its already loaded UID/machine snapshot for the profile, without another request.
+
+The localhost HTTP fixture uses four roles' shipped Users permission entries
+for synthetic sidebar filtering and API status responses. The tests use the same
+`permission()` helper for expectations: they are pass-through tests of supplied
+sidebar/identity/API responses, not independent authorization tests. UID and
+`school_show` are invented fixture values, not verified role behavior. No
+Python/LDAP/aj.auth execution is covered. The synthetic Navbox response is not
+filtered by sidebar grants. All saves, Check/Apply and log content are synthetic.
+No VM is accessed.
+
+Explicit differences from Core: the navbox fixes its `j` ReferenceError and avoids
+its invalid `rankMatch:'title|translate'` lookup. With actual results, the original
+filter accesses the undefined `title|translate` property and renders **zero list
+entries**; only Enter navigation works. The native Navbox intentionally renders a
+clickable result list instead. A DOM comparison runs the original list fragment
+and filter to pin that difference. Server result order is retained,
+nonfunctional Shift-number badges/shortcuts are omitted, Enter with no result is
+ignored. Custom sidebar upper/lower content is escaped text rather than trusted
+HTML, and the legacy feedback telemetry hook is omitted. Native teardown removes
+listeners/timers and ignores late HTTP results; it never restores persisted layout
+preferences. The harness has no tasks sidebar (P114), global loading overlay or
+session countdown decoration; those owners remain separate. Touch swipe thresholds
+match ngTouch; mouse-swipe emulation and Angular animations are omitted. Production
+layout behavior is still delegated to Angular until the final switch.

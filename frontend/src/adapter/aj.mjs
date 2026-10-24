@@ -44,7 +44,15 @@
  * Defaults: backdrop: true, keyboard: true. backdrop: 'static' disables backdrop dismissal;
  * keyboard: false disables Escape independently. Scope destruction still rejects. size: 'lg' opts into the Bootstrap large frame.
  *
+ * @typedef {Object} ShellLayout
+ * @property {{sidebar: boolean, widescreen: boolean, overlay: boolean}} layout Read-only reactive layout.
+ * @property {Record<string, unknown>} customization Read-only plugin customization supplied by the shell.
+ * @property {(state?: boolean) => void} toggleNavigation Persist the sidebar choice.
+ * @property {(state?: boolean) => void} toggleWidescreen Persist the widescreen choice.
+ * @property {(state?: boolean) => void} toggleOverlayNavigation Mobile state, never persisted.
+ *
  * @typedef {Object} Aj
+ * @property {ShellLayout} [shell] Native shell capability. Transitional consumers use useShell(aj) inside their Vue scope; the unchanged Angular adapter delegates via that shared facade.
  * @property {{setLanguage: (language: string) => Promise<unknown>}} locale Change the shell language and load its catalog.
  * @property {() => Promise<unknown>} restart Open the shell restart confirmation and preserve its result.
  * @property {(fn: () => boolean|void) => (() => void)} guardLeave Register a synchronous route guard; exactly false prevents a location change. Returns an idempotent unsubscribe. The bridge scope also removes it on destruction.
