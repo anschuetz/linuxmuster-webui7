@@ -36,6 +36,7 @@ export function createPresentation({ http, identity, navigate, gettext = text =>
     const services = {
         state, gettext, http, identity, navigate, notify: notifications.notify, messagebox: messages.messagebox, modal,
         pageTitle: { set: value => { title.value = value; } }, favicon,
+        forceRestart,
         restart: () => messages.messagebox.show({ title: gettext('Restart'), text: gettext('Restart the panel?'),
             positive: gettext('Yes'), negative: gettext('No') }).then(() => { void forceRestart(); }),
         clickToast: notifications.click, pauseToast: notifications.pause, resumeToast: notifications.resume,
