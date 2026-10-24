@@ -30,6 +30,10 @@ async function showBackups(image) {
         });
     } catch { /* Modal dismissal. */ }
 }
+const sidebar = ref(true);
+const sidebarChanged = event => { sidebar.value = event.detail; };
+window.addEventListener('lmn-linbo4-sidebar', sidebarChanged);
+onBeforeUnmount(() => window.removeEventListener('lmn-linbo4-sidebar', sidebarChanged));
 const tab = ref(initialTab(window.location.hash));
 aj.pageTitle.set(aj.gettext('LINBO 4'));
 const offLeave = aj.guardLeave(() => !state.changed || window.confirm(aj.gettext('You should call an import devices process to apply the new changes, quit this page anyway ?')));
@@ -49,10 +53,10 @@ function downloadIso() { emit('download-iso'); window.location.href = '/lmn/down
             <li :class="{ active: tab === 0 }"><a href="" @click.prevent="tab = 0">{{ aj.gettext('Groups') }}</a></li>
             <li :class="{ active: tab === 1 }"><a href="" @click.prevent="tab = 1">{{ aj.gettext('Images') }}</a></li>
         </ul>
-        <div v-show="tab === 0"><GroupsTab :configs="state.configs" :examples="state.examples" :changed="state.changed"
+        <div v-show="tab === 0"><GroupsTab :sidebar="sidebar" :configs="state.configs" :examples="state.examples" :changed="state.changed"
             @create-config="groups.createConfig" @duplicate-config="groups.duplicateConfig" @delete-config="groups.deleteConfig"
             @edit-config="edit" @import-devices="apply" @download-iso="downloadIso" /></div>
-        <div v-show="tab === 1"><slot name="images" :images="state.images"><ImagesTab :images="state.images" @edit-image="imageActions.editImage($event, state.images)" @duplicate-image="imageActions.duplicateImage"
+        <div v-show="tab === 1"><slot name="images" :images="state.images"><ImagesTab :sidebar="sidebar" :images="state.images" @edit-image="imageActions.editImage($event, state.images)" @duplicate-image="imageActions.duplicateImage"
             @show-backups="showBackups" @delete-image="destructive.deleteImage" @delete-diff="destructive.deleteDiffImage"
             @toggle-image="toggleImage" :has-selected="selected.length > 0" @delete-selected="destructive.deleteImages(selected.map(name => state.images.find(image => image.name === name)))" /></slot></div>
     </div>

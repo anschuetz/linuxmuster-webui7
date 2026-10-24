@@ -1,7 +1,7 @@
 <script setup>
 import { inject } from 'vue';
 import { imageBytes } from './images.mjs';
-const props = defineProps({ images: Array, hasSelected: Boolean });
+const props = defineProps({ images: Array, hasSelected: Boolean, sidebar: { type: Boolean, default: true } });
 const emit = defineEmits(['edit-image', 'duplicate-image', 'show-backups', 'delete-image', 'delete-diff', 'toggle-image', 'delete-selected']);
 const aj = inject('aj');
 </script>
@@ -23,5 +23,5 @@ const aj = inject('aj');
         </tr></tbody>
     </table>
     <br>
-    <component :is="'floating-toolbar'" v-if="hasSelected"><button data-action="delete-selected" class="btn btn-lmn" @click="emit('delete-selected')">{{ aj.gettext('Delete selected images') }}</button></component>
+    <component :is="'floating-toolbar'" v-if="hasSelected"><div class="container"><div class="row"><div :class="{ 'col-md-3': sidebar }"></div><div :class="sidebar ? 'col-md-9' : 'col-md-12'"><div class="bar row"><button data-action="delete-selected" class="btn btn-lmn" @click="emit('delete-selected')">{{ aj.gettext('Delete selected images') }}</button></div></div></div></div></component>
 </template>
