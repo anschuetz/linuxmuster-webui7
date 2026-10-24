@@ -8,9 +8,12 @@ import { createSessions } from './sessions.mjs';
 import Participants from './Participants.vue';
 import SessionFiles from './SessionFiles.vue';
 import { createTransfers } from './transfers.mjs';
+import ExamActions from './ExamActions.vue';
+import ManagementControls from './ManagementControls.vue';
+import { createExam } from './exam.mjs';
 const aj = inject('aj'), store = getSessionStore(aj), allowed = useSambaAccess(aj);
 const api = createParticipants(aj, store), groups = createSessions(aj), menu = ref(false);
-const transfers = createTransfers(aj, store, api);
+const transfers = createTransfers(aj, store, api), exam = createExam(aj, store, api);
 const current = computed(() => store.state.current), ready = ref(false);
 const room = createPolling(api.updateParticipants), files = createPolling(api.updateFileList);
 let cleaned = false, offLeave = () => {};
@@ -20,7 +23,7 @@ function beforeUnload(event) {
 }
 function cleanup() {
     if (cleaned) return;
-    cleaned = true; api.dispose(); room.dispose(); files.dispose(); offLeave(); window.removeEventListener('beforeunload', beforeUnload);
+    cleaned = true; exam.dispose(); api.dispose(); room.dispose(); files.dispose(); offLeave(); window.removeEventListener('beforeunload', beforeUnload);
     if (store.state.filePolling === files) store.state.filePolling = undefined;
 }
 onBeforeUnmount(cleanup);
@@ -50,7 +53,12 @@ async function kill() { await groups.kill(current.value.sid, current.value.name)
 <template>
     <br>
     <div v-if="ready && allowed">
+        <component :is="'progress-spinner'" v-if="store.state.stateChanged" role="status"><div><div class="one"></div><div class="two"></div></div></component>
         <Participants :store="store" :api="api" :files="files">
+            <template #exam-header><ExamActions :store="store" :api="exam" /></template>
+            <template #exam="{ user }"><ExamActions :store="store" :api="exam" :user="user" /></template>
+            <template #management-header><ManagementControls :store="store" :api="exam" /></template>
+            <template #management="{ user }"><ManagementControls :store="store" :api="exam" :user="user" /></template>
             <template #files="{ user }"><SessionFiles :store="store" :api="transfers" :user="user" /></template>
             <template #actions>
                 <div v-if="!current.generated" class="input-group-btn" @focusout="event => { if (!event.currentTarget.contains(event.relatedTarget)) menu = false; }">

@@ -65,7 +65,7 @@ function bytes(value) {
             <th style="text-align:center">{{ aj.gettext('Working directory') }}<br><span class="label label-default">transfer/{{ aj.identity.user }}/_collect</span>
                 <button v-if="!files.active.value" data-files-start class="btn btn-default" :aria-label="aj.gettext('Start autorefresh')" @click="files.start"><i class="fas fa-sync"></i></button>
                 <button v-else data-files-stop class="btn btn-default" :aria-label="aj.gettext('Stop autorefresh')" @click="files.stop"><i class="fas fa-sync fa-spin"></i></button>
-            </th><th></th>
+            </th><th v-if="$slots['exam-header']" style="text-align:center"><slot name="exam-header" /></th><slot name="management-header" /><th></th>
         </tr></thead>
         <tbody><tr v-for="(user, index) in rows" :key="index">
             <td><span v-if="user.computer" class="label label-success pull-right">{{ user.computer }}</span><a><b>{{ user.sn }}, {{ user.givenName }}</b></a><br><span class="label label-default pull-right">{{ user.sophomorixAdminClass }}</span><i>{{ user.sAMAccountName }}</i></td>
@@ -79,6 +79,8 @@ function bytes(value) {
                     <span v-if="item.isFile"><i :class="icon(item.filetype)"></i> {{ item.name }} <span class="subtle">{{ bytes(item.size) }}</span></span>
                 </div></template>
             </td>
+            <td v-if="$slots.exam && isStudent(user)" style="text-align:center"><slot name="exam" :user="user" /></td>
+            <slot v-if="isStudent(user)" name="management" :user="user" />
             <td><button v-if="!store.state.current.generated" data-remove class="btn btn-default" :aria-label="aj.gettext('Delete')" @click="action(() => api.remove(user))"><i class="fa fa-trash"></i></button></td>
         </tr></tbody>
     </table>
