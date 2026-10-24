@@ -35,7 +35,7 @@ const SidebarItem = defineComponent({
                         event.preventDefault(); event.stopPropagation(); expanded.value = !expanded.value;
                     } }, [h('i', { class: `fa fa-fw fa-caret-${open ? 'down' : 'right'}` })]) : null,
                     h('a', { class: 'link', href: href(`${item.url.startsWith('/') ? nav.prefix + item.url : item.url}/`) }, [
-                        h('i', { class: item.icon.includes(' ') ? `fa-fw ${item.icon}` : `fa fa-fw fa-${item.icon}` }), gettext(item.name),
+                        h('i', { class: ['sidebar-link-icon', item.icon.includes(' ') ? `fa-fw ${item.icon}` : `fa fa-fw fa-${item.icon}`] }), gettext(item.name),
                     ]),
                 ]) : null,
                 h('div', { class: 'children', style: { display: open && children.length ? '' : 'none' } },

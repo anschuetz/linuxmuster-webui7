@@ -59,6 +59,22 @@ it('renders the original sidebar hierarchy/order/links and only expands non-top-
     await wrapper.find('.sidebar.hide-tablet .expander').trigger('click');
     expect(wrapper.find('.sidebar.hide-tablet a[href="https://example.test/"]').isVisible()).toBe(true);
 });
+it('reserves a spaced fixed-width icon slot in desktop and overlay links, including empty icons', async () => {
+    const items = ['user', 'fas fa-users', ''].map((icon, index) => ({
+        name: `Item ${index}`, icon, url: `/view/item-${index}`, children: [],
+    }));
+    const { nav, aj } = setup({ http: async () => ({ data: { sidebar: { children: [{ name: 'Group', children: items }] } } }) });
+    await nav.loadSidebar();
+    const wrapper = mount(ShellNavigation, { attachTo: document.body, props: { nav, aj } });
+    cleanups.push(() => wrapper.unmount());
+    for (const selector of ['.sidebar.hide-tablet', '.overlay-sidebar']) {
+        const links = wrapper.findAll(`${selector} .link`);
+        expect(links).toHaveLength(3);
+        for (const link of links) {
+            expect(link.get('i').classes()).toEqual(expect.arrayContaining(['sidebar-link-icon', 'fa-fw']));
+        }
+    }
+});
 it('preserves navbox Ctrl-P, model trimming/debounce, retained results, Enter first result and Esc', async () => {
     vi.useFakeTimers();
     const old = navigationOracle({ results: [{ title: 'Users', url: '/view/lmn/users' }] }); cleanups.push(old.close);

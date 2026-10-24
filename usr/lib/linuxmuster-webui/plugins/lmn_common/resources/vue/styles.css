@@ -9251,6 +9251,15 @@ body > .container > .row > .sidebar .sidebar-item > div > .link, body > .contain
   padding-left: 10px;
 }
 
+body > .container > .row > .sidebar .sidebar-item > div > .link > .sidebar-link-icon,
+body > .container > .sidebar .sidebar-item > div > .link > .sidebar-link-icon {
+  display: inline-block;
+  width: 1.25em;
+  padding-right: 0;
+  margin-right: 8px;
+  text-align: center;
+}
+
 html body.customized .container > .row > .sidebar .sidebar-item h5, html body.customized .container > .sidebar .sidebar-item h5 {
   padding-left: 10px;
 }
