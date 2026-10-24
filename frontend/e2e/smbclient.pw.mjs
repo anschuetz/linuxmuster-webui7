@@ -10,7 +10,7 @@ const teacher = settings.roles.find((role) => role.name === 'teacher');
 const ssh = (command) => execFileSync('ssh', ['-o', 'BatchMode=yes', 'lmn-server-e', command], { encoding: 'utf8', timeout: 30000 });
 // Only synthetic account zem is allowed for the writable/SSH fixture.
 const filename = 'p64-synthetic.txt';
-const content = 'P64 synthetic upload/download ä\n'.repeat(50000); // crosses the 1 MiB chunk boundary
+const content = 'P64 synthetic upload/download ä\n'.repeat(100000); // multiple chunks even with Flow's larger final chunk
 let bundle;
 test.beforeAll(async () => {
     const output = await build({
@@ -22,7 +22,7 @@ test.beforeAll(async () => {
             rolldownOptions: { external: ['vue'], output: { globals: { vue: 'Vue' } } },
         },
     });
-    bundle = output.output.find((asset) => asset.type === 'chunk').code;
+    bundle = (Array.isArray(output) ? output : [output]).flatMap((result) => result.output).find((asset) => asset.type === 'chunk').code;
 });
 
 test('teacher: mounted SMB upload, SSH proof, binary download and masked prompt', async ({ page }) => {
