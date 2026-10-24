@@ -28,6 +28,8 @@ Next generation web interface for linuxmuster.net v7, which provides:
  * Linbo management,
  * and much more !
 
+For frontend development, testing and packaging, see [DEVELOPING.md](DEVELOPING.md).
+
 ## Maintenance Details
 
 Linuxmuster.net official | ✅  YES
