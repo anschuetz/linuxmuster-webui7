@@ -70,17 +70,9 @@ export const ShellNavigation = defineComponent({
     props: ['nav', 'aj', 'identityDetails', 'sessionState', 'devMode'],
     setup(props, { slots }) {
         const dropdown = ref(false), input = ref(null), draft = ref('');
-        const navbar = useHeaderHeight(), mobileSidebar = ref(null);
-        let overlayTrigger;
-        watch(() => props.nav.layout.overlay, async visible => {
-            if (visible) overlayTrigger = document.activeElement;
-            await nextTick();
-            if (visible) mobileSidebar.value?.querySelector('a.link')?.focus();
-            else overlayTrigger?.focus();
-        });
+        const navbar = useHeaderHeight();
         useBodyClasses(props.nav);
         const dismiss = event => {
-            if (event.key === 'Escape' && props.nav.layout.overlay && !dropdown.value && !props.nav.search.visible && !document.querySelector('.modal.show, .modal.in, dialog[open]')) props.nav.toggleOverlayNavigation(false);
             if (event.key === 'Escape' || (event.type === 'click' && !event.target.closest('.dropdown'))) dropdown.value = false;
         };
         document.addEventListener('click', dismiss); document.addEventListener('keydown', dismiss);
@@ -98,7 +90,7 @@ export const ShellNavigation = defineComponent({
         return () => {
             const { nav, aj } = props, { layout, search } = nav, identity = aj.identity, t = aj.gettext;
             const core = nav.customization.plugins?.core ?? {}, details = props.identityDetails ?? {};
-            const sidebar = mobile => h('div', { ref: mobile ? mobileSidebar : undefined, id: mobile ? 'shell-mobile-navigation' : undefined, class: mobile ? 'sidebar overlay-sidebar animate-sidebar hide-desktop hide-large' : 'col-md-3 sidebar hide-tablet hide-phone',
+            const sidebar = mobile => h('div', { id: mobile ? 'shell-mobile-navigation' : undefined, class: mobile ? 'sidebar overlay-sidebar animate-sidebar hide-desktop hide-large' : 'col-md-3 sidebar hide-tablet hide-phone',
                 style: { display: layout.navigationPresent && (mobile ? layout.overlay : layout.sidebar) ? '' : 'none' },
                 onTouchstart: swipeStart, onTouchend: swipeEnd }, [
                 slots.tasks?.(),
@@ -136,7 +128,6 @@ export const ShellNavigation = defineComponent({
                         ]) : null,
                     ]),
                 ]),
-                layout.overlay && layout.navigationPresent ? h('div', { class: 'navigation-backdrop hide-desktop hide-large', onClick: () => nav.toggleOverlayNavigation(false) }) : null,
                 h('div', { class: 'container' }, [h('div', { class: 'row' }, [sidebar(false),
                     h('div', { class: 'content shell-content', onTouchstart: swipeStart, onTouchend: swipeEnd }, slots.default?.())]), sidebar(true)]),
                 search.visible ? h('div', { class: 'navbox-overlay' }, [h('div', { class: 'navbox-box' }, [

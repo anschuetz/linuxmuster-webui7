@@ -13334,7 +13334,7 @@ button.toast-close-button {
 
 /* BS3 dropdown-menu-right; P137 shell/navigation-components.mjs dropdown family 88 uses; remove B2. */ .dropdown-menu-right { right: 0; left: auto; }
 
-/* BS3 fixed navbar after theme base; P137 10 navbar uses, frontend/src/shell/navigation-components.mjs; remove B2. */ .navbar.navbar-fixed-top, .navbar.navbar-fixed-bottom { position: fixed; border-radius: 0; }
+/* BS3 fixed navbar after theme base; P137 10 navbar uses, frontend/src/shell/navigation-components.mjs; remove B2. */ .navbar.navbar-fixed-bottom { position: fixed; border-radius: 0; }
 /* BS3 navbar container is block; P137 frontend/src/shell/navigation-components.mjs:79; remove B2. */ .navbar > .container, .navbar > .container-fluid { display: block; }
 /* BS3 navbar-text has no padding; P137 frontend/src/shell/navigation-components.mjs navbar family 10 uses; remove B2. */ .navbar-text { padding: 0; }
 /* BS3 dropdown body inherits text color; P137 dropdown family 88 uses, frontend/src/shell/navigation-components.mjs; remove B2. */ .dropdown-menu { color: inherit; }
@@ -18442,22 +18442,6 @@ body > .container > .sidebar,
 body > .container > .row > .sidebar.overlay-sidebar,
 body > .container > .sidebar.overlay-sidebar {
   padding-top: var(--shell-header-height);
-}
-
-.navigation-backdrop {
-  position: fixed;
-  top: var(--shell-header-height);
-  right: 0;
-  bottom: 0;
-  left: 33%;
-  z-index: 99;
-  opacity: 0;
-}
-
-@media (max-width: 767px) {
-  .navigation-backdrop {
-    left: 80%;
-  }
 }
 .lmp_deviceBoxSM {
   height: 130px;

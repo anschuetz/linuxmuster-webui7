@@ -10,7 +10,8 @@ import { buildStyles } from '../static-assets.mjs';
 const frontend = fileURLToPath(new URL('..', import.meta.url));
 const output = process.argv[2]; assert.ok(output, 'Pass a local log directory');
 await mkdir(output, { recursive: true });
-const previous = path => execFileSync('git', ['show', `e86905b0f:${path}`], { cwd: frontend, encoding: 'utf8' });
+const reference = process.argv.includes('--reference') ? process.argv[process.argv.indexOf('--reference') + 1] : 'e86905b0f';
+const previous = path => execFileSync('git', ['show', `${reference}:${path}`], { cwd: frontend, encoding: 'utf8' });
 const css = { before: previous('usr/lib/linuxmuster-webui/plugins/lmn_common/resources/vue/styles.css'), after: await buildStyles(frontend) };
 const auth = (await readFile(join(frontend, 'test-fixtures/bs5-auth.html'), 'utf8')).match(/<div class="container auth-page"[\s\S]*?<dialog/)[0].replace(/<dialog$/, '');
 const entry = `import { createApp, h } from 'vue';
@@ -68,14 +69,24 @@ try {
                     if (states[1].heading) assert.ok(states[1].heading.y >= states[1].navbar.bottom);
                     if (states[1].auth) assert.equal(states[1].auth.height, (await page.evaluate(() => innerHeight)) - states[1].navbar.height);
                     if (scene === 'mobile' && width < 992) {
+                        assert.equal(await page.locator('.navigation-backdrop').count(), 0);
                         await page.keyboard.press('Escape');
+                        assert.equal(await page.evaluate(() => window.fixture.nav.layout.overlay), true);
+                        // Real pointer hit on exposed content must activate it, as before B2.
+                        await page.evaluate(() => {
+                            const button = document.createElement('button'); button.id = 'outside-action'; button.textContent = 'Go';
+                            button.style.cssText = 'position:fixed;right:0;top:300px;width:30px;z-index:90';
+                            button.onclick = () => { window.contentAction = true; }; document.body.append(button);
+                        });
+                        await page.locator('#outside-action').click();
+                        assert.equal(await page.evaluate(() => window.contentAction), true);
+                        assert.equal(await page.evaluate(() => window.fixture.nav.layout.overlay), true);
+                        await page.evaluate(() => { window.fixture.nav.routeChanged('/view/target'); document.querySelector('#outside-action').focus(); });
+                        await page.waitForFunction(() => !window.fixture.nav.layout.overlay);
+                        assert.equal(await page.locator('#outside-action').evaluate(el => el === document.activeElement), true);
                         await page.locator('.mobile-navigation').click();
-                        assert.equal(await page.locator('.overlay-sidebar .link').evaluate(el => el === document.activeElement), true);
-                        await page.keyboard.press('Escape');
-                        assert.equal(await page.evaluate(() => window.fixture.nav.layout.overlay), false);
                         assert.equal(await page.locator('.mobile-navigation').evaluate(el => el === document.activeElement), true);
                         await page.locator('.mobile-navigation').click();
-                        await page.locator('.navigation-backdrop').click({ position: { x: 1, y: 100 } });
                         assert.equal(await page.evaluate(() => window.fixture.nav.layout.overlay), false);
                     }
                     if (scene === 'long') {
@@ -101,8 +112,9 @@ try {
             }
             results.push({ scene, width, identical, raster, before: states[0], after: states[1] });
             await writeFile(join(output, 'comparison.json'), JSON.stringify(results, null, 2) + '\n');
-            if (states[1].navbar.height === 60 && width >= 768) assert.equal(identical, true, `Unexpected desktop/tablet pixel delta: ${scene} ${width}`);
+            if (reference.startsWith('1608abb13')) assert.deepEqual(states[1], states[0], 'Review removal must preserve all measured geometry');
+            if ((states[1].navbar.height === 60 || reference.startsWith('1608abb13')) && width >= 768) assert.equal(identical, true, `Unexpected desktop/tablet pixel delta: ${scene} ${width}`);
         }
     }
 } finally { await browser.close(); }
-console.log(`${results.filter(r => r.identical).length}/${results.length} PNG pairs identical; wrapped offsets, auth height, focus, Escape, backdrop and scrolling verified`);
+console.log(`${results.filter(r => r.identical).length}/${results.length} PNG pairs identical; wrapped offsets, auth height, original overlay/content-click/focus/Escape behavior and scrolling verified`);

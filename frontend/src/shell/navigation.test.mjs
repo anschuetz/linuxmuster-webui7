@@ -1,4 +1,5 @@
 import { readFileSync } from 'node:fs';
+import postcss from 'postcss';
 import { afterEach, expect, it, vi } from 'vitest';
 import { mount, flushPromises } from '@vue/test-utils';
 import { nextTick } from 'vue';
@@ -234,30 +235,57 @@ it('shares the measured header height and restores the previous CSS variable on 
         navbar.getBoundingClientRect = () => ({ height: 120 });
         expect(observe).toHaveBeenCalledWith(navbar); resize();
         expect(root.style.getPropertyValue('--shell-header-height')).toBe('120px');
-        const css = readFileSync('../usr/lib/linuxmuster-webui/plugins/lmn_common/resources/styles.scss', 'utf8');
-        expect(css).toMatch(/\.shell-content[\s\S]*?padding-top: var\(--shell-header-height\)/);
-        expect(css).toMatch(/\.sidebar[\s\S]*?padding-top: var\(--shell-header-height\)/);
-        expect(css).toContain('calc(100dvh - var(--shell-header-height))');
+        const css = readFileSync('../usr/lib/linuxmuster-webui/plugins/lmn_common/resources/vue/styles.css', 'utf8');
+        const dependencies = [
+            ['body > .container > .row > .shell-content', 'padding-top', 'var(--shell-header-height)'],
+            ['body > .container > .row > .sidebar', 'padding-top', 'var(--shell-header-height)'],
+            ['body > .container > .sidebar', 'padding-top', 'var(--shell-header-height)'],
+            ['body > .container > .row > .sidebar.overlay-sidebar', 'padding-top', 'var(--shell-header-height)'],
+            ['body > .container > .sidebar.overlay-sidebar', 'padding-top', 'var(--shell-header-height)'],
+            ['.auth-page', 'min-height', 'calc(100dvh - var(--shell-header-height))'],
+        ];
+        const value = (source, selector, property) => {
+            const values = [];
+            postcss.parse(source).walkRules(rule => {
+                if (rule.selectors.includes(selector)) rule.walkDecls(property, declaration => values.push(declaration.value));
+            });
+            return values.at(-1);
+        };
+        for (const [selector, property, expected] of dependencies) {
+            expect(value(css, selector, property), selector).toBe(expected);
+            // A literal height must fail the same exact-selector check, including the built overlay rules.
+            expect(value(css.replaceAll('var(--shell-header-height)', '60px'), selector, property), selector).not.toBe(expected);
+        }
     } finally { wrapper.unmount(); }
     expect(disconnect).toHaveBeenCalledOnce();
     expect(root.style.getPropertyValue('--shell-header-height')).toBe('55px');
     root.style.removeProperty('--shell-header-height'); vi.unstubAllGlobals();
 });
-it('dismisses the mobile sidebar via backdrop or Escape and returns focus to its toggle', async () => {
+it('keeps the original mobile overlay: no backdrop or Escape handling, and content actions remain usable', async () => {
     const { nav, aj } = setup(); await nav.loadSidebar();
-    const wrapper = mount(ShellNavigation, { attachTo: document.body, props: { nav, aj } }); cleanups.push(() => wrapper.unmount());
-    const toggle = wrapper.get('.mobile-navigation');
-    for (const action of ['backdrop', 'Escape']) {
-        toggle.element.focus(); await toggle.trigger('click'); await flushPromises();
-        expect(toggle.attributes('aria-expanded')).toBe('true');
-        expect(document.activeElement).toBe(wrapper.get('.overlay-sidebar .link').element);
-        const dialog = document.createElement('dialog'); dialog.setAttribute('open', ''); document.body.append(dialog);
-        document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' })); await nextTick();
-        expect(nav.layout.overlay).toBe(true); dialog.remove();
-        if (action === 'backdrop') await wrapper.get('.navigation-backdrop').trigger('click');
-        else document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
-        await flushPromises();
-        expect(nav.layout.overlay).toBe(false);
-        expect(document.activeElement).toBe(toggle.element);
-    }
+    const action = vi.fn();
+    const wrapper = mount(ShellNavigation, { attachTo: document.body, props: { nav, aj },
+        slots: { default: '<button data-action="content">Content action</button>' } }); cleanups.push(() => wrapper.unmount());
+    wrapper.get('[data-action=content]').element.addEventListener('click', action);
+    await wrapper.get('.mobile-navigation').trigger('click');
+    expect(wrapper.find('.navigation-backdrop').exists()).toBe(false);
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' })); await nextTick();
+    expect(nav.layout.overlay).toBe(true);
+    await wrapper.get('[data-action=content]').trigger('click');
+    expect(action).toHaveBeenCalledOnce(); expect(nav.layout.overlay).toBe(true);
+    await wrapper.get('.mobile-navigation').trigger('click'); expect(nav.layout.overlay).toBe(false);
+});
+it('leaves the destination focus untouched after a mobile menu link and route change', async () => {
+    const { nav, aj } = setup(); await nav.loadSidebar();
+    const wrapper = mount(ShellNavigation, { attachTo: document.body, props: { nav, aj },
+        slots: { default: '<button data-action="destination">Destination focus</button>' } }); cleanups.push(() => wrapper.unmount());
+    const toggle = wrapper.get('.mobile-navigation'), destination = wrapper.get('[data-action=destination]').element;
+    toggle.element.focus(); await toggle.trigger('click'); await flushPromises();
+    const link = wrapper.get('.overlay-sidebar .link');
+    link.element.addEventListener('click', event => {
+        event.preventDefault(); nav.routeChanged('/view/lmn/users'); destination.focus();
+    });
+    await link.trigger('click'); await flushPromises();
+    expect(nav.layout.overlay).toBe(false);
+    expect(document.activeElement).toBe(destination);
 });

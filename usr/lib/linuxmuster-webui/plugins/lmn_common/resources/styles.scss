@@ -696,14 +696,3 @@ body > .container > .row > .sidebar.overlay-sidebar,
 body > .container > .sidebar.overlay-sidebar {
     padding-top: var(--shell-header-height);
 }
-.navigation-backdrop {
-    position: fixed;
-    top: var(--shell-header-height);
-    right: 0;
-    bottom: 0;
-    left: 33%;
-    z-index: 99;
-    opacity: 0;
-}
-
-@media (max-width: 767px) { .navigation-backdrop { left: 80%; } }
