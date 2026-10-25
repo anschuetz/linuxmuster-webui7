@@ -107,3 +107,26 @@ it.each(['school', 'summary'])('renders the %s server/domain heading with the or
  expect(w.text()).toContain('Server & Domain-Informationen');
  expect(w.text()).not.toContain('Server & Domain Information');
 });
+
+// P170 C14: structure only; the behavior cases above retain payload/error/finish contracts.
+it('C14 removes the wizard BS3 structures and uses the scoped BS5 neutral variant', async () => {
+ for (const file of ['Wizard.vue', 'Welcome.vue']) {
+  const source = readFileSync('src/plugins/lmn_setup_wizard/' + file, 'utf8');
+  expect([...source.matchAll(/class="([^"]*)"/g)].map(m => m[1]).join(' ')).not.toMatch(/\b(?:form-group|btn-default|pull-left|panel(?:-\w+)?|well|label-\w+|nav-tabs)\b/);
+ }
+ for (const step of ['welcome', 'school', 'account', 'externalservices', 'summary', 'setup', 'done']) {
+  const { w } = setup(step); await flushPromises();
+  for (const button of w.findAll('.modal-footer a')) expect(button.classes()).toEqual(expect.arrayContaining(['btn-light', 'c14-button']));
+  for (const select of w.findAll('select')) expect(select.classes()).toContain('form-select');
+  for (const back of w.findAll('a.float-start')) expect(back.text()).toBe('Back');
+ }
+});
+it('C14 welcome constrains the logo while keeping license rejection and Back cancellation writes unchanged', async () => {
+ const welcome = setup('welcome'); await flushPromises();
+ expect(welcome.w.get('img').classes()).toContain('c14-logo');
+ await click(welcome.w, 'Next'); expect(welcome.aj.wizard.saveConfig).not.toHaveBeenCalled();
+ for (const step of ['school', 'account', 'externalservices', 'summary']) {
+  const { w, aj } = setup(step); await flushPromises(); await click(w, 'Back');
+  expect(aj.http.post).not.toHaveBeenCalled(); expect(aj.navigate).toHaveBeenCalledOnce();
+ }
+});

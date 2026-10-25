@@ -214,3 +214,12 @@ P168 R1 / CHAT 339: real no-blur search captures and effective Built-CSS measure
 - All five scripts, event handlers and protected data/name/id/aria attributes byte-equal against 78cfb5e48 (coordination logs/p164/unchanged-contracts.json). No payload/cancel/rights, endpoint, adapter, image/sync/import or stock change.
 - F44: lmn_linbo4_1.pw.mjs:107 selects .nav-link.active only for Vue. lmn_linbo4_4.pw.mjs:133 selects used-in spans structurally only for Vue (ImagesTab label-success remains C9); both Angular selectors unchanged. Static only, no E2E write run.
 - Global legacy rules still have frontend/src and usr/**/resources consumers (logs/p164/remaining-bs3-consumers.txt); keep for D1. Local real-Vue/Ace fixtures compare 78cfb5e48 at 1440×900, 768×1024, 390×844; further editor states stay local because P138 manifests only the page/two tabs/create menu.
+
+### P170 · C14 lmn_setup_wizard
+- Wizard.vue: 14 form-group → c14-field (effektiv 30px aus ajenti-bs5.css:2723); 10 btn-default → btn-light/c14-button; vier pull-left → float-start.
+- Welcome.vue: ein form-group → c14-field, ein btn-default → btn-light/c14-button; Logo max-width:100%/height:auto (P141 D12).
+- Keine Panels/Wells/Labels/Badges/Tabs/Dropdowns/BS3-Raster oder dynamischen BS3-Klassen vorhanden; Checkbox-active bleibt Vue-Zustand am selben Element.
+- Alle Script-Blöcke, Endpunkte, Payloads, Fehler-/Cancel-/Provisionierungs-/Schlusslogik und Selektorattribute unverändert.
+- Neue nav-link: keine. Neutrale Buttons folgen B3/B4-Fokus-Token; gebaute CSS und lokaler Vergleich prüfen Fokus/Pressed/Leertaste.
+- Legacy-Compat bleibt für übrige frontend/src- und usr-Ressourcen-Verbraucher bestehen (Abbau D1); Fundliste logs/p170/remaining-bs3-consumers.txt im Koordinationsrepo.
+- Beide Selects erhalten form-select/c14-select; form-control bleibt als Ajenti-Theme-Hook (C6-Muster), native Appearance und Padding 6px 12px bleiben erhalten.

@@ -857,3 +857,21 @@ html body.customized .c8-tabs > .nav-item > .nav-link.active:hover { border-bott
 .c8-tabs > .nav-item > .nav-link.active:focus:hover { background: rgba(0,0,0,.03); border-color: transparent; border-bottom-color: #2196F3; }
 /* P137 lmn_linbo4 core; P164 C8 scoped legacy appearance; consolidate D1. */
 .c8-icon-menu.dropdown-menu-end { right: 0; left: auto; }
+/* P137 lmn_setup_wizard; P170 C14 preserves Ajenti 30px spacing (ajenti-bs5.css:2723) at the 10px rem root; consolidate D1. */
+.c14-field { margin-bottom: 30px; }
+/* P137 lmn_setup_wizard; P170 C14 neutral flat buttons preserve B3/B4 focus token and Ajenti cascade; consolidate D1. */
+.btn.c14-button { --bs-btn-focus-box-shadow: none; }
+/* P137 lmn_setup_wizard; P170 C14 neutral flat button cascade; consolidate D1. */
+.c14-button { color: #333; background-color: #fff; border-color: #eee; }
+/* P137 lmn_setup_wizard; P170 C14 neutral flat button cascade; consolidate D1. */
+.c14-button:focus, .c14-button:focus-visible { color: #333; background-color: #e6e6e6; border-color: #aeaeae; }
+/* P137 lmn_setup_wizard; P170 C14 neutral flat button cascade; consolidate D1. */
+.c14-button:hover, .c14-button:active { color: #333; background-color: #e6e6e6; border-color: #cfcfcf; }
+/* P137 lmn_setup_wizard; P170 C14 neutral flat button cascade; consolidate D1. */
+.c14-button:active:hover, .c14-button:active:focus { color: #333; background-color: #d4d4d4; border-color: #aeaeae; }
+/* P137 lmn_setup_wizard; P170 C14 neutral flat button cascade; consolidate D1. */
+.c14-button[disabled]:hover, .c14-button[disabled]:focus { background-color: #fff; border-color: #eee; }
+/* P137/P141 D12; P170 C14 Welcome logo fits its dialog body on mobile; natural size retained on larger screens. */
+.c14-logo { max-width: 100%; height: auto; }
+/* P137 lmn_setup_wizard; P170 C14 native BS5 select retains Ajenti control geometry, like C6; consolidate D1. */
+.c14-select { appearance: auto; background-image: none; padding: 6px 12px; }
