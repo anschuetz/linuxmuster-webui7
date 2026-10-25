@@ -72,3 +72,15 @@ it('mounts and disposes through the plugin entry', () => {
     const unmount = entry(host, aj); expect(host.textContent).toContain('Current password');
     unmount(); expect(host.innerHTML).toBe('');
 });
+
+it('uses BS5 spacing with separately positioned eyes and retains mismatch-only feedback', async () => {
+    const { w, aj } = setup();
+    expect(w.find('.form-group, .has-feedback, .form-control-feedback, .has-error').exists()).toBe(false);
+    expect(w.findAll('.auth-field.mb-3')).toHaveLength(5);
+    expect(w.findAll('.auth-password-field.position-relative .auth-password-feedback')).toHaveLength(2);
+    await fill(w, 'old', 'one', 'two');
+    expect(w.find('small').isVisible()).toBe(true);
+    expect(save(w).element.disabled).toBe(true);
+    expect(w.find('.is-invalid').exists()).toBe(false);
+    expect(aj.http.post).not.toHaveBeenCalled();
+});

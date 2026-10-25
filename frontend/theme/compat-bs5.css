@@ -53,7 +53,6 @@
 /* BS3 panel contextual borders; P137 panels 67 uses, frontend/src/plugins/lmn_landingpage/Landingpage.vue; remove C1/C4. */ .panel.panel-danger { border-color: #ebccd1; }
 /* BS3 alert normal positioning; P137 frontend/src/plugins/lmn_settings/GlobalSettings.vue; remove C12. */ .alert { position: static; }
 /* BS3 input table with a single TOTP control shrink-wraps; P137 forms 102 uses, frontend/src/shell/auth-components.mjs; remove B3/C12. */ .input-group { width: auto; }
-/* BS3 password-eye button inherits text color after Normalize removal; P137 has-feedback 6 uses, frontend/src/shell/auth-components.mjs; remove B3. */ .auth-password-toggle { color: inherit; }
 /* BS3 btn-block follows btn display in the original cascade; P137 btn-block 2 uses, frontend/src/plugins/lmn_linbo4/PartitionDialog.vue:47 plus auth-components.mjs; remove B3/C8. */ .btn.btn-block { display: block; }
 /* BS3 text-primary color through BS5 important utility; P137 frontend/src/plugins/lmn_users/UsersTable.vue; remove C10. */ .text-primary { --bs-primary-rgb: 33, 150, 243; }
 /* BS3 text-success color through BS5 important utility; P137 frontend/src/plugins/lmn_users/UsersTable.vue; remove C10. */ .text-success { --bs-success-rgb: 60, 118, 61; }

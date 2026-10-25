@@ -35,26 +35,26 @@ async function change() {
     <div class="row">
         <div class="col-md-3"></div>
         <div class="col-md-6">
-            <div class="form-group">
+            <div class="auth-field mb-3">
                 <label>{{ aj.gettext('Current password') }}</label>
                 <!-- Angular never trims password inputs; only the visible text copy trims. -->
                 <input v-model="password" type="password" required class="form-control" />
             </div>
-            <div v-show="!showNewPassword" class="form-group has-feedback">
+            <div v-show="!showNewPassword" class="auth-field mb-3 auth-password-field position-relative">
                 <label>{{ aj.gettext('New password') }}</label>
                 <input v-model="newPassword" type="password" required class="form-control" />
-                <span class="fas fa-eye form-control-feedback" style="cursor: pointer; pointer-events: all; line-height:34px;" @click="showNewPassword = true"></span>
+                <span class="fas fa-eye auth-password-feedback" style="cursor: pointer; pointer-events: all; line-height:34px;" @click="showNewPassword = true"></span>
             </div>
-            <div v-show="showNewPassword" class="form-group has-feedback">
+            <div v-show="showNewPassword" class="auth-field mb-3 auth-password-field position-relative">
                 <label>{{ aj.gettext('New password') }}</label>
                 <input v-model.trim="newPassword" type="text" required class="form-control" />
-                <span class="fas fa-eye-slash form-control-feedback" style="cursor: pointer; pointer-events: all; line-height:34px;" @click="showNewPassword = false"></span>
+                <span class="fas fa-eye-slash auth-password-feedback" style="cursor: pointer; pointer-events: all; line-height:34px;" @click="showNewPassword = false"></span>
             </div>
-            <div class="form-group">
+            <div class="auth-field mb-3">
                 <label>{{ aj.gettext('Repeat password') }}</label>
                 <input v-model="newPassword2" type="password" required class="form-control" />
             </div>
-            <div class="form-group">
+            <div class="auth-field mb-3">
                 <div v-show="newPassword && newPassword !== newPassword2" style="color:red;">
                     <small>{{ aj.gettext('The two entered passwords differ') }}</small>
                 </div>
