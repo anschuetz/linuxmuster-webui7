@@ -58,18 +58,23 @@ const Message = defineComponent({
         return () => {
             const m = props.message, t = props.services.gettext;
             return h('dialog', { open: true, class: 'messagebox', 'aria-label': t(m.title || m.prompt || '') }, [
-                h('div', { class: 'modal-header' }, [h('h4', t(m.title || ''))]),
-                h('div', { class: ['modal-body', { scrollable: m.scrollable }] }, [
-                    m.progress ? h('div', { role: 'progressbar', 'aria-label': t('Please wait') }, [h('i', { class: 'fa fa-spinner fa-spin' })]) : null,
-                    t(m.text || ''),
-                    m.data ? h('pre', JSON.stringify(m.data, null, 2)) : null,
-                    m.prompt ? h('label', [m.prompt, h('input', { class: 'form-control', type: m.input_type, value: value.value,
-                        onInput: event => { value.value = m.input_type === 'password' ? event.target.value : event.target.value.trim(); },
-                        onKeydown: event => { if (event.key === 'Enter') answer(true); }, autofocus: true })]) : null,
-                ]),
-                h('div', { class: 'modal-footer' }, [
-                    m.positive ? h('button', { class: 'positive btn btn-default btn-flat', onClick: () => answer(true) }, t(m.positive)) : null,
-                    m.negative ? h('button', { class: 'negative btn btn-default btn-flat', onClick: () => answer(false) }, t(m.negative)) : null,
+                // Match core's dialog directive: its modal owns the overlay and stacking above navigation/toolbars.
+                h('div', { class: 'modal', role: 'dialog', 'aria-modal': 'true', 'aria-label': t(m.title || m.prompt || '') }, [
+                    h('div', { class: 'modal-dialog' }, [h('div', { class: 'modal-content' }, [
+                        h('div', { class: 'modal-header' }, [h('h4', t(m.title || ''))]),
+                        h('div', { class: ['modal-body', { scrollable: m.scrollable }] }, [
+                            m.progress ? h('div', { role: 'progressbar', 'aria-label': t('Please wait') }, [h('i', { class: 'fa fa-spinner fa-spin' })]) : null,
+                            t(m.text || ''),
+                            m.data ? h('pre', JSON.stringify(m.data, null, 2)) : null,
+                            m.prompt ? h('label', [m.prompt, h('input', { class: 'form-control', type: m.input_type, value: value.value,
+                                onInput: event => { value.value = m.input_type === 'password' ? event.target.value : event.target.value.trim(); },
+                                onKeydown: event => { if (event.key === 'Enter') answer(true); }, autofocus: true })]) : null,
+                        ]),
+                        h('div', { class: 'modal-footer' }, [
+                            m.positive ? h('button', { class: 'positive btn btn-default btn-flat', onClick: () => answer(true) }, t(m.positive)) : null,
+                            m.negative ? h('button', { class: 'negative btn btn-default btn-flat', onClick: () => answer(false) }, t(m.negative)) : null,
+                        ]),
+                    ])]),
                 ]),
             ]);
         };

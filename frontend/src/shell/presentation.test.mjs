@@ -17,6 +17,25 @@ function harness(options = {}) {
 function oracle() { const old = presentationOracle(); cleanups.push(old.close); return old; }
 const button = (w, label) => w.findAll('button').find(b => b.text() === label);
 
+it.each(['confirmation', 'prompt', 'error', 'progress'])('renders %s messageboxes in the original modal overlay above the toolbar', async kind => {
+    const { services: s, wrapper: w } = harness();
+    const result = kind === 'prompt' ? s.messagebox.prompt('Name', 'Demo') : s.messagebox.show({
+        title: kind, text: 'Message', positive: kind === 'progress' ? undefined : 'OK',
+        negative: kind === 'confirmation' ? 'Cancel' : undefined, progress: kind === 'progress',
+    });
+    result.catch(() => {});
+    await nextTick();
+    const content = w.get('dialog.messagebox > .modal > .modal-dialog > .modal-content');
+    expect(content.get('.modal-header').exists()).toBe(true);
+    expect(content.get('.modal-body').exists()).toBe(true);
+    expect(content.get('.modal-footer').exists()).toBe(true);
+    expect(w.get('.modal').attributes('aria-modal')).toBe('true');
+    if (kind === 'progress') result.close();
+    else await content.get('button.positive').trigger('click');
+    await nextTick();
+    expect(w.find('.modal').exists()).toBe(false);
+});
+
 it('matches notify levels, supports click navigation and dismisses toasts, sticky/timeout and hover pause', async () => {
     vi.useFakeTimers(); const old = oracle(), { services: s, wrapper: w, navigate } = harness();
     for (const level of ['success', 'info', 'warning', 'error']) {
