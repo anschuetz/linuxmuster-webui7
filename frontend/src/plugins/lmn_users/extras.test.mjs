@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs';
 import { afterEach, expect, it, vi } from 'vitest';
 import { mount, flushPromises } from '@vue/test-utils';
 import { createMockAj } from '../../adapter/mock.mjs';
@@ -85,4 +86,12 @@ it('sort menu changes row order; blur preserves typed inner spaces',async()=>{
     for(const value of ['F','Fi','Fir','Firs','First','First ','First L','First La','First Las','First Last']){input.element.value=value;await input.trigger('input');}
     await input.trigger('blur');await action(s.w,'save').trigger('click');await flushPromises();
     expect(writes[0][1].first_name).toEqual('First Last');
+});
+
+it.each(['students', 'courses'])('renders %s Save & check from the original German catalog and keeps the English fallback (D23)', async kind => {
+    const catalog = JSON.parse(readFileSync('../usr/lib/linuxmuster-webui/plugins/lmn_users/locale/de/LC_MESSAGES/app.js', 'utf8'));
+    const translated = await render(kind, { gettext: text => catalog[text] || text });
+    expect(action(translated.w, 'check').text()).toBe('Speichern & Prüfen');
+    const english = await render(kind);
+    expect(action(english.w, 'check').text()).toBe('Save & check');
 });

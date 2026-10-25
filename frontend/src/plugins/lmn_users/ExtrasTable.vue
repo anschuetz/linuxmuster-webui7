@@ -8,6 +8,8 @@ import { openFileBackups } from '../../common/fileBackups.mjs';
 import { openUsersCheck } from '../../common/users/check.mjs';
 const props = defineProps({ kind: { type: String, required: true } });
 const aj = inject('aj'), api = createExtras(aj, props.kind), validation = createValidation(aj);
+// Preserve the original HTML msgid, then render its entity as plain text.
+const saveCheckText = computed(() => aj.gettext('Save &amp; check').replaceAll('&amp;', '&'));
 const rows = ref(), encoding = ref(), query = ref(''), page = ref(1), firstSave = ref(false), table = ref();
 const fields = extraFields(props.kind), sorts = extraSorts(props.kind), sort = ref(sorts[0]), menu = ref(false);
 const closeMenu = () => { menu.value = false; };
@@ -92,7 +94,7 @@ onMounted(async () => {
         <component :is="'floating-toolbar'"><div class="container"><div class="row"><div class="col-md-3"></div><div class="col-md-9"><div class="bar row">
             <button class="btn btn-lmn pull-right" data-action="backups" @click="backups"><i class="fa fa-history"></i></button>
             <button class="btn btn-lmn" data-action="save" @click="save()">{{ aj.gettext('Save') }}</button>
-            <button class="btn btn-lmn" data-action="check" @click="save(true)">{{ aj.gettext('Save & check') }}</button>
+            <button class="btn btn-lmn" data-action="check" @click="save(true)">{{ saveCheckText }}</button>
             <button class="btn btn-lmn" data-action="editor" @click="editor">{{ aj.gettext('Edit CSV') }}</button>
         </div></div></div></div></component>
     </div>

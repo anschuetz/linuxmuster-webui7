@@ -6,6 +6,8 @@ import { redirect, setupURL } from './browser.mjs';
 
 const { step } = defineProps({ step: { type: String, required: true } });
 const aj = inject('aj');
+// Keep the original HTML entity in the msgid until the catalog lookup.
+const serverDomainTitle = 'Server &amp; Domain Information';
 const ini = ref(step === 'school' ? { schoolname: '', domainname: '', servername: '' } : {});
 const languages = ref();
 const confirmation = ref();
@@ -110,7 +112,7 @@ async function restartUI() {
                         <td width="40%"><div class="form-group"><label>{{ aj.gettext('State') }}</label><input id="state-input" v-model.trim="ini.state" type="text" class="form-control" :placeholder="aj.gettext('e.g.: Baden-Wuerttemberg')"></div></td>
                         <td width="20%"><div class="form-group"><label>{{ aj.gettext('Language') }}</label><select id="country-input" v-model="ini.country" class="form-control"><option v-for="language in languages" :key="language" :value="language">{{ language }}</option></select></div></td>
                     </tr></tbody></table>
-                    <h3 v-html="aj.gettext('Server &amp; Domain Information')"></h3>
+                    <h3 v-html="aj.gettext(serverDomainTitle)"></h3>
                     <table class="lm-table lm-table-padded"><tbody><tr>
                         <td width="40%"><div class="form-group"><label>{{ aj.gettext('Server name') }}</label><input id="servername-input" v-model.trim="ini.servername" type="text" pattern="^[a-zA-Z0-9\-]+$" class="form-control" :placeholder="aj.gettext('e.g.: server')" :style="inputStyle('servername')" @input="resetColor('servername')"></div></td>
                         <td width="60%"><div class="form-group"><label>{{ aj.gettext('Domain name') }}</label><input id="domainname-input" v-model.trim="ini.domainname" type="text" pattern="^[a-zA-Z\-\.]+\.[a-zA-Z\-\.]+$" class="form-control" :placeholder="aj.gettext('e.g.: linuxmuster.lan')" :style="inputStyle('domainname')" @input="resetColor('domainname')"></div></td>
@@ -141,7 +143,7 @@ async function restartUI() {
                     <component :is="'progress-spinner'" v-if="!summaryReady" class="progress-spinner"><div><div class="one"></div><div class="two"></div></div></component>
                     <div v-else>
                         <div class="form-group"><label>{{ aj.gettext('School Information') }}</label><br><table><tbody><tr v-for="[field, label] in [['schoolname', 'School Name:'], ['location', 'Location'], ['state', 'State'], ['country', 'Country']]" :key="field" class="leaders"><td class="summary"><span>{{ aj.gettext(label) }}</span><span><b>{{ ini[field] }} </b></span></td><td></td></tr></tbody></table></div>
-                        <div class="form-group"><label v-html="aj.gettext('Server &amp; Domain Information')"></label><br><table><tbody><tr v-for="[field, label] in [['servername', 'Server name'], ['domainname', 'Domain name'], ['fqdn', 'Server FQDN']]" :key="field" class="leaders"><td class="summary"><span>{{ aj.gettext(label) }}</span><span><b>{{ field === 'fqdn' ? `${ini.servername}.${ini.domainname}` : ini[field] }} </b></span></td><td :class="field === 'fqdn' ? 'check' : undefined"></td></tr></tbody></table></div>
+                        <div class="form-group"><label v-html="aj.gettext(serverDomainTitle)"></label><br><table><tbody><tr v-for="[field, label] in [['servername', 'Server name'], ['domainname', 'Domain name'], ['fqdn', 'Server FQDN']]" :key="field" class="leaders"><td class="summary"><span>{{ aj.gettext(label) }}</span><span><b>{{ field === 'fqdn' ? `${ini.servername}.${ini.domainname}` : ini[field] }} </b></span></td><td :class="field === 'fqdn' ? 'check' : undefined"></td></tr></tbody></table></div>
                         <div class="form-group"><label>{{ aj.gettext('External Services') }}</label><br><table><tbody><tr class="leaders"><td class="summary"><span>{{ aj.gettext('Firewall') }}</span> <span v-html="aj.gettext(ini.skipfw === 'True' ? 'Configuration will be <b>skipped </b>' : 'Firewall will be <b>configured!</b>')"></span></td><td class="check"></td></tr></tbody></table></div>
                     </div>
                 </div></div><div class="modal-body"></div>

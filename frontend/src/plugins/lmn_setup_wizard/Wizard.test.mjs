@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs';
 import { afterEach, expect, it, vi } from 'vitest';
 import { mount, flushPromises } from '@vue/test-utils';
 import Wizard from './Wizard.vue';
@@ -98,4 +99,11 @@ it('entry mounts by template step and unmounts, using a plugin-local core facade
 it('done URL preserves the current port, including the original trailing colon and fallback host', () => {
  expect(setupURL({}, 'http://localhost:8471/view/')).toBe('https://10.0.0.1:8471');
  expect(setupURL({ hostip: '192.0.2.71' }, 'https://localhost/view/')).toBe('https://192.0.2.71:');
+});
+
+it.each(['school', 'summary'])('renders the %s server/domain heading with the original German entity msgid (D25)', async step => {
+ const catalog = JSON.parse(readFileSync('../usr/lib/linuxmuster-webui/plugins/lmn_setup_wizard/locale/de/LC_MESSAGES/app.js', 'utf8'));
+ const { w } = setup(step, { gettext: text => catalog[text] || text }); await flushPromises();
+ expect(w.text()).toContain('Server & Domain-Informationen');
+ expect(w.text()).not.toContain('Server & Domain Information');
 });

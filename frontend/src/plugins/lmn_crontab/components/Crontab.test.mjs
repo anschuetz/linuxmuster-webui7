@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs';
 import { expect, it, vi } from 'vitest';
 import { mount, flushPromises } from '@vue/test-utils';
 import { nextTick } from 'vue';
@@ -162,4 +163,11 @@ it('sets translated pageTitle through the entry and unmounts', async () => {
     expect(set).toHaveBeenCalledWith('DE:Cron');
     unmount();
     expect(host.textContent).toBe('');
+});
+
+it('renders the crontab choice with the existing German catalog msgid (D21)', async () => {
+    const catalog = JSON.parse(readFileSync('../usr/lib/linuxmuster-webui/plugins/lmn_crontab/locale/de/LC_MESSAGES/app.js', 'utf8'));
+    const { wrapper } = await setup(undefined, { gettext: text => catalog[text] || text });
+    expect(wrapper.get('label[for="cron-user"]').text()).toBe('Wähle den Crontab aus, den du bearbeiten möchtest:');
+    wrapper.unmount();
 });

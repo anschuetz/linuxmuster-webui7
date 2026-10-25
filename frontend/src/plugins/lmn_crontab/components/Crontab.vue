@@ -84,7 +84,7 @@ async function save() {
     <br>
     <div v-if="allowed">
         <div class="form-group" style="margin-bottom:50px;"><div class="row"><div class="col-md-4">
-            <label for="cron-user">{{ aj.gettext('Choose which crontab you want to edit: ') }}</label>
+            <label for="cron-user">{{ aj.gettext('Choose which crontab you want to edit:') }}</label>
             <select id="cron-user" v-model="user" class="form-control">
                 <option value="globaladministrator">{{ aj.gettext('As globaladministrator') }}</option>
                 <option value="root">{{ aj.gettext('As root') }}</option>
