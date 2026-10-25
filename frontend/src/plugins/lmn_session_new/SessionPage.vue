@@ -64,7 +64,7 @@ async function kill() { await groups.kill(current.value.sid, current.value.name)
             <template #files="{ user }"><SessionFiles :store="store" :api="transfers" :user="user" /></template>
             <template #actions>
                 <div v-if="!current.generated" class="c6-group-actions" @focusout="event => { if (!event.currentTarget.contains(event.relatedTarget)) menu = false; }">
-                    <button class="btn btn-light c6-button" :aria-expanded="menu" @click="menu = !menu">{{ aj.gettext('Edit group') }} <span class="caret"></span></button>
+                    <button class="btn btn-light c6-button" :aria-expanded="menu" @click="menu = !menu">{{ aj.gettext('Edit group') }} <span class="dropdown-toggle aj-dropdown-marker"></span></button>
                     <ul v-show="menu" :class="{ show: menu }" class="dropdown-menu c6-menu dropdown-menu-end">
                         <li><a class="dropdown-item" href="" data-rename @click.prevent="action(rename)">{{ aj.gettext('Rename group') }}</a></li>
                         <li><a class="dropdown-item" href="" data-clone @click.prevent="action(() => save(true))">{{ aj.gettext('Duplicate group') }}</a></li>

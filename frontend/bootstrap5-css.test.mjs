@@ -47,6 +47,17 @@ it('retains the Ajenti theme except measured dead F46 tab colors and unused Glyp
     const original = normalizedRules(await read('theme/ajenti.css'));
     const start = original.findIndex(rule => rule[1] === 'body');
     const theme = normalizedRules(await read('theme/ajenti-bs5.css'));
+    const restSelectors = new Set([
+        '.aj-dropdown-marker', '.dropdown-toggle.aj-dropdown-marker::after',
+        '.dropup .dropdown-toggle.aj-dropdown-marker::after', 'label.form-check.aj-native-check',
+        'label.form-check.aj-native-check + label.form-check.aj-native-check',
+        'label.form-check.aj-native-check-inline', '.aj-native-check-inline + .aj-native-check-inline',
+        '.aj-native-check > input[type="checkbox"],.aj-native-check-inline > input[type="checkbox"]',
+        '.btn.btn-sm.aj-image-action-compact', '.table.table-sm.aj-table-compact > :not(caption) > * > *',
+    ]);
+    const rest = theme.filter(rule => restSelectors.has(rule[1]));
+    expect(rest.map(rule=>rule[1])).toEqual([...restSelectors]);
+    expect(rest.every(rule=>rule[0].length===0)).toBe(true);
     // B3 adds only the neutral auth variant before the original btn-flat cascade.
     const authSelectors = new Set(['.auth-secondary', '.auth-secondary:focus',
         '.auth-secondary:hover,.auth-secondary:active',
@@ -60,7 +71,7 @@ it('retains the Ajenti theme except measured dead F46 tab colors and unused Glyp
         const retained = postcss.list.comma(selector).filter(value => !/\.glyphicon(?:\b|-)/.test(value));
         return retained.length ? [[context, retained.join(','), body]] : [];
     });
-    expect(theme.filter(rule => !authSelectors.has(rule[1]))).toEqual(expected);
+    expect(theme.filter(rule => !authSelectors.has(rule[1]) && !restSelectors.has(rule[1]))).toEqual(expected);
     const modified = (await read('theme/core-selectors.tsv')).trim().split('\n').slice(1)
         .map(row => row.split('\t')).filter(row => row[5] === 'modified');
     const audit = (await read('theme/bs5-counterparts.tsv')).trim().split('\n').slice(1).map(row => row.split('\t'));

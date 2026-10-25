@@ -66,7 +66,7 @@ onMounted(async () => {
         <div class="input-group">
             <input v-model.trim="query" type="search" autofocus class="form-control" placeholder="Filter" />
             <div class="c10-menu-control" @click.stop>
-                <button class="btn btn-light c10-button" data-action="sort-menu" @click="menu = !menu"><i class="fa fa-sort-amount-asc"></i> {{ aj.gettext(label(sort)) }} <span class="caret"></span></button>
+                <button class="btn btn-light c10-button" data-action="sort-menu" @click="menu = !menu"><i class="fa fa-sort-amount-asc"></i> {{ aj.gettext(label(sort)) }} <span class="dropdown-toggle aj-dropdown-marker"></span></button>
                 <ul v-if="menu" class="dropdown-menu dropdown-menu-end show c10-menu" style="width:150px"><li v-for="key in sorts" :key="key"><a class="dropdown-item" :data-sort="key" @click="sort = key; menu = false"><i class="fa fa-sort-amount-asc"></i> {{ aj.gettext(label(key)) }}</a></li></ul>
             </div>
         </div>

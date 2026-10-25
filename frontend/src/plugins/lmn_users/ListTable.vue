@@ -32,15 +32,15 @@ const loginHint = 'This entry is directly read from the CSV file and could diffe
             <div class="input-group">
                 <input v-model.trim="query" type="search" autofocus placeholder="Filter" class="form-control">
                 <div class="c11-menu-control" @click.stop>
-                    <button class="btn btn-light c11-button" data-action="sort-menu" @click="menu = menu === 'sort' ? '' : 'sort'"><i class="fa fa-sort-amount-asc"></i> {{ aj.gettext(sorts.find(s => s.key === sort)?.label || '') }} <span class="caret"></span></button>
+                    <button class="btn btn-light c11-button" data-action="sort-menu" @click="menu = menu === 'sort' ? '' : 'sort'"><i class="fa fa-sort-amount-asc"></i> {{ aj.gettext(sorts.find(s => s.key === sort)?.label || '') }} <span class="dropdown-toggle aj-dropdown-marker"></span></button>
                     <ul v-if="menu === 'sort'" class="dropdown-menu dropdown-menu-end show c11-menu"><li v-for="option in sorts" :key="option.key"><a class="dropdown-item" :data-sort="option.key" @click="chooseSort(option.key)"><i class="fa fa-sort-amount-asc"></i> {{ aj.gettext(option.label) }}</a></li></ul>
                 </div>
                 <div class="c11-menu-control" @click.stop>
-                    <button class="btn btn-light c11-button" data-action="fields-menu" @click="menu = menu === 'fields' ? '' : 'fields'"><i class="fa fa-ellipsis-h"></i> {{ aj.gettext('Fields') }} <span class="caret"></span></button>
+                    <button class="btn btn-light c11-button" data-action="fields-menu" @click="menu = menu === 'fields' ? '' : 'fields'"><i class="fa fa-ellipsis-h"></i> {{ aj.gettext('Fields') }} <span class="dropdown-toggle aj-dropdown-marker"></span></button>
                     <ul class="dropdown-menu dropdown-menu-end c11-menu" :class="{show:menu === 'fields'}"><li v-for="field in fields" :key="field.key"><label><input v-model="field.visible" :data-field="field.key" type="checkbox"> {{ aj.gettext(field.label) }}</label></li></ul>
                 </div>
                 <div class="c11-menu-control" @click.stop>
-                    <button class="btn btn-light c11-button" data-action="rows-menu" @click="menu = menu === 'rows' ? '' : 'rows'"><i class="fa fa-list-ol"></i> {{ aj.gettext('Rows') }} <span class="caret"></span></button>
+                    <button class="btn btn-light c11-button" data-action="rows-menu" @click="menu = menu === 'rows' ? '' : 'rows'"><i class="fa fa-list-ol"></i> {{ aj.gettext('Rows') }} <span class="dropdown-toggle aj-dropdown-marker"></span></button>
                     <ul v-if="menu === 'rows'" class="dropdown-menu dropdown-menu-end show c11-menu"><li v-for="n in [10,50,100,500,1000]" :key="n"><a class="dropdown-item" :data-size="n" @click="emit('size',n); menu = ''">{{ n }} {{ kind }}</a></li><li><input :value="size" type="number" class="form-control" @input="emit('size',$event.target.value === '' ? null : Number($event.target.value))"></li></ul>
                 </div>
             </div>
@@ -66,7 +66,7 @@ const loginHint = 'This entry is directly read from the CSV file and could diffe
                 <button class="btn btn-lmn" data-action="save" @click="emit('save')">{{ aj.gettext('Save') }}</button>
                 <button class="btn btn-lmn" data-action="check" @click="emit('check')">{{ saveCheckLabel() }}</button>
                 <button v-if="kind === 'extrastudents'" class="btn btn-lmn" data-action="editor" @click="emit('editor')">{{ aj.gettext('Edit CSV') }}</button>
-                <div v-else class="btn-group dropup" @click.stop><button class="btn btn-lmn" data-action="csv-menu" @click="menu = menu === 'csv' ? '' : 'csv'">{{ aj.gettext('CSV') }} <span class="caret"></span></button><ul v-if="menu === 'csv'" class="dropdown-menu dropdown-menu-start show c11-menu"><li><a class="dropdown-item" data-action="editor" @click="emit('editor'); menu = ''">{{ aj.gettext('Edit CSV') }}</a></li><li><a class="dropdown-item" data-action="upload" @click="emit('upload'); menu = ''">{{ aj.gettext('Upload CSV') }}</a></li></ul></div>
+                <div v-else class="btn-group dropup" @click.stop><button class="btn btn-lmn" data-action="csv-menu" @click="menu = menu === 'csv' ? '' : 'csv'">{{ aj.gettext('CSV') }} <span class="dropdown-toggle aj-dropdown-marker"></span></button><ul v-if="menu === 'csv'" class="dropdown-menu dropdown-menu-start show c11-menu"><li><a class="dropdown-item" data-action="editor" @click="emit('editor'); menu = ''">{{ aj.gettext('Edit CSV') }}</a></li><li><a class="dropdown-item" data-action="upload" @click="emit('upload'); menu = ''">{{ aj.gettext('Upload CSV') }}</a></li></ul></div>
             </div></div></div></div></component>
         </div>
     </section>

@@ -96,7 +96,7 @@ for (const role of [admin, schoolAdmin]) {
         const constraints = await (await constraintsLoaded).json();
         if (role.name === 'school-admin') expect(Object.keys(constraints.schools).every((school) => school === 'default-school')).toBe(true);
         await tab(page, 6);
-        const override = panel(page).locator('label.checkbox-inline:has(> span) > input[type=checkbox]');
+        const override = panel(page).locator('label.form-check-inline:has(> span) > input[type=checkbox]');
         if (!(await override.isChecked())) await override.check();
         const schoolRules = panel(page).locator('table:visible').last();
         await schoolRules.locator('input[type=number]').first().fill('13');

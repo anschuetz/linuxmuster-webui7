@@ -31,7 +31,7 @@ const aj = inject('aj');
 <Translated tag="th" text="Required character classes">
 </Translated> <td>
 <template v-for="(cls, index) in s.passwordRuleClasses" :key="index">
-<label class="checkbox-inline">
+<label class="form-check form-check-inline aj-native-check-inline">
 <input v-model="s.passwordConstraintsForm.default[s.passwordConstraintsRole].classes[cls]" type="checkbox" :disabled="!s.isGlobalAdmin" @change="s.clampRequiredCount(s.passwordConstraintsForm.default[s.passwordConstraintsRole])"> {{ s.passwordRuleClassLabels[cls] }}</label>
 </template>
 </td>
@@ -43,7 +43,7 @@ const aj = inject('aj');
 </tr>
 
 </tbody>
-</table> <br> <hr> <br> <label class="checkbox-inline">
+</table> <br> <hr> <br> <label class="form-check form-check-inline aj-native-check-inline">
 <input type="checkbox" :checked="s.hasSchoolOverride(s.passwordConstraintsRole)" @click="s.toggleSchoolOverride(s.passwordConstraintsRole)"> <Translated tag="span" text="Override for this school">
 </Translated> ({{ s.currentSchool }})
         </label> <Translated tag="p" text="This replaces the default rules above for this role in this school — it does not add to them." class="shell-help" v-show="s.hasSchoolOverride(s.passwordConstraintsRole)">
@@ -59,7 +59,7 @@ const aj = inject('aj');
 <Translated tag="th" text="Required character classes">
 </Translated> <td>
 <template v-for="(cls, index) in s.passwordRuleClasses" :key="index">
-<label class="checkbox-inline">
+<label class="form-check form-check-inline aj-native-check-inline">
 <input v-model="s.passwordConstraintsForm.schools[s.currentSchool][s.passwordConstraintsRole].classes[cls]" type="checkbox" @change="s.clampRequiredCount(s.passwordConstraintsForm.schools[s.currentSchool][s.passwordConstraintsRole])"> {{ s.passwordRuleClassLabels[cls] }}</label>
 </template>
 </td>

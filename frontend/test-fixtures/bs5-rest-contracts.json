@@ -1,0 +1,308 @@
+{
+  "reference": "0c459c49bf404d7fd45dd319765baa20df231b66",
+  "contracts": {
+    "src/plugins/lmn_devices/Devices.vue": "9371657ef69dd8796a2e24fb9efd87ade6afd7c1adc2b53c2db3be754fcbde18",
+    "src/plugins/lmn_groupmembership/Groupmembership.vue": "52a80cb4658fdef9a864eb875f35834b610dbca52fb013b717514802e43a93d6",
+    "src/plugins/lmn_linbo4/ConfigDialog.vue": "d1141f44134cd2498bc50a3164b767150e159e56fe756a645163d6001e637793",
+    "src/plugins/lmn_linbo4/ImagesTab.vue": "8ce213fa0a80902ee7749cf6c8738980811860084ccc37ac6b40ac940da5d23c",
+    "src/plugins/lmn_linbo4/PartitionDialog.vue": "b88c806aa1c6d7833941e8a092741d237373f31f4940f09dd267ace02bdb16da",
+    "src/plugins/lmn_session_new/SessionFiles.vue": "50ae0ed5d41f3d7405357e58a9b8cf2ae51eeb7d8b6ceef12b279e872650f8cd",
+    "src/plugins/lmn_session_new/SessionPage.vue": "9c23ab61205ae94c8705ccf89f00dada9177301714474bc37b244717bec4a8e8",
+    "src/plugins/lmn_settings/GlobalSettings.vue": "87be1264e02cc9ef5f24f93925c63a736c2c7f0501c97bb5c85f0fab163669f1",
+    "src/plugins/lmn_settings/SchoolPassword.vue": "4b7f7b00677dbf14a1824f314e62120ef44ef08dfc7bc239aaf633bcb8e59574",
+    "src/plugins/lmn_users/AdminsTable.vue": "f1ce7c79fef75c0332ff6a3e9e6e5d01044aac893f620381d1fb67af7a589d66",
+    "src/plugins/lmn_users/ExtrasTable.vue": "84e6ba7839c3c0548e772d81c56d859201f2e8c3c804e10bcb1b364fa7f3cd51",
+    "src/plugins/lmn_users/ListTable.vue": "22207cae9e2871e7f03945a0e72a767a1997e1678ab8798dede9f1177d632a8d",
+    "src/plugins/lmn_users/UsersTable.vue": "39b112f66005ff9ec7548d7dab692cd4e3aea7586d58cbdecd53b1c4e26f4c98"
+  },
+  "cases": [
+    {
+      "file": "src/plugins/lmn_devices/Devices.vue",
+      "old": "caret",
+      "bs5": "dropdown-toggle",
+      "hook": "aj-dropdown-marker",
+      "tag": "span",
+      "ordinal": 0
+    },
+    {
+      "file": "src/plugins/lmn_devices/Devices.vue",
+      "old": "caret",
+      "bs5": "dropdown-toggle",
+      "hook": "aj-dropdown-marker",
+      "tag": "span",
+      "ordinal": 1
+    },
+    {
+      "file": "src/plugins/lmn_devices/Devices.vue",
+      "old": "sr-only",
+      "bs5": "visually-hidden",
+      "hook": "visually-hidden",
+      "tag": "input",
+      "ordinal": 0
+    },
+    {
+      "file": "src/plugins/lmn_devices/Devices.vue",
+      "old": "caret",
+      "bs5": "dropdown-toggle",
+      "hook": "aj-dropdown-marker",
+      "tag": "span",
+      "ordinal": 2
+    },
+    {
+      "file": "src/plugins/lmn_groupmembership/Groupmembership.vue",
+      "old": "caret",
+      "bs5": "dropdown-toggle",
+      "hook": "aj-dropdown-marker",
+      "tag": "span",
+      "ordinal": 0
+    },
+    {
+      "file": "src/plugins/lmn_groupmembership/Groupmembership.vue",
+      "old": "caret",
+      "bs5": "dropdown-toggle",
+      "hook": "aj-dropdown-marker",
+      "tag": "span",
+      "ordinal": 1
+    },
+    {
+      "file": "src/plugins/lmn_linbo4/ConfigDialog.vue",
+      "old": "checkbox",
+      "bs5": "form-check",
+      "hook": "aj-native-check",
+      "tag": "label",
+      "ordinal": 0
+    },
+    {
+      "file": "src/plugins/lmn_linbo4/ConfigDialog.vue",
+      "old": "checkbox",
+      "bs5": "form-check",
+      "hook": "aj-native-check",
+      "tag": "label",
+      "ordinal": 1
+    },
+    {
+      "file": "src/plugins/lmn_linbo4/ConfigDialog.vue",
+      "old": "checkbox",
+      "bs5": "form-check",
+      "hook": "aj-native-check",
+      "tag": "label",
+      "ordinal": 2
+    },
+    {
+      "file": "src/plugins/lmn_linbo4/ConfigDialog.vue",
+      "old": "checkbox",
+      "bs5": "form-check",
+      "hook": "aj-native-check",
+      "tag": "label",
+      "ordinal": 3
+    },
+    {
+      "file": "src/plugins/lmn_linbo4/ConfigDialog.vue",
+      "old": "checkbox",
+      "bs5": "form-check",
+      "hook": "aj-native-check",
+      "tag": "label",
+      "ordinal": 4
+    },
+    {
+      "file": "src/plugins/lmn_linbo4/ImagesTab.vue",
+      "old": "btn-xs",
+      "bs5": "btn-sm",
+      "hook": "aj-image-action-compact",
+      "tag": "button",
+      "ordinal": 0
+    },
+    {
+      "file": "src/plugins/lmn_linbo4/ImagesTab.vue",
+      "old": "btn-xs",
+      "bs5": "btn-sm",
+      "hook": "aj-image-action-compact",
+      "tag": "button",
+      "ordinal": 1
+    },
+    {
+      "file": "src/plugins/lmn_linbo4/PartitionDialog.vue",
+      "old": "checkbox",
+      "bs5": "form-check",
+      "hook": "aj-native-check",
+      "tag": "label",
+      "ordinal": 0
+    },
+    {
+      "file": "src/plugins/lmn_linbo4/PartitionDialog.vue",
+      "old": "checkbox",
+      "bs5": "form-check",
+      "hook": "aj-native-check",
+      "tag": "label",
+      "ordinal": 1
+    },
+    {
+      "file": "src/plugins/lmn_linbo4/PartitionDialog.vue",
+      "old": "checkbox",
+      "bs5": "form-check",
+      "hook": "aj-native-check",
+      "tag": "label",
+      "ordinal": 2
+    },
+    {
+      "file": "src/plugins/lmn_linbo4/PartitionDialog.vue",
+      "old": "checkbox",
+      "bs5": "form-check",
+      "hook": "aj-native-check",
+      "tag": "label",
+      "ordinal": 3
+    },
+    {
+      "file": "src/plugins/lmn_session_new/SessionFiles.vue",
+      "old": "caret",
+      "bs5": "dropdown-toggle",
+      "hook": "aj-dropdown-marker",
+      "tag": "span",
+      "ordinal": 0
+    },
+    {
+      "file": "src/plugins/lmn_session_new/SessionPage.vue",
+      "old": "caret",
+      "bs5": "dropdown-toggle",
+      "hook": "aj-dropdown-marker",
+      "tag": "span",
+      "ordinal": 0
+    },
+    {
+      "file": "src/plugins/lmn_settings/GlobalSettings.vue",
+      "old": "table-condensed",
+      "bs5": "table-sm",
+      "hook": "aj-table-compact",
+      "tag": "table",
+      "ordinal": 0
+    },
+    {
+      "file": "src/plugins/lmn_settings/SchoolPassword.vue",
+      "old": "checkbox-inline",
+      "bs5": "form-check-inline",
+      "hook": "aj-native-check-inline",
+      "tag": "label",
+      "ordinal": 0
+    },
+    {
+      "file": "src/plugins/lmn_settings/SchoolPassword.vue",
+      "old": "checkbox-inline",
+      "bs5": "form-check-inline",
+      "hook": "aj-native-check-inline",
+      "tag": "label",
+      "ordinal": 1
+    },
+    {
+      "file": "src/plugins/lmn_settings/SchoolPassword.vue",
+      "old": "checkbox-inline",
+      "bs5": "form-check-inline",
+      "hook": "aj-native-check-inline",
+      "tag": "label",
+      "ordinal": 2
+    },
+    {
+      "file": "src/plugins/lmn_users/AdminsTable.vue",
+      "old": "caret",
+      "bs5": "dropdown-toggle",
+      "hook": "aj-dropdown-marker",
+      "tag": "span",
+      "ordinal": 0
+    },
+    {
+      "file": "src/plugins/lmn_users/AdminsTable.vue",
+      "old": "caret",
+      "bs5": "dropdown-toggle",
+      "hook": "aj-dropdown-marker",
+      "tag": "span",
+      "ordinal": 1
+    },
+    {
+      "file": "src/plugins/lmn_users/AdminsTable.vue",
+      "old": "caret",
+      "bs5": "dropdown-toggle",
+      "hook": "aj-dropdown-marker",
+      "tag": "span",
+      "ordinal": 2
+    },
+    {
+      "file": "src/plugins/lmn_users/AdminsTable.vue",
+      "old": "caret",
+      "bs5": "dropdown-toggle",
+      "hook": "aj-dropdown-marker",
+      "tag": "span",
+      "ordinal": 3
+    },
+    {
+      "file": "src/plugins/lmn_users/ExtrasTable.vue",
+      "old": "caret",
+      "bs5": "dropdown-toggle",
+      "hook": "aj-dropdown-marker",
+      "tag": "span",
+      "ordinal": 0
+    },
+    {
+      "file": "src/plugins/lmn_users/ListTable.vue",
+      "old": "caret",
+      "bs5": "dropdown-toggle",
+      "hook": "aj-dropdown-marker",
+      "tag": "span",
+      "ordinal": 0
+    },
+    {
+      "file": "src/plugins/lmn_users/ListTable.vue",
+      "old": "caret",
+      "bs5": "dropdown-toggle",
+      "hook": "aj-dropdown-marker",
+      "tag": "span",
+      "ordinal": 1
+    },
+    {
+      "file": "src/plugins/lmn_users/ListTable.vue",
+      "old": "caret",
+      "bs5": "dropdown-toggle",
+      "hook": "aj-dropdown-marker",
+      "tag": "span",
+      "ordinal": 2
+    },
+    {
+      "file": "src/plugins/lmn_users/ListTable.vue",
+      "old": "caret",
+      "bs5": "dropdown-toggle",
+      "hook": "aj-dropdown-marker",
+      "tag": "span",
+      "ordinal": 3
+    },
+    {
+      "file": "src/plugins/lmn_users/UsersTable.vue",
+      "old": "caret",
+      "bs5": "dropdown-toggle",
+      "hook": "aj-dropdown-marker",
+      "tag": "span",
+      "ordinal": 0
+    },
+    {
+      "file": "src/plugins/lmn_users/UsersTable.vue",
+      "old": "caret",
+      "bs5": "dropdown-toggle",
+      "hook": "aj-dropdown-marker",
+      "tag": "span",
+      "ordinal": 1
+    },
+    {
+      "file": "src/plugins/lmn_users/UsersTable.vue",
+      "old": "caret",
+      "bs5": "dropdown-toggle",
+      "hook": "aj-dropdown-marker",
+      "tag": "span",
+      "ordinal": 2
+    },
+    {
+      "file": "src/plugins/lmn_users/UsersTable.vue",
+      "old": "caret",
+      "bs5": "dropdown-toggle",
+      "hook": "aj-dropdown-marker",
+      "tag": "span",
+      "ordinal": 3
+    }
+  ]
+}

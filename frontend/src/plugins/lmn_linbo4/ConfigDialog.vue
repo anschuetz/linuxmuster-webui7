@@ -382,10 +382,10 @@ const vdiSections = [
             <div class="c8-field"><label>{{ aj.gettext('Root logout timeout') }}</label><input v-model.trim="linbo.RootTimeout" data-model="config.config.LINBO.RootTimeout" class="form-control" type="text"></div>
             <div class="row"><div class="col-sm-6 c8-field"><label>{{ aj.gettext('System type') }}</label><select v-model="linbo.SystemType" data-model="config.config.LINBO.SystemType" class="form-control"><option value="bios">BIOS</option><option value="bios64">BIOS 64Bit</option><option value="efi32">UEFI</option><option value="efi64">UEFI 64Bit</option></select></div><div class="col-sm-6 c8-field"><label>{{ aj.gettext('Download type') }}</label><select v-model="linbo.DownloadType" data-model="config.config.LINBO.DownloadType" class="form-control"><option>rsync</option><option>multicast</option><option>torrent</option></select></div></div>
             <div class="row"><div class="col-sm-6"><label>{{ aj.gettext('Start options') }}</label>
-                <label v-for="[key,label] in generalChecks.slice(0,3)" :key="key" class="checkbox"><input v-model="linbo[key]" :data-model="'config.config.LINBO.'+key" type="checkbox">{{ aj.gettext(label) }}</label>
-                <label class="checkbox"><input v-model="privateConf" data-model="privateConf" type="checkbox" @change="togglePrivate">{{ aj.gettext('Only available for this school') }} ({{ aj.identity.profile.activeSchool }})</label>
+                <label v-for="[key,label] in generalChecks.slice(0,3)" :key="key" class="form-check aj-native-check"><input v-model="linbo[key]" :data-model="'config.config.LINBO.'+key" type="checkbox">{{ aj.gettext(label) }}</label>
+                <label class="form-check aj-native-check"><input v-model="privateConf" data-model="privateConf" type="checkbox" @change="togglePrivate">{{ aj.gettext('Only available for this school') }} ({{ aj.identity.profile.activeSchool }})</label>
             </div><div class="col-sm-6"><label>{{ aj.gettext('Linbo GUI customization') }}</label>
-                <label v-for="[key,label] in generalChecks.slice(3)" :key="key" class="checkbox"><input v-model="linbo[key]" :data-model="'config.config.LINBO.'+key" type="checkbox">{{ aj.gettext(label) }}</label>
+                <label v-for="[key,label] in generalChecks.slice(3)" :key="key" class="form-check aj-native-check"><input v-model="linbo[key]" :data-model="'config.config.LINBO.'+key" type="checkbox">{{ aj.gettext(label) }}</label>
             </div></div>
             <div class="row"><div class="col-sm-6 c8-field"><label>{{ aj.gettext('Language') }}</label><select v-model="linbo.Locale" data-model="config.config.LINBO.Locale" class="form-control"><option value="de-DE">{{ aj.gettext('German') }}</option><option value="en-GB">{{ aj.gettext('English') }}</option><option value="fr-FR">{{ aj.gettext('French') }}</option></select></div><div class="col-sm-6 c8-field"><label>{{ aj.gettext('Background color') }}</label><p>{{ aj.gettext('The color of the foreground will be adjusted automatically') }}</p><input v-model.trim="linbo.BackgroundColor" @input="invalidColor" data-model="config.config.LINBO.BackgroundColor" class="form-control" type="text" pattern="#[a-fA-F\d]+"><input type="color" :value="/^#[a-fA-F\d]{6}$/.test(linbo.BackgroundColor) ? linbo.BackgroundColor : '#000000'" :aria-label="aj.gettext('Background color')" @input="linbo.BackgroundColor = $event.target.value"></div></div>
             <div class="c8-field"><label>{{ aj.gettext('Kernel options') }}</label><input v-model.trim="linbo.KernelOptions" data-model="config.config.LINBO.KernelOptions" class="form-control" type="text"><details><summary>{{ aj.gettext('Add') }}</summary><button v-for="option in kernelOptions" :key="option" class="btn c8-button" @click="linbo.KernelOptions += ' ' + option">{{ option }}</button></details></div>
@@ -402,7 +402,7 @@ const vdiSections = [
             </div><br><button data-action="add-disk" class="btn c8-button" @click="state = addDisk(state)"><i class="fa fa-plus"></i> {{ aj.gettext('New disk') }}</button>
         </div>
         <div v-if="state.vdiconfig !== null" v-show="tab === 'vdi'">
-            <label class="checkbox"><input v-model="vdiconfig.activated" data-model="vdiconfig.activated" type="checkbox">{{ aj.gettext('Activated') }}</label>
+            <label class="form-check aj-native-check"><input v-model="vdiconfig.activated" data-model="vdiconfig.activated" type="checkbox">{{ aj.gettext('Activated') }}</label>
             <div v-if="vdiconfig.activated">
                 <template v-for="section in vdiSections" :key="section.title"><div v-if="!section.expert || expert" class="card c8-card">
                     <div class="card-header">{{ aj.gettext(section.title) }}</div><div class="card-body">
@@ -416,7 +416,7 @@ const vdiSections = [
                         <template v-if="section.vmids"><ul class="list-group"><li v-for="(vmid,index) in vdiconfig.vmids" :key="index" class="list-group-item">{{ vmid }}<button :data-remove-vmid="index" class="badge float-end" @click="vmidRemove(index)"><i class="fa fa-minus"></i></button></li></ul><input v-model.number="newvmid" data-model="newvmid" class="form-control" type="number" @input="($event.target.validity.badInput) && (newvmid = undefined)"><button data-action="add-vmid" class="btn" @click="vmidAdd"><i class="fa fa-plus"></i> {{ aj.gettext('Add new VMID') }}</button></template>
                     </div>
                 </div></template>
-                <label class="checkbox"><input v-model="expert" data-model="expert" type="checkbox">{{ aj.gettext('Expert options') }}</label>
+                <label class="form-check aj-native-check"><input v-model="expert" data-model="expert" type="checkbox">{{ aj.gettext('Expert options') }}</label>
             </div>
         </div>
     </div>

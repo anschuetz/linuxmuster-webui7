@@ -4314,3 +4314,44 @@ body.global-color-teal progress-spinner .one {
   border-color: #009688 !important;
   background: #009688 !important;
 }
+/* P175: BS5 markup with the measured Ajenti arrow, native-check and compact-size contracts. */
+.aj-dropdown-marker { display: contents; }
+.dropdown-toggle.aj-dropdown-marker::after {
+  width: 0;
+  height: 0;
+  margin-left: 0;
+  vertical-align: middle;
+  border-top: 4px dashed;
+  border-right: 4px solid transparent;
+  border-bottom: 0;
+  border-left: 4px solid transparent;
+}
+.dropup .dropdown-toggle.aj-dropdown-marker::after {
+  border-top: 0;
+  border-bottom: 4px dashed;
+}
+label.form-check.aj-native-check {
+  position: relative;
+  display: block;
+  min-height: 0;
+  padding-left: 0;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+label.form-check.aj-native-check + label.form-check.aj-native-check { margin-top: -5px; }
+label.form-check.aj-native-check-inline {
+  position: relative;
+  display: inline-block;
+  min-height: 0;
+  padding-left: 20px;
+  margin-right: 0;
+  margin-bottom: 0;
+  vertical-align: middle;
+  font-weight: normal;
+  cursor: pointer;
+}
+.aj-native-check-inline + .aj-native-check-inline { margin-top: 0; margin-left: 10px; }
+.aj-native-check > input[type="checkbox"],
+.aj-native-check-inline > input[type="checkbox"] { position: absolute; margin-left: -20px; }
+.btn.btn-sm.aj-image-action-compact { padding: 1px 5px; font-size: 12px; line-height: 1.5; }
+.table.table-sm.aj-table-compact > :not(caption) > * > * { padding: 5px; }

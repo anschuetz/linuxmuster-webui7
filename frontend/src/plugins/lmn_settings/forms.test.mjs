@@ -138,7 +138,7 @@ it('edits role defaults and school password overrides through the actual control
     for (const checkbox of defaults.findAll('input[type=checkbox]')) await checkbox.setValue(true);
     await defaults.findAll('input[type=number]')[1].setValue('2');
     // The override checkbox is outside the default-rule table.
-    const override = panel.findAll('label.checkbox-inline').find(label => label.find('span').exists());
+    const override = panel.findAll('label.form-check-inline').find(label => label.find('span').exists());
     if (panel.findAll('table').length === 1) await override.find('input').trigger('click');
     const school = panel.findAll('table')[1];
     await school.find('input[type=number]').setValue('16');

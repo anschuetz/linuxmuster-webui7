@@ -209,7 +209,7 @@ function selectTab(index) {
 <i class="fa fa-info-circle">
 </i> <Translated tag="span" :text="[&quot;A key without a scope reaches the whole API with the permissions of its&quot;, &quot;                    associated user. A scope restricts it to a list of endpoints; it only ever&quot;, &quot;                    narrows, the user&#x27;s permissions still apply behind it.&quot;].join(&#x27;\n&#x27;)">
 </Translated> <br> <Translated tag="span" :text="[&quot;Write the path as it appears in the API documentation but without the /v1&quot;, &quot;                    prefix. The method may be * to allow any of them. Mind the trailing slash:&quot;, &quot;                    /users and /users/ are not the same path.&quot;].join(&#x27;\n&#x27;)">
-</Translated> <table class="table table-condensed" style="margin-top:10px; margin-bottom:10px; background:transparent;">
+</Translated> <table class="table table-sm aj-table-compact" style="margin-top:10px; margin-bottom:10px; background:transparent;">
 <tbody>
 <tr>
 <td style="width:1%; white-space:nowrap;">

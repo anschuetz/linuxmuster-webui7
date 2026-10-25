@@ -97,11 +97,11 @@ onBeforeUnmount(() => {
             <input v-model.trim="filter" type="search" class="form-control" placeholder="Filter" autofocus>
             <div ref="objectsMenu" class="btn-group c4-group-actions">
                 <button class="btn c4-button" @click="createProject"><i class="fa fa-fw fa-flask"></i> {{ aj.gettext('New Project') }}</button>
-                <button class="btn c4-button" @click="objectsOpen = !objectsOpen"><i class="fa fa-filter"></i> {{ aj.gettext('Objectsfilter') }} <span class="caret"></span></button>
+                <button class="btn c4-button" @click="objectsOpen = !objectsOpen"><i class="fa fa-filter"></i> {{ aj.gettext('Objectsfilter') }} <span class="dropdown-toggle aj-dropdown-marker"></span></button>
                 <ul v-if="objectsOpen" class="dropdown-menu show c4-menu" style="width:150px"><li v-for="[key, label] in [['classes', 'Classes'], ['printers', 'Printers'], ['projects', 'Projects']]" :key="key"><label><input :checked="shown[key]" type="checkbox" @change="shown = { ...shown, [key]: $event.target.checked }"> {{ aj.gettext(label) }}</label></li></ul>
             </div>
             <div ref="sortMenu" class="btn-group c4-group-actions">
-                <button class="btn c4-button" @click="sortOpen = !sortOpen"><i class="fa fa-sort-amount-asc"></i> {{ aj.gettext(sort === 'groupname' ? 'Groupname' : 'Membership') }} <span class="caret"></span></button>
+                <button class="btn c4-button" @click="sortOpen = !sortOpen"><i class="fa fa-sort-amount-asc"></i> {{ aj.gettext(sort === 'groupname' ? 'Groupname' : 'Membership') }} <span class="dropdown-toggle aj-dropdown-marker"></span></button>
                 <ul v-if="sortOpen" class="dropdown-menu dropdown-menu-end show c4-menu" style="width:150px"><li v-for="[field, label] in [['groupname', 'Groupname'], ['membership', 'Membership']]" :key="field"><a class="dropdown-item" @click="changeSort(field)"><i class="fa fa-sort-amount-asc"></i> {{ aj.gettext(label) }}</a></li></ul>
             </div>
         </div><br>

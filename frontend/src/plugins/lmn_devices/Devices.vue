@@ -162,15 +162,15 @@ load('/api/lmn/devices', (data) => { devices.value = data; });
             <div class="input-group">
                 <input v-model.trim="filter" type="search" autofocus class="form-control" placeholder="Filter">
                 <div class="dropdown c3-menu-control">
-                    <button class="btn c3-button" @click="menu = menu === 'sort' ? '' : 'sort'"><i class="fa fa-sort-amount-asc"></i> {{ aj.gettext(sortName) }} <span class="caret"></span></button>
+                    <button class="btn c3-button" @click="menu = menu === 'sort' ? '' : 'sort'"><i class="fa fa-sort-amount-asc"></i> {{ aj.gettext(sortName) }} <span class="dropdown-toggle aj-dropdown-marker"></span></button>
                     <ul v-if="menu === 'sort'" class="dropdown-menu dropdown-menu-end show" style="width:150px"><li v-for="[id, label] in sorts" :key="id"><a class="dropdown-item" :data-sort="id" @click="sort = id; menu = ''"><i class="fa fa-sort-amount-asc"></i> {{ aj.gettext(label) }}</a></li></ul>
                 </div>
                 <div class="dropdown c3-menu-control">
-                    <button class="btn c3-button" @click="menu = menu === 'fields' ? '' : 'fields'"><i class="fa fa-ellipsis-h"></i> {{ aj.gettext('Fields') }} <span class="caret"></span></button>
-                    <ul v-if="menu === 'fields'" class="dropdown-menu dropdown-menu-end show" style="width:190px"><li v-for="[id, label] in definitions" :key="id"><label checkbox :class="{ active: visible[id] }" style="font-weight:normal;margin:0"><input class="sr-only" :checked="visible[id]" @change="visible = { ...visible, [id]: $event.target.checked }" type="checkbox" :data-visible="id"><i class="fa fa-square-o off"></i><i class="fa fa-check-square on"></i> {{ aj.gettext(label) }}</label></li></ul>
+                    <button class="btn c3-button" @click="menu = menu === 'fields' ? '' : 'fields'"><i class="fa fa-ellipsis-h"></i> {{ aj.gettext('Fields') }} <span class="dropdown-toggle aj-dropdown-marker"></span></button>
+                    <ul v-if="menu === 'fields'" class="dropdown-menu dropdown-menu-end show" style="width:190px"><li v-for="[id, label] in definitions" :key="id"><label checkbox :class="{ active: visible[id] }" style="font-weight:normal;margin:0"><input class="visually-hidden" :checked="visible[id]" @change="visible = { ...visible, [id]: $event.target.checked }" type="checkbox" :data-visible="id"><i class="fa fa-square-o off"></i><i class="fa fa-check-square on"></i> {{ aj.gettext(label) }}</label></li></ul>
                 </div>
                 <div class="dropdown c3-menu-control">
-                    <button class="btn c3-button" @click="menu = menu === 'rows' ? '' : 'rows'"><i class="fa fa-list-ol"></i> {{ aj.gettext('Rows') }} <span class="caret"></span></button>
+                    <button class="btn c3-button" @click="menu = menu === 'rows' ? '' : 'rows'"><i class="fa fa-list-ol"></i> {{ aj.gettext('Rows') }} <span class="dropdown-toggle aj-dropdown-marker"></span></button>
                     <ul v-if="menu === 'rows'" class="dropdown-menu dropdown-menu-end show" style="width:150px"><li v-for="size in [10,25,50,100,500]" :key="size"><a class="dropdown-item" :data-size="size" @click="pageSize = size; menu = ''"><i class="fa fa-list-ol"></i> {{ size }}</a></li><li><input v-model="pageSize" type="number" class="form-control"></li></ul>
                 </div>
             </div>
