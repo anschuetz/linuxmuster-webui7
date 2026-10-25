@@ -24,8 +24,8 @@ function move(delta) { if (shown.value) active.value = (active.value + delta + r
 <template>
     <div style="position: relative">
         <input v-model.trim="query" v-bind="$attrs" type="text" class="form-control" :placeholder="placeholder" @input="search" @blur="blur" @keydown.esc="shown = false" @keydown.down.prevent="move(1)" @keydown.up.prevent="move(-1)" @keydown.tab="shown && select(results[active])" @keydown.enter.prevent="shown && select(results[active])">
-        <ul v-if="shown" role="listbox" class="dropdown-menu" style="display: block">
-            <li v-for="(user, index) in results" :key="index" role="option" :class="{ active: active === index }" @mouseenter="active = index" @mousedown.prevent="select(user)"><a>{{ user.label }}</a></li>
+        <ul v-if="shown" role="listbox" class="dropdown-menu show c12-search">
+            <li v-for="(user, index) in results" :key="index" role="option" @mouseenter="active = index" @mousedown.prevent="select(user)"><a class="dropdown-item" :class="{ active: active === index }">{{ user.label }}</a></li>
         </ul>
     </div>
 </template>

@@ -13,7 +13,7 @@ const aj = inject('aj');
 <Translated tag="span" text="Enable host key authentication">
 </Translated> <input v-model="s.api_keys.enable_host_auth" type="checkbox">
 </div> <div v-show="s.api_keys.enable_host_auth" style="margin-top:20px;">
-<button class="btn btn-success pull-right" @click="s.addApiKey()">
+<button class="btn btn-success float-end" @click="s.addApiKey()">
 <i class="fa fa-plus">
 </i> <Translated tag="span" text="Add a key">
 </Translated>
@@ -33,24 +33,24 @@ const aj = inject('aj');
 <tr>
 <td>{{ name }}</td> <td>
 <template v-for="(ip, index) in key.ips" :key="index">
-<span class="label label-info" style="margin-right:5px;">{{ ip }}</span>
+<span class="badge c12-label bg-info" style="margin-right:5px;">{{ ip }}</span>
 </template>
 </td> <td>
 <template v-for="(entry, index) in key.scope" :key="index">
-<span class="label label-warning" style="margin-right:5px;">{{ entry }}</span>
+<span class="badge c12-label bg-warning" style="margin-right:5px;">{{ entry }}</span>
 </template>
 </td> <td>{{ key.user }}</td> <td width="1">
-<button class="btn btn-default" @click="s.editApiKey(key, name)">
+<button class="btn c12-button" @click="s.editApiKey(key, name)">
 <i class="fa fa-pencil">
 </i>
 </button>
 </td> <td width="1">
-<button class="btn btn-default" @click="s.showApiKey(key)">
+<button class="btn c12-button" @click="s.showApiKey(key)">
 <i class="fa fa-eye">
 </i>
 </button>
 </td> <td width="1">
-<button class="btn btn-default" @click="s.deleteApiKey(name)">
+<button class="btn c12-button" @click="s.deleteApiKey(name)">
 <i class="fa fa-trash-o">
 </i>
 </button>

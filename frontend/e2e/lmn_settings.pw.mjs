@@ -193,8 +193,9 @@ test('global-admin: real API key create, IP/scope edit, secret confirmation and 
     await expect(dialog().locator('textarea')).toHaveValue(secret);
     await dialog().getByText(/^(Close|Schließen)$/, { exact: true }).click();
     await row.getByRole('button').first().click();
-    await dialog().locator('.label-info').click();
-    await dialog().locator('.label-warning').click();
+    const vueSettings = await page.locator('.c12-tabs').count();
+    await dialog().locator(vueSettings ? '.c12-label.bg-info' : '.label-info').click();
+    await dialog().locator(vueSettings ? '.c12-label.bg-warning' : '.label-warning').click();
     const updated = response(page, '/api/lmn/apikeys', 'POST');
     await dialogSave();
     const update = await updated;

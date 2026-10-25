@@ -34,7 +34,7 @@ const aj = inject('aj');
 </td> <td>
 <input v-model.lazy.trim="subnet.setupFlag" type="text" placeholder="Setup flag" class="form-control">
 </td> <td width="1">
-<button class="btn btn-default" @click="s.removeSubnet(subnet)" :title="s.trans?.remove">
+<button class="btn c12-button" @click="s.removeSubnet(subnet)" :title="s.trans?.remove">
 <i class="fa fa-trash-o">
 </i>
 </button>
@@ -43,7 +43,7 @@ const aj = inject('aj');
 </template>
 
 </tbody>
-</table> <button class="btn btn-default" @click="s.addSubnet()">
+</table> <button class="btn c12-button" @click="s.addSubnet()">
 <i class="fa fa-plus">
 </i> <Translated tag="span" text="Add a subnet">
 </Translated>

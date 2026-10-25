@@ -13955,6 +13955,140 @@ html body.customized smart-progress .progress .c5-progress.bg-warning { backgrou
 /* P137 lmn_session_new/*.vue; P162 C6 neutral buttons preserve B3/B4 focus and Ajenti flat/LMN cascade; consolidate D1. */
 .c6-button.active:hover, .c6-button.active:focus { color: #333; background-color: #d4d4d4; border-color: #aeaeae; }
 
+/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
+.btn.c12-button { --bs-btn-focus-box-shadow: none; }
+/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
+.c12-button { color: #333; background-color: #fff; border-color: #eee; }
+/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
+.btn.c12-button:where(:not(.btn-flat)) { color: #333; background-color: #fff; border-color: #eee; }
+/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
+.c12-button:focus { color: #333; background-color: #e6e6e6; border-color: #aeaeae; }
+/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
+.c12-button:hover, .c12-button:active { color: #333; background-color: #e6e6e6; border-color: #cfcfcf; }
+/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
+.c12-button:active:hover, .c12-button:active:focus { color: #333; background-color: #d4d4d4; border-color: #aeaeae; }
+/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
+.c12-button[disabled]:hover, .c12-button[disabled]:focus { background-color: #fff; border-color: #eee; }
+/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
+.c12-button:focus-visible { color: #333; background-color: #e6e6e6; border-color: #aeaeae; }
+/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
+.c12-tabs > .nav-item > .nav-link { padding: 10px 15px; margin-bottom: 0; border-radius: 0; color: #666; }
+/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
+.c12-tabs > .nav-item > .nav-link:focus { border-color: transparent; }
+/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
+.c12-tabs > .nav-item > .nav-link:hover { border-color: #f0f0f0 #f0f0f0 #eee; }
+/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
+.c12-tabs > .nav-item > .nav-link.active:focus { color: #666; background-color: #f0f0f0; border-color: #ddd; border-bottom-color: transparent; }
+/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
+.c12-tabs > .nav-item > .nav-link.active, .c12-tabs > .nav-item > .nav-link.active:hover { color: #2196F3; background: rgba(0,0,0,.03); border: 1px solid transparent; border-bottom-color: #2196F3; cursor: default; }
+/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
+html body.customized .c12-tabs > .nav-item > .nav-link.active, html body.customized .c12-tabs > .nav-item > .nav-link.active:hover { border-bottom: 1px solid #233c4c; color: #233c4c; }
+/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
+.c12-tabs > .nav-item > .nav-link:focus-visible { box-shadow: none; }
+/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
+body.global-color-red .c12-tabs > .nav-item > .nav-link.active,
+body.global-color-red .c12-tabs > .nav-item > .nav-link.active:hover {
+  border-bottom: 1px solid #e94c41;
+  color: #e94c41;
+}
+/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
+body.global-color-bluegrey .c12-tabs > .nav-item > .nav-link.active,
+body.global-color-bluegrey .c12-tabs > .nav-item > .nav-link.active:hover {
+  border-bottom: 1px solid #6c797f;
+  color: #6c797f;
+}
+/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
+body.global-color-purple .c12-tabs > .nav-item > .nav-link.active,
+body.global-color-purple .c12-tabs > .nav-item > .nav-link.active:hover {
+  border-bottom: 1px solid #9432a5;
+  color: #9432a5;
+}
+/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
+body.global-color-blue .c12-tabs > .nav-item > .nav-link.active,
+body.global-color-blue .c12-tabs > .nav-item > .nav-link.active:hover {
+  border-bottom: 1px solid #2d95e7;
+  color: #2d95e7;
+}
+/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
+body.global-color-green .c12-tabs > .nav-item > .nav-link.active,
+body.global-color-green .c12-tabs > .nav-item > .nav-link.active:hover {
+  border-bottom: 1px solid #59a25c;
+  color: #59a25c;
+}
+/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
+body.global-color-deeporange .c12-tabs > .nav-item > .nav-link.active,
+body.global-color-deeporange .c12-tabs > .nav-item > .nav-link.active:hover {
+  border-bottom: 1px solid #f45d2d;
+  color: #f45d2d;
+}
+/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
+body.global-color-orange .c12-tabs > .nav-item > .nav-link.active,
+body.global-color-orange .c12-tabs > .nav-item > .nav-link.active:hover {
+  border-bottom: 1px solid #f2960d;
+  color: #f2960d;
+}
+/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
+body.global-color-teal .c12-tabs > .nav-item > .nav-link.active,
+body.global-color-teal .c12-tabs > .nav-item > .nav-link.active:hover {
+  border-bottom: 1px solid #088f82;
+  color: #088f82;
+}
+/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
+.c12-field { margin-bottom: 30px; }
+/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
+.c12-field > .row > div { margin-bottom: 10px; }
+/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
+.c12-feedback { position: relative; }
+/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
+.c12-feedback .form-control { padding-right: 42.5px; }
+/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
+.c12-feedback-icon { position: absolute; top: 0; right: 0; z-index: 2; display: block; width: 34px; height: 34px; line-height: 34px; text-align: center; pointer-events: none; }
+/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
+.c12-justified { display: table; width: 100%; table-layout: fixed; border-collapse: separate; }
+/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
+.c12-justified > .btn { float: none; display: table-cell; width: 1%; }
+/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
+.c12-button.active { color: #333; background-color: #e6e6e6; border-color: #cfcfcf; }
+/* P137 lmn_settings; P168 C12 selected SMTP focus/hover; D1. */
+.c12-button.active:hover, .c12-button.active:focus { color: #333; background-color: #d4d4d4; border-color: #aeaeae; }
+/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
+.badge.c12-label { display: inline; padding: .4em .6em .3em; margin-right: 3px; font-size: 75%; font-weight: bold; line-height: 1; color: #fff; text-align: center; white-space: nowrap; vertical-align: baseline; border-radius: .25em; min-width: 0; }
+/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
+.badge.c12-label:empty { display: none; }
+/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
+.c12-label.bg-info { background-color: #03a9f4 !important; }
+/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
+.c12-label.bg-warning { background-color: #ffc107 !important; }
+/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
+.c12-label.bg-success { background-color: #4caf50 !important; }
+/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
+.badge.c12-provider { display: inline-block; min-width: 10px; padding: 3px 7px; font-size: 12px; font-weight: bold; color: #fff; line-height: 1; vertical-align: middle; white-space: nowrap; text-align: center; background-color: #777; border-radius: 10px; }
+/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
+.c12-search .dropdown-item { color: #333; }
+/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
+.c12-search .dropdown-item.active, .c12-search .dropdown-item.active:hover, .c12-search .dropdown-item.active:focus { color: #333; background-color: #2196F3; text-decoration: none; outline: 0; }
+/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
+.c12-search .dropdown-item:hover, .c12-search .dropdown-item:focus { color: #333; background-color: #f5f5f5; }
+/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
+.c12-input-button { position: relative; display: table-cell; width: 1%; font-size: 0; white-space: nowrap; vertical-align: middle; }
+/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
+.c12-input-button > .btn { position: relative; }
+/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
+.c12-input-button:last-child > .btn { z-index: 2; margin-left: -1px; border-top-left-radius: 0; border-bottom-left-radius: 0; }
+/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
+.c12-input-button > .btn:hover, .c12-input-button > .btn:focus, .c12-input-button > .btn:active { z-index: 2; }
+@media (max-width: 767px) {
+ /* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
+ .c12-toolbar { display: flex; flex-wrap: wrap; }
+ /* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
+ .c12-toolbar > .btn { max-width: 100%; white-space: normal; }
+}
+
+@media (max-width: 767px) {
+ /* P137 lmn_settings GlobalSettings; P168 C12 D13 removes permanent 205px sidebar offset; D1. */
+ .c12-footer .col-md-9 { width: 100%; }
+}
+
 /*! P150 active Ajenti theme, MIT (vendor/AJENTI-LICENSE).
  * Derived from theme/ajenti.css after its Normalize/print prelude; A1 evidence unchanged.
  * See core-audit.md, P150 disposition.

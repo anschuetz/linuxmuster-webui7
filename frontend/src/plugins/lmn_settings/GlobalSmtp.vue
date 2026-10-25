@@ -7,26 +7,26 @@ const aj = inject('aj');
 </script>
 <template>
 <div v-if="s.smtp_config">
-<br> <div class="form-group">
+<br> <div class="c12-field">
 <label>Email relay</label> <div>
 <Checkbox v-model="s.config.data.email.enable" :text="aj.gettext('Enable email relay for notification')">
 </Checkbox>
 </div>
-</div> <hr> <div class="form-group" v-show="s.config.data.email.enable">
+</div> <hr> <div class="c12-field" v-show="s.config.data.email.enable">
 <div class="alert alert-info" v-show="!s.smtp_config.smtp.server">
 <i class="fa fa-info-circle">
 </i> <Translated tag="span" text="The smtp.yml config file seems to be empty. Currently it's ont possible to send emails with this configuration.">
 </Translated>
-</div> <div class="form-row">
+</div> <div class="c12-columns">
 <div class="col-md-6">
 <Translated tag="label" text="SMTP host">
 </Translated> <div>
 <input v-model.trim="s.smtp_config.smtp.server" type="text" class="form-control">
 </div> <br> <Translated tag="label" text="Port">
-</Translated> <div class="btn-group btn-group-justified">
-<a @click="s.smtp_config.smtp.port = 'starttls'" :class="{ active: s.smtp_config.smtp.port === 'starttls' }" class="btn btn-default">
+</Translated> <div class="btn-group c12-justified">
+<a @click="s.smtp_config.smtp.port = 'starttls'" :class="{ active: s.smtp_config.smtp.port === 'starttls' }" class="btn c12-button">
                                 TLS ( port 587 )
-                            </a> <a @click="s.smtp_config.smtp.port = 'ssl'" :class="{ active: s.smtp_config.smtp.port === 'ssl' }" class="btn btn-default">
+                            </a> <a @click="s.smtp_config.smtp.port = 'ssl'" :class="{ active: s.smtp_config.smtp.port === 'ssl' }" class="btn c12-button">
                                 SSL ( port 465 )
                             </a>
 </div>
@@ -35,15 +35,15 @@ const aj = inject('aj');
 </Translated> <div>
 <input v-model.trim="s.smtp_config.smtp.user" type="text" class="form-control">
 </div> <br> <Translated tag="label" text="SMTP password">
-</Translated> <div v-show="!s.showSMTPPassword" class="form-group has-feedback">
-<input v-model="s.smtp_config.smtp.password" type="password" class="form-control"> <span v-show="!s.showSMTPPassword" @click="s.toggleShowSMTPPassword()" class="fas fa-eye form-control-feedback" style="cursor: pointer; pointer-events: all; line-height:34px;">
+</Translated> <div v-show="!s.showSMTPPassword" class="c12-field c12-feedback">
+<input v-model="s.smtp_config.smtp.password" type="password" class="form-control"> <span v-show="!s.showSMTPPassword" @click="s.toggleShowSMTPPassword()" class="fas fa-eye c12-feedback-icon" style="cursor: pointer; pointer-events: all; line-height:34px;">
 </span>
-</div> <div v-show="s.showSMTPPassword" class="form-group has-feedback">
-<input v-model.trim="s.smtp_config.smtp.password" type="text" class="form-control"> <span v-show="s.showSMTPPassword" @click="s.toggleShowSMTPPassword()" class="fas fa-eye-slash form-control-feedback" style="cursor: pointer; pointer-events: all; line-height:34px;">
+</div> <div v-show="s.showSMTPPassword" class="c12-field c12-feedback">
+<input v-model.trim="s.smtp_config.smtp.password" type="text" class="form-control"> <span v-show="s.showSMTPPassword" @click="s.toggleShowSMTPPassword()" class="fas fa-eye-slash c12-feedback-icon" style="cursor: pointer; pointer-events: all; line-height:34px;">
 </span>
 </div>
 </div>
-</div> <hr> <div class="form-row">
+</div> <hr> <div class="c12-columns">
 <div class="col-md-6">
 <Translated tag="label" text="Template email reset">
 </Translated> <div>
