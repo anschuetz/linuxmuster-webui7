@@ -13713,6 +13713,27 @@ body.global-color-teal .c4-tabs > .nav-item > .nav-link.active, body.global-colo
 /* P137 lmn_permissions/Permissions.vue; C4 real API methods without permission_id retain the old empty-label suppression; D1. */
 .badge.c4-badge:empty { display: none; }
 
+/* P137 P161 C5 SambaShares/ImportDialog neutral variant; B3/B4 focus token, consolidate D1. */
+.btn.c5-button { --bs-btn-focus-box-shadow: none; }
+/* P137 P161 C5 neutral geometry; preserve later Ajenti flat toolbar precedence; D1. */
+.c5-button { color: #333; background-color: #fff; border-color: #eee; }
+/* P137 P161 C5 ImportDialog non-flat neutral base after Ajenti .btn; D1. */
+.btn.c5-button:where(:not(.btn-flat)) { color: #333; background-color: #fff; border-color: #eee; }
+/* P137 P161 C5 neutral focus; D1. */
+.c5-button:focus { color: #333; background-color: #e6e6e6; border-color: #aeaeae; }
+/* P137 P161 C5 neutral hover/pressed state; D1. */
+.c5-button:hover, .c5-button:active { color: #333; background-color: #e6e6e6; border-color: #cfcfcf; }
+/* P137 P161 C5 neutral pressed focus/hover; D1. */
+.c5-button:active:hover, .c5-button:active:focus { color: #333; background-color: #d4d4d4; border-color: #aeaeae; }
+/* P137 P161 C5 disabled selected-count anchor retains legacy hover/focus; D1. */
+.c5-button[disabled]:hover, .c5-button[disabled]:focus { background-color: #fff; border-color: #eee; }
+/* P137 P161 C5 neutral keyboard focus; D1. */
+.c5-button:focus-visible { color: #333; background-color: #e6e6e6; border-color: #aeaeae; }
+/* P137 P161 C5 Samba upload warning retains Ajenti yellow rather than BS3 contextual bg-warning; D1. */
+.progress-bar.c5-progress.bg-warning { background-color: #ffc107 !important; }
+/* P137 P161 C5 common/styles.scss smart-progress theme override retains customized Samba orange; D1. */
+html body.customized smart-progress .progress .c5-progress.bg-warning { background-color: #ffab40 !important; }
+
 /*! P150 active Ajenti theme, MIT (vendor/AJENTI-LICENSE).
  * Derived from theme/ajenti.css after its Normalize/print prelude; A1 evidence unchanged.
  * See core-audit.md, P150 disposition.

@@ -52,6 +52,6 @@ function run(importonly) {
     <div class="modal-footer">
         <button :disabled="!userstoimport || userstoimport.length === 0" class="btn btn-success" @click="run(true)">{{ aj.gettext('Import') }}</button>
         <button :disabled="!userstoimport || peerstodelete.length === 0" class="btn btn-success" @click="run()">{{ aj.gettext('Import + Delete') }}</button>
-        <button class="btn btn-default" @click="emit('close', !importstatus)">{{ aj.gettext('Close') }}</button>
+        <button class="btn c5-button" @click="emit('close', !importstatus)">{{ aj.gettext('Close') }}</button>
     </div>
 </template>

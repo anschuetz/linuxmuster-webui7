@@ -194,28 +194,28 @@ function keyboardFocus(event) {
                     <div style="min-height:600px">
                         <div v-show="progress.length * 100 !== progress.reduce((sum, item) => sum + item.progress, 0)" class="uploads">
                             <h3>{{ aj.gettext('Uploading ...') }}</h3>
-                            <template v-for="item in progress" :key="item.id"><div v-show="item.progress < 100" style="margin-top:10px"><span>{{ item.name }} ({{ item.progress }} %) </span><component :is="'smart-progress'" type="warning" :max="100" :value="item.progress"><div class="progress"><div class="progress-bar progress-bar-warning" role="progressbar" :aria-label="item.name" aria-valuemin="0" aria-valuemax="100" :aria-valuenow="item.progress" :style="{ width: item.progress + '%' }"></div></div></component></div></template>
+                            <template v-for="item in progress" :key="item.id"><div v-show="item.progress < 100" style="margin-top:10px"><span>{{ item.name }} ({{ item.progress }} %) </span><component :is="'smart-progress'" type="warning" :max="100" :value="item.progress"><div class="progress"><div class="progress-bar bg-warning c5-progress" role="progressbar" :aria-label="item.name" aria-valuemin="0" aria-valuemax="100" :aria-valuenow="item.progress" :style="{ width: item.progress + '%' }"></div></div></component></div></template>
                         </div>
                         <div v-for="item in sortedItems" :key="item.path" class="list-group-item list-group-item-small" :test-bind-item="item.name" :style="item.selected && { background: '#ffc876' }">
                             <a v-if="item.isFile || (item.isDir && !isProtected(item))" class="list-group-btn" @click="deleteItem(item)"><i class="fa fa-trash"></i></a>
                             <a v-if="!isProtected(item)" class="list-group-btn" @click="rename(item)"><i class="fa fa-pen"></i></a>
                             <a class="list-group-btn" @click="download(item)"><i class="fas fa-download"></i></a>
-                            <div class="list-group-addon pull-left"><span v-if="!isProtected(item)" checkbox class="subtle" :class="{ active: item.selected }" @click="toggleSelection(item)"><i class="fa fa-square-o off"></i><i class="fa fa-check-square on"></i></span></div>
+                            <div class="list-group-addon float-start"><span v-if="!isProtected(item)" checkbox class="subtle" :class="{ active: item.selected }" @click="toggleSelection(item)"><i class="fa fa-square-o off"></i><i class="fa fa-check-square on"></i></span></div>
                             <a v-if="item.isDir" class="list-group-main" @click="loadPath(item.path)"><i class="fa fa-fw fa-folder"></i> {{ item.name }}</a>
                             <span v-if="item.isFile" class="list-group-main"><i :class="icons[item.filetype]"></i> {{ item.name }} <span class="subtle">{{ bytes(item.size) }}</span></span>
                         </div>
                         <component :is="'floating-toolbar'"><div class="container"><div class="row"><div :class="{ 'col-md-3': sidebar }"></div><div class="toolbar-content" :class="sidebar ? 'col-md-9' : 'col-md-12'"><div class="bar row">
-                            <a v-if="clipboard.length" data-clipboard class="btn btn-default btn-flat pull-right" @click="dialog = 'clipboard'"><i class="fa fa-paste"></i> {{ clipboard.length }}</a>
-                            <a class="btn btn-default btn-flat" @click="showNew('file')">{{ aj.gettext('New file') }}</a>
-                            <a class="btn btn-default btn-flat" @click="showNew('directory')">{{ aj.gettext('New directory') }}</a>
-                            <span :ref="browseRef" class="btn btn-default btn-flat">{{ aj.gettext('Upload') }}</span>
-                            <a v-if="clipboard.length" class="btn btn-default btn-flat" @click="paste">{{ aj.gettext('Paste here') }}</a>
+                            <a v-if="clipboard.length" data-clipboard class="btn c5-button btn-flat float-end" @click="dialog = 'clipboard'"><i class="fa fa-paste"></i> {{ clipboard.length }}</a>
+                            <a class="btn c5-button btn-flat" @click="showNew('file')">{{ aj.gettext('New file') }}</a>
+                            <a class="btn c5-button btn-flat" @click="showNew('directory')">{{ aj.gettext('New directory') }}</a>
+                            <span :ref="browseRef" class="btn c5-button btn-flat">{{ aj.gettext('Upload') }}</span>
+                            <a v-if="clipboard.length" class="btn c5-button btn-flat" @click="paste">{{ aj.gettext('Paste here') }}</a>
                         </div></div></div></div></component>
                         <component :is="'floating-toolbar'" v-show="selected.length" class="accented"><div class="container"><div class="row"><div :class="{ 'col-md-3': sidebar }"></div><div class="toolbar-content" :class="sidebar ? 'col-md-9' : 'col-md-12'"><div class="bar row">
-                            <a disabled class="btn btn-default btn-flat pull-right"><strong>{{ selected.length }}</strong> {{ aj.gettext('items selected') }}</a>
-                            <a class="btn btn-default btn-flat" @click="addClipboard('move')">{{ aj.gettext('Cut') }}</a>
-                            <a class="btn btn-default btn-flat" @click="addClipboard('copy')">{{ aj.gettext('Copy') }}</a>
-                            <a class="btn btn-default btn-flat" @click="deleteSelected">{{ aj.gettext('Delete') }}</a>
+                            <a disabled class="btn c5-button btn-flat float-end"><strong>{{ selected.length }}</strong> {{ aj.gettext('items selected') }}</a>
+                            <a class="btn c5-button btn-flat" @click="addClipboard('move')">{{ aj.gettext('Cut') }}</a>
+                            <a class="btn c5-button btn-flat" @click="addClipboard('copy')">{{ aj.gettext('Copy') }}</a>
+                            <a class="btn c5-button btn-flat" @click="deleteSelected">{{ aj.gettext('Delete') }}</a>
                         </div></div></div></div></component>
                     </div>
                 </template>
@@ -224,7 +224,7 @@ function keyboardFocus(event) {
         <dialog v-if="dialog === 'file' || dialog === 'directory'" open class="block-element animate-modal"><div class="modal"><div class="modal-dialog"><div class="modal-content">
             <div class="modal-header"><h4>{{ aj.gettext(dialog === 'file' ? 'New file' : 'New directory') }}</h4></div>
             <div class="modal-body"><input ref="nameInput" v-model.trim="newName" type="text" class="form-control" :placeholder="aj.gettext(dialog === 'file' ? 'File name' : 'Directory name')" autofocus @keydown.enter="create"></div>
-            <div class="modal-footer"><a class="btn btn-default btn-flat" @click="create">{{ aj.gettext('Create') }}</a><a class="btn btn-default btn-flat" @click="dialog = null">{{ aj.gettext('Cancel') }}</a></div>
+            <div class="modal-footer"><a class="btn c5-button btn-flat" @click="create">{{ aj.gettext('Create') }}</a><a class="btn c5-button btn-flat" @click="dialog = null">{{ aj.gettext('Cancel') }}</a></div>
         </div></div></div></dialog>
         <dialog v-if="dialog === 'clipboard' && clipboard.length" open class="block-element animate-modal"><div class="modal"><div class="modal-dialog"><div class="modal-content">
             <div class="modal-header"><h4>{{ aj.gettext('Clipboard') }}</h4></div>
@@ -232,7 +232,7 @@ function keyboardFocus(event) {
                 <a class="list-group-btn subtle" :title="aj.gettext('Remove')" @click="setClipboard(clipboard.filter((_, position) => position !== index))"><i class="fa fa-times"></i></a>
                 <div class="list-group-main"><i class="fa fa-fw" :class="operation.mode === 'move' ? 'fa-cut' : 'fa-copy'"></i> &nbsp; <i v-if="operation.item.isDir" class="fa fa-fw fa-folder-o"></i><i v-if="operation.item.isFile" class="fa fa-fw fa-file-o"></i> &nbsp; {{ operation.item.path }}</div>
             </div></div></div>
-            <div class="modal-footer"><a class="btn btn-default btn-flat" @click="clearClipboard">{{ aj.gettext('Remove all items') }}</a><a class="btn btn-default btn-flat" @click="dialog = null">{{ aj.gettext('Close') }}</a></div>
+            <div class="modal-footer"><a class="btn c5-button btn-flat" @click="clearClipboard">{{ aj.gettext('Remove all items') }}</a><a class="btn c5-button btn-flat" @click="dialog = null">{{ aj.gettext('Close') }}</a></div>
         </div></div></div></dialog>
     </div>
     <div v-else class="text-center root-access-blocker"><h1><i class="fas fa-exclamation-triangle"></i></h1><h4 class="alert alert-danger">{{ aj.gettext('You should not use WebUI as root user!') }}<br>{{ aj.gettext('If this is your first time running WebUI, proceed through the') }} <a href="/view/lmn/init/welcome">{{ aj.gettext('setup wizard') }}</a>.<br>{{ aj.gettext('Afterwards login using the global-admin account.') }}</h4></div>
