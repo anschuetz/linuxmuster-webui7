@@ -4,11 +4,11 @@ let active = [];
 let hadModalOpen = false;
 
 const ModalFrame = {
-    props: ['component', 'componentProps', 'options'], emits: ['close', 'cancel'],
+    props: ['component', 'componentProps', 'options', 'depth', 'isTop'], emits: ['close', 'cancel'],
     setup(props, { emit }) {
-        return () => [h('div', { class: 'modal-backdrop fade in' }), h('div', {
-            class: 'modal fade in', role: 'dialog', 'aria-modal': 'true', tabindex: -1, style: { display: 'block' },
-            onClick: event => { if ((props.options.backdrop ?? true) === true && event.target === event.currentTarget) emit('cancel'); },
+        return () => [h('div', { class: 'modal-backdrop fade show', style: props.depth ? { zIndex: 2001 + 2 * props.depth } : undefined }), h('div', {
+            class: 'modal fade show', role: 'dialog', 'aria-modal': 'true', tabindex: -1, style: { display: 'block', ...(props.depth ? { zIndex: 2002 + 2 * props.depth } : {}) },
+            onClick: event => { if (props.isTop() && (props.options.backdrop ?? true) === true && event.target === event.currentTarget) emit('cancel'); },
         }, [h('div', { class: ['modal-dialog', { [`modal-${props.options.size}`]: ['sm', 'lg'].includes(props.options.size) }], role: 'document' }, [
             h('div', { class: 'modal-content' }, [h(props.component, {
                 ...props.componentProps, onClose: result => emit('close', result), onCancel: () => emit('cancel'),
@@ -51,7 +51,7 @@ export function createModalService(getAj) {
                 active = [...active, host]; cancellations = [...cancellations, cancel];
                 document.body.classList.add('modal-open'); document.body.append(host);
                 document.addEventListener('keydown', onKey);
-                app = createApp(ModalFrame, { component: Component, componentProps: props, options,
+                app = createApp(ModalFrame, { component: Component, componentProps: props, options, depth: active.length - 1, isTop: () => active.at(-1) === host,
                     onClose: result => finish(true, result), onCancel: cancel });
                 app.provide('aj', aj); app.config.globalProperties.$gettext = aj.gettext;
                 app.config.errorHandler = error => finish(false, error);

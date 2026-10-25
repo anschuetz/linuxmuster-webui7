@@ -59,7 +59,7 @@ const Message = defineComponent({
             const m = props.message, t = props.services.gettext;
             return h('dialog', { open: true, class: 'messagebox', 'aria-label': t(m.title || m.prompt || '') }, [
                 // Match core's dialog directive: its modal owns the overlay and stacking above navigation/toolbars.
-                h('div', { class: 'modal', role: 'dialog', 'aria-modal': 'true', 'aria-label': t(m.title || m.prompt || '') }, [
+                h('div', { class: 'modal show', role: 'dialog', 'aria-modal': 'true', 'aria-label': t(m.title || m.prompt || '') }, [
                     h('div', { class: 'modal-dialog' }, [h('div', { class: 'modal-content' }, [
                         h('div', { class: 'modal-header' }, [h('h4', t(m.title || ''))]),
                         h('div', { class: ['modal-body', { scrollable: m.scrollable }] }, [
@@ -86,7 +86,7 @@ export const ShellServices = defineComponent({
     setup(props) {
         onBeforeUnmount(() => props.services.dispose());
         return () => [h('div', { id: 'toast-container', class: 'toast-top-right', 'aria-live': 'polite' }, props.services.state.toasts.map(toast =>
-            h('div', { key: toast.id, class: ['toast', `toast-${toast.level}`], role: 'status',
+            h('div', { key: toast.id, class: ['toast show', `toast-${toast.level}`], role: 'status',
                 onClick: () => props.services.clickToast(toast), onMouseenter: () => props.services.pauseToast(toast), onMouseleave: () => props.services.resumeToast(toast),
             }, [h('div', { class: 'toast-title' }, toast.title), h('div', { class: 'toast-message' }, toast.text)]))),
         ...props.services.state.messages.map(message => h(Message, { key: message.id, message, services: props.services }))];

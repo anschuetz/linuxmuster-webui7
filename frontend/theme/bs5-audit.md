@@ -100,3 +100,16 @@ bind-user ordering and live Dashboard statistics are independent of the A2 CSS.
 Missing VDI error toasts in the first capture were an A2 visibility defect, not
 a service-state classification; the notification fixture catches it.
 Existing P141 mobile clipping remains B/C work and must not grow in the A2 build.
+
+## P151 / B1: Vue-owned modal state
+Shell modal frames/backdrops now use `fade show`; messagebox/task-detail frames and Toaster use `show`.
+The three explicit `.show` compatibility selectors preserve Ajenti's final transform, frame opacity and 50% backdrop opacity;
+Ajenti's later `.modal.fade .modal-dialog` / `.modal-backdrop.fade` otherwise override Bootstrap's state.
+No Bootstrap JavaScript, additional close control or rem-sized control is introduced.
+Scrollbar policy remains unchanged: Vue adds/removes `body.modal-open`, preserving a pre-existing lock;
+there is no scrollbar measurement or body padding compensation. The unused `.modal-scrollbar-measure` rule was removed after a source/resources search (zero consumers). The viewport's scrollbar disappears while locked.
+Nested frames/backdrops receive explicit levels above the existing 2000 modal layer; the first pair keeps A2 geometry.
+Legacy `.in`, header/footer/body/size rules remain for Common/plugin consumers (B4/B5/C/D1);
+see `frontend/src/common/users/UserDetails.vue`, `common/FileDialog.vue`, `plugins/lmn_groupmembership/Details.vue`,
+`plugins/lmn_clients/Clients.vue`, and `usr/lib/linuxmuster-webui/plugins/lmn_common/resources/styles.scss`.
+Local proof: `node e2e/bs5-modals.local.mjs /ABS/LOG-DIR` compares 30 A2/BS5-state PNG pairs and exercises the actual service in Chromium.

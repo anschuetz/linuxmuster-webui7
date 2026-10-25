@@ -400,7 +400,7 @@
 /* BS3 buttons; P137 2 matches; frontend/src/plugins/lmn_linbo4/PartitionDialog.vue:47; remove B4/C1. */ .btn-block { display: block; width: 100%; }
 /* BS3 buttons; P137 2 matches; frontend/src/plugins/lmn_linbo4/PartitionDialog.vue:47; remove B4/C1. */ .btn-block + .btn-block { margin-top: 5px; }
 /* BS3 buttons; P137 2 matches; frontend/src/plugins/lmn_linbo4/PartitionDialog.vue:47; remove B4/C1. */ input[type="submit"].btn-block, input[type="reset"].btn-block, input[type="button"].btn-block { width: 100%; }
-/* BS3 modal; P137 6 matches; frontend/src/plugins/lmn_groupmembership/Details.vue:216; remove B1. */ .fade.in { opacity: 1; }
+/* BS3 modal; P137 6 matches; frontend/src/plugins/lmn_groupmembership/Details.vue:216; remove B4/D1. */ .fade.in { opacity: 1; }
 /* BS3 buttons; P137 20 matches; frontend/src/plugins/lmn_devices/Devices.vue:165; remove B4/C1. */ .caret { display: inline-block; width: 0; height: 0; margin-left: 2px; vertical-align: middle; border-top: 4px dashed; border-top: 4px solid \9; border-right: 4px solid transparent; border-left: 4px solid transparent; }
 /* BS3 navigation; P137 4 matches; frontend/src/plugins/lmn_linbo4/ImageDialog.vue:51; remove B2/B6. */ .dropup, .dropdown { position: relative; }
 /* BS3 navigation; P137 114 family matches; frontend/src/common/users/CheckResultsDialog.vue:28 (legacy structure/state); remove B2/B6. */ .dropdown-toggle:focus { outline: 0; }
@@ -651,24 +651,23 @@
 /* BS3 panels; P137 28 matches; frontend/src/common/users/CheckResultsDialog.vue:36; remove C1/C4. */ .panel-danger > .panel-heading .badge { color: #f2dede; background-color: #a94442; }
 /* BS3 panels; P137 19 matches; frontend/src/common/users/CheckResultsDialog.vue:37; remove C1/C4. */ .panel-danger > .panel-footer + .panel-collapse > .panel-body { border-bottom-color: #ebccd1; }
 /* BS3 panels; P137 214 family matches; frontend/src/common/FileBackupsDialog.vue:79 (legacy structure/state); remove C1/C4. */ .well-sm { padding: 9px; border-radius: 3px; }
-/* BS3 modal; P137 251 family matches; frontend/src/common/FileBackupsDialog.vue:75 (legacy structure/state); remove B1. */ .modal-open { overflow: hidden; }
-/* BS3 modal; P137 38 matches; frontend/src/common/users/UserDetails.vue:142; remove B1. */ .modal.in .modal-dialog { -webkit-transform: translate(0, 0); -ms-transform: translate(0, 0); -o-transform: translate(0, 0); transform: translate(0, 0); }
-/* BS3 modal; P137 17 matches; frontend/src/common/users/UserDetails.vue:142; remove B1. */ .modal-open .modal { overflow-x: hidden; overflow-y: auto; }
-/* BS3 modal; P137 18 matches; frontend/src/common/users/UserDetails.vue:142; remove B1. */ .modal-dialog { position: relative; width: auto; margin: 10px; }
-/* BS3 modal; P137 1 matches; frontend/src/shell/modal.mjs:9; remove B1. */ .modal-backdrop { position: fixed; top: 0; right: 0; bottom: 0; left: 0; z-index: 1040; background-color: #000; }
-/* BS3 modal; P137 65 matches; frontend/src/common/FileBackupsDialog.vue:75; remove B1. */ .modal-header .close { margin-top: -2px; }
-/* BS3 modal; P137 3 matches; frontend/src/common/FileDialog.vue:43; remove B1. */ .modal-title { margin: 0; line-height: 1.42857143; }
-/* BS3 modal; P137 61 matches; frontend/src/common/FileBackupsDialog.vue:76; remove B1. */ .modal-body { position: relative; padding: 15px; }
-/* BS3 modal; P137 63 matches; frontend/src/common/FileBackupsDialog.vue:86; remove B1. */ .modal-footer .btn-group .btn + .btn { margin-left: -1px; }
-/* BS3 modal; P137 65 matches; frontend/src/common/FileBackupsDialog.vue:86; remove B1. */ .modal-footer .btn-block + .btn-block { margin-left: 0; }
-/* BS3 modal; P137 251 family matches; frontend/src/common/FileBackupsDialog.vue:75 (legacy structure/state); remove B1. */ .modal-scrollbar-measure { position: absolute; top: -9999px; width: 50px; height: 50px; overflow: scroll; }
+/* BS3 modal; P137 251 family matches; frontend/src/common/FileBackupsDialog.vue:75 (legacy structure/state); remove B4/D1. */ .modal-open { overflow: hidden; }
+/* BS3 modal; P137 38 matches; frontend/src/common/users/UserDetails.vue:142; remove B4/D1. */ .modal.in .modal-dialog { -webkit-transform: translate(0, 0); -ms-transform: translate(0, 0); -o-transform: translate(0, 0); transform: translate(0, 0); }
+/* BS3 modal; P137 17 matches; frontend/src/common/users/UserDetails.vue:142; remove B4/D1. */ .modal-open .modal { overflow-x: hidden; overflow-y: auto; }
+/* BS3 modal; P137 18 matches; frontend/src/common/users/UserDetails.vue:142; remove B4/D1. */ .modal-dialog { position: relative; width: auto; margin: 10px; }
+/* BS3 modal; P137 1 matches; frontend/src/shell/modal.mjs:9; remove B4/D1. */ .modal-backdrop { position: fixed; top: 0; right: 0; bottom: 0; left: 0; z-index: 1040; background-color: #000; }
+/* BS3 modal; P137 65 matches; frontend/src/common/FileBackupsDialog.vue:75; remove B4/D1. */ .modal-header .close { margin-top: -2px; }
+/* BS3 modal; P137 3 matches; frontend/src/common/FileDialog.vue:43; remove B4/D1. */ .modal-title { margin: 0; line-height: 1.42857143; }
+/* BS3 modal; P137 61 matches; frontend/src/common/FileBackupsDialog.vue:76; remove B4/D1. */ .modal-body { position: relative; padding: 15px; }
+/* BS3 modal; P137 63 matches; frontend/src/common/FileBackupsDialog.vue:86; remove B4/D1. */ .modal-footer .btn-group .btn + .btn { margin-left: -1px; }
+/* BS3 modal; P137 65 matches; frontend/src/common/FileBackupsDialog.vue:86; remove B4/D1. */ .modal-footer .btn-block + .btn-block { margin-left: 0; }
 @media (min-width: 768px) {
-/* BS3 modal; P137 18 matches; frontend/src/common/users/UserDetails.vue:142; remove B1. */ .modal-dialog { width: 600px; margin: 30px auto; }
-/* BS3 modal; P137 251 family matches; frontend/src/common/FileBackupsDialog.vue:75 (legacy structure/state); remove B1. */ .modal-sm { width: 300px; }
+/* BS3 modal; P137 18 matches; frontend/src/common/users/UserDetails.vue:142; remove B4/D1. */ .modal-dialog { width: 600px; margin: 30px auto; }
+/* BS3 modal; P137 251 family matches; frontend/src/common/FileBackupsDialog.vue:75 (legacy structure/state); remove B4/D1. */ .modal-sm { width: 300px; }
 
 }
 @media (min-width: 992px) {
-/* BS3 modal; P137 2 matches; frontend/src/plugins/lmn_clients/Clients.vue:79; remove B1. */ .modal-lg { width: 900px; }
+/* BS3 modal; P137 2 matches; frontend/src/plugins/lmn_clients/Clients.vue:79; remove B4/D1. */ .modal-lg { width: 900px; }
 
 }
 /* BS3 helpers; P137 236 matches; frontend/src/common/FileBackupsDialog.vue:75; remove B2/D1. */ .clearfix:after, .dl-horizontal dd:after, .container:after, .container-fluid:after, .row:after, .form-horizontal .form-group:after, .btn-toolbar:after, .btn-group-vertical > .btn-group:after, .nav:after, .navbar:after, .navbar-header:after, .navbar-collapse:after, .pager:after, .panel-body:after, .modal-header:after, .modal-footer:after { clear: both; }
@@ -741,3 +740,10 @@
 /* BS3 helpers; P137 114 family matches; frontend/src/common/users/CheckResultsDialog.vue:47 (legacy structure/state); remove B2/D1. */ .visible-print-block { display: none !important; }
 /* BS3 helpers; P137 114 family matches; frontend/src/common/users/CheckResultsDialog.vue:47 (legacy structure/state); remove B2/D1. */ .visible-print-inline { display: none !important; }
 /* BS3 helpers; P137 114 family matches; frontend/src/common/users/CheckResultsDialog.vue:47 (legacy structure/state); remove B2/D1. */ .visible-print-inline-block { display: none !important; }
+
+/* P137 shell/modal.mjs backdrop/frame state; B1 .show replaces .in; Ajenti's later .fade override still needs its final position; remove D1. */
+.modal.fade.show .modal-dialog { transform: translate(0, 0); }
+/* P137 shell/modal.mjs backdrop (1 use); B1 .show keeps Ajenti's 50% opacity over its later .fade rule; remove D1. */
+.modal-backdrop.fade.show { opacity: 0.5; filter: alpha(opacity=50); }
+/* P137 shell/modal.mjs fade state; B1 .show must override Ajenti's later .fade opacity; remove D1. */
+.modal.fade.show { opacity: 1; }

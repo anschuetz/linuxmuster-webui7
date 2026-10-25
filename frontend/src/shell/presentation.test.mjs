@@ -30,6 +30,7 @@ it.each(['confirmation', 'prompt', 'error', 'progress'])('renders %s messageboxe
     expect(content.get('.modal-body').exists()).toBe(true);
     expect(content.get('.modal-footer').exists()).toBe(true);
     expect(w.get('.modal').attributes('aria-modal')).toBe('true');
+    expect(w.get('.modal').classes()).toContain('show');
     if (kind === 'progress') result.close();
     else await content.get('button.positive').trigger('click');
     await nextTick();
@@ -43,6 +44,7 @@ it('matches notify levels, supports click navigation and dismisses toasts, stick
         expect(w.exists()).toBe(true);
     }
     await nextTick();
+    expect(w.findAll('.toast').every(toast => toast.classes().includes('show'))).toBe(true);
     expect(w.findAll('.toast').map(x => x.attributes('class').match(/toast-(success|info|warning|error)/)[1]).reverse()).toEqual(old.toasts.map(x => x[0]));
     await vi.advanceTimersByTimeAsync(5000); expect(w.findAll('.toast')).toHaveLength(0);
     s.notify.info('Sticky', '<b>text</b>', { sticky: true, timeout: 10 });
@@ -200,4 +202,37 @@ it('provides the same aj/gettext to modal components, including reactive transla
     const result = s.modal.open(component); expect(document.querySelector('.modal button').textContent).toBe('Done');
     language.de = true; await nextTick(); expect(document.querySelector('.modal button').textContent).toBe('Fertig');
     document.querySelector('.modal button').click(); expect(await result).toBe('Demo School');
+});
+
+it('uses BS5 show states and restores nested focus while keeping the body locked', async () => {
+    const { services: s } = harness();
+    const trigger = document.createElement('button'); document.body.append(trigger); trigger.focus();
+    const first = s.modal.open(Dialog, { value: 17 }, { size: 'sm' });
+    const outer = document.querySelector('.modal');
+    expect(outer.matches('.show:not(.in)')).toBe(true);
+    expect(document.querySelector('.modal-backdrop').matches('.show:not(.in)')).toBe(true);
+    expect(document.activeElement).toBe(outer);
+    const opener = outer.querySelector('button'); opener.focus();
+    const second = s.modal.open(Dialog).catch(error => error);
+    const inner = document.querySelectorAll('.modal')[1];
+    expect(document.activeElement).toBe(inner);
+    expect(Number(document.querySelectorAll('.modal-backdrop')[1].style.zIndex)).toBeGreaterThan(2000);
+    outer.click(); await flushPromises();
+    expect(document.querySelectorAll('.modal')).toHaveLength(2);
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+    expect((await second).message).toBe('Modal cancelled');
+    expect(document.activeElement).toBe(opener);
+    expect(document.body.classList.contains('modal-open')).toBe(true);
+    opener.click(); await expect(first).resolves.toBe(17);
+    expect(document.activeElement).toBe(trigger);
+    expect(document.body.classList.contains('modal-open')).toBe(false);
+});
+it('keeps a pre-existing body lock and ignores a disabled backdrop', async () => {
+    const { services: s } = harness(); document.body.classList.add('modal-open');
+    const result = s.modal.open(Dialog, {}, { backdrop: false }).catch(error => error);
+    document.querySelector('.modal').click(); await flushPromises();
+    expect(document.querySelector('.modal')).not.toBeNull();
+    s.modal.dispose(); await result;
+    expect(document.body.classList.contains('modal-open')).toBe(true);
+    document.body.classList.remove('modal-open');
 });

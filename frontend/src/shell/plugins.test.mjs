@@ -73,6 +73,7 @@ describe('plugins fixture workflow', () => {
         const wrapper = mount(PluginsPage, { props: { owner: s.owner } });
         expect(wrapper.text()).toContain('Update everything');
         await wrapper.get('[data-plugin="demo"]').trigger('click'); expect(wrapper.get('[role="dialog"]').text()).toContain('Update');
+        expect(wrapper.get('[role="dialog"]').classes()).toContain('show');
         await wrapper.get('[data-action="close"]').trigger('click');
         await wrapper.get('[data-tab="community"]').trigger('click'); await wrapper.get('input').setValue('absent'); expect(wrapper.find('[data-repo="extra"]').exists()).toBe(false);
         await wrapper.get('input').setValue(' Extra '); expect(wrapper.find('[data-repo="extra"]').exists()).toBe(true);

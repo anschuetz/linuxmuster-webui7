@@ -37,7 +37,7 @@ export const PluginsPage = defineComponent({
             if (!plugin) return null;
             const close = () => { owner.state[installed ? 'selectedInstalledPlugin' : 'selectedRepoPlugin'] = null; };
             const fields = installed ? ['name', 'version', 'path', 'author', 'author_email'] : ['name', 'version', 'pypi_name', 'last_month_downloads', 'author', 'author_email'];
-            return h('section', { role: 'dialog', 'aria-modal': true, class: 'modal', style: { display: 'block' } }, [h('div', { class: 'modal-dialog' }, [
+            return h('section', { role: 'dialog', 'aria-modal': true, class: 'modal show', style: { display: 'block' } }, [h('div', { class: 'modal-dialog' }, [
                 h('div', { class: 'modal-content' }, [h('div', { class: 'modal-header' }, [h('h4', [installed && h('i', { class: `fa fa-${plugin.icon}` }), plugin.title])]),
                     h('div', { class: 'modal-body scrollable' }, [
                         ...fields.map(field => h('div', { class: 'form-group' }, [h('label', props.gettext(({ name: 'Name', version: 'Version', path: 'Location', author: 'Author', pypi_name: 'PyPI ID', last_month_downloads: 'Downloads in the last month' })[field] ?? '' )), h('div', String(plugin[field] ?? ''))])),

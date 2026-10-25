@@ -46,6 +46,7 @@ it('keeps the old grid breakpoint, open/fade states and native messagebox stacki
     const find = selector => rules.find(rule => rule.selector === selector);
     expect(find('.col-sm-6').parent.params).toBe('(min-width: 768px)');
     expect(find('.col-sm-6').nodes.some(n => n.prop === 'width' && n.value === '50%')).toBe(true);
+    expect(find('.modal-scrollbar-measure')).toBeUndefined();
     expect(find('.fade.in').nodes.some(n => n.prop === 'opacity' && n.value === '1')).toBe(true);
     expect(find('.modal.in .modal-dialog').nodes.some(n => n.prop === 'transform' && n.value === 'translate(0, 0)')).toBe(true);
     expect(find('.open > .dropdown-menu').nodes.some(n => n.prop === 'display' && n.value === 'block')).toBe(true);
