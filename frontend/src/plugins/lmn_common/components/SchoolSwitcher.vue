@@ -43,11 +43,11 @@ load();
         <i class="fa fa-info-circle"></i> <span>{{ aj.gettext('This is not a multi-school setup or you are not allowed to see another school!') }}</span>
     </div>
     <div v-show="aj.identity.user && aj.identity.profile.school_show" style="margin-top:10px;" class="flex-container info-cards">
-        <div class="panel panel-info" style="width:100%">
-            <div class="panel-heading" style="padding:10px;height:50px;">
+        <div class="card c1-card" style="width:100%">
+            <div class="card-header" style="padding:10px;height:50px;">
                 <span style="font-size:18px;line-height:28px;">{{ aj.gettext('Schoolswitcher') }}</span>
             </div>
-            <div class="panel-body">
+            <div class="card-body">
                 <ul class="list-group">
                     <li class="list-group-item" style="background-color: lightgreen;"><span style="font-weight: bold;">{{ aj.gettext('Current') }}</span>: {{ aj.identity.profile.activeSchool }} - {{ aj.identity.profile.schoolname }}</li>
                 </ul>
@@ -56,7 +56,7 @@ load();
                     <input v-model.trim="query" type="search" autofocus class="form-control" placeholder="Filter" typeahead-min-length="1">
                     <li v-for="school in shown" :key="school.school" class="list-group-item school-item" style="margin-top: 20px;" @click="switchSchool(school.school)">
                         {{ school.school }} - {{ school.schoolname }}
-                        <span class="pull-right"><i class="fa-solid fa-right-left"></i></span>
+                        <span class="float-end"><i class="fa-solid fa-right-left"></i></span>
                     </li>
                 </ul>
             </div>

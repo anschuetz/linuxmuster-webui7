@@ -96,14 +96,14 @@ it.each([['Multi', 'custommulti/1', 'value', 'Value added !'], ['Proxy', 'proxya
 it.each([['Multi', 'custommulti/1', 'value', 'first', 'Remove custom field value'], ['Proxy', 'proxyaddresses', 'address', 'smtp:first', 'Remove proxy address']])('removes %s after exact confirmation', async (name, path, key, value, title) => {
     const show = vi.fn().mockResolvedValue({}); const notify = vi.fn();
     const { w, http } = await setup(CustomFields, { messagebox: { show }, notify }, { fields: structuredClone(fields), user: profile });
-    await row(w, name).get('.label').trigger('click'); await flushPromises();
+    await row(w, name).get('.badge').trigger('click'); await flushPromises();
     expect(show.mock.calls).toEqual([[{ title, text: `Do you really want to remove ${value} ?`, positive: 'OK', negative: 'Cancel' }]]);
     expect(http.mock.calls.at(-1)[0]).toEqual({ method: 'patch', url: `/api/lmn/users/zem/${path}`, data: { [key]: value }, cfg: undefined });
     expect(row(w, name).text()).not.toContain(value); expect(notify.mock.calls).toEqual([['success', 'Value removed !', undefined]]);
 });
 it('cancelled removal keeps the value and sends no request as core messagebox.then rejects', async () => {
     const notify = vi.fn(); const { w, http } = await setup(CustomFields, { messagebox: { show: () => Promise.reject('cancel') }, notify }, { fields: structuredClone(fields), user: profile });
-    await row(w, 'Multi').get('.label').trigger('click'); await flushPromises(); expect(http.mock.calls).toEqual([]);
+    await row(w, 'Multi').get('.badge').trigger('click'); await flushPromises(); expect(http.mock.calls).toEqual([]);
     expect(row(w, 'Multi').text()).toBe('A Multifirstsecond'); expect(notify.mock.calls).toEqual([]);
 });
 it('prompt cancel does not write; rejected writes retain original error behavior', async () => {
@@ -117,7 +117,7 @@ it('prompt cancel does not write; rejected writes retain original error behavior
 });
 it('rejected remove preserves values; falsey add does not append', async () => {
     const { w } = await setup(CustomFields, { http: () => Promise.reject('failed') }, { fields: structuredClone(fields), user: profile });
-    await row(w, 'Multi').get('.label').trigger('click'); await flushPromises(); expect(row(w, 'Multi').text()).toBe('A Multifirstsecond');
+    await row(w, 'Multi').get('.badge').trigger('click'); await flushPromises(); expect(row(w, 'Multi').text()).toBe('A Multifirstsecond');
     await row(w, 'Multi').get('a').trigger('click'); await flushPromises(); expect(row(w, 'Multi').text()).toBe('A Multifirstsecond');
 });
 it('webdav loads QR and connection details and closes; failure leaves unset values', async () => {
@@ -193,7 +193,7 @@ it('retains both consecutive multi-value additions while HTTP replies are still 
 it('failed proxy removal reports the error and hides the address', async () => {
     const notify = vi.fn();
     const { w } = await setup(CustomFields, { notify, http: () => Promise.reject('failed') }, { fields: structuredClone(fields), user: profile });
-    await row(w, 'Proxy').get('.label').trigger('click'); await flushPromises();
+    await row(w, 'Proxy').get('.badge').trigger('click'); await flushPromises();
     expect(notify.mock.calls).toEqual([['error', 'Error, please verify the user and/or your values.', undefined]]);
     expect(row(w, 'Proxy').text()).toBe('C Proxy');
 });

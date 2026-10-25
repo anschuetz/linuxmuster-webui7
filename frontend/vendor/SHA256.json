@@ -406,7 +406,7 @@
   "../theme/compat-bs3.css": "e26670174a4f9bfda80b9ddbc429992b93ec5906f3ef549cd79b345ebb2be1b3",
   "../theme/compat-glyphicons.css": "8aa607dd9ca3896530aae2da9469637e801be0a83f72eaa7a5035edf06e96a62",
   "../theme/ajenti-bs5.css": "cb8f25399f9fdc777af9acc430957cbd846bddd00f8202dfd33b5e4a8ac4b260",
-  "../theme/compat-bs5.css": "bda2a5c61dff332dbd3a51fb2bda62287bbd738b9290ce72e4ae3aecf1423945",
-  "../theme/bs5-audit.md": "86007538271f73594370e8028d8640ae2224915688fb128a1d50da75e2550921",
+  "../theme/compat-bs5.css": "ac1cafdbf4066eaa13e66b4e4d22a122dc7d1f0a16b80f3de2d880bafa2f577f",
+  "../theme/bs5-audit.md": "40c573ffbdad9e9e474643daaa156fb2b5055737c98fc5fd2225d15ea9dd378f",
   "../theme/bs5-counterparts.tsv": "e3c162f0105fd6f929dd4bcbdf8794ebde742f0088389e8920eff059931126dc"
 }

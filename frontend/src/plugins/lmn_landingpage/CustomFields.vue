@@ -53,11 +53,11 @@ async function remove(field, value) {
     <div style="padding:0 20px"><br><h4>{{ aj.gettext('Properties') }}</h4>
         <div style="display:flex;align-items:flex-start"><table class="table"><tbody>
             <tr v-for="(custom, index) in sorted" :key="index"><td>{{ custom.title }}</td>
-                <td v-if="isListAttr(custom.attr)" style="display:inline-block"><span v-for="(value, i) in custom.value" :key="i" class="label label-info" style="display:inline-block" @click="custom.editable && remove(custom, value)">{{ value }}<i v-if="custom.editable" class="far fa-times-circle"></i></span></td>
+                <td v-if="isListAttr(custom.attr)" style="display:inline-block"><span v-for="(value, i) in custom.value" :key="i" class="badge c1-badge bg-info" style="display:inline-block" @click="custom.editable && remove(custom, value)">{{ value }}<i v-if="custom.editable" class="far fa-times-circle"></i></span></td>
                 <td v-else>{{ custom.value }}</td>
                 <td><a v-if="custom.editable" @click="edit(custom)"><i :class="isListAttr(custom.attr) ? 'fa fa-plus' : 'fa fa-pencil'"></i></a></td>
             </tr>
         </tbody></table></div>
-        <div class="modal-footer"><a class="btn btn-default btn-flat" @click="$emit('cancel')">{{ aj.gettext('Close') }}</a></div>
+        <div class="modal-footer"><a class="btn btn-light c1-button btn-flat" @click="$emit('cancel')">{{ aj.gettext('Close') }}</a></div>
     </div>
 </template>

@@ -405,3 +405,47 @@ body.global-color-teal .c4-tabs > .nav-item > .nav-link.active, body.global-colo
 .c4-button[disabled]:hover, .c4-button[disabled]:focus { background-color: #fff; border-color: #eee; }
 /* P137 lmn_permissions/Permissions.vue; C4 real API methods without permission_id retain the old empty-label suppression; D1. */
 .badge.c4-badge:empty { display: none; }
+
+/* P157 C1: scoped cards replace info-card panels. Common SCSS header/body values
+ * preserved here; shared legacy panel rules remain for C4/C8 and stock resources (D1). */
+/* P137 C1; P157 scoped counterpart, Landingpage/Links/SchoolSwitcher and dialogs; remove D1. */
+.c1-card { margin-bottom: 20px; background-color: #fff; border: 1px solid #eee; border-radius: 3px; box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05); position: static; display: block; min-width: auto; color: inherit; overflow-wrap: normal; }
+/* P137 C1; P157 scoped counterpart, Landingpage/Links/SchoolSwitcher and dialogs; remove D1. */
+.c1-card > .card-header { padding: 1px 15px; border-bottom: medium solid #f99e15; border-top-right-radius: 2px; border-top-left-radius: 2px; margin-bottom: 0; color: #fff; font-weight: bold; background-color: #233c4c; }
+/* P137 C1; P157 scoped counterpart, Landingpage/Links/SchoolSwitcher and dialogs; remove D1. */
+.c1-card > .card-body { padding: 20px; flex: none; color: inherit; }
+/* P137 C1; P157 scoped counterpart, Landingpage/Links/SchoolSwitcher and dialogs; remove D1. */
+.c1-card > .card-body::before, .c1-card > .card-body::after { content: ' '; display: table; }
+/* P137 C1; P157 scoped counterpart, Landingpage/Links/SchoolSwitcher and dialogs; remove D1. */
+.c1-card > .card-body::after { clear: both; }
+/* P137 C1; P157 scoped counterpart, Landingpage/Links/SchoolSwitcher and dialogs; remove D1. */
+.c1-card > .card-body > span { display: inline-block; width: 100px; }
+/* P141 D03: only landing cards expand below the original 768px breakpoint. */
+@media (max-width: 767px) { /* P137 C1; P141 D03 mobile landing width; retain after D1. */ .c1-landing > .c1-card { width: calc(100% - 20px); } }
+/* P137 C1; P157 scoped counterpart, Landingpage/Links/SchoolSwitcher and dialogs; remove D1. */
+.badge.c1-badge { display: inline; padding: 0.4em 0.6em 0.3em; font-size: 75%; font-weight: bold; line-height: 1; color: #fff; text-align: center; white-space: nowrap; vertical-align: baseline; border-radius: 0.25em; margin-right: 3px; min-width: 0; }
+/* P137 C1; P157 scoped counterpart, Landingpage/Links/SchoolSwitcher and dialogs; remove D1. */
+.badge.c1-badge:empty { display: none; }
+/* P137 C1; P157 scoped counterpart, Landingpage/Links/SchoolSwitcher and dialogs; remove D1. */
+.c1-badge.bg-info { --bs-info-rgb: 3, 169, 244; }
+/* P137 C1; P157 scoped counterpart, Landingpage/Links/SchoolSwitcher and dialogs; remove D1. */
+.c1-badge.bg-danger, .c1-progress.bg-danger { --bs-danger-rgb: 244, 67, 54; }
+/* P137 C1; P157 scoped counterpart, Landingpage/Links/SchoolSwitcher and dialogs; remove D1. */
+.c1-progress.bg-success { --bs-success-rgb: 76, 175, 80; }
+/* P137 C1; P157 scoped counterpart, Landingpage/Links/SchoolSwitcher and dialogs; remove D1. */
+.c1-progress.bg-warning { --bs-warning-rgb: 255, 193, 7; }
+/* Neutral controls use B3/B4 focus token, scoped to this package. */
+/* P137 C1; P157 scoped counterpart, Landingpage/Links/SchoolSwitcher and dialogs; remove D1. */
+.btn.c1-button { --bs-btn-focus-box-shadow: none; }
+/* P137 C1; P157 scoped counterpart, Landingpage/Links/SchoolSwitcher and dialogs; remove D1. */
+.c1-button { color: #333; background-color: #fff; border-color: #eee; }
+/* P137 C1; Links normal neutral border follows Ajenti .btn, scoped card counterpart; legacy removal D1. */
+.c1-card .c1-button { border-color: #eee; }
+/* P137 C1; P157 scoped counterpart, Landingpage/Links/SchoolSwitcher and dialogs; remove D1. */
+.c1-button:focus, .c1-button:focus-visible { color: #333; background-color: #e6e6e6; border-color: #aeaeae; }
+/* P137 C1; P157 scoped counterpart, Landingpage/Links/SchoolSwitcher and dialogs; remove D1. */
+.c1-button:hover, .c1-button:active { color: #333; background-color: #e6e6e6; border-color: #cfcfcf; }
+/* P137 C1; P157 scoped counterpart, Landingpage/Links/SchoolSwitcher and dialogs; remove D1. */
+.c1-button:active:hover, .c1-button:active:focus { color: #333; background-color: #d4d4d4; border-color: #aeaeae; }
+/* P137 C1; P157 scoped counterpart, Landingpage/Links/SchoolSwitcher and dialogs; remove D1. */
+.c1-button:disabled { color: inherit; background-color: transparent; border-color: currentColor; }
