@@ -82,7 +82,7 @@ onBeforeUnmount(() => {
             <div v-if="item.progress < 100" style="margin-top: 10px">
                 <span>{{ item.name }} ({{ item.progress }} %) </span>
                 <div class="progress">
-                    <div class="progress-bar progress-bar-warning" role="progressbar" :aria-label="item.name"
+                    <div class="progress-bar bg-warning common-file-progress" role="progressbar" :aria-label="item.name"
                          aria-valuemin="0" aria-valuemax="100" :aria-valuenow="item.progress"
                          :style="{ width: item.progress + '%' }" />
                 </div>

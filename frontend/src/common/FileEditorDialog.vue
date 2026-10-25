@@ -64,17 +64,17 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-    <div class="modal-header"><h4>{{ path }}</h4></div>
+    <div class="modal-header"><h4 class="modal-title common-file-title">{{ path }}</h4></div>
     <div class="modal-body">
         <p v-if="error" role="alert" class="alert alert-danger">{{ error }}</p>
-        <div data-drop class="well" @dragover.stop.prevent @drop.stop.prevent="drop">{{ aj.gettext('Drop a CSV file here to import') }}</div>
+        <div data-drop class="card common-file-drop" @dragover.stop.prevent @drop.stop.prevent="drop">{{ aj.gettext('Drop a CSV file here to import') }}</div>
         <div style="max-height: 70vh; overflow: auto">
             <CodeEditor v-model="content" :readonly="busy || !loaded" :aria-label="path" style="height: 55vh" />
         </div>
     </div>
     <div class="modal-footer">
-        <button class="btn btn-default" :disabled="busy || !loaded" @click="save">{{ aj.gettext('Save') }}</button>
-        <button class="btn btn-default" :disabled="busy || !loaded" @click="download">{{ aj.gettext('Download CSV') }}</button>
-        <button class="btn btn-default" @click="emit('cancel')">{{ aj.gettext('Cancel') }}</button>
+        <button class="btn btn-light common-file-button" :disabled="busy || !loaded" @click="save">{{ aj.gettext('Save') }}</button>
+        <button class="btn btn-light common-file-button" :disabled="busy || !loaded" @click="download">{{ aj.gettext('Download CSV') }}</button>
+        <button class="btn btn-light common-file-button" @click="emit('cancel')">{{ aj.gettext('Cancel') }}</button>
     </div>
 </template>

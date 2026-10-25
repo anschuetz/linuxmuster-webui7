@@ -26,8 +26,8 @@ it('uses legacy Flow options, browse/drop, progress and immutable listing comple
     expect(flow.assignDrop).toHaveBeenCalledWith(wrapper.get('.dragdroparea').element);
     flow.fire('filesSubmitted'); flow.fire('fileProgress'); await flushPromises();
     expect(wrapper.text()).toContain('synthetic.txt (50 %)');
-    expect(wrapper.get('[role=progressbar]').attributes('aria-valuenow')).toBe('50');
-    expect(wrapper.get('[role=progressbar]').classes()).toContain('progress-bar-warning');
+    expect(wrapper.get('[role=progressbar]').attributes()).toMatchObject({ 'aria-valuenow': '50', 'aria-valuemin': '0', 'aria-valuemax': '100', 'aria-label': 'synthetic.txt' });
+    expect(wrapper.get('[role=progressbar]').classes()).toContain('bg-warning');
     await wrapper.get('.dragdroparea').trigger('dragenter'); expect(wrapper.get('.dragdroparea').classes()).toContain('dragdroparea-enter');
     await wrapper.get('.dragdroparea').trigger('dragleave'); expect(wrapper.get('.dragdroparea').classes()).not.toContain('dragdroparea-enter');
     flow.fire('complete'); await flushPromises();

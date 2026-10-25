@@ -12,6 +12,7 @@ it('keeps a static translated spinner open on Escape/backdrop and cleans up on c
     expect(open).toHaveBeenCalledWith(expect.any(Object), {}, { backdrop: 'static', keyboard: false });
     expect(document.querySelector('.modal-header').textContent).toBe('translated:Working');
     expect(document.querySelector('.spinner')).not.toBeNull();
+    expect(document.querySelector('.modal-title')).not.toBeNull();
     document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
     document.querySelector('.modal').click();
     await nextTick();
@@ -28,6 +29,8 @@ it('keeps a static translated spinner open on Escape/backdrop and cleans up on c
 it('updates indeterminate progress from a percentage or value/max', async () => {
     const wait = openWait(createAj(), { status: 'Saving', style: 'progressbar' });
     expect(document.querySelector('.progress-bar').classList.contains('indeterminate')).toBe(true);
+    expect(document.querySelector('.progress-bar').classList.contains('bg-warning')).toBe(true);
+    expect(document.querySelector('.progress-bar').getAttribute('aria-label')).toBe('translated:Saving');
     wait.update({ value: 3, max: 4 });
     await nextTick();
     expect(document.querySelector('[role="progressbar"]').getAttribute('aria-valuenow')).toBe('75');

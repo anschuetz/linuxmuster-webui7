@@ -16,6 +16,6 @@ async function browse() {
 <template>
     <div class="input-group">
         <input v-model.trim="value" type="text" class="form-control" :required="required">
-        <span class="input-group-addon"><a role="button" tabindex="0" :aria-label="aj.gettext('Select path')" @click="browse" @keydown.enter.prevent="browse"><i class="fa fa-folder-open"></i></a></span>
+        <span class="input-group-text common-path-addon"><a role="button" tabindex="0" :aria-label="aj.gettext('Select path')" @click="browse" @keydown.enter.prevent="browse"><i class="fa fa-folder-open"></i></a></span>
     </div>
 </template>

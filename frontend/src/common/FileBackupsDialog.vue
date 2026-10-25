@@ -72,16 +72,16 @@ function remove(backup) {
 onBeforeUnmount(() => { disposed = true; });
 </script>
 <template>
-    <div class="modal-header"><h4>{{ aj.gettext('Backups') }} · {{ path }}</h4></div>
+    <div class="modal-header"><h4 class="modal-title common-file-title">{{ aj.gettext('Backups') }} · {{ path }}</h4></div>
     <div class="modal-body">
         <p v-if="error" role="alert" class="alert alert-danger">{{ error }}</p>
         <p v-if="!busy && !backups.length" class="alert alert-info">{{ aj.gettext('No backups available') }}</p>
         <div v-for="backup in backups" :key="backup.name" :data-backup="backup.name" class="list-group-item">
             <span>{{ backup.date.toLocaleString() }}</span>
-            <button class="btn btn-default" :disabled="busy" @click="diff(backup)">{{ aj.gettext('Show differences') }}</button>
-            <button class="btn btn-default" :disabled="busy" @click="restore(backup)">{{ aj.gettext('Restore') }}</button>
-            <button class="btn btn-default" :disabled="busy" @click="remove(backup)">{{ aj.gettext('Delete') }}</button>
+            <button class="btn btn-light common-file-button" :disabled="busy" @click="diff(backup)">{{ aj.gettext('Show differences') }}</button>
+            <button class="btn btn-light common-file-button" :disabled="busy" @click="restore(backup)">{{ aj.gettext('Restore') }}</button>
+            <button class="btn btn-light common-file-button" :disabled="busy" @click="remove(backup)">{{ aj.gettext('Delete') }}</button>
         </div>
     </div>
-    <div class="modal-footer"><button class="btn btn-default" @click="emit('cancel')">{{ aj.gettext('Close') }}</button></div>
+    <div class="modal-footer"><button class="btn btn-light common-file-button" @click="emit('cancel')">{{ aj.gettext('Close') }}</button></div>
 </template>

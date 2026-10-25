@@ -85,3 +85,109 @@
 /* BS3 flush list was an ordinary unbordered list container; P137 frontend/src/plugins/lmn_settings/GlobalEdulution.vue:10 (0 legacy flush inventory uses); remove C12/C5. */ .card:has(> .list-group-flush) > .list-group-flush { border: 0; border-radius: 0; }
 /* BS3 flush item retained complete 1px borders; P137 frontend/src/plugins/lmn_settings/GlobalEdulution.vue:11 (0 legacy flush inventory uses); remove C12/C5. */ .card:has(> .list-group-flush) > .list-group-flush > .list-group-item { border-width: 1px; }
 /* BS3 native domain field inherited gray text before Reboot; P137 frontend/src/plugins/lmn_settings/GlobalEdulution.vue:71 (native input, 0 legacy inventory classes); remove C12. */ .card:has(> .list-group-flush) input { color: inherit; }
+
+/* P154 B4: scoped BS5 common-file appearance; decision 1 preserves the Ajenti palette.
+ * Button declarations from ajenti-bs5.css (.btn-default), MIT/Ajenti provenance above.
+ * Legacy consumers retain their original selectors until B5/C/D1. */
+/* P137 common/FileDialog/FileEditorDialog.vue; P154 migrated B4 appearance; consolidate theme in D1. */
+.btn.common-file-button { color: #333; background-color: #fff; border-color: #eee; }
+/* P137 common/FileDialog/FileEditorDialog.vue; P154 migrated B4 appearance; consolidate theme in D1. */
+.btn.common-file-button:focus { color: #333; background-color: #e6e6e6; border-color: #aeaeae; }
+/* P137 common/FileDialog/FileEditorDialog.vue; P154 migrated B4 appearance; consolidate theme in D1. */
+.btn.common-file-button:hover, .btn.common-file-button:active { color: #333; background-color: #e6e6e6; border-color: #cfcfcf; }
+/* P137 common/FileDialog/FileEditorDialog.vue; P154 migrated B4 appearance; consolidate theme in D1. */
+.btn.common-file-button:active:hover, .btn.common-file-button:active:focus { color: #333; background-color: #d4d4d4; border-color: #aeaeae; }
+/* P137 common/FileEditorDialog.vue; P154 migrated B4 appearance; consolidate theme in D1. */
+.common-file-drop { position: static; display: block; min-width: auto; color: inherit; overflow-wrap: normal; min-height: 20px; padding: 19px; margin-bottom: 20px; background-color: #f5f5f5; border: 1px solid #e3e3e3; border-radius: 3px; box-shadow: inset 0 1px 1px rgba(0,0,0,.05); }
+/* P137 common/FileBackupsDialog.vue/wait.mjs; P154 migrated B4 appearance; consolidate theme in D1. */
+.common-file-title { margin: 10px 0; line-height: 1.1; }
+/* P137 common/PathSelector.vue; P154 migrated B4 appearance; consolidate theme in D1. */
+.input-group-text.common-path-addon { display: table-cell; width: 1%; white-space: nowrap; vertical-align: middle; padding: 6px 12px; font-size: 14px; font-weight: normal; line-height: 1; color: #555555; text-align: center; border: 1px solid transparent; border-bottom-color: #ddd; border-radius: 0; box-shadow: none; background: #f8f8f8; }
+/* P137 common/PathSelector.vue; P154 migrated B4 appearance; consolidate theme in D1. */
+.common-path-addon a i { color: #666; }
+/* P137 common/PathSelector.vue; P154 migrated B4 appearance; consolidate theme in D1. */
+.form-control:focus + .common-path-addon { border-color: transparent; border-bottom-color: #2196F3; background: white; }
+/* P137 common/PathSelector.vue; P154 migrated B4 appearance; consolidate theme in D1. */
+.form-control:focus + .common-path-addon a i { color: #2196F3; }
+/* P137 common/PathSelector.vue; existing Ajenti color variant, migrated B4; consolidate D1. */
+body.global-color-red .form-control:focus + .common-path-addon {
+  border-bottom-color: #e94c41;
+}
+/* P137 common/PathSelector.vue; existing Ajenti color variant, migrated B4; consolidate D1. */
+body.global-color-red .form-control:focus + .common-path-addon a i {
+  color: #e94c41;
+}
+/* P137 common/PathSelector.vue; existing Ajenti color variant, migrated B4; consolidate D1. */
+body.global-color-bluegrey .form-control:focus + .common-path-addon {
+  border-bottom-color: #6c797f;
+}
+/* P137 common/PathSelector.vue; existing Ajenti color variant, migrated B4; consolidate D1. */
+body.global-color-bluegrey .form-control:focus + .common-path-addon a i {
+  color: #6c797f;
+}
+/* P137 common/PathSelector.vue; existing Ajenti color variant, migrated B4; consolidate D1. */
+body.global-color-purple .form-control:focus + .common-path-addon {
+  border-bottom-color: #9432a5;
+}
+/* P137 common/PathSelector.vue; existing Ajenti color variant, migrated B4; consolidate D1. */
+body.global-color-purple .form-control:focus + .common-path-addon a i {
+  color: #9432a5;
+}
+/* P137 common/PathSelector.vue; existing Ajenti color variant, migrated B4; consolidate D1. */
+body.global-color-blue .form-control:focus + .common-path-addon {
+  border-bottom-color: #2d95e7;
+}
+/* P137 common/PathSelector.vue; existing Ajenti color variant, migrated B4; consolidate D1. */
+body.global-color-blue .form-control:focus + .common-path-addon a i {
+  color: #2d95e7;
+}
+/* P137 common/PathSelector.vue; existing Ajenti color variant, migrated B4; consolidate D1. */
+body.global-color-green .form-control:focus + .common-path-addon {
+  border-bottom-color: #59a25c;
+}
+/* P137 common/PathSelector.vue; existing Ajenti color variant, migrated B4; consolidate D1. */
+body.global-color-green .form-control:focus + .common-path-addon a i {
+  color: #59a25c;
+}
+/* P137 common/PathSelector.vue; existing Ajenti color variant, migrated B4; consolidate D1. */
+body.global-color-deeporange .form-control:focus + .common-path-addon {
+  border-bottom-color: #f45d2d;
+}
+/* P137 common/PathSelector.vue; existing Ajenti color variant, migrated B4; consolidate D1. */
+body.global-color-deeporange .form-control:focus + .common-path-addon a i {
+  color: #f45d2d;
+}
+/* P137 common/PathSelector.vue; existing Ajenti color variant, migrated B4; consolidate D1. */
+body.global-color-orange .form-control:focus + .common-path-addon {
+  border-bottom-color: #f2960d;
+}
+/* P137 common/PathSelector.vue; existing Ajenti color variant, migrated B4; consolidate D1. */
+body.global-color-orange .form-control:focus + .common-path-addon a i {
+  color: #f2960d;
+}
+/* P137 common/PathSelector.vue; existing Ajenti color variant, migrated B4; consolidate D1. */
+body.global-color-teal .form-control:focus + .common-path-addon {
+  border-bottom-color: #088f82;
+}
+/* P137 common/PathSelector.vue; existing Ajenti color variant, migrated B4; consolidate D1. */
+body.global-color-teal .form-control:focus + .common-path-addon a i {
+  color: #088f82;
+}
+/* Same Common-SCSS customized focus palette, restricted to the migrated addon. */
+/* P137 common/PathSelector.vue; P154 migrated B4 appearance; consolidate theme in D1. */
+html body.customized .form-control:focus + .common-path-addon { border-bottom-color: #233c4c; }
+/* P137 common/PathSelector.vue; P154 migrated B4 appearance; consolidate theme in D1. */
+html body.customized .form-control:focus + .common-path-addon a i { color: #233c4c; }
+/* P137 common/FlowUpload.vue/wait.mjs; P154 migrated B4 appearance; consolidate theme in D1. */
+.progress-bar.common-file-progress { --bs-warning-rgb: 255, 193, 7; background-color: #ffc107; }
+/* P137 common/LmLog.vue; P154 migrated B4 appearance; consolidate theme in D1. */
+.common-log-options { margin-bottom: 30px; }
+/* BS5 disabled defaults previously had no contextual variables on .btn-default. */
+/* P137 common/FileDialog/FileEditorDialog.vue; P154 migrated B4 appearance; consolidate theme in D1. */
+.btn.common-file-button:disabled { color: inherit; background-color: transparent; border-color: currentColor; }
+/* P137 common/PathSelector.vue; P154 migrated B4 appearance; consolidate theme in D1. */
+.input-group-text.common-path-addon:last-child { border-left: 0; }
+/* P137 common/FileDialog.vue; BS5 actionable-list hover/focus keeps Ajenti colors, B4; consolidate D1. */
+.file-open-dialog .list-group-item-action:hover, .file-open-dialog .list-group-item-action:focus { color: #666; background-color: #f5f5f5; }
+/* P137 common/FileEditorDialog.vue; BS5 focus-visible shadow was absent on legacy buttons, B4; consolidate D1. */
+.btn.common-file-button:focus-visible { color: #333; background-color: #e6e6e6; border-color: #aeaeae; box-shadow: none; }

@@ -18,12 +18,12 @@ export function openWait(aj, { status = '', style = 'spinner' } = {}) {
             return () => {
                 const progress = state.value.progress;
                 return [
-                    h('div', { class: 'modal-header' }, [h('h4', aj.gettext(status))]),
+                    h('div', { class: 'modal-header' }, [h('h4', { class: 'modal-title common-file-title' }, aj.gettext(status))]),
                     h('div', { class: 'modal-body' }, [style === 'progressbar'
                         ? h('div', { class: 'progress', style: { height: '10px' } }, [
                             h('div', {
-                                class: ['progress-bar progress-bar-warning', { indeterminate: progress === null }],
-                                role: 'progressbar', 'aria-valuemin': 0, 'aria-valuemax': 100,
+                                class: ['progress-bar bg-warning common-file-progress', { indeterminate: progress === null }],
+                                role: 'progressbar', 'aria-label': aj.gettext(status), 'aria-valuemin': 0, 'aria-valuemax': 100,
                                 'aria-valuenow': progress ?? undefined,
                                 style: { width: `${progress ?? 100}%` },
                             }),

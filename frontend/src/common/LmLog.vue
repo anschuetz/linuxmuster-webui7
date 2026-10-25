@@ -42,7 +42,7 @@ onUnmounted(() => {
 
 <template>
     <pre ref="log" style="max-height: 300px; overflow-y: scroll">{{ visibleContent }}</pre>
-    <div class="form-group">
+    <div class="common-log-options">
         <label>{{ aj.gettext('Options') }}</label><br>
         <label><input v-model="autoscroll" type="checkbox"> {{ aj.gettext('Autoscroll') }}</label>
     </div>
