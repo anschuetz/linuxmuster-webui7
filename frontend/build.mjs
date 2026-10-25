@@ -38,6 +38,12 @@ export async function discoverPluginBuilds(root = frontendRoot) {
     return builds.flat();
 }
 
+export function shellBuildConfig(root = frontendRoot) {
+    const output = resolve(root, '../usr/lib/linuxmuster-webui/plugins/lmn_common/resources/vue');
+    return { define: { 'process.env.NODE_ENV': JSON.stringify('production') },
+        build: bundle(join(root, 'src/shell/runtime.mjs'), output, 'LmnVueShell', 'shell.js') };
+}
+
 async function buildAll() {
     const commonOutput = resolve(frontendRoot, '../usr/lib/linuxmuster-webui/plugins/lmn_common/resources/vue');
     await buildStaticAssets(frontendRoot, commonOutput);
@@ -45,7 +51,7 @@ async function buildAll() {
         await build({ build: pluginBuild });
     }
     await build({ build: bundle(join(frontendRoot, 'src/shell/startup-entry.mjs'), commonOutput, 'LmnShellStartup', 'startup.js') });
-    await build({ define: { 'process.env.NODE_ENV': JSON.stringify('production') }, build: bundle(join(frontendRoot, 'src/shell/runtime.mjs'), commonOutput, 'LmnVueShell', 'shell.js') });
+    await build(shellBuildConfig());
     const pluginBuilds = await discoverPluginBuilds();
     const directories = pluginBuilds.map(b => b.lib.fileName().slice(0, -3)).sort();
     await copyFile(resolve(commonOutput, '../../..', 'lmn_device-manager/resources/vue/lmn_device-manager.js'), join(commonOutput, 'lmn_device-manager.js'));

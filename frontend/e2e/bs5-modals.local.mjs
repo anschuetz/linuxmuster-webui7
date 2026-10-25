@@ -16,7 +16,7 @@ const after = await buildStyles(frontend);
 const shell = await readFile(new URL('../test-fixtures/bs5-compat.html', import.meta.url), 'utf8');
 const auth = await readFile(new URL('../test-fixtures/bs5-auth.html', import.meta.url), 'utf8');
 const native = shell.replace('<div class="modal fade in" style="display:block"', '<dialog open class="messagebox" data-check="messagebox"><div class="modal" style="display:block"').replace('</body>', '</dialog></body>');
-const scenes = [['page', shell.slice(0, shell.indexOf('<!-- shell/modal.mjs')) + '</body></html>'], ['shell', shell], ['messagebox', native], ['login', auth], ['large-modal', shell.replace('class="modal-dialog"', 'class="modal-dialog modal-lg"')], ['small-modal', shell.replace('class="modal-dialog"', 'class="modal-dialog modal-sm"')]];
+const scenes = process.argv.includes('--stack-only') ? [] : [['page', shell.slice(0, shell.indexOf('<!-- shell/modal.mjs')) + '</body></html>'], ['shell', shell], ['messagebox', native], ['login', auth], ['large-modal', shell.replace('class="modal-dialog"', 'class="modal-dialog modal-lg"')], ['small-modal', shell.replace('class="modal-dialog"', 'class="modal-dialog modal-sm"')]];
 const properties = ['display', 'position', 'top', 'right', 'bottom', 'left', 'float', 'width', 'height', 'padding', 'margin', 'font-size', 'font-family', 'font-weight', 'line-height', 'color', 'background-color', 'border-width', 'border-color', 'border-radius', 'box-shadow', 'text-align', 'vertical-align', 'opacity', 'transform', 'z-index', 'overflow'];
 const browser = await chromium.launch({ headless: true });
 const differences = [];
@@ -75,6 +75,35 @@ try {
     await page.waitForFunction(() => !document.querySelector('.modal'));
     assert.equal(await page.locator('#trigger').evaluate(el => el === document.activeElement), true);
     assert.equal(await page.evaluate(() => document.body.classList.contains('modal-open')), false);
+    const stackEvidence = [];
+    for (const depth of [2, 476]) {
+        await page.evaluate(() => window.modalFixture.dispose());
+        await page.setContent('<button id="trigger">Open</button>');
+        await page.addStyleTag({ content: after });
+        await page.addScriptTag({ content: (Array.isArray(bundle) ? bundle[0] : bundle).output[0].code });
+        await page.evaluate(depth => { for (let i = 0; i < depth; i++) window.modalFixture.open({}); }, depth);
+        assert.equal(await page.locator('.modal').last().evaluate(el => el === document.activeElement), true);
+        await page.evaluate(() => { window.modalFixture.message(); });
+        await page.locator('dialog.messagebox .positive').focus();
+        const evidence = await page.locator('dialog.messagebox .positive').evaluate(button => {
+            const r = button.getBoundingClientRect();
+            return { hit: document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2) === button,
+                layers: [...document.querySelectorAll('.modal')].filter(el => !el.closest('dialog')).map(el => Number(getComputedStyle(el).zIndex)) };
+        });
+        stackEvidence.push({ depth, ...evidence });
+        await writeFile(join(output, 'messagebox-stacks.json'), JSON.stringify(stackEvidence, null, 2) + '\n');
+        assert.equal(evidence.hit, true, `Native confirmation blocked at depth ${depth}`);
+        assert.equal(evidence.layers.every(level => level <= 1998), true);
+        await page.keyboard.press('Escape');
+        assert.equal(await page.locator('.modal').count(), depth + 1);
+        assert.equal(await page.locator('dialog.messagebox .positive').evaluate(el => el === document.activeElement), true);
+        await page.locator('dialog.messagebox .positive').click();
+        await page.waitForFunction(() => !document.querySelector('dialog.messagebox'));
+        await page.keyboard.press('Escape');
+        await page.waitForFunction(depth => document.querySelectorAll('.modal').length === depth - 1, depth);
+        assert.equal(await page.locator('.modal').last().evaluate(el => el === document.activeElement), true);
+    }
+    await page.evaluate(() => window.modalFixture.dispose());
 } finally { await browser.close(); }
 await writeFile(join(output, 'differences.json'), JSON.stringify(differences, null, 2) + '\n');
 console.log(`${differences.length} style differences; evidence ${output}/differences.json`);

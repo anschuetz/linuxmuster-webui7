@@ -108,8 +108,12 @@ Ajenti's later `.modal.fade .modal-dialog` / `.modal-backdrop.fade` otherwise ov
 No Bootstrap JavaScript, additional close control or rem-sized control is introduced.
 Scrollbar policy remains unchanged: Vue adds/removes `body.modal-open`, preserving a pre-existing lock;
 there is no scrollbar measurement or body padding compensation. The unused `.modal-scrollbar-measure` rule was removed after a source/resources search (zero consumers). The viewport's scrollbar disappears while locked.
-Nested frames/backdrops receive explicit levels above the existing 2000 modal layer; the first pair keeps A2 geometry.
+Nested service frames/backdrops start above 1050 and are clamped to 1998/1997, below native messageboxes at 2000; the first pair keeps A2 geometry. Two deliberate B1 interaction refinements: Escape does not cancel a service frame while an open native messagebox is above it; backdrop cancellation also checks `isTop()`, matching the upper full-screen frame's pointer interception (P151/CHAT 284–285).
 Legacy `.in`, header/footer/body/size rules remain for Common/plugin consumers (B4/B5/C/D1);
 see `frontend/src/common/users/UserDetails.vue`, `common/FileDialog.vue`, `plugins/lmn_groupmembership/Details.vue`,
 `plugins/lmn_clients/Clients.vue`, and `usr/lib/linuxmuster-webui/plugins/lmn_common/resources/styles.scss`.
 Local proof: `node e2e/bs5-modals.local.mjs /ABS/LOG-DIR` compares 30 A2/BS5-state PNG pairs and exercises the actual service in Chromium.
+
+P151 review R: the old JavaScript check only compared generated paths to the Git index (plus pinned assets/metadata); it did not compile current sources.
+`check-built-resources.mjs` now additionally compiles the shell in memory with the shared production `shellBuildConfig` and requires byte equality with `shell.js`.
+A stale-artifact regression test exercises this check; plugin build conventions and output remain unchanged.

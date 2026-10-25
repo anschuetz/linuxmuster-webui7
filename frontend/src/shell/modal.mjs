@@ -2,12 +2,14 @@ import { createApp, h } from 'vue';
 
 let active = [];
 let hadModalOpen = false;
+// Keep service stacks below native messageboxes (dialog .modal: 2000).
+const serviceLayer = depth => Math.min(1050 + 2 * depth, 1998);
 
 const ModalFrame = {
     props: ['component', 'componentProps', 'options', 'depth', 'isTop'], emits: ['close', 'cancel'],
     setup(props, { emit }) {
-        return () => [h('div', { class: 'modal-backdrop fade show', style: props.depth ? { zIndex: 2001 + 2 * props.depth } : undefined }), h('div', {
-            class: 'modal fade show', role: 'dialog', 'aria-modal': 'true', tabindex: -1, style: { display: 'block', ...(props.depth ? { zIndex: 2002 + 2 * props.depth } : {}) },
+        return () => [h('div', { class: 'modal-backdrop fade show', style: props.depth ? { zIndex: serviceLayer(props.depth) - 1 } : undefined }), h('div', {
+            class: 'modal fade show', role: 'dialog', 'aria-modal': 'true', tabindex: -1, style: { display: 'block', ...(props.depth ? { zIndex: serviceLayer(props.depth) } : {}) },
             onClick: event => { if (props.isTop() && (props.options.backdrop ?? true) === true && event.target === event.currentTarget) emit('cancel'); },
         }, [h('div', { class: ['modal-dialog', { [`modal-${props.options.size}`]: ['sm', 'lg'].includes(props.options.size) }], role: 'document' }, [
             h('div', { class: 'modal-content' }, [h(props.component, {
@@ -40,7 +42,7 @@ export function createModalService(getAj) {
             }
             const cancel = () => finish(false, new Error('Modal cancelled'));
             const onKey = event => {
-                if (event.key === 'Escape' && active.at(-1) === host) {
+                if (event.key === 'Escape' && active.at(-1) === host && !document.querySelector('dialog.messagebox[open]')) {
                     event.preventDefault();
                     if (options.keyboard !== false) cancel();
                 }

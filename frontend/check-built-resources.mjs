@@ -9,3 +9,6 @@ assert.deepEqual(generated, [], 'Vue assets differ from the index; rebuild and s
 
 // Also reject a staged stylesheet from the archived BS3 pipeline or stale CSS inputs.
 await import('./check-core-css.mjs');
+
+// Compare JavaScript to its current sources, not only to the staged artifact.
+await (await import('./check-shell-bundle.mjs')).verifyShellBundle();

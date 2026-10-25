@@ -216,7 +216,7 @@ it('uses BS5 show states and restores nested focus while keeping the body locked
     const second = s.modal.open(Dialog).catch(error => error);
     const inner = document.querySelectorAll('.modal')[1];
     expect(document.activeElement).toBe(inner);
-    expect(Number(document.querySelectorAll('.modal-backdrop')[1].style.zIndex)).toBeGreaterThan(2000);
+    expect(Number(document.querySelectorAll('.modal-backdrop')[1].style.zIndex)).toBeGreaterThan(1050);
     outer.click(); await flushPromises();
     expect(document.querySelectorAll('.modal')).toHaveLength(2);
     document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
@@ -235,4 +235,24 @@ it('keeps a pre-existing body lock and ignores a disabled backdrop', async () =>
     s.modal.dispose(); await result;
     expect(document.body.classList.contains('modal-open')).toBe(true);
     document.body.classList.remove('modal-open');
+});
+
+it('keeps deep service stacks below a native messagebox and leaves its focus and Escape untouched', async () => {
+    for (const depth of [2, 476]) {
+        const { services: s, wrapper: w } = harness();
+        const pending = Array.from({ length: depth }, () => s.modal.open(Dialog).catch(error => error));
+        const frames = [...document.querySelectorAll('.modal')];
+        expect(frames).toHaveLength(depth);
+        expect(frames.slice(1).every(frame => Number(frame.style.zIndex) > 1050 && Number(frame.style.zIndex) <= 1998)).toBe(true);
+        expect([...document.querySelectorAll('.modal-backdrop')].every(frame => Number(frame.style.zIndex) <= 1998)).toBe(true);
+        const message = s.messagebox.show({ title: 'Confirm', positive: 'Confirm', negative: 'Cancel' });
+        await nextTick();
+        const confirm = w.get('dialog.messagebox .positive').element; confirm.focus();
+        document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' })); await flushPromises();
+        expect(document.querySelectorAll('.modal')).toHaveLength(depth + 1);
+        expect(document.activeElement).toBe(confirm);
+        confirm.click(); await message; await nextTick();
+        expect(document.querySelectorAll('.modal')).toHaveLength(depth);
+        w.unmount(); await Promise.all(pending);
+    }
 });
