@@ -12,7 +12,7 @@ const admin = settings.roles.find((r) => r.name === 'global-admin');
 const teacher = settings.roles.find((r) => r.name === 'teacher');
 const roles = [admin, { name: 'school-admin', login: 'pgmadmin', pw: admin.pw }, teacher, { name: 'student', login: 'serdarje', pw: admin.pw }];
 const change = (page) => page.getByRole('button', { name: /Passwort ändern/ });
-const fields = (page) => page.locator('.form-group:visible > input');
+const fields = (page) => page.locator('.auth-field:visible > input');
 const randomPassword = () => `Aj!7${randomBytes(12).toString('hex')}`;
 async function input(locator, value) {
     await locator.evaluate((element, text) => {
@@ -34,9 +34,9 @@ function listen(page) {
 }
 async function login(page, role) {
     await page.goto('/');
-    await input(page.locator('input[ng\\:model="username"]'), role.login);
-    await input(page.locator('input[type="password"][ng\\:model="password"]'), role.pw);
-    await page.locator('a[ng\\:click^="login"]').click();
+    await input(page.locator('input[name=username]'), role.login);
+    await input(page.locator('input[name=password]'), role.pw);
+    await page.locator('button[type=submit]').click();
     await expect(page.locator('h2').filter({ hasText: /Linuxmuster\.net/i }).first()).toBeVisible();
 }
 async function open(page) {

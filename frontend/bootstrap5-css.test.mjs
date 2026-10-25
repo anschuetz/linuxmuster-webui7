@@ -43,7 +43,7 @@ it('keeps the old grid breakpoint, open/fade states and native messagebox stacki
     expect(find('dialog.messagebox').nodes.some(n => n.prop === 'z-index' && n.value === 'auto')).toBe(true);
 });
 
-it('retains every post-Reboot Ajenti rule unchanged and accounts for all 368 A1 counterparts', async () => {
+it('retains the Ajenti theme except measured dead F46 tab colors and unused Glyphicons and accounts for A1 counterparts', async () => {
     const original = normalizedRules(await read('theme/ajenti.css'));
     const start = original.findIndex(rule => rule[1] === 'body');
     const theme = normalizedRules(await read('theme/ajenti-bs5.css'));
@@ -54,7 +54,13 @@ it('retains every post-Reboot Ajenti rule unchanged and accounts for all 368 A1 
     const auth = theme.filter(rule => authSelectors.has(rule[1]));
     expect(auth.map(rule => rule[1])).toEqual([...authSelectors]);
     expect(auth.every(rule => rule[0].length === 0)).toBe(true);
-    expect(theme.filter(rule => !authSelectors.has(rule[1]))).toEqual(original.slice(start));
+    const deadTabColors = rule => /body\.global-color-[\w-]+.*\.nav-tabs\s*>\s*li\.active\s*>\s*a/.test(rule[1]);
+    expect(original.slice(start).filter(deadTabColors)).toHaveLength(8);
+    const expected = original.slice(start).filter(rule => !deadTabColors(rule)).flatMap(([context, selector, body]) => {
+        const retained = postcss.list.comma(selector).filter(value => !/\.glyphicon(?:\b|-)/.test(value));
+        return retained.length ? [[context, retained.join(','), body]] : [];
+    });
+    expect(theme.filter(rule => !authSelectors.has(rule[1]))).toEqual(expected);
     const modified = (await read('theme/core-selectors.tsv')).trim().split('\n').slice(1)
         .map(row => row.split('\t')).filter(row => row[5] === 'modified');
     const audit = (await read('theme/bs5-counterparts.tsv')).trim().split('\n').slice(1).map(row => row.split('\t'));

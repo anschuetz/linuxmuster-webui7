@@ -26,7 +26,7 @@ for (const name of ['before','after']) {
 }
 const browser=await chromium.launch({headless:true}), results=[];
 try {
-    for(const scene of ['plugins','details','details-focus','denied','tasks','message','message-focus']) for(const [width,height] of [[1440,900],[768,1024],[390,844]]) {
+    for(const scene of (process.argv.includes('--active-only')?['plugins-active','message-active']:['plugins','plugins-active','details','details-focus','denied','tasks','message','message-focus','message-active'])) for(const [width,height] of [[1440,900],[768,1024],[390,844]]) {
         const shots=[], states=[];
         for(const name of ['before','after']) {
             const page=await browser.newPage({viewport:{width,height}}); const errors=[];page.on('pageerror',e=>errors.push(e.message));
@@ -35,8 +35,10 @@ try {
             await page.addScriptTag({type:'module',content:bundles[name]});await page.waitForFunction(()=>window.fixture);
             await page.waitForTimeout(350);await page.mouse.move(width-1,height-1);
             if(scene.endsWith('-focus')) {await page.keyboard.press('Tab');await page.locator(scene==='details-focus'?'[data-action=close]':'.positive').focus();await page.waitForTimeout(350);}
+            if(scene.endsWith('-active')) {await page.locator(scene==='plugins-active'?'[data-plugin=fixture]':'.positive').hover();await page.mouse.down();await page.waitForTimeout(350);}
             shots.push(await page.screenshot({path:join(output,`${scene}-${width}-${name}.png`)}));
             states.push(await page.evaluate(()=>[...document.querySelectorAll('button,.modal-body > div,.progress-bar')].map(el=>{const r=el.getBoundingClientRect(),s=getComputedStyle(el);return {text:el.textContent,x:r.x,y:r.y,width:r.width,height:r.height,marginBottom:s.marginBottom,color:s.color,background:s.backgroundColor,outline:s.outline,boxShadow:s.boxShadow};})));
+            if(scene.endsWith('-active')) await page.mouse.up();
             if(scene.startsWith('message')) {await page.locator('.negative').click();assert.deepEqual(await page.evaluate(()=>window.answer),{id:1,positive:false});}
             assert.deepEqual(errors,[]);await page.evaluate(()=>window.fixture.dispose());await page.close();
         }

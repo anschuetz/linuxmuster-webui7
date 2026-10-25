@@ -19,5 +19,5 @@ it('C6 built CSS preserves neutral focus/active, badge emptiness, dropdown posit
         ['.c6-menu button.dropdown-item', 'background-color', 'transparent'],
         ['.btn.c6-button:where(:not(.btn-flat):not(.btn-lmn):not(.btn-lmn-danger-inv):not(.btn-lmn-success-inv))', 'color', '#333'],
         ['.c6-progress.bg-warning', '--bs-warning-rgb', '255, 193, 7'],
-    ]) expect(rules.findLast(r => r.selector === selector)?.nodes.some(n => n.prop === prop && n.value === value), selector).toBe(true);
+    ]) expect(rules.findLast(r => postcss.list.comma(selector).every(s => r.selectors.includes(s.trim())))?.nodes.some(n => n.prop === prop && n.value === value), selector).toBe(true);
 });

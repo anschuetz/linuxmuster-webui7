@@ -8,8 +8,8 @@ Copied without JavaScript wrappers from the P106 release archives:
 
 `SHA256.json` records these exact inputs. Upstream license notices are retained;
 Ajenti source is MIT (AJENTI-LICENSE, https://github.com/ajenti/ajenti/blob/master/LICENSE). Bootstrap/Ace/Flow and CSS licenses accompany
-the assets. npm builds copy Ace/Flow/fonts and concatenate CSS, relocating only
-Bootstrap's font URLs. No Angular JavaScript is included. Stock packages stay
+the assets. npm builds copy Ace/Flow and concatenate CSS. Retired Glyphicons fonts are
+not copied or shipped. No Angular JavaScript is included. Stock packages stay
 installed and unchanged; Fontawesome/PT Sans remain direct stock resources.
 
 ## P149: separate Bootstrap 3 and Ajenti theme inputs
@@ -70,7 +70,7 @@ with `npm pack bootstrap@5.3.8` (npm release 2025-08-26, older than two weeks on
 No Bootstrap JavaScript, Popper or jQuery is installed or bundled.
 
 Active order: `bootstrap5.css` (the only reset, BS5 Reboot),
-`core-vendor.css` (Toaster/loadingbar), `theme/compat-glyphicons.css`, `theme/compat-bs3.css`, `theme/compat-bs5.css`, `theme/ajenti-bs5.css`,
+`core-vendor.css` (Toaster/loadingbar), `theme/compat-bs3.css`, `theme/compat-bs5.css`, `theme/ajenti-bs5.css`,
 then Ace, dashboard and alphabetically sorted
 plugin SCSS. The original A1 inputs above remain **evidence only**; neither
 `core.css` nor `bootstrap3.css` nor `theme/ajenti.css` is bundled.
@@ -78,11 +78,22 @@ The A1 manifest still reconstructs the unchanged original for provenance checks.
 `check-core-css.mjs` now checks archival equality and the active BS5 build separately.
 
 `ajenti-bs5.css` retains the A1 theme after its initial Normalize/print prelude;
-all remaining declarations stay unchanged. `theme/bs5-audit.md` and `theme/bs5-counterparts.tsv` record the A2
+all remaining declarations stay unchanged except the eight dead global-color
+tab rules removed after the P174 customized-state comparison. `theme/bs5-audit.md` and `theme/bs5-counterparts.tsv` record the A2
 disposition of all 368 entries in `core-audit.md`. The temporary compatibility rules restore old DOM
-contracts until B/C port those structures. Every rule has P137 usage evidence
-and a removal owner; Glyphicons has zero static uses but its font/mappings remain
-by the A2 contract until D1. This is not a second reset or a full BS3 sheet:
+contracts until B/C port those structures. The remaining compatibility rules retain their P137 evidence and removal owner.
+P174 removes the unused Glyphicons mappings and all five fonts, including stale
+incremental output. `bootstrap3.css`, `core.css` and `BOOTSTRAP-LICENSE` remain
+archival reconstruction inputs; the license also covers the remaining BS3
+compatibility declarations. They are not a second active Bootstrap pipeline. This is not a second reset or a full BS3 sheet:
 carousel, tooltip, popover, jumbotron, media objects, pager/pagination,
 navbar-inverse/form and justified-navigation support are not copied.
 Font Awesome/v4-shims and PT Sans remain unchanged stock resources.
+
+
+P174 freshness check: `check-built-resources.mjs` imports `check-core-css.mjs`,
+which calls `verifyStyles()` from `check-styles.mjs`. It rebuilds all active CSS
+and plugin SCSS inputs, then compares their SHA-256 with the generated
+`styles.css`, independently of the Git index. The negative regression test
+removes C11 button rules from a copy and requires rejection. The existing
+`verifyShellBundle()` separately rebuilds and verifies the shell JavaScript.

@@ -184,7 +184,7 @@ test('pinned Bootstrap, Ace mode/worker and standalone Flow are served by the ne
         ace.config.set('basePath', '/resources/lmn_common/resources/vue/assets/ace');
         window.assetEditor = ace.edit(host);
         assetEditor.session.setMode('ace/mode/javascript'); assetEditor.setValue('const fixture = 1;');
-        const button = document.createElement('button'); button.id = 'asset-button'; button.className = 'btn btn-default'; document.body.append(button);
+        const button = document.createElement('button'); button.id = 'asset-button'; button.className = 'btn btn-light shell-stock-button'; document.body.append(button);
     });
     await expect.poll(() => responses.some(([url, status]) => url.endsWith('/mode-javascript.js') && status === 200)).toBe(true);
     await expect.poll(() => responses.some(([url, status]) => url.endsWith('/worker-javascript.js') && status === 200)).toBe(true);

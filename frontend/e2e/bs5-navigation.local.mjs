@@ -18,7 +18,7 @@ const entry = `import { createApp, h } from 'vue';
 import { ShellNavigation } from 'fixture-navigation';
 import { createNavigation } from '${frontend}/src/shell/navigation.mjs';
 const options = window.fixtureOptions;
-const aj = { identity: { user: options.auth ? null : 'fixture', isSuperuser: true, profile: { school_show: true, activeSchool: 'Standard-Schule' } },
+const aj = { identity: { user: options.auth ? null : 'fixture', isSuperuser: !options.regular, profile: { school_show: true, activeSchool: 'Standard-Schule' } },
     state: { pageTitle: 'Hauptseite' }, gettext: text => text === 'School Console' ? (options.long ? 'Schulkonsole mit einem langen Schulnamen' : 'Schulkonsole') : text,
     http: { get: async () => ({ data: { sidebar: { children: [{ name: 'Allgemein', children: [{ name: 'Hauptseite', url: '/view/lmn/landingpage', icon: 'fas fa-home', children: [] }] }] } } }) } };
 const nav = createNavigation({ aj, storage: { isWidescreen: options.wide }, navigate: value => { window.lastRoute = value; }, logout: () => { window.loggedOut = true; },
@@ -37,7 +37,7 @@ for (const name of ['before', 'after']) {
 }
 const browser = await chromium.launch({ headless: true, args: ['--disable-lcd-text', '--disable-gpu'] }), results = [];
 try {
-    for (const scene of (process.argv.includes('--mobile-only') ? ['mobile'] : ['page', 'profile', 'mobile', 'long', 'login', 'wide', 'zoom200'])) {
+    for (const scene of (process.argv.includes('--active-only') ? ['profile-active','profile-user-active'] : process.argv.includes('--mobile-only') ? ['mobile'] : ['page', 'profile', 'profile-active', 'profile-user-active', 'mobile', 'long', 'login', 'wide', 'zoom200'])) {
         for (const width of scene === 'zoom200' ? [720] : [1440, 768, 576, 390]) {
             const shots = [], states = [];
             for (const name of ['before', 'after']) {
@@ -45,7 +45,7 @@ try {
             await page.route('**/*', route => route.abort());
                 await page.setContent('<!doctype html><html><head></head><body></body></html>');
                 await page.addStyleTag({ content: css[name] });
-                await page.evaluate(options => { window.fixtureOptions = options; }, { auth: scene === 'login', wide: scene === 'wide', long: scene === 'long' || scene === 'login' });
+                await page.evaluate(options => { window.fixtureOptions = options; }, { auth: scene === 'login', wide: scene === 'wide', long: scene === 'long' || scene === 'login', regular: scene === 'profile-user-active' });
                 await page.addScriptTag({ type: 'module', content: bundles[name] });
                 await page.waitForFunction(() => document.querySelector('.shell-content'));
                 await page.waitForTimeout(100);
@@ -55,10 +55,12 @@ try {
                 // Common neutral pointer/focus for comparison; focus behavior is tested below.
                 await page.evaluate(() => document.activeElement?.blur());
                 await page.mouse.move(width - 1, 800);
+                if(scene==='profile-active'||scene==='profile-user-active'){await page.locator('.profile-button').hover();await page.mouse.down();await page.waitForTimeout(350);}
                 shots.push(await page.screenshot({ path: join(output, `${scene}-${width}-${name}.png`) }));
                 states.push(await page.evaluate(() => {
                     const rect = selector => { const r = document.querySelector(selector)?.getBoundingClientRect(); return r ? { x: r.x, y: r.y, height: r.height, bottom: r.bottom } : null; };
-                    return { navbar: rect('nav'), heading: rect('.shell-content h2'), auth: rect('.auth-page'), card: rect('.auth-card'),
+                    const profile=document.querySelector('.profile-button'), appearance=profile?getComputedStyle(profile):null;
+                    return { profile: appearance && {background:appearance.backgroundColor,color:appearance.color,border:appearance.borderColor}, navbar: rect('nav'), heading: rect('.shell-content h2'), auth: rect('.auth-page'), card: rect('.auth-card'),
                         offset: getComputedStyle(document.querySelector('.shell-content')).paddingTop,
                         sidebarOffset: getComputedStyle(document.querySelector('.overlay-sidebar')).paddingTop,
                         variable: getComputedStyle(document.documentElement).getPropertyValue('--shell-header-height').trim() };

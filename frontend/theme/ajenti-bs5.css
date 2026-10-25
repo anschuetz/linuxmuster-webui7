@@ -2364,9 +2364,7 @@ button.close {
   filter: alpha(opacity=90);
 }
 .carousel-control .icon-prev,
-.carousel-control .icon-next,
-.carousel-control .glyphicon-chevron-left,
-.carousel-control .glyphicon-chevron-right {
+.carousel-control .icon-next {
   position: absolute;
   top: 50%;
   margin-top: -10px;
@@ -2830,27 +2828,6 @@ hr {
 }
 .no-padding > .tab-content {
   padding: 0;
-}
-.glyphicon {
-  display: inline-block;
-  font-family: FontAwesome;
-  font-style: normal;
-  font-weight: normal;
-  line-height: 1;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-.glyphicon-chevron-left:before {
-  content: "\f053";
-}
-.glyphicon-chevron-right:before {
-  content: "\f054";
-}
-.glyphicon-chevron-up:before {
-  content: "\f077";
-}
-.glyphicon-chevron-down:before {
-  content: "\f078";
 }
 .timepicker tbody tr:first-child {
   display: none;
@@ -3572,11 +3549,6 @@ body.global-color-red progress-spinner .one {
   border-left-color: #e94c41;
   border-top-color: #e94c41;
 }
-body.global-color-red .nav-tabs > li.active > a,
-body.global-color-red .nav-tabs > li.active > a:hover {
-  border-bottom: 1px solid #e94c41;
-  color: #e94c41;
-}
 body.global-color-bluegrey #loading-bar .bar {
   background: #6c797f;
 }
@@ -3675,11 +3647,6 @@ body.global-color-bluegrey smart-progress .progress .progress-bar {
 body.global-color-bluegrey progress-spinner .one {
   border-left-color: #6c797f;
   border-top-color: #6c797f;
-}
-body.global-color-bluegrey .nav-tabs > li.active > a,
-body.global-color-bluegrey .nav-tabs > li.active > a:hover {
-  border-bottom: 1px solid #6c797f;
-  color: #6c797f;
 }
 body.global-color-purple #loading-bar .bar {
   background: #9432a5;
@@ -3780,11 +3747,6 @@ body.global-color-purple progress-spinner .one {
   border-left-color: #9432a5;
   border-top-color: #9432a5;
 }
-body.global-color-purple .nav-tabs > li.active > a,
-body.global-color-purple .nav-tabs > li.active > a:hover {
-  border-bottom: 1px solid #9432a5;
-  color: #9432a5;
-}
 body.global-color-blue #loading-bar .bar {
   background: #2d95e7;
 }
@@ -3883,11 +3845,6 @@ body.global-color-blue smart-progress .progress .progress-bar {
 body.global-color-blue progress-spinner .one {
   border-left-color: #2d95e7;
   border-top-color: #2d95e7;
-}
-body.global-color-blue .nav-tabs > li.active > a,
-body.global-color-blue .nav-tabs > li.active > a:hover {
-  border-bottom: 1px solid #2d95e7;
-  color: #2d95e7;
 }
 body.global-color-green #loading-bar .bar {
   background: #59a25c;
@@ -3988,11 +3945,6 @@ body.global-color-green progress-spinner .one {
   border-left-color: #59a25c;
   border-top-color: #59a25c;
 }
-body.global-color-green .nav-tabs > li.active > a,
-body.global-color-green .nav-tabs > li.active > a:hover {
-  border-bottom: 1px solid #59a25c;
-  color: #59a25c;
-}
 body.global-color-deeporange #loading-bar .bar {
   background: #f45d2d;
 }
@@ -4091,11 +4043,6 @@ body.global-color-deeporange smart-progress .progress .progress-bar {
 body.global-color-deeporange progress-spinner .one {
   border-left-color: #f45d2d;
   border-top-color: #f45d2d;
-}
-body.global-color-deeporange .nav-tabs > li.active > a,
-body.global-color-deeporange .nav-tabs > li.active > a:hover {
-  border-bottom: 1px solid #f45d2d;
-  color: #f45d2d;
 }
 body.global-color-orange #loading-bar .bar {
   background: #f2960d;
@@ -4196,11 +4143,6 @@ body.global-color-orange progress-spinner .one {
   border-left-color: #f2960d;
   border-top-color: #f2960d;
 }
-body.global-color-orange .nav-tabs > li.active > a,
-body.global-color-orange .nav-tabs > li.active > a:hover {
-  border-bottom: 1px solid #f2960d;
-  color: #f2960d;
-}
 body.global-color-teal #loading-bar .bar {
   background: #088f82;
 }
@@ -4299,11 +4241,6 @@ body.global-color-teal smart-progress .progress .progress-bar {
 body.global-color-teal progress-spinner .one {
   border-left-color: #088f82;
   border-top-color: #088f82;
-}
-body.global-color-teal .nav-tabs > li.active > a,
-body.global-color-teal .nav-tabs > li.active > a:hover {
-  border-bottom: 1px solid #088f82;
-  color: #088f82;
 }
 .btn-color-selector-red {
   border: none;

@@ -90,6 +90,6 @@ it('keeps both stock tab families free of the Bootstrap keyboard focus shadow in
 it('keeps desktop and overlay sidebar keyboard focus free of the Bootstrap shadow in built CSS', () => {
     const css = postcss.parse(readFileSync('../usr/lib/linuxmuster-webui/plugins/lmn_common/resources/vue/styles.css', 'utf8'));
     const matches = [];
-    css.walkRules(rule => { if (rule.selector === '.sidebar .nav-link:focus-visible') rule.walkDecls('box-shadow', d => matches.push(d.value)); });
+    css.walkRules(rule => { if (rule.selectors.includes('.sidebar .nav-link:focus-visible')) rule.walkDecls('box-shadow', d => matches.push(d.value)); });
     expect(matches).toEqual(['none']);
 });

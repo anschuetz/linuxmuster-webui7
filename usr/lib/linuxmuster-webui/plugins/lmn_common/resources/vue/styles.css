@@ -12290,272 +12290,6 @@ button.toast-close-button {
 }
 #loading-bar,#loading-bar-spinner{pointer-events:none;-webkit-pointer-events:none;-webkit-transition:350ms linear all;-moz-transition:350ms linear all;-o-transition:350ms linear all;transition:350ms linear all}#loading-bar-spinner.ng-enter,#loading-bar-spinner.ng-leave.ng-leave-active,#loading-bar.ng-enter,#loading-bar.ng-leave.ng-leave-active{opacity:0}#loading-bar-spinner.ng-enter.ng-enter-active,#loading-bar-spinner.ng-leave,#loading-bar.ng-enter.ng-enter-active,#loading-bar.ng-leave{opacity:1}#loading-bar .bar{-webkit-transition:width 350ms;-moz-transition:width 350ms;-o-transition:width 350ms;transition:width 350ms;background:#29d;position:fixed;z-index:10002;top:0;left:0;width:100%;height:2px;border-bottom-right-radius:1px;border-top-right-radius:1px}#loading-bar .peg{position:absolute;width:70px;right:0;top:0;height:2px;opacity:.45;-moz-box-shadow:#29d 1px 0 6px 1px;-ms-box-shadow:#29d 1px 0 6px 1px;-webkit-box-shadow:#29d 1px 0 6px 1px;box-shadow:#29d 1px 0 6px 1px;-moz-border-radius:100%;-webkit-border-radius:100%;border-radius:100%}#loading-bar-spinner{display:block;position:fixed;z-index:10002;top:10px;left:10px}#loading-bar-spinner .spinner-icon{width:14px;height:14px;border:2px solid transparent;border-top-color:#29d;border-left-color:#29d;border-radius:50%;-webkit-animation:loading-bar-spinner 400ms linear infinite;-moz-animation:loading-bar-spinner 400ms linear infinite;-ms-animation:loading-bar-spinner 400ms linear infinite;-o-animation:loading-bar-spinner 400ms linear infinite;animation:loading-bar-spinner 400ms linear infinite}@-webkit-keyframes loading-bar-spinner{0%{-webkit-transform:rotate(0);transform:rotate(0)}100%{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}@-moz-keyframes loading-bar-spinner{0%{-moz-transform:rotate(0);transform:rotate(0)}100%{-moz-transform:rotate(360deg);transform:rotate(360deg)}}@-o-keyframes loading-bar-spinner{0%{-o-transform:rotate(0);transform:rotate(0)}100%{-o-transform:rotate(360deg);transform:rotate(360deg)}}@-ms-keyframes loading-bar-spinner{0%{-ms-transform:rotate(0);transform:rotate(0)}100%{-ms-transform:rotate(360deg);transform:rotate(360deg)}}@keyframes loading-bar-spinner{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
 
-/*! Legacy Glyphicons mapping only; P137: 0 static uses, font contract explicitly retained by P150; remove D1. MIT: BOOTSTRAP-LICENSE. */
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ @font-face { font-family: 'Glyphicons Halflings'; src: url('assets/fonts/glyphicons-halflings-regular.eot'); src: url('assets/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('assets/fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('assets/fonts/glyphicons-halflings-regular.woff') format('woff'), url('assets/fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('assets/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg'); }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon { position: relative; top: 1px; display: inline-block; font-family: 'Glyphicons Halflings'; font-style: normal; font-weight: normal; line-height: 1; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-asterisk:before { content: "\002a"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-plus:before { content: "\002b"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-euro:before, .glyphicon-eur:before { content: "\20ac"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-minus:before { content: "\2212"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-cloud:before { content: "\2601"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-envelope:before { content: "\2709"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-pencil:before { content: "\270f"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-glass:before { content: "\e001"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-music:before { content: "\e002"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-search:before { content: "\e003"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-heart:before { content: "\e005"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-star:before { content: "\e006"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-star-empty:before { content: "\e007"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-user:before { content: "\e008"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-film:before { content: "\e009"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-th-large:before { content: "\e010"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-th:before { content: "\e011"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-th-list:before { content: "\e012"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-ok:before { content: "\e013"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-remove:before { content: "\e014"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-zoom-in:before { content: "\e015"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-zoom-out:before { content: "\e016"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-off:before { content: "\e017"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-signal:before { content: "\e018"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-cog:before { content: "\e019"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-trash:before { content: "\e020"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-home:before { content: "\e021"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-file:before { content: "\e022"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-time:before { content: "\e023"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-road:before { content: "\e024"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-download-alt:before { content: "\e025"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-download:before { content: "\e026"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-upload:before { content: "\e027"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-inbox:before { content: "\e028"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-play-circle:before { content: "\e029"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-repeat:before { content: "\e030"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-refresh:before { content: "\e031"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-list-alt:before { content: "\e032"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-lock:before { content: "\e033"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-flag:before { content: "\e034"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-headphones:before { content: "\e035"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-volume-off:before { content: "\e036"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-volume-down:before { content: "\e037"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-volume-up:before { content: "\e038"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-qrcode:before { content: "\e039"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-barcode:before { content: "\e040"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-tag:before { content: "\e041"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-tags:before { content: "\e042"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-book:before { content: "\e043"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-bookmark:before { content: "\e044"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-print:before { content: "\e045"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-camera:before { content: "\e046"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-font:before { content: "\e047"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-bold:before { content: "\e048"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-italic:before { content: "\e049"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-text-height:before { content: "\e050"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-text-width:before { content: "\e051"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-align-left:before { content: "\e052"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-align-center:before { content: "\e053"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-align-right:before { content: "\e054"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-align-justify:before { content: "\e055"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-list:before { content: "\e056"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-indent-left:before { content: "\e057"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-indent-right:before { content: "\e058"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-facetime-video:before { content: "\e059"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-picture:before { content: "\e060"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-map-marker:before { content: "\e062"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-adjust:before { content: "\e063"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-tint:before { content: "\e064"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-edit:before { content: "\e065"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-share:before { content: "\e066"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-check:before { content: "\e067"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-move:before { content: "\e068"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-step-backward:before { content: "\e069"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-fast-backward:before { content: "\e070"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-backward:before { content: "\e071"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-play:before { content: "\e072"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-pause:before { content: "\e073"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-stop:before { content: "\e074"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-forward:before { content: "\e075"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-fast-forward:before { content: "\e076"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-step-forward:before { content: "\e077"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-eject:before { content: "\e078"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-chevron-left:before { content: "\e079"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-chevron-right:before { content: "\e080"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-plus-sign:before { content: "\e081"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-minus-sign:before { content: "\e082"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-remove-sign:before { content: "\e083"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-ok-sign:before { content: "\e084"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-question-sign:before { content: "\e085"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-info-sign:before { content: "\e086"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-screenshot:before { content: "\e087"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-remove-circle:before { content: "\e088"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-ok-circle:before { content: "\e089"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-ban-circle:before { content: "\e090"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-arrow-left:before { content: "\e091"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-arrow-right:before { content: "\e092"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-arrow-up:before { content: "\e093"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-arrow-down:before { content: "\e094"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-share-alt:before { content: "\e095"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-resize-full:before { content: "\e096"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-resize-small:before { content: "\e097"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-exclamation-sign:before { content: "\e101"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-gift:before { content: "\e102"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-leaf:before { content: "\e103"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-fire:before { content: "\e104"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-eye-open:before { content: "\e105"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-eye-close:before { content: "\e106"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-warning-sign:before { content: "\e107"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-plane:before { content: "\e108"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-calendar:before { content: "\e109"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-random:before { content: "\e110"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-comment:before { content: "\e111"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-magnet:before { content: "\e112"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-chevron-up:before { content: "\e113"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-chevron-down:before { content: "\e114"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-retweet:before { content: "\e115"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-shopping-cart:before { content: "\e116"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-folder-close:before { content: "\e117"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-folder-open:before { content: "\e118"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-resize-vertical:before { content: "\e119"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-resize-horizontal:before { content: "\e120"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-hdd:before { content: "\e121"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-bullhorn:before { content: "\e122"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-bell:before { content: "\e123"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-certificate:before { content: "\e124"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-thumbs-up:before { content: "\e125"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-thumbs-down:before { content: "\e126"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-hand-right:before { content: "\e127"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-hand-left:before { content: "\e128"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-hand-up:before { content: "\e129"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-hand-down:before { content: "\e130"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-circle-arrow-right:before { content: "\e131"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-circle-arrow-left:before { content: "\e132"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-circle-arrow-up:before { content: "\e133"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-circle-arrow-down:before { content: "\e134"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-globe:before { content: "\e135"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-wrench:before { content: "\e136"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-tasks:before { content: "\e137"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-filter:before { content: "\e138"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-briefcase:before { content: "\e139"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-fullscreen:before { content: "\e140"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-dashboard:before { content: "\e141"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-paperclip:before { content: "\e142"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-heart-empty:before { content: "\e143"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-link:before { content: "\e144"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-phone:before { content: "\e145"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-pushpin:before { content: "\e146"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-usd:before { content: "\e148"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-gbp:before { content: "\e149"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-sort:before { content: "\e150"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-sort-by-alphabet:before { content: "\e151"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-sort-by-alphabet-alt:before { content: "\e152"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-sort-by-order:before { content: "\e153"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-sort-by-order-alt:before { content: "\e154"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-sort-by-attributes:before { content: "\e155"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-sort-by-attributes-alt:before { content: "\e156"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-unchecked:before { content: "\e157"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-expand:before { content: "\e158"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-collapse-down:before { content: "\e159"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-collapse-up:before { content: "\e160"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-log-in:before { content: "\e161"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-flash:before { content: "\e162"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-log-out:before { content: "\e163"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-new-window:before { content: "\e164"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-record:before { content: "\e165"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-save:before { content: "\e166"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-open:before { content: "\e167"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-saved:before { content: "\e168"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-import:before { content: "\e169"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-export:before { content: "\e170"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-send:before { content: "\e171"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-floppy-disk:before { content: "\e172"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-floppy-saved:before { content: "\e173"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-floppy-remove:before { content: "\e174"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-floppy-save:before { content: "\e175"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-floppy-open:before { content: "\e176"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-credit-card:before { content: "\e177"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-transfer:before { content: "\e178"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-cutlery:before { content: "\e179"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-header:before { content: "\e180"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-compressed:before { content: "\e181"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-earphone:before { content: "\e182"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-phone-alt:before { content: "\e183"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-tower:before { content: "\e184"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-stats:before { content: "\e185"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-sd-video:before { content: "\e186"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-hd-video:before { content: "\e187"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-subtitles:before { content: "\e188"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-sound-stereo:before { content: "\e189"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-sound-dolby:before { content: "\e190"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-sound-5-1:before { content: "\e191"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-sound-6-1:before { content: "\e192"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-sound-7-1:before { content: "\e193"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-copyright-mark:before { content: "\e194"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-registration-mark:before { content: "\e195"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-cloud-download:before { content: "\e197"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-cloud-upload:before { content: "\e198"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-tree-conifer:before { content: "\e199"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-tree-deciduous:before { content: "\e200"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-cd:before { content: "\e201"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-save-file:before { content: "\e202"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-open-file:before { content: "\e203"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-level-up:before { content: "\e204"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-copy:before { content: "\e205"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-paste:before { content: "\e206"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-alert:before { content: "\e209"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-equalizer:before { content: "\e210"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-king:before { content: "\e211"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-queen:before { content: "\e212"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-pawn:before { content: "\e213"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-bishop:before { content: "\e214"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-knight:before { content: "\e215"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-baby-formula:before { content: "\e216"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-tent:before { content: "\26fa"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-blackboard:before { content: "\e218"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-bed:before { content: "\e219"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-apple:before { content: "\f8ff"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-erase:before { content: "\e221"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-hourglass:before { content: "\231b"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-lamp:before { content: "\e223"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-duplicate:before { content: "\e224"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-piggy-bank:before { content: "\e225"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-scissors:before { content: "\e226"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-bitcoin:before { content: "\e227"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-btc:before { content: "\e227"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-xbt:before { content: "\e227"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-yen:before { content: "\00a5"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-jpy:before { content: "\00a5"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-ruble:before { content: "\20bd"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-rub:before { content: "\20bd"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-scale:before { content: "\e230"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-ice-lolly:before { content: "\e231"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-ice-lolly-tasted:before { content: "\e232"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-education:before { content: "\e233"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-option-horizontal:before { content: "\e234"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-option-vertical:before { content: "\e235"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-menu-hamburger:before { content: "\e236"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-modal-window:before { content: "\e237"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-oil:before { content: "\e238"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-grain:before { content: "\e239"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-sunglasses:before { content: "\e240"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-text-size:before { content: "\e241"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-text-color:before { content: "\e242"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-text-background:before { content: "\e243"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-object-align-top:before { content: "\e244"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-object-align-bottom:before { content: "\e245"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-object-align-horizontal:before { content: "\e246"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-object-align-left:before { content: "\e247"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-object-align-vertical:before { content: "\e248"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-object-align-right:before { content: "\e249"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-triangle-right:before { content: "\e250"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-triangle-left:before { content: "\e251"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-triangle-bottom:before { content: "\e252"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-triangle-top:before { content: "\e253"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-console:before { content: "\e254"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-superscript:before { content: "\e255"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-subscript:before { content: "\e256"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-menu-left:before { content: "\e257"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-menu-right:before { content: "\e258"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-menu-down:before { content: "\e259"; }
-/* BS3 glyphicons; P137 0 static matches; P150 explicit compatibility contract; remove D1. */ .glyphicon-menu-up:before { content: "\e260"; }
-
 /*! P150 temporary BS3 structure compatibility on Bootstrap 5. MIT: vendor/BOOTSTRAP-LICENSE.
  * Each rule: original BS3 structure, P137 static evidence, removal package.
  * P137 paths/counts refer to coordination logs/p137/by-file.tsv; zero means P150 explicit contract.
@@ -13311,8 +13045,8 @@ button.toast-close-button {
 
 /* BS3 navbar block; P137 10 navbar uses, shell/navigation-components.mjs; remove B2. */ .navbar { display: block; padding: 0; }
 /* BS3 navbar brand; P137 shell/navigation-components.mjs navbar-brand; remove B2. */ .navbar-brand { white-space: normal; margin-right: 0; }
-/* BS3 navbar list; P137 shell/navigation-components.mjs navbar-nav; remove B2. */ .navbar-nav { display: block; }
-/* BS3 li/a navigation; P137 nav 36 uses, lmn_settings/GlobalSettings.vue and shell/navigation-components.mjs; remove B2/B6. */ .nav { display: block; }
+/* BS3 navbar list; P137 shell/navigation-components.mjs navbar-nav; remove B2. */ .navbar-nav, .nav { display: block; }
+/* BS3 li/a navigation; P137 nav 36 uses, lmn_settings/GlobalSettings.vue and shell/navigation-components.mjs; remove B2/B6. */
 /* BS3 modal frame; P137 modal 248 uses, shell/modal.mjs; remove B1. */ .modal { width: auto; height: auto; }
 /* BS3 modal-dialog width changes at 768; P137 shell/modal.mjs; remove B1. */ .modal-dialog { max-width: none; }
 /* BS3 modal-content is a normal block; P137 shell/modal.mjs; remove B1. */ .modal-content { display: block; color: inherit; }
@@ -13482,13 +13216,10 @@ html body.customized .form-control:focus + .common-path-addon a i { color: #233c
 .badge.common-user-badge { display: inline; padding: 0.4em 0.6em 0.3em; font-size: 75%; font-weight: bold; line-height: 1; color: #fff; text-align: center; white-space: nowrap; vertical-align: baseline; border-radius: 0.25em; margin-right: 3px; min-width: 0; }
 .common-user-badge.bg-secondary { --bs-secondary-rgb: 119, 119, 119; }
 .common-user-badge.bg-primary { --bs-primary-rgb: 33, 150, 243; }
-.common-user-badge.bg-success { --bs-success-rgb: 76, 175, 80; }
-.common-user-progress.bg-success { --bs-success-rgb: 76, 175, 80; }
+.common-user-badge.bg-success, .common-user-progress.bg-success { --bs-success-rgb: 76, 175, 80; }
 .common-user-badge.bg-info { --bs-info-rgb: 3, 169, 244; }
-.common-user-badge.bg-warning { --bs-warning-rgb: 255, 193, 7; }
-.common-user-progress.bg-warning { --bs-warning-rgb: 255, 193, 7; }
-.common-user-badge.bg-danger { --bs-danger-rgb: 244, 67, 54; }
-.common-user-progress.bg-danger { --bs-danger-rgb: 244, 67, 54; }
+.common-user-badge.bg-warning, .common-user-progress.bg-warning { --bs-warning-rgb: 255, 193, 7; }
+.common-user-badge.bg-danger, .common-user-progress.bg-danger { --bs-danger-rgb: 244, 67, 54; }
 .btn.common-user-button { --bs-btn-focus-box-shadow: none; }
 .common-user-button { color: #333; background-color: #fff; border-color: #eee; }
 .common-user-button:focus { color: #333; background-color: #e6e6e6; border-color: #aeaeae; }
@@ -13546,9 +13277,8 @@ html body.customized .common-user-tabs > .nav-item > .nav-link.active:hover { bo
 .shell-widget-column.col-8 { width: 66.66666667%; }
 
 /* P137 shell/Dashboard.vue/StockSettings.vue; P156 B6 review: native tab focus had no BS5 shadow; consolidate D1. */
-.shell-settings-tabs > .nav-link:focus-visible, .shell-dashboard-tabs > .nav-item > .nav-link:focus-visible { box-shadow: none; }
+.shell-settings-tabs > .nav-link:focus-visible, .shell-dashboard-tabs > .nav-item > .nav-link:focus-visible, .sidebar .nav-link:focus-visible { box-shadow: none; }
 /* P137 shell/navigation-components.mjs; P156 CHAT 309 B2 follow-up: measured keyboard focus in desktop/overlay sidebar against P151; consolidate D1. */
-.sidebar .nav-link:focus-visible { box-shadow: none; }
 
 /* P137 lmn_quotas/UserSearch.vue + lmn_groupmembership/Search.vue; C4 dropdown state moved to interactive links; consolidate D1. */
 .c4-menu.show { display: block; }
@@ -13576,9 +13306,8 @@ html body.customized .common-user-tabs > .nav-item > .nav-link.active:hover { bo
 .c4-badge.bg-info { --bs-info-rgb: 3, 169, 244; }
 .c4-badge.bg-danger { --bs-danger-rgb: 244, 67, 54; }
 .btn.c4-button { --bs-btn-focus-box-shadow: none; }
-.c4-button { color: #333; background-color: #fff; border-color: #eee; }
+.c4-button, .btn.c4-button:where(:not(.btn-flat):not(.btn-lmn)) { color: #333; background-color: #fff; border-color: #eee; }
 /* P137 C4 neutral button border must follow the later Ajenti .btn base without overriding flat/LMN variants; consolidate D1. */
-.btn.c4-button:where(:not(.btn-flat):not(.btn-lmn)) { color: #333; background-color: #fff; border-color: #eee; }
 /* P137 C4 neutral focus; consolidate D1. */
 .c4-button:focus { color: #333; background-color: #e6e6e6; border-color: #aeaeae; }
 .c4-button:hover, .c4-button:active { color: #333; background-color: #e6e6e6; border-color: #cfcfcf; }
@@ -13635,22 +13364,6 @@ html body.customized .c4-tabs > .nav-item > .nav-link.active:hover { border-bott
 .c4-tabs > .nav-item > .nav-link.active:focus:where(:not(:hover)) { background-color: #f0f0f0; border-color: #ddd; border-bottom-color: transparent; }
 /* P137 C4 inactive tab focus never had Bootstrap hover borders; D1. */
 .c4-tabs > .nav-item > .nav-link:not(.active):focus:not(:hover) { border-color: transparent; }
-/* P137 C4 tabs preserve global-color-red selection; D1. */
-body.global-color-red .c4-tabs > .nav-item > .nav-link.active, body.global-color-red .c4-tabs > .nav-item > .nav-link.active:hover { border-bottom: 1px solid #e94c41; color: #e94c41; }
-/* P137 C4 tabs preserve global-color-bluegrey selection; D1. */
-body.global-color-bluegrey .c4-tabs > .nav-item > .nav-link.active, body.global-color-bluegrey .c4-tabs > .nav-item > .nav-link.active:hover { border-bottom: 1px solid #6c797f; color: #6c797f; }
-/* P137 C4 tabs preserve global-color-purple selection; D1. */
-body.global-color-purple .c4-tabs > .nav-item > .nav-link.active, body.global-color-purple .c4-tabs > .nav-item > .nav-link.active:hover { border-bottom: 1px solid #9432a5; color: #9432a5; }
-/* P137 C4 tabs preserve global-color-blue selection; D1. */
-body.global-color-blue .c4-tabs > .nav-item > .nav-link.active, body.global-color-blue .c4-tabs > .nav-item > .nav-link.active:hover { border-bottom: 1px solid #2d95e7; color: #2d95e7; }
-/* P137 C4 tabs preserve global-color-green selection; D1. */
-body.global-color-green .c4-tabs > .nav-item > .nav-link.active, body.global-color-green .c4-tabs > .nav-item > .nav-link.active:hover { border-bottom: 1px solid #59a25c; color: #59a25c; }
-/* P137 C4 tabs preserve global-color-deeporange selection; D1. */
-body.global-color-deeporange .c4-tabs > .nav-item > .nav-link.active, body.global-color-deeporange .c4-tabs > .nav-item > .nav-link.active:hover { border-bottom: 1px solid #f45d2d; color: #f45d2d; }
-/* P137 C4 tabs preserve global-color-orange selection; D1. */
-body.global-color-orange .c4-tabs > .nav-item > .nav-link.active, body.global-color-orange .c4-tabs > .nav-item > .nav-link.active:hover { border-bottom: 1px solid #f2960d; color: #f2960d; }
-/* P137 C4 tabs preserve global-color-teal selection; D1. */
-body.global-color-teal .c4-tabs > .nav-item > .nav-link.active, body.global-color-teal .c4-tabs > .nav-item > .nav-link.active:hover { border-bottom: 1px solid #088f82; color: #088f82; }
 /* P137 lmn_groupmembership/Groupmembership.vue; C4 sort anchors have no href and previously kept #333 on hover/focus; D1. */
 .c4-menu .dropdown-item:not([href]):hover, .c4-menu .dropdown-item:not([href]):focus { color: #333; }
 /* P137 lmn_groupmembership/Details.vue; C4 disabled Apply is an anchor, so :disabled alone cannot preserve the legacy hover/focus; D1. */
@@ -13709,46 +13422,6 @@ html body.customized .cron-tabs > .nav-item > .nav-link.active, html body.custom
 /* P137 C2 Cron crontab selector row previously inside form-group; consolidate D1. */
 .cron-field > .row > div { margin-bottom: 10px; }
 /* P137 C2 Cron Ajenti global-color variant retained; consolidate D1. */
-body.global-color-red .cron-tabs > .nav-item > .nav-link.active,
-body.global-color-red .cron-tabs > .nav-item > .nav-link.active:hover {
-  border-bottom: 1px solid #e94c41;
-  color: #e94c41;
-}
-body.global-color-bluegrey .cron-tabs > .nav-item > .nav-link.active,
-body.global-color-bluegrey .cron-tabs > .nav-item > .nav-link.active:hover {
-  border-bottom: 1px solid #6c797f;
-  color: #6c797f;
-}
-body.global-color-purple .cron-tabs > .nav-item > .nav-link.active,
-body.global-color-purple .cron-tabs > .nav-item > .nav-link.active:hover {
-  border-bottom: 1px solid #9432a5;
-  color: #9432a5;
-}
-body.global-color-blue .cron-tabs > .nav-item > .nav-link.active,
-body.global-color-blue .cron-tabs > .nav-item > .nav-link.active:hover {
-  border-bottom: 1px solid #2d95e7;
-  color: #2d95e7;
-}
-body.global-color-green .cron-tabs > .nav-item > .nav-link.active,
-body.global-color-green .cron-tabs > .nav-item > .nav-link.active:hover {
-  border-bottom: 1px solid #59a25c;
-  color: #59a25c;
-}
-body.global-color-deeporange .cron-tabs > .nav-item > .nav-link.active,
-body.global-color-deeporange .cron-tabs > .nav-item > .nav-link.active:hover {
-  border-bottom: 1px solid #f45d2d;
-  color: #f45d2d;
-}
-body.global-color-orange .cron-tabs > .nav-item > .nav-link.active,
-body.global-color-orange .cron-tabs > .nav-item > .nav-link.active:hover {
-  border-bottom: 1px solid #f2960d;
-  color: #f2960d;
-}
-body.global-color-teal .cron-tabs > .nav-item > .nav-link.active,
-body.global-color-teal .cron-tabs > .nav-item > .nav-link.active:hover {
-  border-bottom: 1px solid #088f82;
-  color: #088f82;
-}
 
 /* P137 lmn_devices/lmn_clients/lmn_device-manager; P159 C3 scoped migrated appearance; consolidate D1. */
 .btn.c3-button { --bs-btn-focus-box-shadow: none; }
@@ -13805,9 +13478,8 @@ html body.customized .c3-client-tabs > .nav-item > .nav-link.active:hover { bord
 /* P137 P161 C5 SambaShares/ImportDialog neutral variant; B3/B4 focus token, consolidate D1. */
 .btn.c5-button { --bs-btn-focus-box-shadow: none; }
 /* P137 P161 C5 neutral geometry; preserve later Ajenti flat toolbar precedence; D1. */
-.c5-button { color: #333; background-color: #fff; border-color: #eee; }
+.c5-button, .btn.c5-button:where(:not(.btn-flat)) { color: #333; background-color: #fff; border-color: #eee; }
 /* P137 P161 C5 ImportDialog non-flat neutral base after Ajenti .btn; D1. */
-.btn.c5-button:where(:not(.btn-flat)) { color: #333; background-color: #fff; border-color: #eee; }
 /* P137 P161 C5 neutral focus; D1. */
 .c5-button:focus { color: #333; background-color: #e6e6e6; border-color: #aeaeae; }
 /* P137 P161 C5 neutral hover/pressed state; D1. */
@@ -13824,8 +13496,7 @@ html body.customized .c3-client-tabs > .nav-item > .nav-link.active:hover { bord
 html body.customized smart-progress .progress .c5-progress.bg-warning { background-color: #ffab40 !important; }
 /* P137 lmn_session_new/*.vue; P162 C6 neutral buttons preserve B3/B4 focus and Ajenti flat/LMN cascade; consolidate D1. */
 .btn.c6-button { --bs-btn-focus-box-shadow: none; }
-.c6-button { color: #333; background-color: #fff; border-color: #eee; }
-.btn.c6-button:where(:not(.btn-flat):not(.btn-lmn):not(.btn-lmn-danger-inv):not(.btn-lmn-success-inv)) { color: #333; background-color: #fff; border-color: #eee; }
+.c6-button, .btn.c6-button:where(:not(.btn-flat):not(.btn-lmn):not(.btn-lmn-danger-inv):not(.btn-lmn-success-inv)) { color: #333; background-color: #fff; border-color: #eee; }
 .c6-button:focus, .c6-button:focus-visible { color: #333; background-color: #e6e6e6; border-color: #aeaeae; }
 .c6-button:hover, .c6-button:active { color: #333; background-color: #e6e6e6; border-color: #cfcfcf; }
 .c6-button:active:hover, .c6-button:active:focus { color: #333; background-color: #d4d4d4; border-color: #aeaeae; }
@@ -13834,8 +13505,7 @@ html body.customized smart-progress .progress .c5-progress.bg-warning { backgrou
 
 /* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
 .btn.c12-button { --bs-btn-focus-box-shadow: none; }
-.c12-button { color: #333; background-color: #fff; border-color: #eee; }
-.btn.c12-button:where(:not(.btn-flat)) { color: #333; background-color: #fff; border-color: #eee; }
+.c12-button, .btn.c12-button:where(:not(.btn-flat)) { color: #333; background-color: #fff; border-color: #eee; }
 .c12-button:focus { color: #333; background-color: #e6e6e6; border-color: #aeaeae; }
 .c12-button:hover, .c12-button:active { color: #333; background-color: #e6e6e6; border-color: #cfcfcf; }
 .c12-button:active:hover, .c12-button:active:focus { color: #333; background-color: #d4d4d4; border-color: #aeaeae; }
@@ -13848,46 +13518,6 @@ html body.customized smart-progress .progress .c5-progress.bg-warning { backgrou
 .c12-tabs > .nav-item > .nav-link.active, .c12-tabs > .nav-item > .nav-link.active:hover { color: #2196F3; background: rgba(0,0,0,.03); border: 1px solid transparent; border-bottom-color: #2196F3; cursor: default; }
 html body.customized .c12-tabs > .nav-item > .nav-link.active, html body.customized .c12-tabs > .nav-item > .nav-link.active:hover { border-bottom: 1px solid #233c4c; color: #233c4c; }
 .c12-tabs > .nav-item > .nav-link:focus-visible { box-shadow: none; }
-body.global-color-red .c12-tabs > .nav-item > .nav-link.active,
-body.global-color-red .c12-tabs > .nav-item > .nav-link.active:hover {
-  border-bottom: 1px solid #e94c41;
-  color: #e94c41;
-}
-body.global-color-bluegrey .c12-tabs > .nav-item > .nav-link.active,
-body.global-color-bluegrey .c12-tabs > .nav-item > .nav-link.active:hover {
-  border-bottom: 1px solid #6c797f;
-  color: #6c797f;
-}
-body.global-color-purple .c12-tabs > .nav-item > .nav-link.active,
-body.global-color-purple .c12-tabs > .nav-item > .nav-link.active:hover {
-  border-bottom: 1px solid #9432a5;
-  color: #9432a5;
-}
-body.global-color-blue .c12-tabs > .nav-item > .nav-link.active,
-body.global-color-blue .c12-tabs > .nav-item > .nav-link.active:hover {
-  border-bottom: 1px solid #2d95e7;
-  color: #2d95e7;
-}
-body.global-color-green .c12-tabs > .nav-item > .nav-link.active,
-body.global-color-green .c12-tabs > .nav-item > .nav-link.active:hover {
-  border-bottom: 1px solid #59a25c;
-  color: #59a25c;
-}
-body.global-color-deeporange .c12-tabs > .nav-item > .nav-link.active,
-body.global-color-deeporange .c12-tabs > .nav-item > .nav-link.active:hover {
-  border-bottom: 1px solid #f45d2d;
-  color: #f45d2d;
-}
-body.global-color-orange .c12-tabs > .nav-item > .nav-link.active,
-body.global-color-orange .c12-tabs > .nav-item > .nav-link.active:hover {
-  border-bottom: 1px solid #f2960d;
-  color: #f2960d;
-}
-body.global-color-teal .c12-tabs > .nav-item > .nav-link.active,
-body.global-color-teal .c12-tabs > .nav-item > .nav-link.active:hover {
-  border-bottom: 1px solid #088f82;
-  color: #088f82;
-}
 .c12-field { margin-bottom: 30px; }
 .c12-field > .row > div { margin-bottom: 10px; }
 .c12-feedback { position: relative; }
@@ -13924,8 +13554,7 @@ body.global-color-teal .c12-tabs > .nav-item > .nav-link.active:hover {
 /* P164 C8 lmn_linbo4 core: retain Ajenti dimensions/colors; consolidate in D1. */
 /* P137 lmn_linbo4 core; P164 C8 scoped legacy appearance; consolidate D1. */
 .btn.c8-button { --bs-btn-focus-box-shadow: none; }
-.c8-button { color: #333; background-color: #fff; border-color: #eee; }
-.btn.c8-button:where(:not(.btn-flat)) { color: #333; background-color: #fff; border-color: #eee; }
+.c8-button, .btn.c8-button:where(:not(.btn-flat)) { color: #333; background-color: #fff; border-color: #eee; }
 .c8-button:focus { color: #333; background-color: #e6e6e6; border-color: #aeaeae; }
 .c8-button:hover, .c8-button:active { color: #333; background-color: #e6e6e6; border-color: #cfcfcf; }
 .c8-button:active:hover, .c8-button:active:focus { color: #333; background-color: #d4d4d4; border-color: #aeaeae; }
@@ -14086,8 +13715,7 @@ html body.customized .c10-tabs > .nav-item > .nav-link.active:hover { border-bot
 /* P165 C9 LINBO image dialogs and sync; legacy dimensions/colors, consolidate D1. */
 /* P137 LINBO; P165 C9 legacy appearance; consolidate D1. */
 .btn.c9-button { --bs-btn-focus-box-shadow: none; }
-.c9-button { color: #333; background-color: #fff; border-color: #eee; }
-.btn.c9-button:where(:not(.btn-flat)) { color: #333; background-color: #fff; border-color: #eee; }
+.c9-button, .btn.c9-button:where(:not(.btn-flat)) { color: #333; background-color: #fff; border-color: #eee; }
 .c9-button:focus { color: #333; background-color: #e6e6e6; border-color: #aeaeae; }
 .c9-button:hover, .c9-button:active { color: #333; background-color: #e6e6e6; border-color: #cfcfcf; }
 .c9-button:active:hover, .c9-button:active:focus { color: #333; background-color: #d4d4d4; border-color: #aeaeae; }
@@ -14127,8 +13755,7 @@ html body.customized .c9-tabs > .nav-item > .nav-link.active:hover { border-bott
 }
 /* P137 lmn_settings School views; P169 C13 school tabs and holiday controls; consolidate D1. */
 .btn.c13-button { --bs-btn-focus-box-shadow: none; }
-.c13-button { color: #333; background-color: #fff; border-color: #eee; }
-.btn.c13-button:where(:not(.btn-flat)) { color: #333; background-color: #fff; border-color: #eee; }
+.c13-button, .btn.c13-button:where(:not(.btn-flat)) { color: #333; background-color: #fff; border-color: #eee; }
 .c13-button:focus { color: #333; background-color: #e6e6e6; border-color: #aeaeae; }
 .c13-button:hover, .c13-button:active { color: #333; background-color: #e6e6e6; border-color: #cfcfcf; }
 .c13-button:active:hover, .c13-button:active:focus { color: #333; background-color: #d4d4d4; border-color: #aeaeae; }
@@ -14194,18 +13821,10 @@ html body.customized .c11-tabs > .nav-item > .nav-link.active:hover { border-bot
 /* P137 lmn_users/PrintOptionsDialog.vue active btn-default interaction; P167 C11, D1. */
 .c11-button.active:hover, .c11-button.active:focus { color: #333; background-color: #d4d4d4; border-color: #aeaeae; }
 
-/* P174 shell/plugin controls retain the measured Ajenti palette and focus token. */
+/* P174 shell/plugin neutral focus and pressed states; every rest button is flat. */
 .btn.shell-rest-button { --bs-btn-focus-box-shadow: none; }
-
-.shell-rest-button, .btn.shell-rest-button:not(.btn-flat) { color: #333; background-color: #fff; border-color: #eee; }
-
-.shell-rest-button:focus, .btn.shell-rest-button:not(.btn-flat):focus { color: #333; background-color: #e6e6e6; border-color: #aeaeae; }
-
-.shell-rest-button:hover, .shell-rest-button:active, .btn.shell-rest-button:not(.btn-flat):hover, .btn.shell-rest-button:not(.btn-flat):active { color: #333; background-color: #e6e6e6; border-color: #cfcfcf; }
-
-.shell-rest-button:active:hover, .shell-rest-button:active:focus, .btn.shell-rest-button:not(.btn-flat):active:hover, .btn.shell-rest-button:not(.btn-flat):active:focus { color: #333; background-color: #d4d4d4; border-color: #aeaeae; }
-
-.shell-rest-button:disabled, .btn.shell-rest-button:not(.btn-flat):disabled { color: inherit; background-color: transparent; border-color: currentColor; }
+.shell-rest-button:focus { color: #333; background-color: #e6e6e6; border-color: #aeaeae; }
+.shell-rest-button:active:hover, .shell-rest-button:active:focus { color: #333; background-color: #d4d4d4; border-color: #aeaeae; }
 
 .shell-rest-field { margin-bottom: 30px; }
 .shell-restart-button { margin-top: 8px; margin-bottom: 8px; }
@@ -14213,9 +13832,6 @@ html body.customized .c11-tabs > .nav-item > .nav-link.active:hover { border-bot
 .shell-task-progress.bg-warning { --bs-warning-rgb: 255, 193, 7; }
 
 .btn.shell-profile-button { --bs-btn-focus-box-shadow: none; }
-.shell-profile-button { color: #333; background-color: #fff; border-color: #eee; }
-.shell-profile-button:focus { color: #333; background-color: #e6e6e6; border-color: #aeaeae; }
-.shell-profile-button:hover, .shell-profile-button:active { color: #333; background-color: #e6e6e6; border-color: #cfcfcf; }
 .shell-profile-button:active:hover, .shell-profile-button:active:focus { color: #333; background-color: #d4d4d4; border-color: #aeaeae; }
 
 .shell-plugins .list-group-item > .shell-stock-label { float: none; }
@@ -16593,9 +16209,7 @@ button.close {
   filter: alpha(opacity=90);
 }
 .carousel-control .icon-prev,
-.carousel-control .icon-next,
-.carousel-control .glyphicon-chevron-left,
-.carousel-control .glyphicon-chevron-right {
+.carousel-control .icon-next {
   position: absolute;
   top: 50%;
   margin-top: -10px;
@@ -17059,27 +16673,6 @@ hr {
 }
 .no-padding > .tab-content {
   padding: 0;
-}
-.glyphicon {
-  display: inline-block;
-  font-family: FontAwesome;
-  font-style: normal;
-  font-weight: normal;
-  line-height: 1;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-.glyphicon-chevron-left:before {
-  content: "\f053";
-}
-.glyphicon-chevron-right:before {
-  content: "\f054";
-}
-.glyphicon-chevron-up:before {
-  content: "\f077";
-}
-.glyphicon-chevron-down:before {
-  content: "\f078";
 }
 .timepicker tbody tr:first-child {
   display: none;
@@ -17801,11 +17394,6 @@ body.global-color-red progress-spinner .one {
   border-left-color: #e94c41;
   border-top-color: #e94c41;
 }
-body.global-color-red .nav-tabs > li.active > a,
-body.global-color-red .nav-tabs > li.active > a:hover {
-  border-bottom: 1px solid #e94c41;
-  color: #e94c41;
-}
 body.global-color-bluegrey #loading-bar .bar {
   background: #6c797f;
 }
@@ -17904,11 +17492,6 @@ body.global-color-bluegrey smart-progress .progress .progress-bar {
 body.global-color-bluegrey progress-spinner .one {
   border-left-color: #6c797f;
   border-top-color: #6c797f;
-}
-body.global-color-bluegrey .nav-tabs > li.active > a,
-body.global-color-bluegrey .nav-tabs > li.active > a:hover {
-  border-bottom: 1px solid #6c797f;
-  color: #6c797f;
 }
 body.global-color-purple #loading-bar .bar {
   background: #9432a5;
@@ -18009,11 +17592,6 @@ body.global-color-purple progress-spinner .one {
   border-left-color: #9432a5;
   border-top-color: #9432a5;
 }
-body.global-color-purple .nav-tabs > li.active > a,
-body.global-color-purple .nav-tabs > li.active > a:hover {
-  border-bottom: 1px solid #9432a5;
-  color: #9432a5;
-}
 body.global-color-blue #loading-bar .bar {
   background: #2d95e7;
 }
@@ -18112,11 +17690,6 @@ body.global-color-blue smart-progress .progress .progress-bar {
 body.global-color-blue progress-spinner .one {
   border-left-color: #2d95e7;
   border-top-color: #2d95e7;
-}
-body.global-color-blue .nav-tabs > li.active > a,
-body.global-color-blue .nav-tabs > li.active > a:hover {
-  border-bottom: 1px solid #2d95e7;
-  color: #2d95e7;
 }
 body.global-color-green #loading-bar .bar {
   background: #59a25c;
@@ -18217,11 +17790,6 @@ body.global-color-green progress-spinner .one {
   border-left-color: #59a25c;
   border-top-color: #59a25c;
 }
-body.global-color-green .nav-tabs > li.active > a,
-body.global-color-green .nav-tabs > li.active > a:hover {
-  border-bottom: 1px solid #59a25c;
-  color: #59a25c;
-}
 body.global-color-deeporange #loading-bar .bar {
   background: #f45d2d;
 }
@@ -18320,11 +17888,6 @@ body.global-color-deeporange smart-progress .progress .progress-bar {
 body.global-color-deeporange progress-spinner .one {
   border-left-color: #f45d2d;
   border-top-color: #f45d2d;
-}
-body.global-color-deeporange .nav-tabs > li.active > a,
-body.global-color-deeporange .nav-tabs > li.active > a:hover {
-  border-bottom: 1px solid #f45d2d;
-  color: #f45d2d;
 }
 body.global-color-orange #loading-bar .bar {
   background: #f2960d;
@@ -18425,11 +17988,6 @@ body.global-color-orange progress-spinner .one {
   border-left-color: #f2960d;
   border-top-color: #f2960d;
 }
-body.global-color-orange .nav-tabs > li.active > a,
-body.global-color-orange .nav-tabs > li.active > a:hover {
-  border-bottom: 1px solid #f2960d;
-  color: #f2960d;
-}
 body.global-color-teal #loading-bar .bar {
   background: #088f82;
 }
@@ -18528,11 +18086,6 @@ body.global-color-teal smart-progress .progress .progress-bar {
 body.global-color-teal progress-spinner .one {
   border-left-color: #088f82;
   border-top-color: #088f82;
-}
-body.global-color-teal .nav-tabs > li.active > a,
-body.global-color-teal .nav-tabs > li.active > a:hover {
-  border-bottom: 1px solid #088f82;
-  color: #088f82;
 }
 .btn-color-selector-red {
   border: none;

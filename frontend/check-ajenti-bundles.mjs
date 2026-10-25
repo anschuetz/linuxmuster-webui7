@@ -11,7 +11,7 @@ const hashes = JSON.parse(await readFile(join(root, 'vendor/SHA256.json'), 'utf8
 for (const [name, expected] of Object.entries(hashes)) {
     const input = await readFile(join(root, 'vendor', name));
     assert.equal(createHash('sha256').update(input).digest('hex'), expected, `Changed pinned asset: ${name}`);
-    if (name.startsWith('ace/') || name.startsWith('fonts/') || ['flow.min.js', 'FLOW-LICENSE', 'BOOTSTRAP-LICENSE', 'BOOTSTRAP5-LICENSE', 'AJENTI-LICENSE', 'TOASTER-LICENSE', 'LOADINGBAR-LICENSE'].includes(name)) {
+    if (name.startsWith('ace/') || ['flow.min.js', 'FLOW-LICENSE', 'BOOTSTRAP-LICENSE', 'BOOTSTRAP5-LICENSE', 'AJENTI-LICENSE', 'TOASTER-LICENSE', 'LOADINGBAR-LICENSE'].includes(name)) {
         assert.deepEqual(await readFile(join(output, 'assets', name)), input, `Stale static asset: ${name}`);
     }
 }
@@ -19,7 +19,8 @@ for (const name of await readdir(plugins)) {
     const metadata = await readFile(join(plugins, name, 'plugin.yml'), 'utf8');
     assert.doesNotMatch(metadata, /ng:|resources\/(?:js|partial|build)\//, name);
 }
-assert.match(await readFile(join(output, 'styles.css'), 'utf8'), /assets\/fonts\/glyphicons/);
+assert.doesNotMatch(await readFile(join(output, 'styles.css'), 'utf8'), /glyphicons/i);
+assert.ok(!(await readdir(join(output, 'assets'))).includes('fonts'), 'Retired Glyphicons directory still shipped');
 await import('./check-core-css.mjs');
 await import('./check-built-resources.mjs');
 console.log('Vue bundles, pinned static assets and plugin metadata current; no Angular build.');
