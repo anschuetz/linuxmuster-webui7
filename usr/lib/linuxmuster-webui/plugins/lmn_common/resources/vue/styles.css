@@ -13672,6 +13672,8 @@ body.global-color-teal .c4-tabs > .nav-item > .nav-link.active, body.global-colo
 .c4-menu .dropdown-item:not([href]):hover, .c4-menu .dropdown-item:not([href]):focus { color: #333; }
 /* P137 lmn_groupmembership/Details.vue; C4 disabled Apply is an anchor, so :disabled alone cannot preserve the legacy hover/focus; D1. */
 .c4-button[disabled]:hover, .c4-button[disabled]:focus { background-color: #fff; border-color: #eee; }
+/* P137 lmn_permissions/Permissions.vue; C4 real API methods without permission_id retain the old empty-label suppression; D1. */
+.badge.c4-badge:empty { display: none; }
 
 /*! P150 active Ajenti theme, MIT (vendor/AJENTI-LICENSE).
  * Derived from theme/ajenti.css after its Normalize/print prelude; A1 evidence unchanged.
