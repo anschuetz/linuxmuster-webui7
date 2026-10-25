@@ -41,8 +41,8 @@ function key(event) {
 <template>
     <div style="position:relative">
         <input type="text" class="form-control" :value="query || label" :placeholder="aj.gettext('Search user by login, firstname or lastname (min. 3 chars)')" role="combobox" :aria-expanded="!!results.length" autocomplete="off" autofocus @input="search($event.target.value)" @keydown="key">
-        <ul v-if="results.length" class="dropdown-menu" role="listbox" style="display:block">
-            <li v-for="(user, index) in results" :key="index" :class="{ active: index === selected }" role="option" :aria-selected="index === selected" @mousedown.prevent="choose(user)"><a href="" @click.prevent="choose(user)">{{ user.label }}</a></li>
+        <ul v-if="results.length" class="dropdown-menu show c4-menu" role="listbox">
+            <li v-for="(user, index) in results" :key="index" role="option" :aria-selected="index === selected" @mousedown.prevent="choose(user)"><a class="dropdown-item" :class="{ active: index === selected }" href="" @click.prevent="choose(user)">{{ user.label }}</a></li>
         </ul>
     </div>
 </template>

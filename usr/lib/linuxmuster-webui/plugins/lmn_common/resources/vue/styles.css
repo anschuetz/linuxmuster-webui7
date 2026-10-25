@@ -13541,6 +13541,138 @@ html body.customized .common-user-tabs > .nav-item > .nav-link.active:hover { bo
 .common-user-parents .dropdown-item.active, .common-user-parents .dropdown-item.active:hover, .common-user-parents .dropdown-item.active:focus { color: #333; text-decoration: none; outline: 0; background-color: #2196F3; }
 .common-user-tabs > .nav-item > .nav-link.active:focus { background-color: #f0f0f0; border-color: #ddd; border-bottom-color: transparent; }
 
+/* P137 lmn_quotas/UserSearch.vue + lmn_groupmembership/Search.vue; C4 dropdown state moved to interactive links; consolidate D1. */
+.c4-menu.show { display: block; }
+/* P137 lmn_groupmembership/Groupmembership.vue; C4 replaces dropdown-menu-right; consolidate D1. */
+.c4-menu.dropdown-menu-end { right: 0; left: auto; }
+/* P137 C4 search dropdowns retain Ajenti item colors after moving active off li; consolidate D1. */
+.c4-menu .dropdown-item { color: #333; }
+/* P137 C4 search dropdowns; consolidate D1. */
+.c4-menu .dropdown-item:hover, .c4-menu .dropdown-item:focus { color: #262626; background-color: #f5f5f5; }
+/* P137 C4 search dropdowns formerly .dropdown-menu > .active > a; consolidate D1. */
+.c4-menu .dropdown-item.active, .c4-menu .dropdown-item.active:hover, .c4-menu .dropdown-item.active:focus { color: #fff; text-decoration: none; outline: 0; background-color: #2196F3; }
+
+/* P137 lmn_groupmembership/Details.vue + C4 labels/buttons; scoped legacy geometry; consolidate D1. */
+.c4-card { margin-bottom: 20px; background-color: #fff; border: 1px solid transparent; border-radius: 3px; -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05); box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05); position: static; display: block; min-width: auto; color: inherit; overflow-wrap: normal; }
+/* P137 lmn_groupmembership/Details.vue + C4 labels/buttons; scoped legacy geometry; consolidate D1. */
+.c4-card > .card-header { padding: 10px 15px; border-bottom: 1px solid transparent; border-top-right-radius: 2px; border-top-left-radius: 2px; margin-bottom: 0; }
+/* P137 lmn_groupmembership/Details.vue + C4 labels/buttons; scoped legacy geometry; consolidate D1. */
+.c4-card > .card-body { padding: 15px; flex: none; color: inherit; }
+/* P137 lmn_groupmembership/Details.vue + C4 labels/buttons; scoped legacy geometry; consolidate D1. */
+.c4-card-info { border-color: #bce8f1; }
+/* P137 lmn_groupmembership/Details.vue + C4 labels/buttons; scoped legacy geometry; consolidate D1. */
+.c4-card-info > .card-header { color: #31708f; background-color: #d9edf7; border-color: #bce8f1; }
+/* P137 lmn_groupmembership/Details.vue + C4 labels/buttons; scoped legacy geometry; consolidate D1. */
+.c4-card-danger { border-color: #ebccd1; }
+/* P137 lmn_groupmembership/Details.vue + C4 labels/buttons; scoped legacy geometry; consolidate D1. */
+.c4-card-danger > .card-header { color: #a94442; background-color: #f2dede; border-color: #ebccd1; }
+/* P137 lmn_groupmembership/Details.vue + C4 labels/buttons; scoped legacy geometry; consolidate D1. */
+.badge.c4-badge { display: inline; padding: 0.4em 0.6em 0.3em; margin-right: 3px; font-size: 75%; font-weight: bold; line-height: 1; color: #fff; text-align: center; white-space: nowrap; vertical-align: baseline; border-radius: 0.25em; min-width: 0; }
+/* P137 lmn_groupmembership/Details.vue + C4 labels/buttons; scoped legacy geometry; consolidate D1. */
+.c4-badge.bg-secondary { --bs-secondary-rgb: 119, 119, 119; }
+/* P137 lmn_groupmembership/Details.vue + C4 labels/buttons; scoped legacy geometry; consolidate D1. */
+.c4-badge.bg-primary { --bs-primary-rgb: 33, 150, 243; }
+/* P137 lmn_groupmembership/Details.vue + C4 labels/buttons; scoped legacy geometry; consolidate D1. */
+.c4-badge.bg-success { --bs-success-rgb: 76, 175, 80; }
+/* P137 lmn_groupmembership/Details.vue + C4 labels/buttons; scoped legacy geometry; consolidate D1. */
+.c4-badge.bg-info { --bs-info-rgb: 3, 169, 244; }
+/* P137 lmn_groupmembership/Details.vue + C4 labels/buttons; scoped legacy geometry; consolidate D1. */
+.c4-badge.bg-danger { --bs-danger-rgb: 244, 67, 54; }
+/* P137 lmn_groupmembership/Details.vue + C4 labels/buttons; scoped legacy geometry; consolidate D1. */
+.btn.c4-button { --bs-btn-focus-box-shadow: none; }
+/* P137 lmn_groupmembership/Details.vue + C4 labels/buttons; scoped legacy geometry; consolidate D1. */
+.c4-button { color: #333; background-color: #fff; border-color: #eee; }
+/* P137 lmn_groupmembership/Details.vue + C4 labels/buttons; scoped legacy geometry; consolidate D1. */
+/* P137 C4 neutral button border must follow the later Ajenti .btn base without overriding flat/LMN variants; consolidate D1. */
+.btn.c4-button:where(:not(.btn-flat):not(.btn-lmn)) { color: #333; background-color: #fff; border-color: #eee; }
+/* P137 C4 neutral focus; consolidate D1. */
+.c4-button:focus { color: #333; background-color: #e6e6e6; border-color: #aeaeae; }
+/* P137 lmn_groupmembership/Details.vue + C4 labels/buttons; scoped legacy geometry; consolidate D1. */
+.c4-button:hover, .c4-button:active { color: #333; background-color: #e6e6e6; border-color: #cfcfcf; }
+/* P137 lmn_groupmembership/Details.vue + C4 labels/buttons; scoped legacy geometry; consolidate D1. */
+.c4-button:active:hover, .c4-button:active:focus { color: #333; background-color: #d4d4d4; border-color: #aeaeae; }
+/* P137 lmn_groupmembership/Details.vue + C4 labels/buttons; scoped legacy geometry; consolidate D1. */
+.c4-button:disabled { color: inherit; background-color: transparent; border-color: currentColor; }
+/* P137 lmn_groupmembership/Details.vue + C4 labels/buttons; scoped legacy geometry; consolidate D1. */
+.c4-button:focus-visible { color: #333; background-color: #e6e6e6; border-color: #aeaeae; }
+/* P137 lmn_quotas/Quotas.vue + lmn_permissions/Permissions.vue; C4 tab geometry; consolidate D1. */
+.c4-tabs { --bs-nav-link-color: #666; --bs-nav-link-hover-color: #666; --bs-nav-tabs-link-hover-border-color: #f0f0f0 #f0f0f0 #eee; }
+/* P137 lmn_quotas/Quotas.vue + lmn_permissions/Permissions.vue; C4 tab geometry; consolidate D1. */
+.c4-tabs > .nav-item > .nav-link { padding: 10px 15px; margin-bottom: 0; border-radius: 0; }
+/* P137 lmn_quotas/Quotas.vue + lmn_permissions/Permissions.vue; C4 tab geometry; consolidate D1. */
+.c4-tabs > .nav-item > .nav-link.active,
+.c4-tabs > .nav-item > .nav-link.active:hover,
+.c4-tabs > .nav-item > .nav-link.active:focus { color: #666; background-color: rgba(0,0,0,.03); border: 1px solid transparent; border-bottom-color: #2196F3; cursor: default; }
+/* P137 lmn_quotas/Quotas.vue + lmn_permissions/Permissions.vue; C4 tab geometry; consolidate D1. */
+html body.customized .c4-tabs > .nav-item > .nav-link.active,
+html body.customized .c4-tabs > .nav-item > .nav-link.active:hover { border-bottom: 1px solid #233c4c; color: #233c4c; }
+/* P137 C4 tabs introduced nav-link; BS5 focus shadow was absent before; consolidate D1. */
+.c4-tabs > .nav-item > .nav-link:focus-visible { box-shadow: none; }
+/* P137 lmn_groupmembership/Groupmembership.vue; C4 replaces input-group-btn table cell; consolidate D1. */
+.c4-group-actions { display: table-cell; width: 1%; white-space: nowrap; vertical-align: middle; position: relative; font-size: 0; }
+/* P137 C4 grouped filter buttons retain legacy adjacency; consolidate D1. */
+.c4-group-actions > .btn { position: relative; float: none; }
+/* P137 C4 grouped filter buttons; consolidate D1. */
+.c4-group-actions > .btn + .btn { margin-left: -1px; }
+/* P137 C4 grouped filter buttons; consolidate D1. */
+.c4-group-actions > .btn:hover, .c4-group-actions > .btn:focus, .c4-group-actions > .btn:active { z-index: 2; }
+/* P137 C4 grouped filter buttons; consolidate D1. */
+.c4-group-actions:not(:last-child) > .btn { border-radius: 0; }
+/* P137 C4 grouped filter buttons; consolidate D1. */
+.c4-group-actions:last-child > .btn { border-top-left-radius: 0; border-bottom-left-radius: 0; z-index: 2; margin-left: -1px; }
+/* P137 lmn_permissions/Permissions.vue; C4 former form-group spacing; consolidate D1. */
+.c4-permissions { margin-bottom: 30px; }
+@media (max-width: 767px) {
+    /* P137 lmn_groupmembership/Groupmembership.vue; C4 D07 columns clipped at 390px; consolidate D1. */
+    .c4-membership-list { flex-direction: row !important; max-height: none !important; }
+    /* P137 C4 D07 tiles use available mobile width; consolidate D1. */
+    .c4-membership-list > .membership-item { min-width: 0; width: calc(100% - 10px); }
+    /* P137 lmn_permissions/Permissions.vue; C4 D14 roles remain reachable by horizontal scrolling; consolidate D1. */
+    .c4-table-scroll { overflow-x: auto; max-width: 100%; }
+    /* P137 lmn_quotas/Quotas.vue + Permissions.vue; C4 D02/D14 toolbar actions wrap inside viewport; consolidate D1. */
+    .c4-toolbar .bar { display: flex; flex-wrap: wrap; }
+    /* P137 C4 D02/D14 toolbar row children must not inherit full row width; consolidate D1. */
+    .c4-toolbar .bar > .btn { width: auto; max-width: 100%; white-space: normal; }
+}
+@media (max-width: 767px) {
+    /* P137 C4 D02/D14 overrides common footer's permanent 205px sidebar offset; D1. */
+    .c4-toolbar .col-md-9 { width: 100%; }
+    /* P137 C4 D02 reserves three wrapped DE toolbar rows without covering the last input; D1. */
+    .c4-toolbar-padder { height: 140px; }
+    /* P137 C4 D14 reserves the mobile export row without hiding the last permission; D1. */
+    .c4-permissions { padding-bottom: 80px; }
+}
+/* P137 lmn_quotas/Quotas.vue; C4 replaces has-feedback without adding an error state; consolidate D1. */
+.c4-check-search { position: relative; }
+/* P137 C4 quota combobox retains clear-icon space; consolidate D1. */
+.c4-check-search .form-control { padding-right: 42.5px; }
+/* P137 C4 quota clear icon retains original click area; consolidate D1. */
+.c4-check-clear { position: absolute; top: 0; right: 0; z-index: 2; display: block; width: 34px; height: 34px; line-height: 34px; text-align: center; pointer-events: none; }
+/* P137 C4 tab focus preserves the legacy non-hover active appearance; D1. */
+.c4-tabs > .nav-item > .nav-link.active:focus:where(:not(:hover)) { background-color: #f0f0f0; border-color: #ddd; border-bottom-color: transparent; }
+/* P137 C4 inactive tab focus never had Bootstrap hover borders; D1. */
+.c4-tabs > .nav-item > .nav-link:not(.active):focus:not(:hover) { border-color: transparent; }
+/* P137 C4 tabs preserve global-color-red selection; D1. */
+body.global-color-red .c4-tabs > .nav-item > .nav-link.active, body.global-color-red .c4-tabs > .nav-item > .nav-link.active:hover { border-bottom: 1px solid #e94c41; color: #e94c41; }
+/* P137 C4 tabs preserve global-color-bluegrey selection; D1. */
+body.global-color-bluegrey .c4-tabs > .nav-item > .nav-link.active, body.global-color-bluegrey .c4-tabs > .nav-item > .nav-link.active:hover { border-bottom: 1px solid #6c797f; color: #6c797f; }
+/* P137 C4 tabs preserve global-color-purple selection; D1. */
+body.global-color-purple .c4-tabs > .nav-item > .nav-link.active, body.global-color-purple .c4-tabs > .nav-item > .nav-link.active:hover { border-bottom: 1px solid #9432a5; color: #9432a5; }
+/* P137 C4 tabs preserve global-color-blue selection; D1. */
+body.global-color-blue .c4-tabs > .nav-item > .nav-link.active, body.global-color-blue .c4-tabs > .nav-item > .nav-link.active:hover { border-bottom: 1px solid #2d95e7; color: #2d95e7; }
+/* P137 C4 tabs preserve global-color-green selection; D1. */
+body.global-color-green .c4-tabs > .nav-item > .nav-link.active, body.global-color-green .c4-tabs > .nav-item > .nav-link.active:hover { border-bottom: 1px solid #59a25c; color: #59a25c; }
+/* P137 C4 tabs preserve global-color-deeporange selection; D1. */
+body.global-color-deeporange .c4-tabs > .nav-item > .nav-link.active, body.global-color-deeporange .c4-tabs > .nav-item > .nav-link.active:hover { border-bottom: 1px solid #f45d2d; color: #f45d2d; }
+/* P137 C4 tabs preserve global-color-orange selection; D1. */
+body.global-color-orange .c4-tabs > .nav-item > .nav-link.active, body.global-color-orange .c4-tabs > .nav-item > .nav-link.active:hover { border-bottom: 1px solid #f2960d; color: #f2960d; }
+/* P137 C4 tabs preserve global-color-teal selection; D1. */
+body.global-color-teal .c4-tabs > .nav-item > .nav-link.active, body.global-color-teal .c4-tabs > .nav-item > .nav-link.active:hover { border-bottom: 1px solid #088f82; color: #088f82; }
+/* P137 lmn_groupmembership/Groupmembership.vue; C4 sort anchors have no href and previously kept #333 on hover/focus; D1. */
+.c4-menu .dropdown-item:not([href]):hover, .c4-menu .dropdown-item:not([href]):focus { color: #333; }
+/* P137 lmn_groupmembership/Details.vue; C4 disabled Apply is an anchor, so :disabled alone cannot preserve the legacy hover/focus; D1. */
+.c4-button[disabled]:hover, .c4-button[disabled]:focus { background-color: #fff; border-color: #eee; }
+
 /*! P150 active Ajenti theme, MIT (vendor/AJENTI-LICENSE).
  * Derived from theme/ajenti.css after its Normalize/print prelude; A1 evidence unchanged.
  * See core-audit.md, P150 disposition.

@@ -48,18 +48,18 @@ const image = name => `/resources/lmn_common/resources/img/${logo(name)}`;
 
 <template>
     <br>
-    <div class="form-group">
-        <ul class="nav nav-tabs">
-            <li v-for="name in ['Plugins', 'Sidebar', 'Orphan']" :key="name" :class="{ active: tab === name }">
-                <a href="" @click.prevent="tab = name">{{ name }}</a>
+    <div class="c4-permissions">
+        <ul class="nav nav-tabs c4-tabs">
+            <li v-for="name in ['Plugins', 'Sidebar', 'Orphan']" :key="name" class="nav-item">
+                <a class="nav-link" :class="{ active: tab === name }" href="" @click.prevent="tab = name">{{ name }}</a>
             </li>
         </ul>
         <div v-if="tab === 'Plugins'">
             <input v-model="query.plugin" type="search" autofocus class="form-control" placeholder="Filter per plugin name or per role">
             <div v-for="plugin in plugins" :key="plugin">
-                <img :src="image(matrix[0][plugin].provider)" class="pull-right" height="33">
+                <img :src="image(matrix[0][plugin].provider)" class="float-end" height="33">
                 <h2>{{ plugin }}</h2>
-                <table :id="'table_' + plugin" class="table" style="width:100%">
+                <div class="c4-table-scroll"><table :id="'table_' + plugin" class="table" style="width:100%">
                     <tbody>
                         <tr><th v-for="(heading, index) in headings" :key="heading" @click="toggleFilter('plugin', index)">{{ aj.gettext(heading) }}</th></tr>
                         <template v-for="url in Object.keys(matrix[0][plugin].methods)" :key="url">
@@ -69,8 +69,8 @@ const image = name => `/resources/lmn_common/resources/img/${logo(name)}`;
                                     <i :class="['fas', details.auth ? 'fa-lock' : 'fa-lock-open']"></i>
                                     <i v-if="details.api" class="fas fa-project-diagram"></i>
                                     <i v-if="details.page" class="far fa-file"></i>
-                                    <span v-if="details.method" :class="['label', 'label-' + methodClass(details.method)]">{{ details.method }}</span>
-                                    <span class="label label-default">{{ details.permission_id }}</span>
+                                    <span v-if="details.method" :class="['badge', 'c4-badge', { success: 'bg-success', primary: 'bg-primary', info: 'bg-info', danger: 'bg-danger', default: 'bg-secondary' }[methodClass(details.method)]]">{{ details.method }}</span>
+                                    <span class="badge c4-badge bg-secondary">{{ details.permission_id }}</span>
                                 </td>
                                 <template v-if="details.permission_id">
                                     <td v-for="role in columns" :key="role" style="text-align:center;border-top-width:0" @click="change(1, details.permission_id, role)">
@@ -81,22 +81,22 @@ const image = name => `/resources/lmn_common/resources/img/${logo(name)}`;
                             </tr>
                         </template>
                     </tbody>
-                </table>
+                </table></div>
             </div>
         </div>
         <div v-else-if="tab === 'Sidebar'">
             <input v-model="query.sidebar" type="search" autofocus class="form-control" placeholder="Filter per URL or per role">
-            <table class="table" style="width:100%">
+            <div class="c4-table-scroll"><table class="table" style="width:100%">
                 <tbody>
                     <tr><th v-for="(heading, index) in headings" :key="heading" @click="toggleFilter('sidebar', index)">{{ aj.gettext(heading) }}</th></tr>
                     <tr v-for="url in sidebarUrls" :key="url">
-                        <td style="width:300px"><img :src="image(provider(url))" class="pull-right" height="33"><b>{{ url }}</b><br><i>Plugin {{ matrix[2][url].plugin }}</i><br></td>
+                        <td style="width:300px"><img :src="image(provider(url))" class="float-end" height="33"><b>{{ url }}</b><br><i>Plugin {{ matrix[2][url].plugin }}</i><br></td>
                         <td v-for="role in columns" :key="role" style="text-align:center" @click="change(2, url, role)">
                             <i :class="['fas', 'fa-' + iconify(matrix[2][url][role])]" :style="colorize(matrix[2][url][role])"></i>
                         </td>
                     </tr>
                 </tbody>
-            </table>
+            </table></div>
         </div>
         <div v-else>
             <template v-for="(orphans, index) in [sidebarOrphans, apiOrphans]" :key="index">
@@ -108,7 +108,7 @@ const image = name => `/resources/lmn_common/resources/img/${logo(name)}`;
                 <p v-if="orphans?.length === 0" class="alert alert-success">{{ aj.gettext(index === 0 ? 'No orphan element in the sidebar permissions !' : 'No orphan element in the permissions !') }}</p>
             </template>
         </div>
-        <component :is="'floating-toolbar'">
+        <component :is="'floating-toolbar'" class="c4-toolbar">
             <div class="container"><div class="row">
                 <div class="col-md-3 permissions-toolbar-offset"></div>
                 <div class="col-md-9 permissions-toolbar-main"><div class="bar row">

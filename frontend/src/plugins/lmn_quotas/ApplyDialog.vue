@@ -21,7 +21,7 @@ aj.http.post('/api/lmn/quota/apply').then(() => {
         <div v-show="logVisible"><LmLog path="/tmp/apply-sophomorix.log" /></div>
     </div>
     <div class="modal-footer">
-        <a class="btn btn-default btn-flat" @click="logVisible = !logVisible">{{ aj.gettext(logVisible ? 'Hide details' : 'Details') }}</a>
-        <a v-if="!working" class="btn btn-default btn-flat" @click="emit('close')">{{ aj.gettext('Close') }}</a>
+        <a class="btn c4-button btn-flat" @click="logVisible = !logVisible">{{ aj.gettext(logVisible ? 'Hide details' : 'Details') }}</a>
+        <a v-if="!working" class="btn c4-button btn-flat" @click="emit('close')">{{ aj.gettext('Close') }}</a>
     </div>
 </template>

@@ -133,3 +133,17 @@ it('waits for identity, translates pageTitle, shows loaded orphan success and un
     unmount();
     expect(host.textContent).toBe('');
 });
+
+it('C4 places active state on BS5 links and resolves method badges', async () => {
+    const wrapper = render(async () => ({ data: data() })); await flushPromises();
+    expect(wrapper.findAll('.c4-tabs > .nav-item > .nav-link')).toHaveLength(3);
+    expect(wrapper.get('.nav-link.active').text()).toBe('Plugins');
+    expect(wrapper.find('.badge.c4-badge.bg-success').exists()).toBe(true);
+    expect(wrapper.find('.badge.c4-badge.bg-primary').exists()).toBe(true);
+    expect(wrapper.find('.badge.c4-badge.bg-secondary').exists()).toBe(true);
+    expect(wrapper.find('.label, .form-group, .nav-item.active').exists()).toBe(false);
+    await wrapper.findAll('.nav-link')[1].trigger('click');
+    expect(wrapper.get('.nav-link.active').text()).toBe('Sidebar');
+    expect(wrapper.findAll('.c4-table-scroll')).toHaveLength(1);
+    wrapper.unmount();
+});

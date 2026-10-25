@@ -32,8 +32,8 @@ const placeholders = { user: 'Type a name or login', teacher: 'Type a name or lo
 <template>
     <div style="position:relative">
         <input v-model.trim="query" class="form-control" type="text" :placeholder="aj.gettext(placeholders[kind])" autocomplete="off" autofocus @keydown="key" @blur="blur">
-        <ul v-if="results.length" class="dropdown-menu" style="display:block" role="listbox">
-            <li v-for="(item, index) in results" :key="index" :class="{ active: selected === index }" @mousedown.prevent="choose(item)"><a href="#" @click.prevent="choose(item)">{{ typeof item === 'string' ? item : item.label }}</a></li>
+        <ul v-if="results.length" class="dropdown-menu show c4-menu" role="listbox">
+            <li v-for="(item, index) in results" :key="index" @mousedown.prevent="choose(item)"><a class="dropdown-item" :class="{ active: selected === index }" href="#" @click.prevent="choose(item)">{{ typeof item === 'string' ? item : item.label }}</a></li>
         </ul>
     </div>
 </template>

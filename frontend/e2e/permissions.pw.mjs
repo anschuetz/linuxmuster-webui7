@@ -44,7 +44,8 @@ for (const role of settings.roles) {
         await expect(table).toBeVisible();
         await expect(table.locator('th')).toHaveCount(6);
         await expect(table.locator('th').last()).toHaveText(/Def\.|Std\./);
-        const row = table.locator('tr').filter({ has: page.locator('.label-default', { hasText: /^lm:schoolsettings$/ }) }).first();
+        const vue = await page.locator('.shell-content').count() > 0;
+        const row = table.locator('tr').filter({ has: page.locator(vue ? '.badge.c4-badge.bg-secondary' : '.label-default', { hasText: /^lm:schoolsettings$/ }) }).first();
         await expect(row).toBeVisible();
         const cell = row.locator('td').nth(4);
         const initial = api['lm:schoolsettings'].student;
