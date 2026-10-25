@@ -6,7 +6,7 @@ import postcss from 'postcss';
 
 export const coreParts = ['vendor/bootstrap3.css', 'theme/ajenti.css'];
 export const sha256 = text => createHash('sha256').update(text).digest('hex');
-const significant = node => node.nodes.filter(child => child.type !== 'comment');
+const significant = node => (node.nodes ?? []).filter(child => child.type !== 'comment');
 const group = node => node.type === 'atrule' && node.nodes?.some(child => ['rule', 'atrule'].includes(child.type));
 const heading = node => ({ name: node.name, params: node.params });
 // PostCSS's comma splitter respects strings and parentheses. Do not normalize

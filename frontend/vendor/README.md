@@ -60,3 +60,29 @@ equality for both the core reconstruction and the **complete** built styles.css;
 `SHA256.json` still pins every original input. New `../theme/…` entries are
 relative to this vendor directory, just like the existing asset paths; they
 pin the project-owned theme, manifest and extraction evidence too.
+
+## P150: active Bootstrap 5 pipeline
+
+Exactly pinned **bootstrap@5.3.8**, `dist/css/bootstrap.css`, copied unmodified
+with `npm pack bootstrap@5.3.8` (npm release 2025-08-26, older than two weeks on
+2026-10-25). MIT license: `BOOTSTRAP5-LICENSE`; exact CSS/license SHA-256:
+`SHA256.json`. Release: https://blog.getbootstrap.com/2025/08/25/bootstrap-5-3-8/.
+No Bootstrap JavaScript, Popper or jQuery is installed or bundled.
+
+Active order: `bootstrap5.css` (the only reset, BS5 Reboot),
+`theme/compat-glyphicons.css`, `theme/compat-bs3.css`, `theme/compat-bs5.css`, `theme/ajenti-bs5.css`,
+then core-vendor (Toaster/loadingbar), Ace, dashboard and alphabetically sorted
+plugin SCSS. The original A1 inputs above remain **evidence only**; neither
+`core.css` nor `bootstrap3.css` nor `theme/ajenti.css` is bundled.
+The A1 manifest still reconstructs the unchanged original for provenance checks.
+`check-core-css.mjs` now checks archival equality and the active BS5 build separately.
+
+`ajenti-bs5.css` retains the A1 theme after its initial Normalize/print prelude;
+all remaining declarations stay unchanged. `theme/bs5-audit.md` and `theme/bs5-counterparts.tsv` record the A2
+disposition of all 368 entries in `core-audit.md`. The temporary compatibility rules restore old DOM
+contracts until B/C port those structures. Every rule has P137 usage evidence
+and a removal owner; Glyphicons has zero static uses but its font/mappings remain
+by the A2 contract until D1. This is not a second reset or a full BS3 sheet:
+carousel, tooltip, popover, jumbotron, media objects, pager/pagination,
+navbar-inverse/form and justified-navigation support are not copied.
+Font Awesome/v4-shims and PT Sans remain unchanged stock resources.

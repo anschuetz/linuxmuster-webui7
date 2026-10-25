@@ -1,24 +1,23 @@
 import { cp, mkdir, readdir, readFile, writeFile } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
 import { compile } from 'sass';
-import { loadCoreCss } from './core-css.mjs';
 
 /** Keep the pinned Bootstrap/Ajenti CSS and standalone editor/upload assets. */
 export async function buildStaticAssets(frontend, output) {
     const vendor = join(frontend, 'vendor'), assets = join(output, 'assets');
     await mkdir(assets, { recursive: true });
-    for (const name of ['ace', 'fonts', 'flow.min.js', 'FLOW-LICENSE', 'BOOTSTRAP-LICENSE', 'AJENTI-LICENSE', 'TOASTER-LICENSE', 'LOADINGBAR-LICENSE']) {
+    for (const name of ['ace', 'fonts', 'flow.min.js', 'FLOW-LICENSE', 'BOOTSTRAP-LICENSE', 'BOOTSTRAP5-LICENSE', 'AJENTI-LICENSE', 'TOASTER-LICENSE', 'LOADINGBAR-LICENSE']) {
         await cp(join(vendor, name), join(assets, name), { recursive: true });
     }
     await writeFile(join(output, 'styles.css'), await buildStyles(frontend));
 }
 
-/** An explicit core input allows comparison against the original A1 pipeline. */
-export async function buildStyles(frontend, coreCss) {
-    const vendor = join(frontend, 'vendor'), css = [];
-    for (const name of ['core-vendor.css', 'core.css', 'ace.css', 'dashboard.css']) {
-        const text = name === 'core.css' ? coreCss ?? await loadCoreCss(frontend) : await readFile(join(vendor, name), 'utf8');
-        css.push(text.replaceAll('../fonts/', 'assets/fonts/'));
+/** One Reboot, then temporary structure compatibility and the Ajenti theme. */
+export async function buildStyles(frontend) {
+    const css = [];
+    for (const name of ['vendor/bootstrap5.css', 'theme/compat-glyphicons.css', 'theme/compat-bs3.css', 'theme/compat-bs5.css',
+        'theme/ajenti-bs5.css', 'vendor/core-vendor.css', 'vendor/ace.css', 'vendor/dashboard.css']) {
+        css.push((await readFile(join(frontend, name), 'utf8')).replaceAll('../fonts/', 'assets/fonts/'));
     }
     const plugins = resolve(frontend, '../usr/lib/linuxmuster-webui/plugins');
     for (const name of (await readdir(plugins)).sort()) {

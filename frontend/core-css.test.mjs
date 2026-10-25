@@ -46,13 +46,12 @@ it('keeps normalized rule context, selector and declaration order while ignoring
     expect(normalizedRules('.a,.b {color:red}')).not.toEqual(normalizedRules('.b,.a {color:red}'));
 });
 
-it('reconstructs the pinned core and keeps the complete built stylesheet equivalent to the old pipeline', async () => {
+it('retains the A1 evidence reconstruction while the active build uses Bootstrap 5', async () => {
     const core = await readFile(join(frontend, 'vendor/core.css'), 'utf8');
     expect(await loadCoreCss(frontend)).toBe(core);
-    const before = await buildStyles(frontend, core);
-    const after = await buildStyles(frontend);
-    expect(after).toBe(before);
-    expect(normalizedRules(after)).toEqual(normalizedRules(before));
+    const active = await buildStyles(frontend);
+    expect(active).toContain('Bootstrap  v5.3.8');
+    expect(active).not.toContain('normalize.css');
 });
 
 it('classifies every rule in the real extraction into a pure Bootstrap or pure theme stylesheet', async () => {
@@ -66,4 +65,10 @@ it('classifies every rule in the real extraction into a pure Bootstrap or pure t
     const actual = normalizedRules(result.files['vendor/bootstrap3.css']).map(rule => JSON.stringify(rule));
     expect(actual).toEqual(expected);
     expect(normalizedRules(result.files['theme/ajenti.css'])).toEqual(normalizedRules(theme));
+});
+
+it('accepts the statement-form charset in compiled Bootstrap 5 without changing rule identity', () => {
+    expect(normalizedRules('@charset "UTF-8"; .a { color: red; }')).toEqual([
+        [[], '@charset "UTF-8"', []], [[], '.a', [['color', 'red', false]]],
+    ]);
 });

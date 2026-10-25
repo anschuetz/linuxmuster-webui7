@@ -1,0 +1,69 @@
+/*! P150: bridges for BS5-only properties and A1 interleaving conflicts. MIT: BOOTSTRAP-LICENSE/AJENTI-LICENSE. */
+/* BS3 .row floats; P137 col-xs-* 5 uses, Landingpage.vue; remove B2/C1. BS5 row flex/gutters would change the old DOM. */ .row { display: block; --bs-gutter-x: 30px; --bs-gutter-y: 0; }
+/* BS3 columns; P137 col-xs-* 5 uses, Landingpage.vue; remove B2/C1. Remove BS5 shrink and default 100% width at its earlier sm breakpoint. */
+
+/* BS3 navbar block; P137 10 navbar uses, shell/navigation-components.mjs; remove B2. */ .navbar { display: block; padding: 0; }
+/* BS3 navbar brand; P137 shell/navigation-components.mjs navbar-brand; remove B2. */ .navbar-brand { white-space: normal; margin-right: 0; }
+/* BS3 navbar list; P137 shell/navigation-components.mjs navbar-nav; remove B2. */ .navbar-nav { display: block; }
+/* BS3 li/a navigation; P137 nav 36 uses, lmn_settings/GlobalSettings.vue and shell/navigation-components.mjs; remove B2/B6. */ .nav { display: block; }
+/* BS3 modal frame; P137 modal 248 uses, shell/modal.mjs; remove B1. */ .modal { width: auto; height: auto; }
+/* BS3 modal-dialog width changes at 768; P137 shell/modal.mjs; remove B1. */ .modal-dialog { max-width: none; }
+/* BS3 modal-content is a normal block; P137 shell/modal.mjs; remove B1. */ .modal-content { display: block; color: inherit; }
+/* BS3 modal-header/footer floats; P137 common/*Dialog.vue modal family 248 uses; remove B1/B4. */ .modal-header, .modal-footer { display: block; }
+/* BS3 .modal.fade.in wins over Ajenti's transition prelude; P137 shell/modal.mjs; remove B1. */ .modal.fade.in .modal-dialog { transform: translate(0, 0); }
+/* BS3 modal footer margins only between buttons; P137 common/*Dialog.vue modal family 248 uses; remove B1/B4. */ .modal-footer > * { margin: 0; }
+/* BS3 native messagebox leaves its modal at Common SCSS z-index 2000; P137 shell/presentation.mjs modal structure; remove B1. */ dialog.messagebox { z-index: auto; }
+/* BS3 input-group table/addon DOM; P137 input-group 24 uses, lmn_settings/UserSearch.vue; remove B4/C12. */ .input-group { display: table; flex-wrap: initial; align-items: initial; }
+/* BS3 addon width is one table cell; P137 input-group 24 uses, lmn_settings/UserSearch.vue; remove B4/C12. */ .input-group > .form-control { flex: initial; margin-left: 0; }
+/* BS3 form-control selects use native appearance; P137 forms 102 uses, lmn_settings/GlobalSettings.vue; remove B3/C12. */ .form-control { appearance: auto; }
+/* BS3 textarea rows determine height; P137 form family 102 uses, common/FileDialog.vue; remove B4/C12. */ textarea.form-control { min-height: 0; }
+/* BS3 .btn inherits text alignment vertically centered; P137 buttons 364 uses, common/FileDialog.vue; remove B4/C1. */ .btn { font-weight: normal; }
+/* BS3 table rows inherit their theme background; P137 lmn_users/UsersTable.vue; remove C3/C10. BS5 cell inset paint otherwise hides Ajenti hover/selection. */ .table > :not(caption) > * > * { padding: 8px; color: inherit; background-color: transparent; border-bottom-width: 0; box-shadow: none; }
+/* BS3 table headings 2px bottom border; P137 lmn_users/UsersTable.vue; remove C3/C10. */ .table > thead > tr > th { border-bottom: 2px solid #ddd; }
+/* BS3 condensed table 5px cells; P137 table-condensed 1 use, lmn_device-manager/DeviceManager.vue; remove C3. */ .table-condensed > :not(caption) > * > * { padding: 5px; }
+/* BS3 progress is a normal block containing floated bars; P137 progress 41 uses, common/users/*; remove B5/C5. */ .progress { display: block; }
+/* BS3 labels are baseline inline text; P137 labels 71 uses, lmn_users/UsersTable.vue; remove C10. */ .badge { vertical-align: middle; }
+/* BS3 legacy .btn-flat/.btn-lmn* are supplied by Ajenti and Common SCSS unchanged; P137 btn-flat 107 uses, common/FileDialog.vue; remove B4/C1. */ .btn-flat, .btn-lmn, .btn-lmn-success, .btn-lmn-danger { font-size: 14px; }
+
+/* BS3 dropdown-menu-right; P137 shell/navigation-components.mjs dropdown family 88 uses; remove B2. */ .dropdown-menu-right { right: 0; left: auto; }
+
+/* BS3 fixed navbar after theme base; P137 10 navbar uses, frontend/src/shell/navigation-components.mjs; remove B2. */ .navbar.navbar-fixed-top, .navbar.navbar-fixed-bottom { position: fixed; border-radius: 0; }
+/* BS3 navbar container is block; P137 frontend/src/shell/navigation-components.mjs:79; remove B2. */ .navbar > .container, .navbar > .container-fluid { display: block; }
+/* BS3 navbar-text has no padding; P137 frontend/src/shell/navigation-components.mjs navbar family 10 uses; remove B2. */ .navbar-text { padding: 0; }
+/* BS3 dropdown body inherits text color; P137 dropdown family 88 uses, frontend/src/shell/navigation-components.mjs; remove B2. */ .dropdown-menu { color: inherit; }
+/* BS3 menu anchors without href retain link color; P137 dropdown family 88 uses, frontend/src/plugins/lmn_users/UsersTable.vue; remove C10. */ .dropdown-menu > li > a:not([href]):not([class]) { color: #333333; }
+/* BS3 panel-default comes after the panel border; P137 panel family 67 uses, frontend/src/plugins/lmn_linbo4/ConfigDialog.vue:407; remove C1/C8. */ .panel.panel-default { border-color: #ddd; }
+/* BS3 btn-xs comes after theme btn; P137 btn-xs 2 uses, frontend/src/plugins/lmn_device-manager/DeviceManager.vue; remove C3. */ .btn.btn-xs, .btn-group-xs > .btn { padding: 1px 5px; font-size: 12px; line-height: 1.5; }
+/* BS3 form controls inherit label weight; P137 forms 102 uses, frontend/src/common/PathSelector.vue; remove B4/C12. */ .form-control { font-weight: inherit; }
+/* BS3 group control uses zero margins; P137 input-group 24 uses, frontend/src/common/PathSelector.vue; remove B4/C12. */ .input-group > :not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) { margin-left: 0; }
+/* BS3 progress font is inherited; P137 progress 41 uses, frontend/src/common/users/CheckResultsDialog.vue; remove B5/C5. */ .progress { font-size: inherit; }
+/* BS3 progress bars float as blocks; P137 progress 41 uses, frontend/src/common/users/CheckResultsDialog.vue; remove B5/C5. */ .progress-bar { display: block; overflow: visible; }
+/* BS3 table border and alignment inherited; P137 frontend/src/plugins/lmn_users/UsersTable.vue; remove C3/C10. */ .table { border-color: currentColor; vertical-align: baseline; }
+/* BS3 table rowgroup alignment; P137 frontend/src/plugins/lmn_users/UsersTable.vue; remove C3/C10. */ .table > :not(caption) { vertical-align: middle; }
+/* BS3 table row/cell borders inherit before explicit top/bottom borders; P137 frontend/src/plugins/lmn_users/UsersTable.vue; remove C3/C10. */ .table > :not(caption) > *, .table > :not(caption) > * > * { border-color: inherit; }
+/* BS3 modal header/footer have square outer corners; P137 modal 248 uses, frontend/src/common/FileBackupsDialog.vue; remove B1/B4. */ .modal-header, .modal-footer { border-radius: 0; }
+
+/* BS3 container has only width breakpoints, no 576/1400 max-width; P137 frontend/src/shell/navigation-components.mjs:79; remove B2. */ .container { max-width: none; }
+
+/* BS3 small button size after base theme; P137 buttons 364 uses, frontend/src/common/FileDialog.vue; remove B4/C1. */ .btn.btn-sm { padding: 5px 10px; font-size: 12px; line-height: 1.5; }
+/* BS3 panel contextual borders after base panel; P137 panels 67 uses, frontend/src/plugins/lmn_landingpage/Landingpage.vue; remove C1/C4. */ .panel.panel-primary { border-color: #2196F3; }
+/* BS3 panel contextual borders; P137 panels 67 uses, frontend/src/plugins/lmn_landingpage/Landingpage.vue; remove C1/C4. */ .panel.panel-success { border-color: #d6e9c6; }
+/* BS3 panel contextual borders; P137 panels 67 uses, frontend/src/plugins/lmn_landingpage/Landingpage.vue; remove C1/C4. */ .panel.panel-info { border-color: #bce8f1; }
+/* BS3 panel contextual borders; P137 panels 67 uses, frontend/src/plugins/lmn_landingpage/Landingpage.vue; remove C1/C4. */ .panel.panel-warning { border-color: #faebcc; }
+/* BS3 panel contextual borders; P137 panels 67 uses, frontend/src/plugins/lmn_landingpage/Landingpage.vue; remove C1/C4. */ .panel.panel-danger { border-color: #ebccd1; }
+/* BS3 alert normal positioning; P137 frontend/src/plugins/lmn_settings/GlobalSettings.vue; remove C12. */ .alert { position: static; }
+/* BS3 input table with a single TOTP control shrink-wraps; P137 forms 102 uses, frontend/src/shell/auth-components.mjs; remove B3/C12. */ .input-group { width: auto; }
+/* BS3 password-eye button inherits text color after Normalize removal; P137 has-feedback 6 uses, frontend/src/shell/auth-components.mjs; remove B3. */ .auth-password-toggle { color: inherit; }
+/* BS3 btn-block follows btn display in the original cascade; P137 btn-block 2 uses, frontend/src/plugins/lmn_linbo4/PartitionDialog.vue:47 plus auth-components.mjs; remove B3/C8. */ .btn.btn-block { display: block; }
+/* BS3 text-primary color through BS5 important utility; P137 frontend/src/plugins/lmn_users/UsersTable.vue; remove C10. */ .text-primary { --bs-primary-rgb: 33, 150, 243; }
+/* BS3 text-success color through BS5 important utility; P137 frontend/src/plugins/lmn_users/UsersTable.vue; remove C10. */ .text-success { --bs-success-rgb: 60, 118, 61; }
+/* BS3 text-info color through BS5 important utility; P137 frontend/src/plugins/lmn_users/UsersTable.vue; remove C10. */ .text-info { --bs-info-rgb: 49, 112, 143; }
+/* BS3 text-warning color through BS5 important utility; P137 frontend/src/plugins/lmn_users/UsersTable.vue; remove C10. */ .text-warning { --bs-warning-rgb: 138, 109, 59; }
+/* BS3 text-danger color through BS5 important utility; P137 frontend/src/plugins/lmn_users/UsersTable.vue; remove C10. */ .text-danger { --bs-danger-rgb: 169, 68, 66; }
+/* BS3 text-muted color through BS5 important utility; P137 frontend/src/plugins/lmn_users/UsersTable.vue; remove C10. */ .text-muted { --bs-secondary-color: #777777; }
+/* BS3 bg-primary color through BS5 important utility; P137 frontend/src/plugins/lmn_landingpage/Landingpage.vue; remove C1. */ .bg-primary { --bs-primary-rgb: 33, 150, 243; }
+/* BS3 bg-success color through BS5 important utility; P137 frontend/src/plugins/lmn_landingpage/Landingpage.vue; remove C1. */ .bg-success { --bs-success-rgb: 223, 240, 216; }
+/* BS3 bg-info color through BS5 important utility; P137 frontend/src/plugins/lmn_landingpage/Landingpage.vue; remove C1. */ .bg-info { --bs-info-rgb: 217, 237, 247; }
+/* BS3 bg-warning color through BS5 important utility; P137 frontend/src/plugins/lmn_landingpage/Landingpage.vue; remove C1. */ .bg-warning { --bs-warning-rgb: 252, 248, 227; }
+/* BS3 bg-danger color through BS5 important utility; P137 frontend/src/plugins/lmn_landingpage/Landingpage.vue; remove C1. */ .bg-danger { --bs-danger-rgb: 242, 222, 222; }
+/* BS3 inactive nav anchors without href keep Common link color; P137 nav 36 uses, frontend/src/plugins/lmn_settings/GlobalSettings.vue; remove B6/C12. */ .nav-pills > li:not(.active) > a:not([href]):not([class]) { color: #233c4c; }

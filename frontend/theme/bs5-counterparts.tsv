@@ -1,0 +1,369 @@
+core_start	core_end	context	selector	BS5_exact_selector_context_peers	disposition
+2	6		html	0	removed Normalize/print prelude; BS5 Reboot owns reset
+57	60		h1	0	removed Normalize/print prelude; BS5 Reboot owns reset
+61	64		mark	0	removed Normalize/print prelude; BS5 Reboot owns reset
+68	74		sub, sup	1	removed Normalize/print prelude; BS5 Reboot owns reset
+75	77		sup	1	removed Normalize/print prelude; BS5 Reboot owns reset
+78	80		sub	1	removed Normalize/print prelude; BS5 Reboot owns reset
+90	93		hr	1	removed Normalize/print prelude; BS5 Reboot owns reset
+104	112		button, input, optgroup, select, textarea	0	removed Normalize/print prelude; BS5 Reboot owns reset
+131	135		button::-moz-focus-inner, input::-moz-focus-inner	0	removed Normalize/print prelude; BS5 Reboot owns reset
+139	143		input[type="checkbox"], input[type="radio"]	0	removed Normalize/print prelude; BS5 Reboot owns reset
+148	151		input[type="search"]	0	removed Normalize/print prelude; BS5 Reboot owns reset
+156	160		fieldset	1	removed Normalize/print prelude; BS5 Reboot owns reset
+161	164		legend	1	removed Normalize/print prelude; BS5 Reboot owns reset
+171	174		table	1	removed Normalize/print prelude; BS5 Reboot owns reset
+181	188	@media print	*,   *:before,   *:after	0	removed Normalize/print prelude; BS5 Reboot owns reset
+1068	1074		body	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+1083	1086		a	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+1087	1091		a:hover, a:focus	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+1111	1113		.img-rounded	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+1114	1126		.img-thumbnail	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+1130	1135		hr	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+1136	1145		.sr-only	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+1175	1202		h1 small, h2 small, h3 small, h4 small, h5 small, h6 small, .h1 small, .h2 small, .h3 small, .h4 small, .h5 small, .h6 small, h1 .small, h2 .small, h3 .small, h4 .small, h5 .small, h6 .small, .h1 .small, .h2 .small, .h3 .small, .h4 .small, .h5 .small, .h6 .small	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+1291	1295		mark, .mark	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+1320	1322		.text-muted	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+1323	1325		.text-primary	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+1326	1329		a.text-primary:hover, a.text-primary:focus	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+1358	1361		.bg-primary	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+1362	1365		a.bg-primary:hover, a.bg-primary:focus	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+1394	1398		.page-header	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+1414	1418		.list-inline	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+1419	1423		.list-inline > li	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+1439	1447	@media (min-width: 768px)	.dl-horizontal dt	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+1452	1456		abbr[title], abbr[data-original-title]	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+1461	1466		blockquote	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+1472	1479		blockquote footer, blockquote small, blockquote .small	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+1485	1492		.blockquote-reverse, blockquote.pull-right	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+1520	1526		code	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+1527	1534		kbd	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+1535	1540		kbd kbd	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+1541	1553		pre	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+1566	1571		.container	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+1587	1592		.container-fluid	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+1593	1596		.row	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+1597	1649		.col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+1814	1816		.col-xs-offset-0	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+1982	1984	@media (min-width: 768px)	.col-sm-offset-0	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+2151	2153	@media (min-width: 992px)	.col-md-offset-0	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+2320	2322	@media (min-width: 1200px)	.col-lg-offset-0	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+2327	2332		caption	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+2367	2369		.table .table	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+2399	2403		table col[class*="col-"]	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+2404	2409		table td[class*="col-"], table th[class*="col-"]	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+2515	2518		.table-responsive	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+2564	2569		fieldset	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+2570	2580		legend	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+2615	2621		output	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+2622	2639		.form-control	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+2640	2645		.form-control:focus	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+2656	2659		.form-control::-ms-expand	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+2660	2665		.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+2722	2729		.radio input[type="radio"], .radio-inline input[type="radio"], .checkbox input[type="checkbox"], .checkbox-inline input[type="checkbox"]	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+2734	2743		.radio-inline, .checkbox-inline	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+2769	2774		.form-control-static	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+2775	2779		.form-control-static.input-lg, .form-control-static.input-sm	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+2817	2823		.input-lg	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+2832	2838		.form-group-lg .form-control	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+2898	2902		.has-success .form-control	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+2903	2907		.has-success .form-control:focus	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+2908	2912		.has-success .input-group-addon	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+2928	2932		.has-warning .form-control	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+2933	2937		.has-warning .form-control:focus	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+2938	2942		.has-warning .input-group-addon	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+2958	2962		.has-error .form-control	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+2963	2967		.has-error .form-control:focus	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+2968	2972		.has-error .input-group-addon	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+2982	2987		.help-block	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3038	3045		.form-horizontal .radio, .form-horizontal .checkbox, .form-horizontal .radio-inline, .form-horizontal .checkbox-inline	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3050	3053		.form-horizontal .form-group	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3055	3059	@media (min-width: 768px)	.form-horizontal .control-label	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3076	3095		.btn	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3111	3117		.btn:active, .btn.active	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3118	3126		.btn.disabled, .btn[disabled], fieldset[disabled] .btn	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3131	3135		.btn-default	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3136	3141		.btn-default:focus, .btn-default.focus	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3142	3146		.btn-default:hover	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3147	3153		.btn-default:active, .btn-default.active, .open > .dropdown-toggle.btn-default	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3154	3166		.btn-default:active:hover, .btn-default.active:hover, .open > .dropdown-toggle.btn-default:hover, .btn-default:active:focus, .btn-default.active:focus, .open > .dropdown-toggle.btn-default:focus, .btn-default:active.focus, .btn-default.active.focus, .open > .dropdown-toggle.btn-default.focus	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3172	3183		.btn-default.disabled:hover, .btn-default[disabled]:hover, fieldset[disabled] .btn-default:hover, .btn-default.disabled:focus, .btn-default[disabled]:focus, fieldset[disabled] .btn-default:focus, .btn-default.disabled.focus, .btn-default[disabled].focus, fieldset[disabled] .btn-default.focus	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3188	3192		.btn-primary	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3193	3198		.btn-primary:focus, .btn-primary.focus	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3199	3203		.btn-primary:hover	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3204	3210		.btn-primary:active, .btn-primary.active, .open > .dropdown-toggle.btn-primary	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3211	3223		.btn-primary:active:hover, .btn-primary.active:hover, .open > .dropdown-toggle.btn-primary:hover, .btn-primary:active:focus, .btn-primary.active:focus, .open > .dropdown-toggle.btn-primary:focus, .btn-primary:active.focus, .btn-primary.active.focus, .open > .dropdown-toggle.btn-primary.focus	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3229	3240		.btn-primary.disabled:hover, .btn-primary[disabled]:hover, fieldset[disabled] .btn-primary:hover, .btn-primary.disabled:focus, .btn-primary[disabled]:focus, fieldset[disabled] .btn-primary:focus, .btn-primary.disabled.focus, .btn-primary[disabled].focus, fieldset[disabled] .btn-primary.focus	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3241	3244		.btn-primary .badge	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3245	3249		.btn-success	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3250	3255		.btn-success:focus, .btn-success.focus	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3256	3260		.btn-success:hover	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3261	3267		.btn-success:active, .btn-success.active, .open > .dropdown-toggle.btn-success	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3268	3280		.btn-success:active:hover, .btn-success.active:hover, .open > .dropdown-toggle.btn-success:hover, .btn-success:active:focus, .btn-success.active:focus, .open > .dropdown-toggle.btn-success:focus, .btn-success:active.focus, .btn-success.active.focus, .open > .dropdown-toggle.btn-success.focus	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3286	3297		.btn-success.disabled:hover, .btn-success[disabled]:hover, fieldset[disabled] .btn-success:hover, .btn-success.disabled:focus, .btn-success[disabled]:focus, fieldset[disabled] .btn-success:focus, .btn-success.disabled.focus, .btn-success[disabled].focus, fieldset[disabled] .btn-success.focus	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3298	3301		.btn-success .badge	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3302	3306		.btn-info	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3307	3312		.btn-info:focus, .btn-info.focus	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3313	3317		.btn-info:hover	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3318	3324		.btn-info:active, .btn-info.active, .open > .dropdown-toggle.btn-info	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3325	3337		.btn-info:active:hover, .btn-info.active:hover, .open > .dropdown-toggle.btn-info:hover, .btn-info:active:focus, .btn-info.active:focus, .open > .dropdown-toggle.btn-info:focus, .btn-info:active.focus, .btn-info.active.focus, .open > .dropdown-toggle.btn-info.focus	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3343	3354		.btn-info.disabled:hover, .btn-info[disabled]:hover, fieldset[disabled] .btn-info:hover, .btn-info.disabled:focus, .btn-info[disabled]:focus, fieldset[disabled] .btn-info:focus, .btn-info.disabled.focus, .btn-info[disabled].focus, fieldset[disabled] .btn-info.focus	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3355	3358		.btn-info .badge	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3359	3363		.btn-warning	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3364	3369		.btn-warning:focus, .btn-warning.focus	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3370	3374		.btn-warning:hover	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3375	3381		.btn-warning:active, .btn-warning.active, .open > .dropdown-toggle.btn-warning	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3382	3394		.btn-warning:active:hover, .btn-warning.active:hover, .open > .dropdown-toggle.btn-warning:hover, .btn-warning:active:focus, .btn-warning.active:focus, .open > .dropdown-toggle.btn-warning:focus, .btn-warning:active.focus, .btn-warning.active.focus, .open > .dropdown-toggle.btn-warning.focus	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3400	3411		.btn-warning.disabled:hover, .btn-warning[disabled]:hover, fieldset[disabled] .btn-warning:hover, .btn-warning.disabled:focus, .btn-warning[disabled]:focus, fieldset[disabled] .btn-warning:focus, .btn-warning.disabled.focus, .btn-warning[disabled].focus, fieldset[disabled] .btn-warning.focus	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3412	3415		.btn-warning .badge	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3416	3420		.btn-danger	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3421	3426		.btn-danger:focus, .btn-danger.focus	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3427	3431		.btn-danger:hover	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3432	3438		.btn-danger:active, .btn-danger.active, .open > .dropdown-toggle.btn-danger	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3439	3451		.btn-danger:active:hover, .btn-danger.active:hover, .open > .dropdown-toggle.btn-danger:hover, .btn-danger:active:focus, .btn-danger.active:focus, .open > .dropdown-toggle.btn-danger:focus, .btn-danger:active.focus, .btn-danger.active.focus, .open > .dropdown-toggle.btn-danger.focus	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3457	3468		.btn-danger.disabled:hover, .btn-danger[disabled]:hover, fieldset[disabled] .btn-danger:hover, .btn-danger.disabled:focus, .btn-danger[disabled]:focus, fieldset[disabled] .btn-danger:focus, .btn-danger.disabled.focus, .btn-danger[disabled].focus, fieldset[disabled] .btn-danger.focus	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3469	3472		.btn-danger .badge	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3473	3477		.btn-link	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3493	3498		.btn-link:hover, .btn-link:focus	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3499	3505		.btn-link[disabled]:hover, fieldset[disabled] .btn-link:hover, .btn-link[disabled]:focus, fieldset[disabled] .btn-link:focus	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3506	3512		.btn-lg, .btn-group-lg > .btn	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3539	3544		.fade	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3560	3570		.collapsing	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3589	3609		.dropdown-menu	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3620	3628		.dropdown-menu > li > a	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3629	3634		.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3635	3642		.dropdown-menu > .active > a, .dropdown-menu > .active > a:hover, .dropdown-menu > .active > a:focus	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3643	3647		.dropdown-menu > .disabled > a, .dropdown-menu > .disabled > a:hover, .dropdown-menu > .disabled > a:focus	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3648	3655		.dropdown-menu > .disabled > a:hover, .dropdown-menu > .disabled > a:focus	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3662	3665		.dropdown-menu-right	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3666	3669		.dropdown-menu-left	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3670	3677		.dropdown-header	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3678	3685		.dropdown-backdrop	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3690	3696		.dropup .caret, .navbar-fixed-bottom .dropdown .caret	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3704	3707	@media (min-width: 768px)	.navbar-right .dropdown-menu	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3708	3711	@media (min-width: 768px)	.navbar-right .dropdown-menu-left	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3759	3762		.btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle)	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3763	3767		.btn-group > .btn:last-child:not(:first-child), .btn-group > .dropdown-toggle:not(:first-child)	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3774	3778		.btn-group > .btn-group:first-child:not(:last-child) > .btn:last-child, .btn-group > .btn-group:first-child:not(:last-child) > .dropdown-toggle	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3779	3782		.btn-group > .btn-group:last-child:not(:first-child) > .btn:first-child	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3787	3790		.btn-group > .btn + .dropdown-toggle	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3791	3794		.btn-group > .btn-lg + .dropdown-toggle	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3795	3798		.btn-group.open .dropdown-toggle	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3834	3839		.btn-group-vertical > .btn:first-child:not(:last-child)	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3840	3845		.btn-group-vertical > .btn:last-child:not(:first-child)	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3854	3857		.btn-group-vertical > .btn-group:last-child:not(:first-child) > .btn:first-child	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3864	3869		.btn-group-justified > .btn, .btn-group-justified > .btn-group	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3889	3893		.input-group[class*="col-"]	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3904	3912		.input-group-lg > .form-control, .input-group-lg > .input-group-addon, .input-group-lg > .input-group-btn > .btn	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3966	3976		.input-group-addon	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3982	3986		.input-group-addon.input-lg	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+3991	4000		.input-group .form-control:first-child, .input-group-addon:first-child, .input-group-btn:first-child > .btn, .input-group-btn:first-child > .btn-group > .btn, .input-group-btn:first-child > .dropdown-toggle, .input-group-btn:last-child > .btn:not(:last-child):not(.dropdown-toggle), .input-group-btn:last-child > .btn-group:not(:last-child) > .btn	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4004	4013		.input-group .form-control:last-child, .input-group-addon:last-child, .input-group-btn:last-child > .btn, .input-group-btn:last-child > .btn-group > .btn, .input-group-btn:last-child > .dropdown-toggle, .input-group-btn:first-child > .btn:not(:first-child), .input-group-btn:first-child > .btn-group:not(:first-child) > .btn	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4042	4046		.nav	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4056	4060		.nav > li > a:hover, .nav > li > a:focus	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4061	4063		.nav > li.disabled > a	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4064	4070		.nav > li.disabled > a:hover, .nav > li.disabled > a:focus	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4071	4076		.nav .open > a, .nav .open > a:hover, .nav .open > a:focus	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4086	4088		.nav-tabs	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4093	4098		.nav-tabs > li > a	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4099	4101		.nav-tabs > li > a:hover	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4102	4110		.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4118	4121		.nav-tabs.nav-justified > li > a	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4135	4138		.nav-tabs.nav-justified > li > a	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4145	4148	@media (min-width: 768px)	.nav-tabs.nav-justified > li > a	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4149	4153	@media (min-width: 768px)	.nav-tabs.nav-justified > .active > a,   .nav-tabs.nav-justified > .active > a:hover,   .nav-tabs.nav-justified > .active > a:focus	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4158	4160		.nav-pills > li > a	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4164	4169		.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4183	4186		.nav-justified > li > a	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4203	4206		.nav-tabs-justified > li > a	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4213	4216	@media (min-width: 768px)	.nav-tabs-justified > li > a	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4217	4221	@media (min-width: 768px)	.nav-tabs-justified > .active > a,   .nav-tabs-justified > .active > a:hover,   .nav-tabs-justified > .active > a:focus	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4229	4233		.nav-tabs .dropdown-menu	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4234	4239		.navbar	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4241	4243	@media (min-width: 768px)	.navbar	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4250	4257		.navbar-collapse	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4262	4266	@media (min-width: 768px)	.navbar-collapse	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4276	4281	@media (min-width: 768px)	.navbar-fixed-top .navbar-collapse,   .navbar-static-top .navbar-collapse,   .navbar-fixed-bottom .navbar-collapse	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4340	4346		.navbar-brand	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4360	4371		.navbar-toggle	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4389	4391		.navbar-nav	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4398	4406	@media (max-width: 767px)	.navbar-nav .open .dropdown-menu	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4427	4430	@media (min-width: 768px)	.navbar-nav > li > a	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4432	4442		.navbar-form	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4502	4511	@media (min-width: 768px)	.navbar-form	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4513	4517		.navbar-nav > li > .dropdown-menu	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4518	4524		.navbar-fixed-bottom .navbar-nav > li > .dropdown-menu	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4525	4528		.navbar-btn	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4529	4532		.navbar-btn.btn-sm	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4533	4536		.navbar-btn.btn-xs	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4537	4540		.navbar-text	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4542	4546	@media (min-width: 768px)	.navbar-text	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4609	4614		.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4705	4710		.navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .open > a:hover, .navbar-inverse .navbar-nav > .open > a:focus	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4758	4764		.breadcrumb	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4768	4772		.breadcrumb > li + li:before	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4773	4775		.breadcrumb > .active	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4776	4781		.pagination	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4785	4796		.pagination > li > a, .pagination > li > span	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4797	4802		.pagination > li:first-child > a, .pagination > li:first-child > span	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4803	4807		.pagination > li:last-child > a, .pagination > li:last-child > span	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4808	4816		.pagination > li > a:hover, .pagination > li > span:hover, .pagination > li > a:focus, .pagination > li > span:focus	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4817	4828		.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4829	4839		.pagination > .disabled > span, .pagination > .disabled > span:hover, .pagination > .disabled > span:focus, .pagination > .disabled > a, .pagination > .disabled > a:hover, .pagination > .disabled > a:focus	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4846	4850		.pagination-lg > li:first-child > a, .pagination-lg > li:first-child > span	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4851	4855		.pagination-lg > li:last-child > a, .pagination-lg > li:last-child > span	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4862	4866		.pagination-sm > li:first-child > a, .pagination-sm > li:first-child > span	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4867	4871		.pagination-sm > li:last-child > a, .pagination-sm > li:last-child > span	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4872	4877		.pager	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4889	4893		.pager li > a:hover, .pager li > a:focus	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4902	4909		.pager .disabled > a, .pager .disabled > a:hover, .pager .disabled > a:focus, .pager .disabled > span	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4910	4921		.label	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4935	4937		.label-default	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4942	4944		.label-primary	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4945	4948		.label-primary[href]:hover, .label-primary[href]:focus	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4949	4951		.label-success	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4952	4955		.label-success[href]:hover, .label-success[href]:focus	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4956	4958		.label-info	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4959	4962		.label-info[href]:hover, .label-info[href]:focus	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4963	4965		.label-warning	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4966	4969		.label-warning[href]:hover, .label-warning[href]:focus	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4970	4972		.label-danger	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4973	4976		.label-danger[href]:hover, .label-danger[href]:focus	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+4977	4990		.badge	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5009	5013		.list-group-item.active > .badge, .nav-pills > .active > a > .badge	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5023	5029		.jumbotron	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5042	5047		.container .jumbotron, .container-fluid .jumbotron	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5056	5060	@media screen and (min-width: 768px)	.container .jumbotron,   .container-fluid .jumbotron	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5066	5077		.thumbnail	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5078	5082		.thumbnail > img, .thumbnail a > img	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5083	5087		a.thumbnail:hover, a.thumbnail:focus, a.thumbnail.active	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5088	5091		.thumbnail .caption	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5092	5097		.alert	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5123	5127		.alert-success	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5134	5138		.alert-info	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5145	5149		.alert-warning	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5156	5160		.alert-danger	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5183	5191		.progress	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5192	5206		.progress-bar	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5207	5213		.progress-striped .progress-bar, .progress-bar-striped	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5220	5222		.progress-bar-success	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5223	5227		.progress-striped .progress-bar-success	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5228	5230		.progress-bar-info	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5231	5235		.progress-striped .progress-bar-info	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5236	5238		.progress-bar-warning	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5239	5243		.progress-striped .progress-bar-warning	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5244	5246		.progress-bar-danger	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5247	5251		.progress-striped .progress-bar-danger	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5258	5262		.media, .media-body	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5300	5303		.list-group	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5304	5311		.list-group-item	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5312	5315		.list-group-item:first-child	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5316	5320		.list-group-item:last-child	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5321	5324		a.list-group-item, button.list-group-item	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5329	5336		a.list-group-item:hover, button.list-group-item:hover, a.list-group-item:focus, button.list-group-item:focus	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5341	5347		.list-group-item.disabled, .list-group-item.disabled:hover, .list-group-item.disabled:focus	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5353	5357		.list-group-item.disabled .list-group-item-text, .list-group-item.disabled:hover .list-group-item-text, .list-group-item.disabled:focus .list-group-item-text	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5358	5365		.list-group-item.active, .list-group-item.active:hover, .list-group-item.active:focus	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5377	5381		.list-group-item.active .list-group-item-text, .list-group-item.active:hover .list-group-item-text, .list-group-item.active:focus .list-group-item-text	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5506	5513		.panel	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5517	5522		.panel-heading	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5539	5545		.panel-footer	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5555	5560		.panel > .list-group:first-child .list-group-item:first-child, .panel > .panel-collapse > .list-group:first-child .list-group-item:first-child	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5561	5566		.panel > .list-group:last-child .list-group-item:last-child, .panel > .panel-collapse > .list-group:last-child .list-group-item:last-child	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5567	5570		.panel > .panel-heading + .panel-collapse > .list-group .list-group-item:first-child	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5582	5587		.panel > .table caption, .panel > .table-responsive > .table caption, .panel > .panel-collapse > .table caption	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5588	5592		.panel > .table:first-child, .panel > .table-responsive:first-child > .table:first-child	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5593	5599		.panel > .table:first-child > thead:first-child > tr:first-child, .panel > .table-responsive:first-child > .table:first-child > thead:first-child > tr:first-child, .panel > .table:first-child > tbody:first-child > tr:first-child, .panel > .table-responsive:first-child > .table:first-child > tbody:first-child > tr:first-child	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5600	5609		.panel > .table:first-child > thead:first-child > tr:first-child td:first-child, .panel > .table-responsive:first-child > .table:first-child > thead:first-child > tr:first-child td:first-child, .panel > .table:first-child > tbody:first-child > tr:first-child td:first-child, .panel > .table-responsive:first-child > .table:first-child > tbody:first-child > tr:first-child td:first-child, .panel > .table:first-child > thead:first-child > tr:first-child th:first-child, .panel > .table-responsive:first-child > .table:first-child > thead:first-child > tr:first-child th:first-child, .panel > .table:first-child > tbody:first-child > tr:first-child th:first-child, .panel > .table-responsive:first-child > .table:first-child > tbody:first-child > tr:first-child th:first-child	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5610	5619		.panel > .table:first-child > thead:first-child > tr:first-child td:last-child, .panel > .table-responsive:first-child > .table:first-child > thead:first-child > tr:first-child td:last-child, .panel > .table:first-child > tbody:first-child > tr:first-child td:last-child, .panel > .table-responsive:first-child > .table:first-child > tbody:first-child > tr:first-child td:last-child, .panel > .table:first-child > thead:first-child > tr:first-child th:last-child, .panel > .table-responsive:first-child > .table:first-child > thead:first-child > tr:first-child th:last-child, .panel > .table:first-child > tbody:first-child > tr:first-child th:last-child, .panel > .table-responsive:first-child > .table:first-child > tbody:first-child > tr:first-child th:last-child	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5620	5624		.panel > .table:last-child, .panel > .table-responsive:last-child > .table:last-child	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5625	5631		.panel > .table:last-child > tbody:last-child > tr:last-child, .panel > .table-responsive:last-child > .table:last-child > tbody:last-child > tr:last-child, .panel > .table:last-child > tfoot:last-child > tr:last-child, .panel > .table-responsive:last-child > .table:last-child > tfoot:last-child > tr:last-child	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5632	5641		.panel > .table:last-child > tbody:last-child > tr:last-child td:first-child, .panel > .table-responsive:last-child > .table:last-child > tbody:last-child > tr:last-child td:first-child, .panel > .table:last-child > tfoot:last-child > tr:last-child td:first-child, .panel > .table-responsive:last-child > .table:last-child > tfoot:last-child > tr:last-child td:first-child, .panel > .table:last-child > tbody:last-child > tr:last-child th:first-child, .panel > .table-responsive:last-child > .table:last-child > tbody:last-child > tr:last-child th:first-child, .panel > .table:last-child > tfoot:last-child > tr:last-child th:first-child, .panel > .table-responsive:last-child > .table:last-child > tfoot:last-child > tr:last-child th:first-child	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5642	5651		.panel > .table:last-child > tbody:last-child > tr:last-child td:last-child, .panel > .table-responsive:last-child > .table:last-child > tbody:last-child > tr:last-child td:last-child, .panel > .table:last-child > tfoot:last-child > tr:last-child td:last-child, .panel > .table-responsive:last-child > .table:last-child > tfoot:last-child > tr:last-child td:last-child, .panel > .table:last-child > tbody:last-child > tr:last-child th:last-child, .panel > .table-responsive:last-child > .table:last-child > tbody:last-child > tr:last-child th:last-child, .panel > .table:last-child > tfoot:last-child > tr:last-child th:last-child, .panel > .table-responsive:last-child > .table:last-child > tfoot:last-child > tr:last-child th:last-child	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5714	5717		.panel > .table-responsive	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5721	5724		.panel-group .panel	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5744	5748		.panel-default > .panel-heading	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5752	5755		.panel-default > .panel-heading .badge	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5759	5761		.panel-primary	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5762	5766		.panel-primary > .panel-heading	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5767	5769		.panel-primary > .panel-heading + .panel-collapse > .panel-body	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5770	5773		.panel-primary > .panel-heading .badge	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5774	5776		.panel-primary > .panel-footer + .panel-collapse > .panel-body	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5856	5868		.embed-responsive .embed-responsive-item, .embed-responsive iframe, .embed-responsive embed, .embed-responsive object, .embed-responsive video	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5875	5884		.well	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5885	5888		.well blockquote	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5889	5892		.well-lg	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5897	5906		.close	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5907	5914		.close:hover, .close:focus	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5915	5921		button.close	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5925	5936		.modal	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5937	5946		.modal.fade .modal-dialog	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5962	5972		.modal-content	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5982	5985		.modal-backdrop.fade	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5986	5989		.modal-backdrop.in	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+5990	5993		.modal-header	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+6005	6009		.modal-footer	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+6010	6013		.modal-footer .btn + .btn	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+6032	6035	@media (min-width: 768px)	.modal-content	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+6045	6067		.tooltip	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+6068	6071		.tooltip.in	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+6072	6075		.tooltip.top	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+6076	6079		.tooltip.right	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+6080	6083		.tooltip.bottom	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+6084	6087		.tooltip.left	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+6088	6095		.tooltip-inner	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+6110	6116		.tooltip.top-left .tooltip-arrow	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+6159	6190		.popover	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+6203	6210		.popover-title	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+6226	6229		.popover > .arrow:after	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+6230	6237		.popover.top > .arrow	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+6238	6244		.popover.top > .arrow:after	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+6245	6252		.popover.right > .arrow	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+6253	6259		.popover.right > .arrow:after	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+6260	6267		.popover.bottom > .arrow	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+6268	6274		.popover.bottom > .arrow:after	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+6275	6282		.popover.left > .arrow	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+6283	6289		.popover.left > .arrow:after	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+6293	6297		.carousel-inner	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+6298	6304		.carousel-inner > .item	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+6310	6321	@media all and (transform-3d), (-webkit-transform-3d)	.carousel-inner > .item	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+6322	6327	@media all and (transform-3d), (-webkit-transform-3d)	.carousel-inner > .item.next,   .carousel-inner > .item.active.right	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+6328	6333	@media all and (transform-3d), (-webkit-transform-3d)	.carousel-inner > .item.prev,   .carousel-inner > .item.active.left	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+6334	6340	@media all and (transform-3d), (-webkit-transform-3d)	.carousel-inner > .item.next.left,   .carousel-inner > .item.prev.right,   .carousel-inner > .item.active	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+6372	6385		.carousel-control	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+6386	6392		.carousel-control.left	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+6393	6401		.carousel-control.right	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+6402	6409		.carousel-control:hover, .carousel-control:focus	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+6410	6419		.carousel-control .icon-prev, .carousel-control .icon-next, .carousel-control .glyphicon-chevron-left, .carousel-control .glyphicon-chevron-right	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+6430	6436		.carousel-control .icon-prev, .carousel-control .icon-next	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+6443	6453		.carousel-indicators	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+6454	6465		.carousel-indicators li	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+6466	6471		.carousel-indicators .active	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+6472	6483		.carousel-caption	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+6505	6509	@media screen and (min-width: 768px)	.carousel-caption	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+6514	6548		.clearfix:before, .clearfix:after, .dl-horizontal dd:before, .dl-horizontal dd:after, .container:before, .container:after, .container-fluid:before, .container-fluid:after, .row:before, .row:after, .form-horizontal .form-group:before, .form-horizontal .form-group:after, .btn-toolbar:before, .btn-toolbar:after, .btn-group-vertical > .btn-group:before, .btn-group-vertical > .btn-group:after, .nav:before, .nav:after, .navbar:before, .navbar:after, .navbar-header:before, .navbar-header:after, .navbar-collapse:before, .navbar-collapse:after, .pager:before, .pager:after, .panel-body:before, .panel-body:after, .modal-header:before, .modal-header:after, .modal-footer:before, .modal-footer:after	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+6567	6571		.center-block	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+6823	6825		*	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+6861	6864		.modal	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+6879	6882		.btn	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+6888	6891		.btn:active, .btn.active	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+7026	7030		.form-control	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+7031	7036		.form-control:focus	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+7045	7049		.input-group-addon	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+7053	7055		.form-control-static	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+7056	7058		.form-group	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+7062	7064		.form-horizontal .form-group	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+7116	7119		.label	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+7138	7142		.alert	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+7143	7145		hr	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+7146	7148		.progress-bar	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+7149	7152		.nav-tabs > li > a	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+7167	7175		.glyphicon	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+7176	7178		.glyphicon-chevron-left:before	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+7179	7181		.glyphicon-chevron-right:before	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+7182	7184		.glyphicon-chevron-up:before	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+7185	7187		.glyphicon-chevron-down:before	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+7416	7418		html	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+7419	7423		body	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
+7435	7437		.hidden	0	retained unchanged; BS5 bridge disposition in bs5-audit.md
+7451	7454		.navbar	1	retained unchanged; BS5 bridge disposition in bs5-audit.md
