@@ -41,15 +41,15 @@ function label(key) {
 }
 </script>
 <template>
-    <span v-if="!(user.examMode && user.examTeacher !== aj.identity.user)" data-password-menu class="dropup" :class="{ open: menu }" @focusout="event => { if (!event.currentTarget.contains(event.relatedTarget)) menu = false; }">
-        <button class="btn btn-default" :aria-label="aj.gettext('Change Password')" :aria-expanded="menu" @click="menu = !menu"><i class="fa fa-cog"></i></button>
-        <ul v-show="menu" class="dropdown-menu dropdown-menu-right" style="margin-bottom:-30px;margin-right:40px;z-index:4000">
-            <li><a href="" data-password-show @click.prevent="action(show)"><component :is="part.bold ? 'b' : 'span'" v-for="(part, i) in label('show')" :key="i">{{ part.text }}</component></a></li>
-            <li><a href="" data-password-reset @click.prevent="action(reset)"><component :is="part.bold ? 'b' : 'span'" v-for="(part, i) in label(user.examMode ? 'resetBoth' : 'reset')" :key="i">{{ part.text }}</component></a></li>
-            <li v-if="!user.examMode"><a href="" data-password-random @click.prevent="action(random)"><component :is="part.bold ? 'b' : 'span'" v-for="(part, i) in label('random')" :key="i">{{ part.text }}</component></a></li>
-            <li v-if="!user.examMode"><a href="" data-password-first @click.prevent="action(() => custom('first'))"><component :is="part.bold ? 'b' : 'span'" v-for="(part, i) in label('first')" :key="i">{{ part.text }}</component></a></li>
-            <li><a href="" data-password-current @click.prevent="action(() => custom('current'))"><component :is="part.bold ? 'b' : 'span'" v-for="(part, i) in label('current')" :key="i">{{ part.text }}</component></a></li>
-            <li v-if="user.examMode"><a href="" data-password-both @click.prevent="action(() => custom('current', true))"><component :is="part.bold ? 'b' : 'span'" v-for="(part, i) in label('both')" :key="i">{{ part.text }}</component></a></li>
+    <span v-if="!(user.examMode && user.examTeacher !== aj.identity.user)" data-password-menu class="dropup" @focusout="event => { if (!event.currentTarget.contains(event.relatedTarget)) menu = false; }">
+        <button class="btn btn-light c6-button" :aria-label="aj.gettext('Change Password')" :aria-expanded="menu" @click="menu = !menu"><i class="fa fa-cog"></i></button>
+        <ul v-show="menu" :class="{ show: menu }" class="dropdown-menu c6-menu dropdown-menu-end" style="margin-bottom:-30px;margin-right:40px;z-index:4000">
+            <li><a class="dropdown-item" href="" data-password-show @click.prevent="action(show)"><component :is="part.bold ? 'b' : 'span'" v-for="(part, i) in label('show')" :key="i">{{ part.text }}</component></a></li>
+            <li><a class="dropdown-item" href="" data-password-reset @click.prevent="action(reset)"><component :is="part.bold ? 'b' : 'span'" v-for="(part, i) in label(user.examMode ? 'resetBoth' : 'reset')" :key="i">{{ part.text }}</component></a></li>
+            <li v-if="!user.examMode"><a class="dropdown-item" href="" data-password-random @click.prevent="action(random)"><component :is="part.bold ? 'b' : 'span'" v-for="(part, i) in label('random')" :key="i">{{ part.text }}</component></a></li>
+            <li v-if="!user.examMode"><a class="dropdown-item" href="" data-password-first @click.prevent="action(() => custom('first'))"><component :is="part.bold ? 'b' : 'span'" v-for="(part, i) in label('first')" :key="i">{{ part.text }}</component></a></li>
+            <li><a class="dropdown-item" href="" data-password-current @click.prevent="action(() => custom('current'))"><component :is="part.bold ? 'b' : 'span'" v-for="(part, i) in label('current')" :key="i">{{ part.text }}</component></a></li>
+            <li v-if="user.examMode"><a class="dropdown-item" href="" data-password-both @click.prevent="action(() => custom('current', true))"><component :is="part.bold ? 'b' : 'span'" v-for="(part, i) in label('both')" :key="i">{{ part.text }}</component></a></li>
         </ul>
     </span>
 </template>

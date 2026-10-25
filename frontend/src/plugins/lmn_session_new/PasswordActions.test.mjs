@@ -16,7 +16,7 @@ function setup(extra = {}) {
 }
 it('opens the shared first-password dialog, blurs the table until close and closes the menu', async () => {
     const s = setup(); let close; s.aj.modal.open.mockReturnValue(new Promise(r => { close = r; }));
-    await s.wrapper.get('button').trigger('click'); expect(s.wrapper.get('[data-password-menu]').classes()).toContain('open'); await s.wrapper.get('[data-password-show]').trigger('click');
+    await s.wrapper.get('button').trigger('click'); expect(s.wrapper.get('[data-password-menu] .dropdown-menu').classes()).toContain('show'); await s.wrapper.get('[data-password-show]').trigger('click');
     expect(s.aj.modal.open.mock.calls).toEqual([[ShowPassword, { username: 'p96-a' }, { backdrop: 'static', keyboard: false }]]);
     expect(s.wrapper.emitted('blur')).toEqual([[true]]); expect(s.wrapper.get('button').attributes('aria-expanded')).toBe('false');
     close(); await flushPromises(); expect(s.wrapper.emitted('blur')).toEqual([[true], [false]]);

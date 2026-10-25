@@ -45,8 +45,8 @@ it('identity change tears down polling and redirects, old beforeunload handler i
 });
 it('detail group actions reuse part 1 payloads, cancel keeps name, generated save clears leave flag',async()=>{
     const s=setup();await flushPromises();s.aj.messagebox.prompt=vi.fn().mockRejectedValueOnce('cancel').mockResolvedValueOnce({value:'p93-renamed'}).mockResolvedValueOnce({value:'p93-copy'});
-    await s.wrapper.get('[data-rename]').element.closest('.input-group-btn').querySelector('button').click(); await flushPromises();
-    expect(s.wrapper.get('[data-rename]').element.closest('.input-group-btn').classList.contains('open')).toBe(true);
+    await s.wrapper.get('[data-rename]').element.closest('.c6-group-actions').querySelector('button').click(); await flushPromises();
+    expect(s.wrapper.get('[data-rename]').element.closest('.dropdown-menu').classList.contains('show')).toBe(true);
     await s.wrapper.get('[data-rename]').trigger('click');await flushPromises();expect(s.store.state.current.name).toBe('p93-fixture');
     await s.wrapper.get('[data-rename]').trigger('click');await flushPromises();expect(s.store.state.current.name).toBe('p93-renamed');
     await s.wrapper.get('[data-clone]').trigger('click');await flushPromises();expect(s.calls.filter(c=>c[1].includes('/sessions'))).toEqual([

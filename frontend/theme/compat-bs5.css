@@ -405,3 +405,20 @@ body.global-color-teal .c4-tabs > .nav-item > .nav-link.active, body.global-colo
 .c4-button[disabled]:hover, .c4-button[disabled]:focus { background-color: #fff; border-color: #eee; }
 /* P137 lmn_permissions/Permissions.vue; C4 real API methods without permission_id retain the old empty-label suppression; D1. */
 .badge.c4-badge:empty { display: none; }
+
+/* P137 lmn_session_new/*.vue; P162 C6 neutral buttons preserve B3/B4 focus and Ajenti flat/LMN cascade; consolidate D1. */
+.btn.c6-button { --bs-btn-focus-box-shadow: none; }
+/* P137 lmn_session_new/*.vue; P162 C6 neutral buttons preserve B3/B4 focus and Ajenti flat/LMN cascade; consolidate D1. */
+.c6-button { color: #333; background-color: #fff; border-color: #eee; }
+/* P137 lmn_session_new/*.vue; P162 C6 neutral buttons preserve B3/B4 focus and Ajenti flat/LMN cascade; consolidate D1. */
+.btn.c6-button:where(:not(.btn-flat):not(.btn-lmn):not(.btn-lmn-danger-inv):not(.btn-lmn-success-inv)) { color: #333; background-color: #fff; border-color: #eee; }
+/* P137 lmn_session_new/*.vue; P162 C6 neutral buttons preserve B3/B4 focus and Ajenti flat/LMN cascade; consolidate D1. */
+.c6-button:focus, .c6-button:focus-visible { color: #333; background-color: #e6e6e6; border-color: #aeaeae; }
+/* P137 lmn_session_new/*.vue; P162 C6 neutral buttons preserve B3/B4 focus and Ajenti flat/LMN cascade; consolidate D1. */
+.c6-button:hover, .c6-button:active { color: #333; background-color: #e6e6e6; border-color: #cfcfcf; }
+/* P137 lmn_session_new/*.vue; P162 C6 neutral buttons preserve B3/B4 focus and Ajenti flat/LMN cascade; consolidate D1. */
+.c6-button:active:hover, .c6-button:active:focus { color: #333; background-color: #d4d4d4; border-color: #aeaeae; }
+/* P137 lmn_session_new/*.vue; P162 C6 neutral buttons preserve B3/B4 focus and Ajenti flat/LMN cascade; consolidate D1. */
+.c6-button.active { color: #333; background-color: #e6e6e6; border-color: #cfcfcf; background-image: none; }
+/* P137 lmn_session_new/*.vue; P162 C6 neutral buttons preserve B3/B4 focus and Ajenti flat/LMN cascade; consolidate D1. */
+.c6-button.active:hover, .c6-button.active:focus { color: #333; background-color: #d4d4d4; border-color: #aeaeae; }
