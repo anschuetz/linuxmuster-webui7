@@ -72,7 +72,6 @@
 /* BS3 info-card action hover keeps Common orange; P137 frontend/src/plugins/lmn_landingpage/Landingpage.vue:104 (native anchor, 0 legacy classes); remove C1. */ .info-cards a:not([href]):not([class]):hover { color: #ff8f00; }
 /* BS3 list-group block flow and inherited foreground; P137 list family 63 uses, frontend/src/shell/plugins.mjs; remove B6/C1. */ .list-group { display: block; border-radius: 0; --bs-list-group-color: currentColor; }
 /* BS3 adjacent list items overlap complete borders; P137 list family 63 uses, frontend/src/shell/plugins.mjs; remove B6/C1. */ .list-group-item + .list-group-item { border-top-width: 1px; }
-/* BS3 native Dashboard tab button inherits text color formerly supplied by Normalize; P137 frontend/src/shell/Dashboard.vue:28 (native button, 0 legacy classes); remove B6. */ .nav-tabs > li > button { color: inherit; border-radius: revert; }
 /* BS3 summary was a block without disclosure marker; P137 frontend/src/shell/Dashboard.vue:26 (native summary, 0 legacy classes); remove B6. */ summary { display: block; }
 /* BS3 custom table cells had zero padding before Common's explicit padded/header variants; P137 table family, frontend/src/plugins/lmn_devices/Devices.vue:179; remove C3/C10. */ .lm-table td, .lm-table th { padding: 0; }
 
@@ -190,3 +189,37 @@ html body.customized .form-control:focus + .common-path-addon a i { color: #233c
 .file-open-dialog .list-group-item-action:hover, .file-open-dialog .list-group-item-action:focus { color: #666; background-color: #f5f5f5; }
 /* P137 common/FileEditorDialog.vue; BS5 focus-visible shadow was absent on legacy buttons, B4; consolidate D1. */
 .btn.common-file-button:focus-visible { color: #333; background-color: #e6e6e6; border-color: #aeaeae; }
+
+/* P137 shell/Dashboard.vue/StockSettings.vue/static-pages.mjs; B6 neutral focus token; consolidate D1. */
+.btn.shell-stock-button { --bs-btn-focus-box-shadow: none; }
+/* P137 shell/Dashboard.vue/StockSettings.vue/static-pages.mjs; B6 Ajenti neutral palette; consolidate D1. */
+.shell-stock-button, .btn.shell-stock-button:not(.btn-flat) { color: #333; background-color: #fff; border-color: #eee; }
+/* P137 shell/Dashboard.vue/StockSettings.vue/static-pages.mjs; B6 neutral focus; consolidate D1. */
+.shell-stock-button:focus, .btn.shell-stock-button:not(.btn-flat):focus { color: #333; background-color: #e6e6e6; border-color: #aeaeae; }
+/* P137 shell/Dashboard.vue/StockSettings.vue/static-pages.mjs; B6 neutral hover/pressed; consolidate D1. */
+.shell-stock-button:hover, .shell-stock-button:active, .btn.shell-stock-button:not(.btn-flat):hover, .btn.shell-stock-button:not(.btn-flat):active { color: #333; background-color: #e6e6e6; border-color: #cfcfcf; }
+/* P137 shell/Dashboard.vue/StockSettings.vue/static-pages.mjs; B6 neutral pressed focus; consolidate D1. */
+.shell-stock-button:active:hover, .shell-stock-button:active:focus, .btn.shell-stock-button:not(.btn-flat):active:hover, .btn.shell-stock-button:not(.btn-flat):active:focus { color: #333; background-color: #d4d4d4; border-color: #aeaeae; }
+/* P137 shell/Dashboard.vue/StockSettings.vue/static-pages.mjs; B6 old unconfigured disabled variables; consolidate D1. */
+.shell-stock-button:disabled, .btn.shell-stock-button:not(.btn-flat):disabled { color: inherit; background-color: transparent; border-color: currentColor; }
+/* P137 shell/SettingsField.vue/SessionList.vue; B6 original form-group spacing; consolidate D1. */
+.shell-stock-field { margin-bottom: 30px; }
+/* P137 shell/SettingsField.vue/Dashboard.vue; B6 native select appearance, form-control remains a valid BS5 theme hook; consolidate D1. */
+.shell-stock-select { background-image: none; }
+/* P137 shell/Widget.vue; B6 original xs widget columns in the transitional float grid; consolidate D1. */
+.shell-widget-column { position: relative; float: left; min-height: 1px; padding-left: 15px; padding-right: 15px; }
+/* P137 shell/Widget.vue/SessionList.vue; B6 original label dimensions; consolidate D1. */
+.badge.shell-stock-label { display: inline; min-width: 0; padding: .4em .6em .3em; margin-right: 3px; font-size: 75%; font-weight: bold; line-height: 1; color: #fff; text-align: center; white-space: nowrap; vertical-align: baseline; border-radius: .25em; }
+/* P137 shell/Widget.vue/SessionList.vue; B6 original danger label color; consolidate D1. */
+.shell-stock-label.bg-danger { --bs-danger-rgb: 244, 67, 54; }
+/* P137 shell/SessionList.vue; B6 original info label color; consolidate D1. */
+.shell-stock-label.bg-info { --bs-info-rgb: 3, 169, 244; }
+/* P137 shell/Dashboard.vue; B6 native tab button dimensions, Vue owns active state; consolidate D1. */
+.shell-dashboard-tabs > .nav-item > .nav-link { display: inline-block; color: inherit; padding: 1px 6px; margin: 0; font: inherit; line-height: inherit; background: revert; border: revert; border-radius: revert; }
+/* P137 shell/StockSettings.vue; B6 existing inline button tabs, active class carries selection without changing approved appearance; consolidate D1. */
+.shell-settings-tabs > .nav-link { display: inline-block; margin-bottom: 0; border-radius: 0; }
+
+/* P137 shell/Widget.vue; B6 widths after transitional .row child reset; consolidate D1. */
+.shell-widget-column.col-4 { width: 33.33333333%; }
+/* P137 shell/Widget.vue; B6 widths after transitional .row child reset; consolidate D1. */
+.shell-widget-column.col-8 { width: 66.66666667%; }

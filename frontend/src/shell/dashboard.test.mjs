@@ -106,7 +106,7 @@ it('matches the five widget controllers and core time/bytes filters, preserving 
 });
 it('renders disk, datetime, unknown values, hideTotal and warning thresholds without fetching templates', async () => {
     const s=setup(); const disk=render(Widget,{widget:{id:'d',typeId:'disk',config:{mountpoint:'/home',hideTotal:true}},value:{used:99,total:100}},s.aj);
-    expect(disk.text()).toContain('Filesystem: /home'); expect(disk.text()).toContain('99%'); expect(disk.text()).not.toContain('Total'); expect(disk.find('.label-danger').exists()).toBe(true);
+    expect(disk.text()).toContain('Filesystem: /home'); expect(disk.text()).toContain('99%'); expect(disk.text()).not.toContain('Total'); expect(disk.find('.badge.bg-danger').exists()).toBe(true);
     const date=render(Widget,{widget:{id:'dt',typeId:'datetime'},value:'24.10.2026 17:00'},s.aj); expect(date.text()).toContain('24.10.2026 17:00'); await date.setProps({value:''}); expect(date.text()).toContain('Unknown');
     const empty=render(Widget,{widget:{id:'x',typeId:'unknown'}},s.aj); expect(empty.text()).toBe('');
 });
@@ -199,7 +199,7 @@ it('matches original widget templates for populated and empty display values', (
                 const ui = render(Widget, {widget, value, sessions: type === 'sessions' ? value : undefined}, s.aj);
                 for (const selector of ['.widget-header', '.widget-value', '.text-primary'])
                     expect(parts(ui.element, selector), `${type}: ${selector}`).toEqual(parts(original, selector));
-                expect(ui.findAll('.label-danger').length).toBe(original.querySelectorAll('sup:not(.ng-hide) .label-danger').length);
+                expect(ui.findAll('.badge.bg-danger').length).toBe(original.querySelectorAll('sup:not(.ng-hide) .label-danger').length);
             }
         }
     }
