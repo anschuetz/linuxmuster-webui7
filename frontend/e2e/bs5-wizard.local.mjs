@@ -31,6 +31,19 @@ for(const name of ['before','after']){
  }},vue()],build:{write:false,target:'esnext',minify:false,rolldownOptions:{input:'fixture-entry',output:{format:'es',inlineDynamicImports:true}}}});bundles[name]=result.output[0].code;
 }
 const scenes=['welcome','welcome-accepted','school','school-error','account','account-error','account-valid','externalservices','externalservices-off','summary','summary-loading','setup','setup-working','setup-error','done'];
+// P176: later empty log polls depend on screenshot duration, not on the UI contract.
+function assertRequestsEqual(before,after,scene){
+ if(!scene.startsWith('setup'))return assert.deepEqual(before,after);
+ const initial=['GET','/api/lmn/log/tmp/linuxmuster-setup.log?offset=0'];
+ const subsequent=['GET','/api/lmn/log/tmp/linuxmuster-setup.log?offset=20'];
+ const comparable=requests=>{
+  const polls=requests.filter(request=>request[0]==='GET'&&request[1].startsWith('/api/lmn/log/'));
+  assert.deepEqual(polls[0],initial,'First setup log poll');
+  for(const poll of polls.slice(1))assert.deepEqual(poll,subsequent,'Subsequent empty setup log poll');
+  return requests.filter(request=>JSON.stringify(request)!==JSON.stringify(subsequent));
+ };
+ assert.deepEqual(comparable(before),comparable(after));
+}
 const results=[],browser=await chromium.launch({headless:true});
 const snapshot=page=>page.locator('.modal *').evaluateAll(elements=>elements.filter(e=>e.getClientRects().length).map(e=>{
  const r=e.getBoundingClientRect(),s=getComputedStyle(e);return{tag:e.tagName,text:e.textContent,x:r.x,y:r.y,width:r.width,height:r.height,color:s.color,background:s.backgroundColor,padding:s.padding,margin:s.margin,border:s.border,borderRadius:s.borderRadius,boxShadow:s.boxShadow,font:s.font,lineHeight:s.lineHeight,display:s.display,opacity:s.opacity,outline:s.outline,textDecoration:s.textDecoration,focusVisible:e.matches(':focus-visible'),active:e.matches(':active'),hover:e.matches(':hover')};
@@ -41,7 +54,8 @@ try{for(const scene of scenes)for(const[width,height]of[[1440,900],[768,1024],[3
  for(const name of ['before','after']){
  const page=await browser.newPage({viewport:{width,height},timezoneId:'UTC',locale:'en-GB'});page.setDefaultTimeout(4000);const errors=[];page.on('pageerror',e=>errors.push(e.message));
  await page.route('**/*',r=>r.request().url().endsWith('/logo-full.png')?r.fulfill({body:logo,contentType:'image/png'}):r.abort());
- await page.setContent('<!doctype html><html><head><base href="http://fixture.local/"></head><body class="customized"><div id="fixture"></div></body></html>');await page.addStyleTag({content:css[name]});await page.addStyleTag({content:'*,*::before,*::after { animation: none !important; transition: none !important; caret-color: transparent !important; }'});await page.evaluate(scene=>window.fixtureScene=scene,scene);await page.addScriptTag({type:'module',content:bundles[name]});await page.waitForFunction(()=>window.fixture?.ready);await page.waitForTimeout(1100);
+ await page.setContent('<!doctype html><html><head><base href="http://fixture.local/"></head><body class="customized"><div id="fixture"></div></body></html>');await page.addStyleTag({content:css[name]});await page.addStyleTag({content:'*,*::before,*::after { animation: none !important; transition: none !important; caret-color: transparent !important; }'});await page.evaluate(scene=>window.fixtureScene=scene,scene);await page.addScriptTag({type:'module',content:bundles[name]});await page.waitForFunction(()=>window.fixture?.ready);
+ if(scene.startsWith('setup'))await page.waitForFunction(()=>document.querySelector('.modal pre')?.textContent==='Synthetic setup log\n');else await page.waitForTimeout(1100);
  if(scene.startsWith('welcome'))await page.locator('img').evaluate(e=>e.decode());
  if(scene==='welcome-accepted')await page.locator('input[type=checkbox]').check();
  if(scene==='school-error'){await page.locator('#schoolname-input').fill('');await page.getByText('Next',{exact:true}).click();}
@@ -59,7 +73,7 @@ try{for(const scene of scenes)for(const[width,height]of[[1440,900],[768,1024],[3
  }
  observations[name]={states,requests:await page.evaluate(()=>window.fixture.requests),logo:await page.locator('img').evaluateAll(es=>es.map(e=>({width:e.width,naturalWidth:e.naturalWidth,bodyWidth:e.parentElement.clientWidth})))};await page.evaluate(()=>window.fixture.dispose());await page.close();
  }
- assert.deepEqual(observations.before.requests,observations.after.requests);
+ assertRequestsEqual(observations.before.requests,observations.after.requests,scene);
  for(const key of Object.keys(observations.before.states)){const b=observations.before.states[key],a=observations.after.states[key];results.push({scene,width,state:key,equal:b.sha256===a?.sha256,geometryEqual:JSON.stringify(b.styles)===JSON.stringify(a?.styles),expected:scene.startsWith('welcome')&&width===390?'D12':null});}
  if(scene.startsWith('welcome')&&width===390){assert.ok(observations.before.logo[0].width>observations.before.logo[0].bodyWidth-40);assert.ok(observations.after.logo[0].width<=observations.after.logo[0].bodyWidth-40);}
  await writeFile(join(output,scene+'-'+width+'-metadata.json'),JSON.stringify(observations,null,2)+'\n');await writeFile(join(output,'comparison.json'),JSON.stringify(results,null,2)+'\n');
