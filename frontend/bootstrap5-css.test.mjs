@@ -56,7 +56,15 @@ it('keeps the old grid breakpoint, open/fade states and native messagebox stacki
 it('retains every post-Reboot Ajenti rule unchanged and accounts for all 368 A1 counterparts', async () => {
     const original = normalizedRules(await read('theme/ajenti.css'));
     const start = original.findIndex(rule => rule[1] === 'body');
-    expect(normalizedRules(await read('theme/ajenti-bs5.css'))).toEqual(original.slice(start));
+    const theme = normalizedRules(await read('theme/ajenti-bs5.css'));
+    // B3 adds only the neutral auth variant before the original btn-flat cascade.
+    const authSelectors = new Set(['.auth-secondary', '.auth-secondary:focus',
+        '.auth-secondary:hover,.auth-secondary:active',
+        '.auth-secondary:active:hover,.auth-secondary:active:focus', '.auth-secondary:disabled']);
+    const auth = theme.filter(rule => authSelectors.has(rule[1]));
+    expect(auth.map(rule => rule[1])).toEqual([...authSelectors]);
+    expect(auth.every(rule => rule[0].length === 0)).toBe(true);
+    expect(theme.filter(rule => !authSelectors.has(rule[1]))).toEqual(original.slice(start));
     const modified = (await read('theme/core-selectors.tsv')).trim().split('\n').slice(1)
         .map(row => row.split('\t')).filter(row => row[5] === 'modified');
     const audit = (await read('theme/bs5-counterparts.tsv')).trim().split('\n').slice(1).map(row => row.split('\t'));

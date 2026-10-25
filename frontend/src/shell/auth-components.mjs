@@ -6,7 +6,7 @@ const totpDate = seconds => {
     const offset = -date.getTimezoneOffset(), zone = `${offset < 0 ? '-' : '+'}${pad(Math.floor(Math.abs(offset) / 60))}${pad(Math.abs(offset) % 60)}`;
     return `${pad(date.getDate())}-${pad(date.getMonth() + 1)}-${date.getFullYear()} ${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())} ${zone}`;
 };
-const button = (text, action, attrs = {}) => h('button', { type: 'button', class: 'btn btn-default', onClick: action, ...attrs }, text);
+const button = (text, action, attrs = {}) => h('button', { type: 'button', class: 'btn btn-secondary auth-secondary', onClick: action, ...attrs }, text);
 const field = (model, name, label, { type = 'text', change, disabled, autofocus } = {}) =>
     h('input', { name, type, class: 'form-control', placeholder: label, value: model.state[name], disabled, autofocus, 'aria-label': label,
         onInput: event => { const value = type === 'password' ? event.target.value : event.target.value.trim(); if (value !== model.state[name]) { model.state[name] = value; change?.(value); } } });
@@ -19,7 +19,7 @@ const authPage = content => h('div', { class: 'container auth-page' }, [
     h('div', { class: 'row', id: 'login-form' }, [h('div', { class: 'col-sm-4' }),
         h('div', { class: 'col-sm-4 auth-card' }, content), h('div', { class: 'col-sm-4' })]),
 ]);
-const primary = (text, disabled) => button(text, undefined, { type: 'submit', class: 'btn btn-primary btn-block', disabled });
+const primary = (text, disabled, extraClass = '') => button(text, undefined, { type: 'submit', class: `btn btn-primary d-block w-100 ${extraClass}`, disabled });
 
 export const Login = defineComponent({
     props: ['model', 'customization', 'prefix'],
@@ -32,10 +32,10 @@ export const Login = defineComponent({
                 logo(props.customization),
                 heading(`fa ${s.success ? 'fa-unlock-alt' : 'fa-lock'}${s.working ? ' flip-cycle' : ''}`),
                 s.mode === 'normal' ? h('div', [field(m, 'username', t('Username'), { disabled: s.working, autofocus: true })]) : null,
-                h('div', { class: 'form-group has-feedback' }, [
+                h('div', { class: 'auth-password-field position-relative' }, [
                     field(m, 'password', t('Password'), { type: s.showPassword ? 'text' : 'password', disabled: s.working }),
                     button([icon(`fas ${s.showPassword ? 'fa-eye-slash' : 'fa-eye'}`)], () => { s.showPassword = !s.showPassword; }, {
-                        class: 'auth-password-toggle form-control-feedback', 'data-action': 'show-password',
+                        class: 'auth-password-toggle auth-password-feedback', 'data-action': 'show-password',
                         'aria-label': t(s.showPassword ? 'Hide password' : 'Show password'), 'aria-pressed': !!s.showPassword,
                     }),
                 ]),
@@ -43,8 +43,8 @@ export const Login = defineComponent({
                 s.showPWReset ? h('div', [h('a', { href: `${props.prefix || ''}/view/reset_password_send` }, t('Password forgotten ?'))]) : null,
             ]), s.verif_code ? h('dialog', { open: true, class: 'auth-dialog', 'aria-label': t('Please enter TOTP verification code:') }, [
                 h('div', { class: 'modal-header' }, [h('h4', t('Please enter TOTP verification code:'))]),
-                h('div', { class: 'modal-body' }, [h('div', { class: 'input-group' }, [field(m, 'code', t('Please enter TOTP verification code:'), { change: m.verify })])]),
-                h('div', { class: 'modal-footer' }, [button(t('Cancel'), m.cancel, { class: 'btn btn-default btn-flat', 'data-action': 'cancel' })]),
+                h('div', { class: 'modal-body' }, [h('div', { class: 'auth-code-group' }, [field(m, 'code', t('Please enter TOTP verification code:'), { change: m.verify })])]),
+                h('div', { class: 'modal-footer' }, [button(t('Cancel'), m.cancel, { class: 'btn btn-secondary auth-secondary btn-flat', 'data-action': 'cancel' })]),
             ]) : null]);
         };
     },
@@ -58,7 +58,7 @@ export const PasswordReset = defineComponent({
         return () => {
             const s = m.state, t = m.gettext;
             if (s.serial === undefined) return authPage(form(m.send, [logo(props.customization), heading('far fa-envelope'),
-                h('div', [field(m, 'mail', t('Email'))]), h('div', [primary(t('Send instructions to reset password'), !s.mail)])]));
+                h('div', [field(m, 'mail', t('Email'))]), h('div', [primary(t('Send instructions to reset password'), !s.mail, 'auth-reset-send')])]));
             if (!s.ready) return authPage(h('div', { role: 'progressbar', 'aria-label': t('Please wait') }));
             if (!s.serial_ok) return authPage(h('div', { class: 'alert alert-danger' }, [icon('fa fa-warning'), ' ', h('b', t('The used link is not valid or expired.'))]));
             return authPage(form(m.save, [logo(props.customization), heading('fas fa-user-edit'),

@@ -658,6 +658,7 @@ div.membership-item {
     margin: 0;
 }
 .auth-password-toggle {
+    color: inherit;
     border: 0;
     background: transparent;
     pointer-events: auto;
@@ -679,6 +680,28 @@ div.membership-item {
     .auth-dialog { width: calc(100% - 32px); padding: 16px; }
 }
 
+// B3: auth owns its spacing/eye geometry; other forms retain their Compat rules.
+.auth-field.mb-3 { margin-bottom: 30px !important; }
+.auth-password-field > .form-control { padding-right: 42.5px; }
+.auth-password-feedback {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 2;
+    display: block;
+    width: 34px;
+    height: 34px;
+    line-height: 34px;
+    text-align: center;
+    pointer-events: none;
+}
+.auth-password-field > label ~ .auth-password-feedback { top: 25px; }
+.auth-password-toggle { pointer-events: auto; }
+// Preserve the former one-cell TOTP input's shrink-wrapped geometry.
+.auth-code-group { display: table; }
+.auth-code-group > .form-control { display: table-cell; position: relative; float: left; width: 100%; margin-bottom: 0; z-index: 2; }
+// D04: allow the long translated reset action to occupy two lines on mobile.
+.auth-reset-send { white-space: normal; }
 // B2: one actual navbar height; the fallback is the original single line.
 :root { --shell-header-height: 60px; }
 .shell-navbar.fixed-top {

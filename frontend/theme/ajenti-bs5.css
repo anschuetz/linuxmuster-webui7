@@ -601,6 +601,34 @@ fieldset[disabled] .btn-default.focus {
   border-color: #eee;
 }
 
+/* B3: auth secondary variant with the approved Ajenti neutral colors/states. */
+.auth-secondary {
+    --bs-btn-focus-box-shadow: none;
+    color: #333;
+    background-color: #fff;
+    border-color: #eee;
+}
+.auth-secondary:focus {
+    color: #333;
+    background-color: #e6e6e6;
+    border-color: #aeaeae;
+}
+.auth-secondary:hover, .auth-secondary:active {
+    color: #333;
+    background-color: #e6e6e6;
+    border-color: #cfcfcf;
+}
+.auth-secondary:active:hover, .auth-secondary:active:focus {
+    color: #333;
+    background-color: #d4d4d4;
+    border-color: #aeaeae;
+}
+.auth-secondary:disabled {
+    color: inherit;
+    background-color: transparent;
+    border-color: currentColor;
+}
+
 .btn-primary {
   color: #fff;
   background-color: #2196F3;
