@@ -191,3 +191,13 @@ Legacy shared form/dropdown/tab/pagination rules are still consumed across front
 - No panel/well/label variants, tabs/new nav-link, dropdown/open/in, form-group/input-addon, dynamic BS3 variant or set error class exists in these four files. No P141 mobile finding assigned; no mobile behavior changed. Import progress-striped already BS5.
 - All four script blocks and protected selector attributes byte-equal against 33377978e; no payload/cancel/access changes. F44: `frontend/e2e/lmn_samba_shares.pw.mjs` and `lmn_wireguard.pw.mjs` use no migrated-class selectors; no selector change needed, Angular branch untouched.
 - Legacy global btn-default/float/progress rules remain for other consumers in frontend/src and usr/**/resources; evidence `logs/p161/remaining-bs3-consumers.txt`. Removal remains D1. No Bootstrap JS, rem or grid breakpoint changes.
+
+
+## P163 · C7 Websession / Docker / VDI
+- Websession.vue + CreateSession.vue: zwei `panel panel-info` → `card c7-session-card`, Heading/Body → Card-Header/Body. Gemessene info-cards-Werte (common/styles.scss): Margin 10px, Rand #eee, Header #233c4c/weiß mit #f99e15, Body 20px. Inline Höhen/Padding bleiben.
+- Neutrale `btn-default` → lokales `c7-button` (Websession/CreateSession, Docker-Details, GroupInfo/MasterInfo); B3/B4-Fokus-Token. Kein globaler Buttoneingriff.
+- CreateSession-Footer und Docker-Hostname: `pull-right` → `float-end`; Class-Typeahead `v-if` + `dropdown-menu show` statt Inline-Display. Klick-/Cancel-Verträge bleiben.
+- Docker + Administration: `nav-item`/`nav-link`, aktive Klasse vom li zum Link; C7-Tabfarben/-Fokus inkl. `:focus-visible { box-shadow: none }` wie vorm Paket.
+- Dashboard/Participants bereits passend. Keine dynamischen panel-/label-/progress-bar-Varianten, kein Raster, keine has-error-Zustände, keine P141-Mobilbefunde im Paket. Bestehende BS5-Badges und modal.show unverändert.
+- F44: lmn_websession.pw.mjs/docker.pw.mjs/vdi.pw.mjs statisch geprüft; keine betroffenen Klassenselektoren. Angular-Zweig unberührt.
+- D1: globale Compat-Regeln bleiben wegen Restverbrauchern in frontend/src und usr/**/resources; Belege logs/p163/remaining-bs3-consumers.txt im Koordinationsrepo. Scriptblöcke und geschützte Attribute aller acht Komponenten bytegleich: logs/p163/unchanged-contracts.json.

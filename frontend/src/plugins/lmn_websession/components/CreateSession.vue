@@ -70,16 +70,16 @@ async function create() {
                 <td style="width:10px"></td>
                 <td style="width:49%;position:relative">
                     <label for="websession-class">{{ aj.gettext('Add Class') }}</label><input id="websession-class" v-model.trim="classQuery" name="classQuery" type="text" autocomplete="off" class="form-control">
-                    <ul v-if="classes.length" class="dropdown-menu" style="display:block"><li v-for="(schoolClass, index) in classes.slice(0, 10)" :key="index" @click="addClass(schoolClass)"><button type="button" class="btn btn-link">{{ schoolClass.sophomorixAdminClass }}</button></li></ul>
+                    <ul v-if="classes.length" class="dropdown-menu show"><li v-for="(schoolClass, index) in classes.slice(0, 10)" :key="index" @click="addClass(schoolClass)"><button type="button" class="btn btn-link">{{ schoolClass.sophomorixAdminClass }}</button></li></ul>
                 </td>
             </tr>
-            <tr style="height:80px"><td colspan="3"><div class="flex-container info-cards"><div class="panel panel-info" style="width:100%">
-                <div class="panel-heading" style="height:40px"><h4 style="line-height:15px">{{ aj.gettext('Users') }}</h4></div>
-                <div class="panel-body"><div v-if="participants.length === 0" class="alert alert-info"><i class="fa fa-info-circle"></i> <span>{{ aj.gettext('No users selected!') }}</span></div>
+            <tr style="height:80px"><td colspan="3"><div class="flex-container info-cards"><div class="card c7-session-card" style="width:100%">
+                <div class="card-header" style="height:40px"><h4 style="line-height:15px">{{ aj.gettext('Users') }}</h4></div>
+                <div class="card-body"><div v-if="participants.length === 0" class="alert alert-info"><i class="fa fa-info-circle"></i> <span>{{ aj.gettext('No users selected!') }}</span></div>
                     <table v-else width="100%"><tbody><tr v-for="(participant, index) in participants" :key="index"><td><i class="fa fa-times-circle" @click="removeParticipant(participant)"></i> {{ participant.givenName }} {{ participant.sn }} ({{ participant.sAMAccountName }})</td></tr></tbody></table>
                 </div>
             </div></div></td></tr>
         </tbody></table>
     </div>
-    <div class="modal-footer"><a class="btn btn-default btn-flat pull-right" data-action="create" @click="create">{{ aj.gettext('Create') }}</a><a class="btn btn-default btn-flat pull-right" data-action="close" @click="emit('cancel')">{{ aj.gettext('Close') }}</a></div>
+    <div class="modal-footer"><a class="btn c7-button btn-flat float-end" data-action="create" @click="create">{{ aj.gettext('Create') }}</a><a class="btn c7-button btn-flat float-end" data-action="close" @click="emit('cancel')">{{ aj.gettext('Close') }}</a></div>
 </template>

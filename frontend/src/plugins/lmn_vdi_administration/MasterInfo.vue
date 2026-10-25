@@ -14,5 +14,5 @@ const hardware = [['Memory', 'memory'], ['Cores', 'cores'], ['BIOS', 'bios'], ['
         <h4>{{ aj.gettext('Hardware') }}</h4>
         <table class="table table-hover" style="width:100%;"><tbody><tr v-for="[label, key] in hardware" :key="key"><th>{{ aj.gettext(label) }}</th><td>{{ masterVMData[key] }}</td></tr></tbody></table>
     </div>
-    <div class="modal-footer"><a class="btn btn-default btn-flat" @click="$emit('cancel')">{{ aj.gettext('OK') }}</a></div>
+    <div class="modal-footer"><a class="btn c7-button btn-flat" @click="$emit('cancel')">{{ aj.gettext('OK') }}</a></div>
 </template>
