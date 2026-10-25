@@ -258,3 +258,20 @@ it('entry mounts and unmounts with the supplied adapter', async () => {
     await flushPromises(); expect(host.textContent).toContain('A User');
     unmount(); expect(host.innerHTML).toBe('');
 });
+
+it('C4 uses BS5 nav items, activates links and keeps the search cancel read-only', async () => {
+    const { w, http } = await setup();
+    expect(w.findAll('.c4-tabs > .nav-item > .nav-link')).toHaveLength(6);
+    expect(w.get('.nav-link.active').text()).toBe('Teachers');
+    await click(w, 'Students');
+    expect(w.get('.nav-link.active').text()).toBe('Students');
+    expect(w.find('.nav-item.active').exists()).toBe(false);
+    await click(w, 'Search & add user');
+    expect(w.get('.modal.show').isVisible()).toBe(true);
+    await click(w, 'Close');
+    await flushPromises();
+    expect(w.get('.modal').element.style.display).toBe('none');
+    expect(w.find('.modal.show').exists()).toBe(false);
+    expect(posts(http)).toEqual([]);
+    expect(w.find('.btn-default').exists()).toBe(false);
+});

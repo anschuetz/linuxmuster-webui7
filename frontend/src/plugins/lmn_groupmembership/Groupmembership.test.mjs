@@ -104,3 +104,14 @@ it('empty-class deletion keeps description path and refreshes only on LOG', asyn
 it('entry mounts and unmounts', () => {
     const element = document.createElement('div'); const stop = mountEntry(element, createMockAj()); expect(element.innerHTML).not.toEqual(''); stop(); expect(element.innerHTML).toEqual('');
 });
+
+it('C4 resolves badge contexts and Vue dropdown show state without changing membership', async () => {
+    const { w, calls } = setup(); await flushPromises();
+    expect(w.findAll('.badge.c4-badge.bg-danger').length).toBeGreaterThan(0);
+    expect(w.find('.label, .btn-default, .input-group-btn').exists()).toBe(false);
+    await button(w, 'Objectsfilter').trigger('click');
+    expect(w.get('.dropdown-menu.show').isVisible()).toBe(true);
+    await button(w, 'Objectsfilter').trigger('click');
+    expect(w.find('.dropdown-menu.show').exists()).toBe(false);
+    expect(calls.filter(r => r.method === 'post')).toEqual([]);
+});

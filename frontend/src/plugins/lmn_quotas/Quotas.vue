@@ -118,7 +118,7 @@ onBeforeUnmount(() => window.removeEventListener('keydown', hotkey));
     <br>
     <component :is="'progress-spinner'" v-if="settings == null" role="progressbar"><div><div class="one"></div><div class="two"></div></div></component>
     <div v-else>
-        <ul class="nav nav-tabs" role="tablist"><li v-for="(title, index) in titles" :key="title" :class="{ active: active === index }"><a href="" role="tab" :aria-selected="active === index" @click.prevent="selectTab(index)">{{ aj.gettext(title) }}</a></li></ul>
+        <ul class="nav nav-tabs c4-tabs" role="tablist"><li v-for="(title, index) in titles" :key="title" class="nav-item"><a class="nav-link" :class="{ active: active === index }" href="" role="tab" :aria-selected="active === index" @click.prevent="selectTab(index)">{{ aj.gettext(title) }}</a></li></ul>
         <br>
         <template v-if="active <= 2">
             <div v-if="!nonDefault[role]" class="alert alert-info">{{ aj.gettext('There is no special quota here.') }}</div>
@@ -127,32 +127,32 @@ onBeforeUnmount(() => window.removeEventListener('keydown', hotkey));
                 <tbody><tr v-for="(user, index) in users" :key="index">
                     <td>{{ nonDefault[role][user.login]?.displayName }}{{ active === 1 ? ` (${user.login})` : '' }}</td>
                     <td v-for="[quota] in quotaTypes" :key="quota"><input type="number" class="form-control" :class="{ nondefault: nonDefault[role][user.login]?.QUOTA?.[quota] !== settings[`role.${role}`][quota] }" v-model.number="userQuota(user.login, quota).value" :disabled="quota === 'CLOUDQUOTA_PERCENTAGE'"></td>
-                    <td><button class="btn btn-default" title="Remove" @click="remove(user)"><i class="fa fa-trash-o"></i></button></td>
+                    <td><button class="btn c4-button" title="Remove" @click="remove(user)"><i class="fa fa-trash-o"></i></button></td>
                 </tr></tbody>
             </table>
         </template>
         <table v-else-if="active <= 4" class="lm-table lm-table-padded">
             <thead><tr><th>{{ aj.gettext('Name') }}</th><th v-for="[quota, classname, projname] in groupTypes" :key="quota">{{ aj.gettext(active === 3 ? classname : projname) }}</th><th></th></tr></thead>
-            <tbody><tr v-for="name in groupNames" :key="name"><td>{{ name }}</td><td v-for="[quota] in groupTypes" :key="quota"><input type="number" class="form-control" :class="{ nondefault: groups[groupType][name].QUOTA[quota].value != 0 }" v-model.number="groupQuota(name, quota).value"></td><td><button class="btn btn-default" title="Set to default" @click="resetGroup(name)"><i class="fa fa-trash-o"></i></button></td></tr></tbody>
+            <tbody><tr v-for="name in groupNames" :key="name"><td>{{ name }}</td><td v-for="[quota] in groupTypes" :key="quota"><input type="number" class="form-control" :class="{ nondefault: groups[groupType][name].QUOTA[quota].value != 0 }" v-model.number="groupQuota(name, quota).value"></td><td><button class="btn c4-button" title="Set to default" @click="resetGroup(name)"><i class="fa fa-trash-o"></i></button></td></tr></tbody>
         </table>
         <div v-else>
             <p class="alert alert-warning">{{ aj.gettext('This functionality is actually under development and displays imprecise values. It will not work with DFS shares or in multischool environment.') }}</p><br>
             <form style="margin-bottom:30px;min-height:50px" @submit.prevent="check()">
                 <label class="col-md-3">{{ aj.gettext('List main directories for user:') }}</label>
-                <div class="has-feedback col-md-6"><UserSearch :key="checkReset" role="" :label="checkUser?.label || ''" @select="check" @query="checkUser = null" /><span v-if="checkUser" aria-label="Clear" class="far fa-times-circle form-control-feedback" style="cursor:pointer;pointer-events:all;line-height:34px;right:17px" @click="clearCheck"></span></div>
+                <div class="c4-check-search col-md-6"><UserSearch :key="checkReset" role="" :label="checkUser?.label || ''" @select="check" @query="checkUser = null" /><span v-if="checkUser" aria-label="Clear" class="far fa-times-circle c4-check-clear" style="cursor:pointer;pointer-events:all;line-height:34px;right:17px" @click="clearCheck"></span></div>
                 <div class="col-md-2"><button type="submit" class="btn btn-success" @click="check()">Check <i class="fas fa-check"></i></button></div>
             </form>
             <component :is="'progress-spinner'" v-if="checking" role="progressbar"><div><div class="one"></div><div class="two"></div></div></component><hr class="clearfix">
             <template v-if="checked"><h3>{{ checkTitle }}</h3><table class="table"><thead><tr><th>{{ aj.gettext('Directory') }}</th><th style="text-align:right">{{ aj.gettext('Size') }}</th></tr></thead><tbody><tr v-for="dir in Object.keys(directories).sort()" :key="dir"><td>{{ dir }}</td><td style="text-align:right">{{ directories[dir].total }}</td></tr><tr><th>{{ aj.gettext('Total') }}</th><th style="text-align:right">{{ total }}</th></tr></tbody></table></template>
         </div>
-        <div v-show="searchVisible" class="modal" role="dialog" aria-modal="true" style="display:block;background:rgba(0,0,0,.5)"><div class="modal-dialog"><div class="modal-content">
+        <div v-show="searchVisible" class="modal" :class="{ show: searchVisible }" role="dialog" aria-modal="true" style="display:block;background:rgba(0,0,0,.5)"><div class="modal-dialog"><div class="modal-content">
             <div class="modal-header"><h3 class="modal-title">{{ aj.gettext('Add special quota') }}</h3></div>
             <div class="modal-body"><UserSearch :role="active < 3 ? role : ''" @select="add" /></div>
-            <div class="modal-footer"><a class="btn btn-default btn-flat" @click="searchVisible = false">{{ aj.gettext('Close') }}</a></div>
+            <div class="modal-footer"><a class="btn c4-button btn-flat" @click="searchVisible = false">{{ aj.gettext('Close') }}</a></div>
         </div></div></div>
-        <div class="floating-toolbar-padder"></div>
-        <component :is="'floating-toolbar'"><div class="container"><div class="row"><div class="col-md-3"></div><div class="col-md-9"><div class="bar row">
-            <a href="/view/lmn/schoolsettings#quota" class="btn btn-lmn pull-right">{{ aj.gettext('Configure default quota') }}</a>
+        <div class="floating-toolbar-padder c4-toolbar-padder"></div>
+        <component :is="'floating-toolbar'" class="c4-toolbar"><div class="container"><div class="row"><div class="col-md-3"></div><div class="col-md-9"><div class="bar row">
+            <a href="/view/lmn/schoolsettings#quota" class="btn btn-lmn float-end">{{ aj.gettext('Configure default quota') }}</a>
             <button v-if="active <= 4" class="btn btn-lmn" @click="save">{{ aj.gettext('Save & apply') }}</button>
             <a v-if="active <= 2" class="btn btn-lmn" @click="searchVisible = true">{{ aj.gettext('Search & add user') }}</a>
         </div></div></div></div></component>

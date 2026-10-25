@@ -51,7 +51,7 @@ detail.load();
 
 <div v-if="groupDetails" style="padding: 0 20px;">
     <div class="alert alert-warning" v-show="identity.profile.isAdmin && type === 'class' && members.length === 0">
-        <a class="btn btn-danger pull-right" @click.prevent="killSchoolclass(groupDetails['description'])">
+        <a class="btn btn-danger float-end" @click.prevent="killSchoolclass(groupDetails['description'])">
             <i class="fa fa-trash"></i>
         </a>
         This class seems to be empty, do you want to delete it ?
@@ -94,16 +94,16 @@ detail.load();
             </td>
         </tr>
     </tbody></table>
-    <div class="panel panel-danger" v-show="type === 'project'">
-        <div class="panel-heading">
-            <a href="#" class="btn btn-default btn-flat pull-right" @click.prevent="showAdminDetails = ! showAdminDetails">{{showMemberDetails ? hidetext : showtext}}</a>
+    <div class="card c4-card c4-card-danger" v-show="type === 'project'">
+        <div class="card-header">
+            <a href="#" class="btn c4-button btn-flat float-end" @click.prevent="showAdminDetails = ! showAdminDetails">{{showMemberDetails ? hidetext : showtext}}</a>
             <h4>
                 <span>{{ aj.gettext('Group Admins:') }}</span>
                 {{admins.length}} <span>{{ aj.gettext('user(s) and') }}</span>
                 {{groupadminlist.length}} <span>{{ aj.gettext('group(s).') }}</span>
             </h4>
         </div>
-        <div v-show="showAdminDetails" class="panel-body">
+        <div v-show="showAdminDetails" class="card-body">
             <h4>{{ aj.gettext('Admins') }}</h4>
             <ul v-if="admins.length > 0" class="list-unstyled" style="column-width:300px;padding:0;">
                 <li v-for="admin in sortedAdmins" class="cardlist">
@@ -137,15 +137,15 @@ detail.load();
             <span v-if="groupadminlist.length === 0" class="cardlist">{{ aj.gettext('No group') }}</span>
         </div>
     </div>
-    <div class="panel panel-danger" v-show="type === 'class'">
-        <div class="panel-heading">
-            <a href="#" class="btn btn-default btn-flat pull-right" @click.prevent="showAdminDetails = ! showAdminDetails">{{showMemberDetails ? hidetext : showtext}}</a>
+    <div class="card c4-card c4-card-danger" v-show="type === 'class'">
+        <div class="card-header">
+            <a href="#" class="btn c4-button btn-flat float-end" @click.prevent="showAdminDetails = ! showAdminDetails">{{showMemberDetails ? hidetext : showtext}}</a>
             <h4>
                 <span>{{ aj.gettext('Schoolclass teacher(s):') }}</span>
                 {{admins.length}} <span>{{ aj.gettext('teacher(s)') }}</span>
             </h4>
         </div>
-        <div v-show="showAdminDetails" class="panel-body">
+        <div v-show="showAdminDetails" class="card-body">
             <div v-show="type === 'class'">
                 <h4>{{ aj.gettext('Teachers') }}</h4>
                 <ul v-if="admins.length > 0" class="list-unstyled" style="column-width:300px;padding:0;">
@@ -158,9 +158,9 @@ detail.load();
         </div>
     </div>
 
-    <div class="panel panel-info">
-        <div class="panel-heading">
-            <a href="#" class="btn btn-default btn-flat pull-right" @click.prevent="showMemberDetails = ! showMemberDetails">{{showMemberDetails ? hidetext : showtext}}</a>
+    <div class="card c4-card c4-card-info">
+        <div class="card-header">
+            <a href="#" class="btn c4-button btn-flat float-end" @click.prevent="showMemberDetails = ! showMemberDetails">{{showMemberDetails ? hidetext : showtext}}</a>
             <h4 v-show="type !== 'class'">
                 <span>{{ aj.gettext('Group Members:') }}</span>
                 {{members.length}} <span>{{ aj.gettext('user(s) and') }}</span>
@@ -171,7 +171,7 @@ detail.load();
                 {{members.length}} <span>{{ aj.gettext('student(s)') }}</span>
             </h4>
         </div>
-        <div v-show="showMemberDetails" class="panel-body">
+        <div v-show="showMemberDetails" class="card-body">
             <h4>{{ aj.gettext('Members') }}</h4>
             <ul v-if="members.length > 0" class="list-unstyled" style="column-width:300px;padding:0;">
                 <li v-for="member in sortedMembers" class="cardlist">
@@ -213,7 +213,7 @@ detail.load();
         </div>
     </div>
 
-    <div v-if="UserSearchVisible" class="modal fade in" style="display:block" tabindex="-1">
+    <div v-if="UserSearchVisible" class="modal fade show" style="display:block" tabindex="-1">
       <div class="modal-dialog"><div class="modal-content">
         <div class="modal-header"><h3>{{ aj.gettext('Add members and/or groups') }}</h3></div>
         <div class="modal-body">
@@ -232,8 +232,8 @@ detail.load();
           </div>
         </div>
         <div class="modal-footer"><span v-if="type === 'project'"><input v-model="addasadmin" type="checkbox"> Add as admin</span>
-          <a class="btn btn-default btn-flat" :disabled="selection.newGroup.length + selection.newUser.length === 0" @click="addEntities">{{ aj.gettext('Apply') }}</a>
-          <a class="btn btn-default btn-flat" @click="UserSearchVisible = false">{{ aj.gettext('Cancel') }}</a>
+          <a class="btn c4-button btn-flat" :disabled="selection.newGroup.length + selection.newUser.length === 0" @click="addEntities">{{ aj.gettext('Apply') }}</a>
+          <a class="btn c4-button btn-flat" @click="UserSearchVisible = false">{{ aj.gettext('Cancel') }}</a>
         </div>
       </div></div>
     </div>
@@ -241,12 +241,12 @@ detail.load();
     <br />
 
     <div class="modal-footer">
-        <a class="btn btn-danger pull-left" v-show="editGroup && type === 'project'" @click.prevent="killProject(groupName)">
+        <a class="btn btn-danger float-start" v-show="editGroup && type === 'project'" @click.prevent="killProject(groupName)">
             <i class="fa fa-trash"></i>
             Delete Project
         </a>
-        <a class="btn btn-default btn-lmn pull-right" @click.prevent="close()">{{ aj.gettext('Close') }}</a>
-        <a class="btn btn-default btn-lmn pull-right" v-show="editMembers" @click.prevent="UserSearchVisible = true">{{ aj.gettext('Add user or group') }}</a>
+        <a class="btn c4-button btn-lmn float-end" @click.prevent="close()">{{ aj.gettext('Close') }}</a>
+        <a class="btn c4-button btn-lmn float-end" v-show="editMembers" @click.prevent="UserSearchVisible = true">{{ aj.gettext('Add user or group') }}</a>
     </div>
 </div>
 

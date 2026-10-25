@@ -92,37 +92,37 @@ onBeforeUnmount(() => {
     <br>
     <div v-if="sambaAccess">
         <div v-if="changeState" class="spinner" role="status"><i class="fa fa-circle-o-notch fa-spin"></i></div>
-        <div v-if="needRefresh" class="alert alert-info">{{ refreshWarning }} <a class="btn btn-default" @click="refreshKrbcc">{{ aj.gettext('Do it now') }}</a></div>
+        <div v-if="needRefresh" class="alert alert-info">{{ refreshWarning }} <a class="btn c4-button" @click="refreshKrbcc">{{ aj.gettext('Do it now') }}</a></div>
         <div class="input-group">
             <input v-model.trim="filter" type="search" class="form-control" placeholder="Filter" autofocus>
-            <div ref="objectsMenu" class="input-group-btn">
-                <button class="btn btn-default" @click="createProject"><i class="fa fa-fw fa-flask"></i> {{ aj.gettext('New Project') }}</button>
-                <button class="btn btn-default" @click="objectsOpen = !objectsOpen"><i class="fa fa-filter"></i> {{ aj.gettext('Objectsfilter') }} <span class="caret"></span></button>
-                <ul v-if="objectsOpen" class="dropdown-menu" style="display:block;width:150px"><li v-for="[key, label] in [['classes', 'Classes'], ['printers', 'Printers'], ['projects', 'Projects']]" :key="key"><label><input :checked="shown[key]" type="checkbox" @change="shown = { ...shown, [key]: $event.target.checked }"> {{ aj.gettext(label) }}</label></li></ul>
+            <div ref="objectsMenu" class="btn-group c4-group-actions">
+                <button class="btn c4-button" @click="createProject"><i class="fa fa-fw fa-flask"></i> {{ aj.gettext('New Project') }}</button>
+                <button class="btn c4-button" @click="objectsOpen = !objectsOpen"><i class="fa fa-filter"></i> {{ aj.gettext('Objectsfilter') }} <span class="caret"></span></button>
+                <ul v-if="objectsOpen" class="dropdown-menu show c4-menu" style="width:150px"><li v-for="[key, label] in [['classes', 'Classes'], ['printers', 'Printers'], ['projects', 'Projects']]" :key="key"><label><input :checked="shown[key]" type="checkbox" @change="shown = { ...shown, [key]: $event.target.checked }"> {{ aj.gettext(label) }}</label></li></ul>
             </div>
-            <div ref="sortMenu" class="input-group-btn">
-                <button class="btn btn-default" @click="sortOpen = !sortOpen"><i class="fa fa-sort-amount-asc"></i> {{ aj.gettext(sort === 'groupname' ? 'Groupname' : 'Membership') }} <span class="caret"></span></button>
-                <ul v-if="sortOpen" class="dropdown-menu dropdown-menu-right" style="display:block;width:150px"><li v-for="[field, label] in [['groupname', 'Groupname'], ['membership', 'Membership']]" :key="field"><a @click="changeSort(field)"><i class="fa fa-sort-amount-asc"></i> {{ aj.gettext(label) }}</a></li></ul>
+            <div ref="sortMenu" class="btn-group c4-group-actions">
+                <button class="btn c4-button" @click="sortOpen = !sortOpen"><i class="fa fa-sort-amount-asc"></i> {{ aj.gettext(sort === 'groupname' ? 'Groupname' : 'Membership') }} <span class="caret"></span></button>
+                <ul v-if="sortOpen" class="dropdown-menu dropdown-menu-end show c4-menu" style="width:150px"><li v-for="[field, label] in [['groupname', 'Groupname'], ['membership', 'Membership']]" :key="field"><a class="dropdown-item" @click="changeSort(field)"><i class="fa fa-sort-amount-asc"></i> {{ aj.gettext(label) }}</a></li></ul>
             </div>
         </div><br>
         <template v-for="(section, index) in definitions" :key="section.key">
             <hr v-if="index > 0">
             <div v-show="shown[section.key]">
-                <button v-if="aj.identity.profile.isAdmin && section.key !== 'printers'" class="btn btn-danger pull-right" title="Reset all memberships" @click="resetAll(section.kind)"><i class="fas fa-undo"></i></button>
+                <button v-if="aj.identity.profile.isAdmin && section.key !== 'printers'" class="btn btn-danger float-end" title="Reset all memberships" @click="resetAll(section.kind)"><i class="fas fa-undo"></i></button>
                 <h3>{{ aj.gettext(section.title) }}</h3><br>
                 <div v-if="loading[section.key]" class="spinner" role="status"><i class="fa fa-circle-o-notch fa-spin"></i></div>
                 <div v-if="lists[section.key]?.length === 0" class="alert alert-info"><i class="fa fa-info-circle"></i> {{ aj.gettext(section.empty) }}</div>
-                <div class="flex-container lmn-container-list" style="flex-direction:column" :style="{ maxHeight: lists[section.key] ? (section.key === 'printers' ? 25 : 45) * lists[section.key].length / 3 + 'px' : undefined }">
+                <div class="flex-container lmn-container-list c4-membership-list" style="flex-direction:column" :style="{ maxHeight: lists[section.key] ? (section.key === 'printers' ? 25 : 45) * lists[section.key].length / 3 + 'px' : undefined }">
                     <div v-for="group in rows[section.key]" :key="group.groupname" class="membership-item" :style="{ padding: section.key === 'printers' ? '0 10px 0 0' : '3px 10px 3px 0' }">
                         <div v-show="!(group.sophomorixHidden && !group.admin && !aj.identity.profile.isAdmin && !group.membership)" :class="{ 'color-orange': group.admin }" :style="!joinable(group) ? { paddingLeft: '18px' } : {}">
                             <input v-show="joinable(group)" :id="group.groupname" type="checkbox" :checked="group.membership" @click="setMembership(group, section.key)">
                             <i :class="section.key === 'classes' ? 'fa fa-users' : section.key === 'printers' ? 'fa fa-fw fa-print' : 'fa fa-flask'"></i>
                             <a href="#" @click.prevent="showDetails(group)"><span v-if="section.key !== 'projects'">{{ aj.gettext(section.key === 'classes' ? 'Class' : 'Printer') }} </span><b style="word-wrap:break-word;-ms-word-break:break-all">{{ group.groupname }}</b></a>
-                            <span v-if="section.key === 'classes'" class="label pull-right" :class="group.members?.length === 0 ? 'label-danger' : 'label-default'" style="width:43px;height:28px" title="Member(s)">{{ group.sophomorixMembers.length }} {{ aj.gettext('stud.') }}<br>{{ group.sophomorixAdmins.length }} {{ aj.gettext('tea.') }}</span>
+                            <span v-if="section.key === 'classes'" class="badge c4-badge float-end" :class="group.members?.length === 0 ? 'bg-danger' : 'bg-secondary'" style="width:43px;height:28px" title="Member(s)">{{ group.sophomorixMembers.length }} {{ aj.gettext('stud.') }}<br>{{ group.sophomorixAdmins.length }} {{ aj.gettext('tea.') }}</span>
                             <template v-if="section.key === 'projects'">
-                                <span v-if="!group.no_admin" class="label label-danger pull-right" style="width:43px;height:28px" title="Admin(s)">{{ group.sophomorixAdmins.length }} {{ aj.gettext('adm.') }}<br>{{ group.sophomorixAdminGroups.length }} {{ aj.gettext('gr.') }}</span>
-                                <span v-else class="label label-danger pull-right" style="width:43px;height:28px;padding-top:10px" title="No admin(s) in this project!"><i class="fa fa-warning fa-xl"></i></span>
-                                <span class="label label-default pull-right" style="width:43px;height:28px" title="Member(s)">{{ group.sophomorixMembers.length }} {{ aj.gettext('mem.') }}<br>{{ group.sophomorixMemberGroups.length }} {{ aj.gettext('gr.') }}</span>
+                                <span v-if="!group.no_admin" class="badge c4-badge bg-danger float-end" style="width:43px;height:28px" title="Admin(s)">{{ group.sophomorixAdmins.length }} {{ aj.gettext('adm.') }}<br>{{ group.sophomorixAdminGroups.length }} {{ aj.gettext('gr.') }}</span>
+                                <span v-else class="badge c4-badge bg-danger float-end" style="width:43px;height:28px;padding-top:10px" title="No admin(s) in this project!"><i class="fa fa-warning fa-xl"></i></span>
+                                <span class="badge c4-badge bg-secondary float-end" style="width:43px;height:28px" title="Member(s)">{{ group.sophomorixMembers.length }} {{ aj.gettext('mem.') }}<br>{{ group.sophomorixMemberGroups.length }} {{ aj.gettext('gr.') }}</span>
                             </template>
                         </div>
                     </div>

@@ -23,17 +23,17 @@ const item = (w, panel, name) => w.findAll(`${panel} li.cardlist`).find((x) => x
 const click = async (w, panel, name, icon) => { await item(w, panel, name).findAll(icon).find((x) => x.isVisible()).trigger('click'); await flushPromises(); };
 afterEach(() => { wrappers.forEach((w) => w.unmount()); wrappers.length = 0; document.body.innerHTML = ''; });
 it('project: renders properties and sends exact option, elevate, demote, remove, search/add and delete payloads from controls', async () => {
-    const { w, calls } = setup(); await flushPromises(); expect(w.text()).toContain('02 Jan 2026 - 03:04:05'); expect(w.find('.panel-info button[title]').attributes('title')).toEqual('Move to admin group');
+    const { w, calls } = setup(); await flushPromises(); expect(w.text()).toContain('02 Jan 2026 - 03:04:05'); expect(w.find('.c4-card-info button[title]').attributes('title')).toEqual('Move to admin group');
     for (const input of w.findAll('table input')) { await input.setValue(true); await flushPromises(); }
     expect(calls.filter((r) => r.url.includes('/groupoptions/')).map((r) => r.data)).toEqual(['sophomorixJoinable', 'sophomorixHidden', 'sophomorixMailList'].map((attribute) => ({ attribute, value: true, type: 'project' })));
-    await click(w, '.panel-info', 'Mitglied', '.fa-level-up-alt');
-    await click(w, '.panel-danger', 'Mitglied', '.fa-level-down-alt');
-    await click(w, '.panel-info', 'member-group', '.fa-level-up-alt');
-    await click(w, '.panel-danger', 'member-group', '.fa-level-down-alt');
-    await click(w, '.panel-info', 'member-group', '.fa-trash');
-    await click(w, '.panel-danger', 'admin-group', '.fa-trash');
-    await click(w, '.panel-info', 'Mitglied', '.fa-trash');
-    await click(w, '.panel-danger', 'Besitzer', '.fa-trash');
+    await click(w, '.c4-card-info', 'Mitglied', '.fa-level-up-alt');
+    await click(w, '.c4-card-danger', 'Mitglied', '.fa-level-down-alt');
+    await click(w, '.c4-card-info', 'member-group', '.fa-level-up-alt');
+    await click(w, '.c4-card-danger', 'member-group', '.fa-level-down-alt');
+    await click(w, '.c4-card-info', 'member-group', '.fa-trash');
+    await click(w, '.c4-card-danger', 'admin-group', '.fa-trash');
+    await click(w, '.c4-card-info', 'Mitglied', '.fa-trash');
+    await click(w, '.c4-card-danger', 'Besitzer', '.fa-trash');
     const expected = [['removemembers', 'member'], ['addadmins', 'member'], ['addmembers', 'member'], ['removeadmins', 'member'], ['removemembergroups', 'member-group'], ['addadmingroups', 'member-group'], ['removeadmingroups', 'member-group'], ['addmembergroups', 'member-group'], ['removemembergroups', 'member-group'], ['removeadmingroups', 'admin-group'], ['removemembers', 'member'], ['removeadmins', 'owner']];
     await button(w, 'Add user or group').trigger('click');
     const searches = w.findAll('input[type=text]'); await searches[1].setValue('old'); await flushPromises(); await searches[1].trigger('blur');
@@ -42,21 +42,21 @@ it('project: renders properties and sends exact option, elevate, demote, remove,
     await w.findAll('input[type=checkbox]').at(-1).setValue(true); await button(w, 'Apply').trigger('click'); await flushPromises();
     expected.push(['addadmins', 'new-user,'], ['addadmingroups', 'new-group,']);
     expect(calls.filter((r) => r.url.endsWith('/membership')).map((r) => r.data)).toEqual(expected.map(([action, entity]) => ({ action, entity, groupname: 'p73', type: 'project' })));
-    await w.find('.panel-info .panel-heading a').trigger('click'); expect(w.find('.panel-info .panel-body').isVisible()).toBe(false);
+    await w.find('.c4-card-info .card-header a').trigger('click'); expect(w.find('.c4-card-info .card-body').isVisible()).toBe(false);
     // Original admin caption follows the MEMBER panel even while admins remain visible.
-    expect(w.find('.panel-danger .panel-heading a').text()).toBe('Show');
-    await w.find('.panel-danger .panel-heading a').trigger('click'); expect(w.find('.panel-danger .panel-body').isVisible()).toBe(false);
+    expect(w.find('.c4-card-danger .card-header a').text()).toBe('Show');
+    await w.find('.c4-card-danger .card-header a').trigger('click'); expect(w.find('.c4-card-danger .card-body').isVisible()).toBe(false);
     await button(w, 'Delete Project').trigger('click'); await flushPromises(); expect(calls.at(-1)).toEqual({ method: 'delete', url: '/api/lmn/groupmembership/projects/p73', data: undefined, cfg: undefined }); expect(w.emitted('close')).toEqual([[{ response: 'refresh' }]]);
 });
 it('class: removing a teacher issues both requests; selecting a teacher always adds admins and displays membership', async () => {
-    const { w, calls } = setup('adminclass'); await flushPromises(); await click(w, '.panel-info', 'Mitglied', '.fa-trash');
+    const { w, calls } = setup('adminclass'); await flushPromises(); await click(w, '.c4-card-info', 'Mitglied', '.fa-trash');
     await button(w, 'Add user or group').trigger('click'); await w.find('input[type=text]').setValue('new'); await flushPromises(); await w.find('.dropdown-menu li').trigger('mousedown'); await button(w, 'Apply').trigger('click'); await flushPromises();
     expect(calls.filter((r) => r.url.endsWith('/membership')).map((r) => r.data)).toEqual([['removemembers', 'member'], ['removeadmins', 'member'], ['addadmins', 'new-user,']].map(([action, entity]) => ({ action, entity, groupname: 'p73', type: 'class' })));
-    expect(w.find('.panel-info').text()).toContain('Neu Test'); expect(w.findAll('.panel-danger')[1].text()).toContain('Neu Test');
+    expect(w.find('.c4-card-info').text()).toContain('Neu Test'); expect(w.findAll('.c4-card-danger')[1].text()).toContain('Neu Test');
 });
 it('printer: LISTS users/groups, no maillist, group payloads and readonly teacher controls', async () => {
-    const { w, calls } = setup('printer'); await flushPromises(); expect(w.findAll('table input')[2].isVisible()).toBe(false); expect(w.find('.panel-info').text()).toContain('nested-group');
-    await click(w, '.panel-info', 'Mitglied', '.fa-trash'); await click(w, '.panel-info', 'nested-group', '.fa-trash');
+    const { w, calls } = setup('printer'); await flushPromises(); expect(w.findAll('table input')[2].isVisible()).toBe(false); expect(w.find('.c4-card-info').text()).toContain('nested-group');
+    await click(w, '.c4-card-info', 'Mitglied', '.fa-trash'); await click(w, '.c4-card-info', 'nested-group', '.fa-trash');
     expect(calls.filter((r) => r.url.endsWith('/membership')).map((r) => r.data)).toEqual([['removemembers', 'member'], ['removemembergroups', 'nested-group']].map(([action, entity]) => ({ action, entity, groupname: 'p73', type: 'group' })));
     const readonly = setup('printer', { isAdmin: false }); await flushPromises(); expect(readonly.w.find('table input').element.disabled).toBe(true); expect(button(readonly.w, 'Add user or group').isVisible()).toBe(false);
 });
