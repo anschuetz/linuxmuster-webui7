@@ -162,9 +162,17 @@ try{
         await el.evaluate(e=>e.focus({preventScroll:true}));
         const point=await el.boundingBox();const px=point.x+point.width/2,py=point.y+point.height/2;
         await page.mouse.move(px,py);await page.mouse.down();await page.waitForTimeout(150);
-        // Recompute :hover after the native pressed transform without another scrollIntoView.
-        await page.mouse.move(px+1,py);await page.mouse.move(px,py);
-        const activeProbe=await el.evaluate((e,point)=>({active:e.matches(':active'),hover:e.matches(':hover'),scrollX,scrollY,rect:e.getBoundingClientRect().toJSON(),point,hit:document.elementFromPoint(point[0],point[1])?.outerHTML.slice(0,150)}),[px,py]);
+        // Keep the pointer inside the overlap of original and pressed bounds while layout settles.
+        let activeProbe;
+        for(let attempt=0;attempt<3;attempt++){
+          const pressed=await el.evaluate(e=>e.getBoundingClientRect().toJSON());
+          assert.ok(pressed.width>0&&pressed.height>0,'Pressed target remains visible');
+          const activeX=(Math.max(point.x,pressed.x)+Math.min(point.x+point.width,pressed.right))/2;
+          const activeY=(Math.max(point.y,pressed.y)+Math.min(point.y+point.height,pressed.bottom))/2;
+          await page.mouse.move(activeX,activeY);await page.waitForTimeout(50);
+          activeProbe=await el.evaluate((e,point)=>({active:e.matches(':active'),hover:e.matches(':hover'),scrollX,scrollY,rect:e.getBoundingClientRect().toJSON(),point,hit:document.elementFromPoint(point[0],point[1])?.outerHTML.slice(0,150)}),[activeX,activeY]);
+          if(activeProbe.active&&activeProbe.hover)break;
+        }
         assert.ok(activeProbe.active&&activeProbe.hover,JSON.stringify(activeProbe));
         await record(i+'-active');
         // Release away from the target to avoid state-changing clicks.

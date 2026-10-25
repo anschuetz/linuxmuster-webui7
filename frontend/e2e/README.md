@@ -39,3 +39,26 @@ The same API fixtures exercise both shells; only the separate real-session smoke
 uses actual login/logout/session APIs. No fixture config/TOTP/school/package
 write reaches the VM. The `/panel` cases simulate a reverse proxy in the browser
 and leave the VM listener configuration unchanged.
+
+## Offline D1c theme comparison
+
+No VM or server is used by `bs5-d1c-compare.mjs`. From the repository root:
+
+```
+node frontend/e2e/bs5-d1c-compare.mjs BEFORE AFTER /absolute/evidence [c1 c2 c4 ...]
+node frontend/e2e/bs5-d1c-inventory.mjs /absolute/evidence /absolute/inventory [corrected-evidence ...]
+```
+
+The runner exports both commits, reuses the real Vue local fixtures, and compares
+PNG bytes across the exports. The 21 P174 shell renderer pairs always run;
+without a suite filter all groups in `bs5-d1c-scenes.json` run. Both commit locks
+must match the installed worker lock. Missing pairs, fixture errors and pixel
+differences fail the run. `comparison.json` records refs and fixture hashes;
+PNG pairs, selector observations and raw fixture logs remain in the output.
+Selector observations show DOM reachability under active media/state conditions,
+not cascade winners. Pseudo-elements are measured through their owning element.
+Zero hits alone do not prove a rule dead. Inventory source paths are candidates.
+Motion and carets are frozen identically for static snapshots. Animation timing
+requires a separate behavioral check when a migration changes transitions.
+The inventory targets the 643-rule P175 baseline; later evidence roots replace
+only the corresponding suite probes, preserving raw comparison results.
