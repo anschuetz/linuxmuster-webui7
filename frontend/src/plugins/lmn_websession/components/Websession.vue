@@ -88,12 +88,12 @@ function participants(session) {
         <component :is="'progress-spinner'" v-if="user == null"><div><div class="one"></div><div class="two"></div></div></component>
         <div v-else>
             <div v-if="!enabled" class="alert alert-info" style="margin-top:15px"><i class="fa fa-info-circle"></i> <span>{{ aj.gettext('Websession-Module not enabled! Please check Config-File!') }}</span></div>
-            <div v-if="enabled" class="flex-container info-cards" style="margin-top:10px"><div class="panel panel-info" style="width:100%">
-                <div class="panel-heading" style="padding:10px;height:50px"><span style="font-size:18px;line-height:28px">{{ aj.gettext('Running Websession') }}</span><div style="float:right">
-                    <button v-if="aj.identity.profile.sophomorixRole === 'teacher'" class="btn btn-default websession_btn" @click="create"><i class="fas fa-plus"></i></button>
-                    <button class="btn btn-default websession_btn" @click="refresh"><i class="fas fa-sync"></i></button>
+            <div v-if="enabled" class="flex-container info-cards" style="margin-top:10px"><div class="card c7-session-card" style="width:100%">
+                <div class="card-header" style="padding:10px;height:50px"><span style="font-size:18px;line-height:28px">{{ aj.gettext('Running Websession') }}</span><div style="float:right">
+                    <button v-if="aj.identity.profile.sophomorixRole === 'teacher'" class="btn c7-button websession_btn" @click="create"><i class="fas fa-plus"></i></button>
+                    <button class="btn c7-button websession_btn" @click="refresh"><i class="fas fa-sync"></i></button>
                 </div></div>
-                <div class="panel-body">
+                <div class="card-body">
                     <div v-if="sessions?.length === 0" class="alert alert-info" style="margin-top:15px"><i class="fa fa-info-circle"></i> <span>{{ aj.gettext('Currently no websession is running!') }}</span></div>
                     <table v-else class="table" style="margin-top:15px"><thead><tr><th></th><th v-for="title in ['Sessionname', 'Moderator', 'Password', 'Participants', 'Status']" :key="title">{{ aj.gettext(title) }}</th><th></th></tr></thead>
                         <tbody><tr v-for="(session, index) in sessions" :key="index" class="session_table">
@@ -101,13 +101,13 @@ function participants(session) {
                             <td>{{ session.sessionname }}</td><td>{{ session.moderator }}</td><td><span v-if="session.sessionpassword">{{ session.sessionpassword }}</span><span v-else>{{ aj.gettext('no password') }}</span></td>
                             <td @click="participants(session)">{{ session.participants.length }}</td><td>{{ session.status }}</td>
                             <td>
-                                <button v-if="session.status === 'stopped'" class="btn btn-default" :disabled="session.moderator !== aj.identity.user" :title="aj.gettext('Start')" @click="start(session)"><i class="fas fa-play"></i></button>
-                                <button v-if="session.status === 'started'" class="btn btn-default" :title="aj.gettext(session.moderator === aj.identity.user ? 'Join as moderator' : 'Join as attendee')" @click="join(session, session.moderator === aj.identity.user ? session.moderatorpw : session.attendeepw)"><i class="fas fa-play"></i></button>
+                                <button v-if="session.status === 'stopped'" class="btn c7-button" :disabled="session.moderator !== aj.identity.user" :title="aj.gettext('Start')" @click="start(session)"><i class="fas fa-play"></i></button>
+                                <button v-if="session.status === 'started'" class="btn c7-button" :title="aj.gettext(session.moderator === aj.identity.user ? 'Join as moderator' : 'Join as attendee')" @click="join(session, session.moderator === aj.identity.user ? session.moderatorpw : session.attendeepw)"><i class="fas fa-play"></i></button>
                                 <template v-if="session.moderator === aj.identity.user">
-                                    <button v-if="session.status === 'started' || session.status === 'stopped'" class="btn btn-default" :disabled="session.status === 'stopped'" :title="aj.gettext('Stop')" @click="stop(session)"><i class="fas fa-stop"></i></button>
-                                    <button class="btn btn-default" :title="aj.gettext('Delete')" @click="remove(session)"><i class="fas fa-trash-alt"></i></button>
-                                    <button class="btn btn-default" :title="aj.gettext('Show URL')" @click="showUrl(session.id)"><i class="fas fa-eye"></i></button>
-                                    <button class="btn btn-default" :title="aj.gettext('Copy URL')" @click="copyUrl(session.id)"><i class="fas fa-clipboard"></i></button>
+                                    <button v-if="session.status === 'started' || session.status === 'stopped'" class="btn c7-button" :disabled="session.status === 'stopped'" :title="aj.gettext('Stop')" @click="stop(session)"><i class="fas fa-stop"></i></button>
+                                    <button class="btn c7-button" :title="aj.gettext('Delete')" @click="remove(session)"><i class="fas fa-trash-alt"></i></button>
+                                    <button class="btn c7-button" :title="aj.gettext('Show URL')" @click="showUrl(session.id)"><i class="fas fa-eye"></i></button>
+                                    <button class="btn c7-button" :title="aj.gettext('Copy URL')" @click="copyUrl(session.id)"><i class="fas fa-clipboard"></i></button>
                                 </template>
                             </td>
                         </tr></tbody>

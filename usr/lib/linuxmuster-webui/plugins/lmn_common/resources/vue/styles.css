@@ -14183,6 +14183,54 @@ html body.customized .c8-tabs > .nav-item > .nav-link.active:hover { border-bott
 /* P137 lmn_setup_wizard; P170 C14 native BS5 select retains Ajenti control geometry, like C6; consolidate D1. */
 .c14-select { appearance: auto; background-image: none; padding: 6px 12px; }
 
+/* P137 P163 C7 Websession/Docker/VDI neutral variant; B3/B4 focus token, consolidate D1. */
+.btn.c7-button { --bs-btn-focus-box-shadow: none; }
+/* P137 P163 C7 neutral geometry; preserve later Ajenti flat toolbar precedence; D1. */
+.c7-button { color: #333; background-color: #fff; border-color: #eee; }
+/* P137 P163 C7 Websession non-flat neutral base after Ajenti .btn; D1. */
+.btn.c7-button:where(:not(.btn-flat)) { background-color: #fff; border-color: #eee; }
+/* P137 P163 C7 neutral focus; D1. */
+.c7-button:focus { color: #333; background-color: #e6e6e6; border-color: #aeaeae; }
+/* P137 P163 C7 neutral hover/pressed state; D1. */
+.c7-button:hover, .c7-button:active { color: #333; background-color: #e6e6e6; border-color: #cfcfcf; }
+/* P137 P163 C7 neutral pressed focus/hover; D1. */
+.c7-button:active:hover, .c7-button:active:focus { color: #333; background-color: #d4d4d4; border-color: #aeaeae; }
+/* P137 P163 C7 disabled start/stop buttons keep the legacy transparent state; D1. */
+.c7-button:disabled { color: inherit; background-color: transparent; border-color: currentColor; }
+/* P137 P163 C7 neutral keyboard focus; D1. */
+.c7-button:focus-visible { color: #333; background-color: #e6e6e6; border-color: #aeaeae; }
+
+/* P137 P163 C7 Websession panel-info to card, measured pre-C7 geometry; consolidate D1. */
+.card.c7-session-card { display: block; min-width: auto; color: inherit; margin: 10px; background-color: #fff; border: 1px solid #eee; border-radius: 3px; box-shadow: 0 1px 1px rgba(0,0,0,.05); }
+/* P137 P163 C7 legacy info-cards header from common/styles.scss; D1. */
+.c7-session-card > .card-header { padding: 1px 15px; color: #fff; font-weight: bold; background-color: #233c4c; border: 0; border-bottom: medium solid #f99e15; border-radius: 2px 2px 0 0; }
+/* P137 P163 C7 card-body padding in px at the 10px rem root; D1. */
+.c7-session-card > .card-body { padding: 20px; }
+/* P137 P163 C7 panel-body clearfix retained for floated contents; D1. */
+.c7-session-card > .card-body::before, .c7-session-card > .card-body::after { display: table; content: " "; }
+/* P137 P163 C7 panel-body clearfix retained for floated contents; D1. */
+.c7-session-card > .card-body::after { clear: both; }
+/* P137 lmn_docker/lmn_vdi_administration; P163 C7 scoped migrated appearance; consolidate D1. */
+.c7-tabs > .nav-item > .nav-link { padding: 10px 15px; margin-bottom: 0; color: #666; border-radius: 0; isolation: auto; }
+/* P137 lmn_docker/lmn_vdi_administration; P163 C7 scoped migrated appearance; consolidate D1. */
+.c7-tabs > .nav-item > .nav-link.active,
+.c7-tabs > .nav-item > .nav-link.active:hover { border: 1px solid transparent; border-bottom: 1px solid #2196F3; color: #2196F3; background: rgba(0,0,0,.03); cursor: default; }
+/* P137 lmn_docker/lmn_vdi_administration; P163 C7 scoped migrated appearance; consolidate D1. */
+html body.customized .c7-tabs > .nav-item > .nav-link.active,
+html body.customized .c7-tabs > .nav-item > .nav-link.active:hover { border-bottom-color: #233c4c; color: #233c4c; }
+/* P137 lmn_docker/lmn_vdi_administration; P163 C7 scoped migrated appearance; consolidate D1. */
+.c7-tabs > .nav-item > .nav-link.active:focus { color: #666; background-color: #f0f0f0; border: 1px solid #ddd; border-bottom-color: transparent; }
+/* P137 lmn_docker/lmn_vdi_administration; P163 C7 scoped migrated appearance; consolidate D1. */
+.c7-tabs > .nav-item > .nav-link:focus-visible { box-shadow: none; }
+/* P137 lmn_docker/lmn_vdi_administration; P163 C7 BS5 link focus keeps the legacy tab borders; consolidate D1. */
+.c7-tabs > .nav-item > .nav-link:focus { border: 1px solid transparent; }
+/* P137 lmn_docker/lmn_vdi_administration; P163 C7 inactive hover border matches Ajenti; consolidate D1. */
+.c7-tabs > .nav-item > .nav-link:hover { border-color: #f0f0f0 #f0f0f0 #eee; }
+/* P137 lmn_docker/lmn_vdi_administration; P163 C7 active focus remains the legacy focused tab; consolidate D1. */
+.c7-tabs > .nav-item > .nav-link.active:focus { border: 1px solid #ddd; border-bottom-color: transparent; }
+/* P137 lmn_docker/lmn_vdi_administration; P163 C7 focused active tab hover follows Ajenti hover order; consolidate D1. */
+.c7-tabs > .nav-item > .nav-link.active:focus:hover { background: rgba(0,0,0,.03); border-color: transparent; border-bottom-color: #2196F3; }
+
 /*! P150 active Ajenti theme, MIT (vendor/AJENTI-LICENSE).
  * Derived from theme/ajenti.css after its Normalize/print prelude; A1 evidence unchanged.
  * See core-audit.md, P150 disposition.

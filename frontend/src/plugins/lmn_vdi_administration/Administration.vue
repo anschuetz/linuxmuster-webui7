@@ -36,9 +36,9 @@ function masterInfo(masterVM, masterVMData) {
 <template>
     <br />
     <div>
-        <ul class="nav nav-tabs">
-            <li :class="{ active: activeTab === 'masters' }"><a href="#" role="tab" :aria-selected="activeTab === 'masters'" @click.prevent="activeTab = 'masters'">{{ aj.gettext('Master VMs') }}</a></li>
-            <li :class="{ active: activeTab === 'clones' }"><a href="#" role="tab" :aria-selected="activeTab === 'clones'" @click.prevent="getClones">{{ aj.gettext('All VMs') }}</a></li>
+        <ul class="nav nav-tabs c7-tabs">
+            <li class="nav-item"><a class="nav-link" :class="{ active: activeTab === 'masters' }" href="#" role="tab" :aria-selected="activeTab === 'masters'" @click.prevent="activeTab = 'masters'">{{ aj.gettext('Master VMs') }}</a></li>
+            <li class="nav-item"><a class="nav-link" :class="{ active: activeTab === 'clones' }" href="#" role="tab" :aria-selected="activeTab === 'clones'" @click.prevent="getClones">{{ aj.gettext('All VMs') }}</a></li>
         </ul>
         <div v-if="activeTab === 'masters'">
             <div v-if="masters === undefined || masters === null" role="status" class="progress-spinner"><i class="fa fa-circle-o-notch fa-spin"></i></div>

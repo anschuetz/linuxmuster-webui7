@@ -18,5 +18,5 @@ defineEmits(['cancel']);
             <tr><th>{{ aj.gettext('Image Size') }}</th><td>{{ masterGroupData.actual_imagesize }}</td></tr>
         </tbody></table>
     </div>
-    <div class="modal-footer"><a class="btn btn-default btn-flat" @click="$emit('cancel')">{{ aj.gettext('OK') }}</a></div>
+    <div class="modal-footer"><a class="btn c7-button btn-flat" @click="$emit('cancel')">{{ aj.gettext('OK') }}</a></div>
 </template>

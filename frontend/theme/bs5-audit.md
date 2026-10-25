@@ -223,3 +223,14 @@ P168 R1 / CHAT 339: real no-blur search captures and effective Built-CSS measure
 - Neue nav-link: keine. Neutrale Buttons folgen B3/B4-Fokus-Token; gebaute CSS und lokaler Vergleich prüfen Fokus/Pressed/Leertaste.
 - Legacy-Compat bleibt für übrige frontend/src- und usr-Ressourcen-Verbraucher bestehen (Abbau D1); Fundliste logs/p170/remaining-bs3-consumers.txt im Koordinationsrepo.
 - Beide Selects erhalten form-select/c14-select; form-control bleibt als Ajenti-Theme-Hook (C6-Muster), native Appearance und Padding 6px 12px bleiben erhalten.
+
+
+## P163 · C7 Websession / Docker / VDI
+- Websession.vue + CreateSession.vue: zwei `panel panel-info` → `card c7-session-card`, Heading/Body → Card-Header/Body. Gemessene info-cards-Werte (common/styles.scss): Margin 10px, Rand #eee, Header #233c4c/weiß mit #f99e15, Body 20px. Inline Höhen/Padding bleiben.
+- Neutrale `btn-default` → lokales `c7-button` (Websession/CreateSession, Docker-Details, GroupInfo/MasterInfo); B3/B4-Fokus-Token. Kein globaler Buttoneingriff.
+- CreateSession-Footer und Docker-Hostname: `pull-right` → `float-end`; Class-Typeahead `v-if` + `dropdown-menu show` statt Inline-Display. Klick-/Cancel-Verträge bleiben.
+- Docker + Administration: `nav-item`/`nav-link`, aktive Klasse vom li zum Link; C7-Tabfarben/-Fokus inkl. `:focus-visible { box-shadow: none }` wie vorm Paket.
+- Dashboard/Participants bereits passend. Keine dynamischen panel-/label-/progress-bar-Varianten, kein Raster, keine has-error-Zustände, keine P141-Mobilbefunde im Paket. Bestehende BS5-Badges und modal.show unverändert.
+- F44: lmn_websession.pw.mjs/docker.pw.mjs/vdi.pw.mjs statisch geprüft; keine betroffenen Klassenselektoren. Angular-Zweig unberührt.
+- D1: globale Compat-Regeln bleiben wegen Restverbrauchern in frontend/src und usr/**/resources; Belege logs/p163/remaining-bs3-consumers.txt im Koordinationsrepo. Scriptblöcke und geschützte Attribute aller acht Komponenten bytegleich: logs/p163/unchanged-contracts.json.
+- R2/CHAT 349: R1-global-color-Tabregeln entfernt; customized-Regel bleibt. Ein Chromium-Test prüft die gebaute CSS mit beiden Body-Klassen (customized global-color-red), aktive Text-/Randfarbe #233c4c normal/hover/focus sowie das Fehlen redundanter C7-Farbregeln.

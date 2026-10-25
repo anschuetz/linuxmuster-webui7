@@ -83,8 +83,8 @@ initialize();
     <component :is="'progress-spinner'" v-if="!ready" role="progressbar"><div><div class="one"></div><div class="two"></div></div></component>
     <div v-if="ready && !installed" class="alert alert-info">{{ aj.gettext('Docker is not installed on this host.') }}</div>
     <div v-if="installed">
-        <ul class="nav nav-tabs" role="tablist">
-            <li v-for="tab in ['Container', 'Images']" :key="tab" :class="{ active: active === tab }" role="presentation"><a href="" role="tab" :aria-selected="active === tab" @click.prevent="select(tab)">{{ tab }}</a></li>
+        <ul class="nav nav-tabs c7-tabs" role="tablist">
+            <li v-for="tab in ['Container', 'Images']" :key="tab" class="nav-item" role="presentation"><a class="nav-link" :class="{ active: active === tab }" href="" role="tab" :aria-selected="active === tab" @click.prevent="select(tab)">{{ tab }}</a></li>
         </ul>
         <div v-if="active === 'Container'" class="tab-pane active" role="tabpanel">
             <div v-if="ready && containers?.length === 0" class="alert alert-info">{{ aj.gettext('No container on this host.') }}</div>
@@ -101,7 +101,7 @@ initialize();
             </table>
             <div v-if="details" class="modal show" role="dialog" aria-modal="true" style="display:block">
                 <div class="modal-dialog"><div class="modal-content">
-                    <div class="modal-header"><h4>{{ details.Name }}<span class="badge pull-right">{{ details.Config?.Hostname }}</span></h4></div>
+                    <div class="modal-header"><h4>{{ details.Name }}<span class="badge float-end">{{ details.Config?.Hostname }}</span></h4></div>
                     <div class="modal-body"><table class="table"><tbody>
                         <tr><td>{{ aj.gettext('Full id') }}</td><td>{{ details.Id }}</td></tr>
                         <tr><td>{{ aj.gettext('Created at') }}</td><td>{{ details.Created }}</td></tr>
@@ -109,7 +109,7 @@ initialize();
                         <tr v-for="(bindings, port) in details.NetworkSettings?.Ports" :key="port"><td>{{ aj.gettext('Ports') }}</td><td>{{ port }} -> {{ bindings?.[0]?.HostPort }}</td></tr>
                         <tr v-for="(volume, index) in details.Mounts" :key="index"><td>{{ aj.gettext('Volumes') }}</td><td>{{ volume.Source }} ({{ volume.Type }}) -> {{ volume.Destination }}</td></tr>
                     </tbody></table></div>
-                    <div class="modal-footer"><a class="btn btn-default btn-flat" @click="details = undefined">{{ aj.gettext('Close') }}</a></div>
+                    <div class="modal-footer"><a class="btn c7-button btn-flat" @click="details = undefined">{{ aj.gettext('Close') }}</a></div>
                 </div></div>
             </div>
         </div>
