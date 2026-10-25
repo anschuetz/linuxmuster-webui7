@@ -405,8 +405,8 @@
   "BOOTSTRAP5-LICENSE": "4620c84ad5ce8602ff65640ed6b7c8b78ebb9e036584f0ebc1ccc88206a4bb51",
   "../theme/compat-bs3.css": "e26670174a4f9bfda80b9ddbc429992b93ec5906f3ef549cd79b345ebb2be1b3",
   "../theme/compat-glyphicons.css": "8aa607dd9ca3896530aae2da9469637e801be0a83f72eaa7a5035edf06e96a62",
-  "../theme/ajenti-bs5.css": "2a10a653c3859a759a230ff82f048e6992c24aa23b33e1b63559dfa10bbae53e",
+  "../theme/ajenti-bs5.css": "cb8f25399f9fdc777af9acc430957cbd846bddd00f8202dfd33b5e4a8ac4b260",
   "../theme/compat-bs5.css": "893d966cebdbe59dd27f73e8a415ad4de64bd65fec81c5a4985ab0f9a7589724",
-  "../theme/bs5-audit.md": "71b180eb3c17fc07fbf1106d993a4bfd19261fd38f9e32d5302e7416af0f7caa",
+  "../theme/bs5-audit.md": "f4fdfcf028b21e1909e311686c8db3f1d5f67931653f4afeca4a0e9a97696c61",
   "../theme/bs5-counterparts.tsv": "e3c162f0105fd6f929dd4bcbdf8794ebde742f0088389e8920eff059931126dc"
 }

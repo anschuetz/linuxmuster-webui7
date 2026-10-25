@@ -702,58 +702,6 @@ div.membership-item {
 .auth-code-group > .form-control { display: table-cell; position: relative; float: left; width: 100%; margin-bottom: 0; z-index: 2; }
 // D04: allow the long translated reset action to occupy two lines on mobile.
 .auth-reset-send { white-space: normal; }
-// BS5 secondary variant with the approved Ajenti neutral colors/states.
-.btn.auth-secondary {
-  color: #333;
-  background-color: #fff;
-  border-color: #eee;
-}
-.btn.auth-secondary:focus,
-.btn.auth-secondary.focus {
-  color: #333;
-  background-color: #e6e6e6;
-  border-color: #aeaeae;
-}
-.btn.auth-secondary:hover {
-  color: #333;
-  background-color: #e6e6e6;
-  border-color: #cfcfcf;
-}
-.btn.auth-secondary:active,
-.btn.auth-secondary.active,
-.open > .dropdown-toggle.btn.auth-secondary {
-  color: #333;
-  background-color: #e6e6e6;
-  border-color: #cfcfcf;
-}
-.btn.auth-secondary:active:hover,
-.btn.auth-secondary.active:hover,
-.open > .dropdown-toggle.btn.auth-secondary:hover,
-.btn.auth-secondary:active:focus,
-.btn.auth-secondary.active:focus,
-.open > .dropdown-toggle.btn.auth-secondary:focus,
-.btn.auth-secondary:active.focus,
-.btn.auth-secondary.active.focus,
-.open > .dropdown-toggle.btn.auth-secondary.focus {
-  color: #333;
-  background-color: #d4d4d4;
-  border-color: #aeaeae;
-}
-
-.btn.auth-secondary.disabled:hover,
-.btn.auth-secondary[disabled]:hover,
-fieldset[disabled] .btn.auth-secondary:hover,
-.btn.auth-secondary.disabled:focus,
-.btn.auth-secondary[disabled]:focus,
-fieldset[disabled] .btn.auth-secondary:focus,
-.btn.auth-secondary.disabled.focus,
-.btn.auth-secondary[disabled].focus,
-fieldset[disabled] .btn.auth-secondary.focus {
-  background-color: #fff;
-  border-color: #eee;
-}
-
-
 // B2: one actual navbar height; the fallback is the original single line.
 :root { --shell-header-height: 60px; }
 .shell-navbar.fixed-top {

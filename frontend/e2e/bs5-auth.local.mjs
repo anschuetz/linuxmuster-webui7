@@ -45,10 +45,10 @@ for (const name of ['before', 'after']) {
 }
 const browser = await chromium.launch({ headless: true }), results = [];
 try {
-    for (const scene of ['login', 'login-eye', 'login-totp', 'sudo', 'reset-send', 'reset-valid', 'reset-invalid', 'reset-mismatch', 'password-change', 'password-mismatch', 'totp', 'totp-edit']) {
+    for (const scene of (process.argv.includes('--buttons-only') ? ['login-totp', 'totp'] : ['login', 'login-eye', 'login-totp', 'sudo', 'reset-send', 'reset-valid', 'reset-invalid', 'reset-mismatch', 'password-change', 'password-mismatch', 'totp', 'totp-edit'])) {
     for (const lang of ['de', 'en']) {
     for (const [width, height] of [[1440, 900], [768, 1024], [390, 844]]) {
-        const shots = [], geometry = [];
+        const shots = [], geometry = [], buttonStates = [];
         for (const name of ['before', 'after']) {
             const page = await browser.newPage({ viewport: { width, height } });
             await page.route('**/*', route => route.abort());
@@ -99,11 +99,40 @@ try {
                 }
                 assert.equal(await page.evaluate(() => window.fixture.calls.includes('save') || window.fixture.calls.includes('login')), false);
             }
+            const neutral = page.locator(name === 'before' ? '.btn-default' : '.auth-secondary').first();
+            const states = [];
+            if (await neutral.count()) {
+                await page.evaluate(() => document.activeElement?.blur());
+                await page.mouse.move(width - 1, height - 1); await page.waitForTimeout(250);
+                const appearance = () => neutral.evaluate(el => {
+                    const c = getComputedStyle(el);
+                    return { color: c.color, background: c.backgroundColor, border: c.borderColor, shadow: c.boxShadow };
+                });
+                states.push(await appearance());
+                await neutral.hover(); await page.waitForTimeout(250); states.push(await appearance());
+                await neutral.focus(); await page.waitForTimeout(250); states.push(await appearance());
+                await page.mouse.down(); await page.waitForTimeout(250); states.push(await appearance());
+                await page.mouse.move(0, 0); await page.mouse.up();
+                await page.keyboard.press('Tab'); await neutral.focus();
+                assert.equal(await neutral.evaluate(el => el.matches(':focus-visible')), true);
+                await page.keyboard.down('Space');
+                assert.equal(await neutral.evaluate(el => el.matches(':active')), true);
+                await page.waitForTimeout(250); states.push(await appearance());
+                await page.keyboard.up('Space');
+                if (scene.startsWith('totp')) {
+                    // The shared neutral button helper also renders disabled TOTP Save.
+                    await neutral.evaluate(el => { el.disabled = true; el.blur(); });
+                    await page.mouse.move(width - 1, height - 1); await page.waitForTimeout(250);
+                    states.push(await appearance());
+                }
+            }
+            buttonStates.push(states);
             await page.close();
         }
+        assert.deepEqual(buttonStates[1], buttonStates[0], `Neutral button states: ${scene}/${lang}/${width}`);
         const identical = shots[0].equals(shots[1]);
         const expectedD04 = scene === 'reset-send' && lang === 'de' && width === 390;
-        results.push({ scene, lang, width, identical, expectedD04, before: geometry[0], after: geometry[1] });
+        results.push({ scene, lang, width, identical, expectedD04, buttonStates: buttonStates[1], before: geometry[0], after: geometry[1] });
         await writeFile(join(output, 'comparison.json'), JSON.stringify(results, null, 2) + '\n');
         assert.ok(identical || expectedD04, `Unexpected pixel delta: ${scene}/${lang}/${width}`);
     }

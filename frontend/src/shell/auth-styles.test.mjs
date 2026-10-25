@@ -16,5 +16,5 @@ it('ships independent auth eye/spacing and the D04 wrapping fix in built CSS', (
     expect(declarations('.auth-password-feedback')).toMatchObject({ position: 'absolute', top: '0', right: '0', width: '34px', height: '34px' });
     expect(declarations('.auth-password-field > label ~ .auth-password-feedback')).toMatchObject({ top: '25px' });
     expect(declarations('.auth-password-field > .form-control')).toMatchObject({ 'padding-right': '42.5px' });
-    expect(declarations('.btn.auth-secondary')).toMatchObject({ color: '#333', 'background-color': '#fff', 'border-color': '#eee' });
+    expect(declarations('.auth-secondary')).toMatchObject({ color: '#333', 'background-color': '#fff', 'border-color': '#eee' });
 });
