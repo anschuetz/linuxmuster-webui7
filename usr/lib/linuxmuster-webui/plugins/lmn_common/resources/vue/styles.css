@@ -13757,6 +13757,89 @@ body.global-color-teal .c4-tabs > .nav-item > .nav-link.active, body.global-colo
 /* P137 C1; P157 scoped counterpart, Landingpage/Links/SchoolSwitcher and dialogs; remove D1. */
 .c1-button:disabled { color: inherit; background-color: transparent; border-color: currentColor; }
 
+/* P137 C2 neutral button focus token (B3/B4 pattern); consolidate D1. */
+.btn.dhcp-button, .btn.dns-button, .btn.cron-button { --bs-btn-focus-box-shadow: none; }
+/* P137 C2 non-flat neutral border survives the later Ajenti .btn shorthand; consolidate D1. */
+.btn.dhcp-button:not(:where(.btn-flat)), .btn.dns-button:not(:where(.btn-flat)), .btn.cron-button:not(:where(.btn-flat)) { border-color: #eee; }
+/* P137 C2 neutral actions keep original specificity below btn-flat; consolidate D1. */
+.dhcp-button, .dns-button, .cron-button { color: #333; background-color: #fff; border-color: #eee; }
+/* P137 C2 neutral actions keep original specificity below btn-flat; consolidate D1. */
+.dhcp-button:focus, .dns-button:focus, .cron-button:focus { color: #333; background-color: #e6e6e6; border-color: #aeaeae; }
+/* P137 C2 neutral actions keep original specificity below btn-flat; consolidate D1. */
+.dhcp-button:hover, .dhcp-button:active, .dns-button:hover, .dns-button:active, .cron-button:hover, .cron-button:active { color: #333; background-color: #e6e6e6; border-color: #cfcfcf; }
+/* P137 C2 neutral actions keep original specificity below btn-flat; consolidate D1. */
+.dhcp-button:active:hover, .dhcp-button:active:focus, .dns-button:active:hover, .dns-button:active:focus, .cron-button:active:hover, .cron-button:active:focus { color: #333; background-color: #d4d4d4; border-color: #aeaeae; }
+/* P137 C2 DHCP error/form and Cron tabs; P158 migration, consolidate D1. */
+.dhcp-field, .cron-field { margin-bottom: 30px; }
+/* P137 C2 DHCP error/form and Cron tabs; P158 migration, consolidate D1. */
+.dhcp-field .is-invalid { border-color: red; background-color: rgba(255, 178, 178, 0.29); background-image: none; padding-right: 12px; box-shadow: inset 0 1px 1px rgba(0,0,0,.075); }
+/* P137 C2 DHCP error/form and Cron tabs; P158 migration, consolidate D1. */
+.dhcp-field .is-invalid:focus { border-color: #843534; background-color: rgba(255, 178, 178, 0.29); box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 6px #ce8483; }
+/* P137 C2 DHCP error/form and Cron tabs; P158 migration, consolidate D1. */
+.cron-tabs > .nav-item > .nav-link { padding: 10px 15px; margin-bottom: 0; border-radius: 0; color: #666; }
+/* P137 C2 Cron inactive focus/hover borders match pre-nav-link Ajenti; consolidate D1. */
+.cron-tabs > .nav-item > .nav-link:focus { border-color: transparent; }
+/* P137 C2 Cron inactive focus/hover borders match pre-nav-link Ajenti; consolidate D1. */
+.cron-tabs > .nav-item > .nav-link:hover { border-color: #f0f0f0 #f0f0f0 #eee; }
+/* P137 C2 DHCP error/form and Cron tabs; P158 migration, consolidate D1. */
+.cron-tabs > .nav-item > .nav-link.active:focus { color: #666; background-color: #f0f0f0; border-color: #ddd; border-bottom-color: transparent; }
+/* P137 C2 DHCP error/form and Cron tabs; P158 migration, consolidate D1. */
+.cron-tabs > .nav-item > .nav-link.active, .cron-tabs > .nav-item > .nav-link.active:hover { color: #2196F3; background: rgba(0,0,0,.03); border: 1px solid transparent; border-bottom-color: #2196F3; cursor: default; }
+/* P137 C2 DHCP error/form and Cron tabs; P158 migration, consolidate D1. */
+html body.customized .cron-tabs > .nav-item > .nav-link.active, html body.customized .cron-tabs > .nav-item > .nav-link.active:hover { border-bottom: 1px solid #233c4c; color: #233c4c; }
+/* P137 C2 DHCP error/form and Cron tabs; P158 migration, consolidate D1. */
+.cron-tabs > .nav-item > .nav-link:focus-visible { box-shadow: none; }
+/* P137 C2 Cron crontab selector row previously inside form-group; consolidate D1. */
+.cron-field > .row > div { margin-bottom: 10px; }
+/* P137 C2 Cron Ajenti global-color variant retained; consolidate D1. */
+body.global-color-red .cron-tabs > .nav-item > .nav-link.active,
+body.global-color-red .cron-tabs > .nav-item > .nav-link.active:hover {
+  border-bottom: 1px solid #e94c41;
+  color: #e94c41;
+}
+/* P137 C2 Cron Ajenti global-color variant retained; consolidate D1. */
+body.global-color-bluegrey .cron-tabs > .nav-item > .nav-link.active,
+body.global-color-bluegrey .cron-tabs > .nav-item > .nav-link.active:hover {
+  border-bottom: 1px solid #6c797f;
+  color: #6c797f;
+}
+/* P137 C2 Cron Ajenti global-color variant retained; consolidate D1. */
+body.global-color-purple .cron-tabs > .nav-item > .nav-link.active,
+body.global-color-purple .cron-tabs > .nav-item > .nav-link.active:hover {
+  border-bottom: 1px solid #9432a5;
+  color: #9432a5;
+}
+/* P137 C2 Cron Ajenti global-color variant retained; consolidate D1. */
+body.global-color-blue .cron-tabs > .nav-item > .nav-link.active,
+body.global-color-blue .cron-tabs > .nav-item > .nav-link.active:hover {
+  border-bottom: 1px solid #2d95e7;
+  color: #2d95e7;
+}
+/* P137 C2 Cron Ajenti global-color variant retained; consolidate D1. */
+body.global-color-green .cron-tabs > .nav-item > .nav-link.active,
+body.global-color-green .cron-tabs > .nav-item > .nav-link.active:hover {
+  border-bottom: 1px solid #59a25c;
+  color: #59a25c;
+}
+/* P137 C2 Cron Ajenti global-color variant retained; consolidate D1. */
+body.global-color-deeporange .cron-tabs > .nav-item > .nav-link.active,
+body.global-color-deeporange .cron-tabs > .nav-item > .nav-link.active:hover {
+  border-bottom: 1px solid #f45d2d;
+  color: #f45d2d;
+}
+/* P137 C2 Cron Ajenti global-color variant retained; consolidate D1. */
+body.global-color-orange .cron-tabs > .nav-item > .nav-link.active,
+body.global-color-orange .cron-tabs > .nav-item > .nav-link.active:hover {
+  border-bottom: 1px solid #f2960d;
+  color: #f2960d;
+}
+/* P137 C2 Cron Ajenti global-color variant retained; consolidate D1. */
+body.global-color-teal .cron-tabs > .nav-item > .nav-link.active,
+body.global-color-teal .cron-tabs > .nav-item > .nav-link.active:hover {
+  border-bottom: 1px solid #088f82;
+  color: #088f82;
+}
+
 /*! P150 active Ajenti theme, MIT (vendor/AJENTI-LICENSE).
  * Derived from theme/ajenti.css after its Normalize/print prelude; A1 evidence unchanged.
  * See core-audit.md, P150 disposition.

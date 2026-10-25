@@ -42,11 +42,11 @@ const textFields = [['room', 'Room:'], ['mac', 'Mac:']];
 <template>
     <div class="modal-header"><h1>{{ aj.gettext('Add device') }}</h1></div>
     <div class="modal-body">
-        <form class="form-group" @submit.prevent>
+        <form class="dhcp-field" @submit.prevent>
             <table class="table"><tbody>
                 <tr v-for="[key, label] in textFields" :key="key"><td><span>{{ aj.gettext(label) }}</span><input v-model.trim="device[key]" class="form-control" type="text" /></td></tr>
-                <tr><td :class="{ 'has-error': duplicateIP }"><div>IP <span v-if="duplicateIP" style="color:red;">{{ aj.gettext('(Already used)') }}</span> :</div><input v-model.trim="device.ip" class="form-control" type="text" /></td></tr>
-                <tr><td :class="{ 'has-error': duplicateHost }"><div><span>{{ aj.gettext('Hostname') }}</span><span v-if="duplicateHost" style="color:red;">{{ aj.gettext('Already used') }}</span> :</div><input v-model.trim="device.hostname" class="form-control" type="text" /></td></tr>
+                <tr><td><div>IP <span v-if="duplicateIP" style="color:red;">{{ aj.gettext('(Already used)') }}</span> :</div><input v-model.trim="device.ip" class="form-control" :class="{ 'is-invalid': duplicateIP }" type="text" /></td></tr>
+                <tr><td><div><span>{{ aj.gettext('Hostname') }}</span><span v-if="duplicateHost" style="color:red;">{{ aj.gettext('Already used') }}</span> :</div><input v-model.trim="device.hostname" class="form-control" :class="{ 'is-invalid': duplicateHost }" type="text" /></td></tr>
                 <tr><td><span>{{ aj.gettext('Group:') }}</span><input v-model.trim="device.group" class="form-control" type="text" /></td></tr>
                 <tr><td><span>{{ aj.gettext('PXE Boot:') }}</span><select v-model="device.pxeFlag" class="form-control"><option v-for="[value, label] in pxe" :key="value" :value="value">{{ aj.gettext(label) }}</option></select></td></tr>
                 <tr><td><span>{{ aj.gettext('Sophomorix role:') }}</span><select v-model="device.sophomorixRole" class="form-control"><option v-for="[value, label] in roles" :key="value" :value="value">{{ aj.gettext(label) }}</option></select></td></tr>
@@ -54,8 +54,8 @@ const textFields = [['room', 'Room:'], ['mac', 'Mac:']];
         </form>
     </div>
     <div class="modal-footer">
-        <button class="btn btn-default" @click="save">{{ aj.gettext('Save') }}</button>
-        <button class="btn btn-default" @click="saveImport">{{ aj.gettext('Save & import') }}</button>
-        <button class="btn btn-default" @click="emit('close')">{{ aj.gettext('Cancel') }}</button>
+        <button class="btn dhcp-button" @click="save">{{ aj.gettext('Save') }}</button>
+        <button class="btn dhcp-button" @click="saveImport">{{ aj.gettext('Save & import') }}</button>
+        <button class="btn dhcp-button" @click="emit('close')">{{ aj.gettext('Cancel') }}</button>
     </div>
 </template>

@@ -68,7 +68,7 @@ it('uses original defaults and all role/PXE options, exact trimmed payload, and 
 it('shows duplicate hints but permits a single duplicate like original validation; rejects two duplicates', async () => {
     const { w, aj } = dialog([known, { mac: '02:00:00:00:00:03', ip: '10.0.0.3', hostname: 'other' }]);
     await fill(w, ['', lease.mac, known.ip, known.hostname, '']);
-    expect(w.findAll('td.has-error')).toHaveLength(2);
+    expect(w.findAll('input.is-invalid')).toHaveLength(2);
     await button(w, 'Save').trigger('click'); await flushPromises();
     expect(aj.http.post.mock.calls).toEqual([['/api/lmn/dhcp/register', { device: { ...payload, ip: known.ip, hostname: known.hostname } }]]);
     expect(w.props('onRegistered').mock.calls).toEqual([[known]]);
@@ -129,4 +129,17 @@ it('keeps spaces while typing text but sends the trimmed Angular model', async (
     expect(group.element.value).toBe(' group 36 ');
     await button(w, 'Save').trigger('click'); await flushPromises();
     expect(aj.http.post.mock.calls).toEqual([['/api/lmn/dhcp/register', { device: { ...payload, room: 'r36', ip: '10.0.0.36', hostname: 'pc36', group: 'group 36' } }]]);
+});
+
+it('uses scoped BS5 buttons/form spacing and clears duplicate invalid states without posting on Cancel', async () => {
+    const { w, aj } = dialog();
+    expect(w.get('form').classes()).toContain('dhcp-field');
+    expect(w.findAll('.btn.dhcp-button')).toHaveLength(3);
+    await fill(w, ['', lease.mac, known.ip, known.hostname, '']);
+    expect(w.findAll('input.is-invalid')).toHaveLength(2);
+    await fill(w, ['', lease.mac, '10.0.0.99', 'pc99', '']);
+    expect(w.findAll('input.is-invalid')).toHaveLength(0);
+    await button(w, 'Cancel').trigger('click');
+    expect(aj.http.post).not.toHaveBeenCalled();
+    expect(w.emitted('close')).toEqual([[]]);
 });
