@@ -3,7 +3,7 @@ import { fileURLToPath } from 'node:url';
 import { dirname, basename } from 'node:path';
 import { build } from 'vite';
 import { settings } from './playwright.config.mjs';
-import { user, config, syntheticPassword, firstPassword } from './fixtures/users_1.mjs';
+import { user, config, syntheticPassword, firstPassword, detailGroups } from './fixtures/users_1.mjs';
 // Prevent automatic failure DOM snapshots from recording visible secrets.
 process.env.PLAYWRIGHT_NO_COPY_PROMPT = '1';
 const vue=process.env.P117_UI==='vue';
@@ -61,7 +61,9 @@ for(const r of roles)test(r.name+': real API authorization and denied higher tar
  if(r.name==='school-admin')expect((await p.request.get('/api/lmn/users/passwords/global-admin')).status()).toBe(403);check(s);
 });
 for(const r of roles.slice(0,2))test(r.name+': detail properties/groups/quotas, custom edits, parent add/remove, delete cancel',async({page:p,context})=>{
- const s=await setup(p,context,r);await open(p,'details');const d=p.locator('.modal:visible').first();await hasText(d,'Synthetic User');await hasText(d,'p117-class');await hasText(d,'75 MiB / 100 MiB - 75%');await hasText(d,/Birthday:|Geburtstag:/,false);await hasText(d.locator('h3').first(),'Benutzerdetails');await hasText(d,'Eigenschaften');const group=d.locator('.panel').first();await hasText(group.locator('li'),'schoolclasses');await group.locator('.panel-heading a').click();await visible(group.locator('.panel-body'),false);await group.locator('.panel-heading a').click();
+ const s=await setup(p,context,r);await open(p,'details');const d=p.locator('.modal:visible').first();await hasText(d,'Synthetic User');await hasText(d,'p117-class');await hasText(d,'75 MiB / 100 MiB - 75%');await hasText(d,/Birthday:|Geburtstag:/,false);await hasText(d.locator('h3').first(),'Benutzerdetails');await hasText(d,'Eigenschaften');const groupBody=vue?d.locator(detailGroups.body):d.locator('.panel').first().locator('.panel-body');
+ const groupToggle=vue?d.locator(detailGroups.toggle):d.locator('.panel').first().locator('.panel-heading a');
+ await hasText(groupBody.locator('li'),'schoolclasses');await groupToggle.click();await visible(groupBody,false);await groupToggle.click();
  const click=async old=>{await d.locator(old+':visible').first().click();};
  await click(vue?'[data-action=edit-1]':'a[ng\\:click="editCustom(n)"]');await box(p).locator('input').fill('  inner value  ');await box(p).locator('.positive').click();await hasText(d,'inner value');
  await click(vue?'[data-action=add-multi-1]':'a[ng\\:click="addCustomMulti(n)"]');await box(p).locator('input').fill('multi');await box(p).locator('.positive').click();await hasText(d,'multi');

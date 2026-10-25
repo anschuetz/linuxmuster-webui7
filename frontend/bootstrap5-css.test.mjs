@@ -33,8 +33,12 @@ it('documents every compatibility rule with evidence and removal owner, without 
     const compat = postcss.parse(await read('theme/compat-bs3.css') + await read('theme/compat-bs5.css') + await read('theme/compat-glyphicons.css'));
     compat.walkRules(rule => {
         if (rule.parent.type === 'atrule' && /keyframes/.test(rule.parent.name)) return;
-        expect(rule.prev()?.type, rule.selector).toBe('comment');
-        expect(rule.prev().text, rule.selector).toMatch(/P137.*(?:B[1-6]|C\d+|D1)/);
+        const section = compat.nodes.find(node => node.type === 'comment' && node.text.startsWith('P137 common/users; P155 B5 section:'));
+        const grouped = section && rule.parent === compat && compat.nodes.indexOf(rule) > compat.nodes.indexOf(section)
+            && rule.selectors.every(selector => selector.includes('common-user-'));
+        const evidence = grouped ? section : rule.prev();
+        expect(evidence?.type, rule.selector).toBe('comment');
+        expect(evidence.text, rule.selector).toMatch(/P137.*(?:B[1-6]|C\d+|D1)/);
     });
     expect(compat.toString()).not.toMatch(/normalize\.css|\[hidden\],\s*template/);
 });

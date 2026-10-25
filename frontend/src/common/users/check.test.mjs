@@ -59,7 +59,7 @@ it('opens Results with unchanged response and default dismissal, then closes Che
 });
 it.each(['all','add','move','kill','error'])('Results renders summary/details and opens %s Apply',async mode=>{
     const {aj,open}=setup();open.mockRejectedValue(new Error('Apply cancelled'));const w=render(CheckResultsDialog,aj,{data:result()});
-    expect(w.findAll('input[type=checkbox]').map(b=>b.element.checked)).toEqual([true,true,true]);expect(w.text()).toContain('Synthetic New');expect(w.text()).toContain('Usable (U) --> Killable (K)');expect(w.text()).toContain('attic --> p119-class');expect(w.find('.label-danger').exists()).toBe(true);
+    expect(w.findAll('input[type=checkbox]').map(b=>b.element.checked)).toEqual([true,true,true]);expect(w.text()).toContain('Synthetic New');expect(w.text()).toContain('Usable (U) --> Killable (K)');expect(w.text()).toContain('attic --> p119-class');expect(w.find('.badge.bg-danger').exists()).toBe(true);
     if(mode==='all')await w.find('input[type=checkbox]').setValue(false);
     else await w.findAll('.nav-tabs a')[['all','add','move','kill','error'].indexOf(mode)].trigger('click');
     expect(button(w).text()).toEqual({all:'Apply',add:'Add user(s)',move:'Move user(s)',kill:'Kill user(s)',error:'Errors'}[mode]);
@@ -70,7 +70,7 @@ it('zero summary hides tabs/options and disables Apply; cancel never applies',as
     expect(w.findAll('.nav-tabs a').filter(a=>a.isVisible()).map(a=>a.text())).toEqual(['Summary']);expect(w.findAll('input').filter(b=>b.isVisible())).toEqual([]);expect(button(w).attributes('disabled')).toBeDefined();await button(w,1).trigger('click');expect(w.emitted('cancel')).toEqual([[]]);expect(open.mock.calls).toEqual([]);
 });
 it('data.error hides summary details without disabling the legacy Apply action',()=>{
-    const {aj}=setup();const w=render(CheckResultsDialog,aj,{data:{...result(),error:'existing error'}});expect(w.find('.alert-danger').text()).toContain('existing error');expect(w.find('.panel').isVisible()).toBe(false);expect(button(w).attributes('disabled')).toBeUndefined();
+    const {aj}=setup();const w=render(CheckResultsDialog,aj,{data:{...result(),error:'existing error'}});expect(w.find('.alert-danger').text()).toContain('existing error');expect(w.find('.card').isVisible()).toBe(false);expect(button(w).attributes('disabled')).toBeUndefined();
 });
 it.each([false,true])('Apply failure=%s posts only supplied flags, reports completion, reloads only on success',async fail=>{
     let resolve,reject;const {aj,requests,notify,reload}=setup({http:r=>{requests.push(r);return new Promise((done,no)=>{resolve=done;reject=no;});}});

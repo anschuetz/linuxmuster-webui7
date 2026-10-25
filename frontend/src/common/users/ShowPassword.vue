@@ -19,7 +19,7 @@ onMounted(() => {
 });
 </script>
 <template>
-    <div class="modal-header"><h3>{{ $gettext('Password Information') }}</h3></div>
+    <div class="modal-header"><h3 class="modal-title common-user-title">{{ $gettext('Password Information') }}</h3></div>
     <div v-if="password == null" class="spinner" role="status"><i class="fa fa-circle-o-notch fa-spin"></i></div>
     <div v-else style="padding:0 20px">
         <br><table class="table"><tbody>
@@ -30,6 +30,6 @@ onMounted(() => {
                 <td><span :style="{color}">{{ $gettext(status) }}</span></td>
             </tr>
         </tbody></table>
-        <div class="modal-footer"><a class="btn btn-default btn-flat" @click="emit('close')">{{ $gettext('Close') }}</a></div>
+        <div class="modal-footer"><a class="btn btn-light common-user-button btn-flat" @click="emit('close')">{{ $gettext('Close') }}</a></div>
     </div>
 </template>

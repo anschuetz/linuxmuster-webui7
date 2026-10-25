@@ -23,13 +23,13 @@ async function save() {
 }
 </script>
 <template>
-    <div class="modal-header"><h3>{{ $gettext('Change Password') }}</h3></div>
+    <div class="modal-header"><h3 class="modal-title common-user-title">{{ $gettext('Change Password') }}</h3></div>
     <div class="modal-body scrollable" style="height:200px">
-        <div class="form-group"><label>{{ label }}</label>
+        <div class="common-user-field mb-3"><label>{{ label }}</label>
             <ul v-for="(user, i) in users" :key="i"><li>{{ user.givenName }} {{ user.sn }} <b><i>{{ user.sAMAccountName }}</i></b> {{ user.sophomorixAdminClass }}</li></ul>
         </div>
         <input v-model="password" type="password" class="form-control" placeholder="Password" @keyup.enter="save">
         <br><p>{{ $gettext('Note: Minimal length is 7 characters. Use upper, lower and special characters or numbers. (e.g. Muster!)') }}</p><br>
     </div>
-    <div class="modal-footer"><a class="btn btn-default btn-flat" @click="emit('close')">{{ $gettext('Cancel') }}</a><a class="btn btn-default btn-flat" @click="save">{{ $gettext('Accept') }}</a></div>
+    <div class="modal-footer"><a class="btn btn-light common-user-button btn-flat" @click="emit('close')">{{ $gettext('Cancel') }}</a><a class="btn btn-light common-user-button btn-flat" @click="save">{{ $gettext('Accept') }}</a></div>
 </template>

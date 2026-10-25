@@ -26,10 +26,10 @@ onMounted(async () => {
 });
 </script>
 <template>
-    <div class="modal-header"><h4>{{ $gettext('Applying changes') }}</h4></div>
+    <div class="modal-header"><h4 class="modal-title common-user-title">{{ $gettext('Applying changes') }}</h4></div>
     <div class="modal-body">
         <div v-show="isWorking" class="spinner" role="status"><i class="fa fa-circle-o-notch fa-spin"></i></div>
         <LmLog path="/tmp/sophomorix.log" />
     </div>
-    <div v-show="!isWorking" class="modal-footer"><button class="btn btn-default btn-flat" @click="emit('close')">{{ $gettext('Close') }}</button></div>
+    <div v-show="!isWorking" class="modal-footer"><button class="btn btn-light common-user-button btn-flat" @click="emit('close')">{{ $gettext('Close') }}</button></div>
 </template>
