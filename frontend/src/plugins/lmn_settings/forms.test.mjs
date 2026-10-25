@@ -253,7 +253,7 @@ it('uses API dialogs, LDAP selection, IP/scope forms and secret lifecycle throug
     expect(clipboard.writeText.mock.calls).toEqual([[examples.api]]);
     await row().find('button').trigger('click'); await flushPromises();
     await dialog().find('input').setValue('p79-renamed');
-    await dialog().find('.label-info').trigger('click'); await dialog().find('.label-warning').trigger('click');
+    await dialog().find('.c12-label.bg-info').trigger('click'); await dialog().find('.c12-label.bg-warning').trigger('click');
     await clickText(dialog(), 'Save');
     expect(writes(http).at(-1).data).toEqual({ config: { api_keys: { 'p79-renamed': { user: 'zem', ips: [], scope: [], secret: examples.api } }, enable_host_auth: true } });
     await panel.findAll('tr').find(tr => tr.text().includes('p79-renamed')).findAll('button')[2].trigger('click'); await flushPromises();

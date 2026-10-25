@@ -1,0 +1,54 @@
+import { afterEach, expect, it } from 'vitest';
+import { readFileSync, readdirSync } from 'node:fs';
+import postcss from 'postcss';
+import { mount, flushPromises } from '@vue/test-utils';
+import { buildStyles } from './static-assets.mjs';
+import { createMockAj } from './src/adapter/mock.mjs';
+import GlobalSettings from './src/plugins/lmn_settings/GlobalSettings.vue';
+import UserSearch from './src/plugins/lmn_settings/UserSearch.vue';
+import { responses } from './src/plugins/lmn_settings/fixtures.test-data.mjs';
+let wrapper;
+afterEach(() => wrapper?.unmount());
+it('C12 migrates legacy classes and tab active structure', () => {
+ const directory='src/plugins/lmn_settings/';
+ for(const file of readdirSync(directory).filter(f=>/^(Global.*|UserSearch)\.vue$/.test(f))) expect(readFileSync(directory+file,'utf8')).not.toMatch(/\b(?:btn-default|label-info|label-warning|label-success|badge-info|pull-right|form-group|form-row|input-group-btn)\b/);
+ const source=readFileSync(directory+'GlobalSettings.vue','utf8');
+ expect(source).toContain('class="nav-item"');
+ expect(source).toContain('class="nav-link" :class="{ active: s.activetab === index }"');
+ expect(source).toContain("sidebar ? 'col-md-9' : 'col-md-12'");
+});
+it('C12 tabs, invalid IP and cancel keep the existing read-only lifecycle', async () => {
+ const data=responses(),requests=[];
+ const aj=createMockAj({http:async r=>{requests.push(r);return {data:structuredClone(data[r.url]),status:200};}});
+ wrapper=mount(GlobalSettings,{global:{provide:{aj}}});await flushPromises();
+ expect(wrapper.findAll('.nav-link.active')).toHaveLength(1);
+ await wrapper.findAll('.nav-link')[4].trigger('click');await flushPromises();
+ expect(wrapper.findAll('.nav-link')[4].classes()).toContain('active');
+ await wrapper.get('.tab-pane.active').findAll('button').find(b=>b.text()==='Add a key').trigger('click');
+ await wrapper.findAll('.modal a').find(a=>a.find('.fa-plus').exists()).trigger('click');
+ const dialog=wrapper.findAll('.modal').at(-1);
+ await dialog.get('input').setValue('invalid');
+ expect(dialog.findAll('.c12-button').find(a=>a.text()==='Save').attributes('disabled')).toBeDefined();
+ await dialog.findAll('.c12-button').find(a=>a.text()==='Close').trigger('click');
+ await wrapper.findAll('.modal a').find(a=>a.text()==='Close').trigger('click');
+ expect(wrapper.findAll('.modal')).toHaveLength(0);
+ expect(requests.every(r=>r.method==='get')).toBe(true);
+});
+it('C12 autocomplete selects the active dropdown item by keyboard',async()=>{
+ wrapper=mount(UserSearch,{props:{findUsers:async()=>[{label:'Synthetic',login:'fixture'}]}});
+ await wrapper.get('input').setValue('syn');await flushPromises();
+ expect(wrapper.get('.dropdown-menu').classes()).toContain('show');
+ expect(wrapper.get('.dropdown-item').classes()).toContain('active');
+ expect(wrapper.get('[role=option]').classes()).not.toContain('active');
+ await wrapper.get('input').trigger('keydown.enter');
+ expect(wrapper.emitted('update:modelValue').at(-1)[0].login).toBe('fixture');
+});
+it('C12 built CSS preserves focus and wraps the mobile toolbar',async()=>{
+ const css=postcss.parse(await buildStyles(process.cwd()));
+ const declarations=selector=>{const result={};css.walkRules(r=>{if(r.selectors.includes(selector))r.walkDecls(d=>{result[d.prop]=d.value;});});return result;};
+ expect(declarations('.btn.c12-button')['--bs-btn-focus-box-shadow']).toBe('none');
+ expect(declarations('.c12-tabs > .nav-item > .nav-link:focus-visible')['box-shadow']).toBe('none');
+ expect(declarations('.c12-field')['margin-bottom']).toBe('30px');
+ expect(declarations('.c12-toolbar')['flex-wrap']).toBe('wrap');
+ expect(declarations('.c12-footer .col-md-9')['width']).toBe('100%');
+});

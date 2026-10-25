@@ -20,7 +20,7 @@ it('uses the native capability without Angular and updates the Settings toolbar/
     const stop = mountSettings(host, aj); cleanups.push(() => { stop(); host.remove(); }); await flushPromises();
     expect(host.querySelector('floating-toolbar .col-md-9')).not.toBeNull();
     nav.toggleNavigation(); await nextTick(); expect(host.querySelector('floating-toolbar .col-md-12')).not.toBeNull();
-    const language = [...host.querySelectorAll('.form-group')].find(el => el.textContent.includes('Language'));
+    const language = [...host.querySelectorAll('.c12-field')].find(el => el.textContent.includes('Language'));
     expect(language.style.display).toBe('none');
     expect(host.querySelector('hr').style.display).toBe('none');
     const ssl = [...host.querySelectorAll('div')].find(el => el.getAttribute('style') === 'display: none;' && el.textContent.includes('SSL'));
@@ -46,7 +46,7 @@ it.each([false, true])('matches all hide*Settings flags with the original Angula
     cleanups.push(aj.shell.dispose);
     const host = document.createElement('div'); host.dataset.view = 'global'; document.body.append(host);
     const stop = mountSettings(host, aj); cleanups.push(() => { stop(); host.remove(); }); await flushPromises();
-    const group = label => [...host.querySelectorAll('.form-group')].find(el => el.querySelector('label')?.textContent.trim() === label);
+    const group = label => [...host.querySelectorAll('.c12-field')].find(el => el.querySelector('label')?.textContent.trim() === label);
     expect(group('Language').style.display !== 'none').toBe(expected.Language);
     expect(group('SSL certificate file').parentElement.style.display !== 'none').toBe(expected.SSL);
     expect(group('Trusted domains').style.display !== 'none').toBe(expected.Proxies);

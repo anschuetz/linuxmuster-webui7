@@ -17,9 +17,9 @@ const aj = inject('aj');
 </tr> <template v-for="(tfa, index) in s.tfaList" :key="index">
 <tr>
 <td>{{ tfa.user }}<br>
-<span class="badge badge-info">{{ tfa.provider }}</span>
+<span class="badge c12-provider">{{ tfa.provider }}</span>
 </td> <td>{{ tfa.desc }}</td> <td>{{ s.formatTfaDate(tfa.created*1000) }}</td> <td>
-<a @click="s.deleteTfa(tfa)" class="btn btn-default">
+<a @click="s.deleteTfa(tfa)" class="btn c12-button">
 <i class="fa fa-trash">
 </i>
 </a>

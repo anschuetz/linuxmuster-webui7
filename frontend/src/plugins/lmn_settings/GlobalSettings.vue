@@ -39,9 +39,9 @@ function selectTab(index) {
 </div>
 </component>
 <div v-if="s.config.data">
-<ul class="nav nav-tabs">
-<li v-for="(heading, index) in headings" :key="index" :class="{ active: s.activetab === index }">
-<a href="#" @click.prevent="selectTab(index)">{{ heading }}</a>
+<ul class="nav nav-tabs c12-tabs">
+<li v-for="(heading, index) in headings" :key="index" class="nav-item">
+<a href="#" class="nav-link" :class="{ active: s.activetab === index }" @click.prevent="selectTab(index)">{{ heading }}</a>
 </li>
 </ul>
 <div class="tab-content">
@@ -72,7 +72,7 @@ function selectTab(index) {
 </div>
 <div class="floating-toolbar-padder">
 </div>
-<component :is="'floating-toolbar'"><div class="container"><div class="row"><div :class="{ 'col-md-3': layout.sidebar }"></div><div :class="layout.sidebar ? 'col-md-9' : 'col-md-12'"><div class="bar row">
+<component :is="'floating-toolbar'" class="c12-footer"><div class="container"><div class="row"><div :class="{ 'col-md-3': layout.sidebar }"></div><div :class="layout.sidebar ? 'col-md-9' : 'col-md-12'"><div class="bar row c12-toolbar">
 <Translated tag="a" text="Save" v-show="s.activetab === 0" @click="s.save()" class="btn btn-lmn">
 </Translated> <Translated tag="a" text="Restart WebUI" v-show="s.activetab === 0" @click="s.restart()" class="btn btn-lmn">
 </Translated> <Translated tag="a" text="Save &amp;amp; Apply Subnets" v-show="s.activetab === 1" @click="s.saveApplySubnets()" class="btn btn-lmn">
@@ -97,7 +97,7 @@ function selectTab(index) {
 </div> <div style="margin-top:10px;">
 <Translated tag="span" text="Ips:">
 </Translated> <br> <template v-for="(ip, index) in s.apiKey.ips" :key="index">
-<span class="label label-info" @click="s.removeApiKeyIp(ip)" style="display:inline-block;">{{ ip }} <i class="far fa-times-circle">
+<span class="badge c12-label bg-info" @click="s.removeApiKeyIp(ip)" style="display:inline-block;">{{ ip }} <i class="far fa-times-circle">
 </i>
 </span>
 </template> <a @click="s.toggleAddIp()">
@@ -107,7 +107,7 @@ function selectTab(index) {
 </div> <div style="margin-top:10px;">
 <Translated tag="span" text="Scope (leave empty to allow the whole API):">
 </Translated> <br> <template v-for="(entry, index) in s.apiKey.scope" :key="index">
-<span class="label label-warning" @click="s.removeApiKeyScope(entry)" style="display:inline-block; margin-right:5px;">{{ entry }} <i class="far fa-times-circle">
+<span class="badge c12-label bg-warning" @click="s.removeApiKeyScope(entry)" style="display:inline-block; margin-right:5px;">{{ entry }} <i class="far fa-times-circle">
 </i>
 </span>
 </template> <a @click="s.toggleAddScope()">
@@ -121,8 +121,8 @@ function selectTab(index) {
 </div>
 </form>
 </div> <div class="modal-footer">
-<Translated tag="a" text="Save" @click="s.saveApiKey()" :disabled="undefined === '' || !s._.newApiUser?.label" class="btn btn-default btn-flat">
-</Translated> <Translated tag="a" text="Close" @click="s.closeAddApiKey()" class="btn btn-default btn-flat">
+<Translated tag="a" text="Save" @click="s.saveApiKey()" :disabled="undefined === '' || !s._.newApiUser?.label" class="btn c12-button btn-flat">
+</Translated> <Translated tag="a" text="Close" @click="s.closeAddApiKey()" class="btn c12-button btn-flat">
 </Translated>
 </div>
 </div>
@@ -143,7 +143,7 @@ function selectTab(index) {
 </div> <div style="margin-top:10px;">
 <Translated tag="span" text="Ips:">
 </Translated> <br> <template v-for="(ip, index) in s.apiKey.ips" :key="index">
-<span class="label label-info" @click="s.removeApiKeyIp(ip)" style="display:inline-block;">{{ ip }} <i class="far fa-times-circle">
+<span class="badge c12-label bg-info" @click="s.removeApiKeyIp(ip)" style="display:inline-block;">{{ ip }} <i class="far fa-times-circle">
 </i>
 </span>
 </template> <a @click="s.toggleAddIp()">
@@ -153,7 +153,7 @@ function selectTab(index) {
 </div> <div style="margin-top:10px;">
 <Translated tag="span" text="Scope (leave empty to allow the whole API):">
 </Translated> <br> <template v-for="(entry, index) in s.apiKey.scope" :key="index">
-<span class="label label-warning" @click="s.removeApiKeyScope(entry)" style="display:inline-block; margin-right:5px;">{{ entry }} <i class="far fa-times-circle">
+<span class="badge c12-label bg-warning" @click="s.removeApiKeyScope(entry)" style="display:inline-block; margin-right:5px;">{{ entry }} <i class="far fa-times-circle">
 </i>
 </span>
 </template> <a @click="s.toggleAddScope()">
@@ -167,8 +167,8 @@ function selectTab(index) {
 </div>
 </form>
 </div> <div class="modal-footer">
-<Translated tag="a" text="Save" @click="s.updateApiKey()" :disabled="undefined === '' || !s._.newApiUser?.label" class="btn btn-default btn-flat">
-</Translated> <Translated tag="a" text="Close" @click="s.closeUpdateApiKey()" class="btn btn-default btn-flat">
+<Translated tag="a" text="Save" @click="s.updateApiKey()" :disabled="undefined === '' || !s._.newApiUser?.label" class="btn c12-button btn-flat">
+</Translated> <Translated tag="a" text="Close" @click="s.closeUpdateApiKey()" class="btn c12-button btn-flat">
 </Translated>
 </div>
 </div>
@@ -187,8 +187,8 @@ function selectTab(index) {
 </Translated> <input v-model.trim="s._.newIp" type="text" class="form-control">
 </form>
 </div> <div class="modal-footer">
-<Translated tag="a" text="Save" @click="s.saveApiKeyIp()" class="btn btn-default btn-flat" :disabled="!s.validateIp(s._.newIp)">
-</Translated> <Translated tag="a" text="Close" @click="s.toggleAddIp()" class="btn btn-default btn-flat">
+<Translated tag="a" text="Save" @click="s.saveApiKeyIp()" class="btn c12-button btn-flat" :disabled="!s.validateIp(s._.newIp)">
+</Translated> <Translated tag="a" text="Close" @click="s.toggleAddIp()" class="btn c12-button btn-flat">
 </Translated>
 </div>
 </div>
@@ -238,8 +238,8 @@ function selectTab(index) {
 </Translated>
 </div>
 </div> <div class="modal-footer">
-<Translated tag="a" text="Save" @click="s.saveApiKeyScope()" class="btn btn-default btn-flat" :disabled="!s.validateScope()">
-</Translated> <Translated tag="a" text="Close" @click="s.toggleAddScope()" class="btn btn-default btn-flat">
+<Translated tag="a" text="Save" @click="s.saveApiKeyScope()" class="btn c12-button btn-flat" :disabled="!s.validateScope()">
+</Translated> <Translated tag="a" text="Close" @click="s.toggleAddScope()" class="btn c12-button btn-flat">
 </Translated>
 </div>
 </div>
@@ -256,11 +256,11 @@ function selectTab(index) {
 <Translated tag="p" text="Copy this secret now, it will not be shown in clear text like this again." class="alert alert-info">
 </Translated> <textarea readonly rows="3" class="form-control" style="font-family: monospace; resize: none;" @click="$event.target.select()">{{ s.apiKeySecret }}</textarea>
 </div> <div class="modal-footer">
-<a @click="s.copyApiKeySecret()" class="btn btn-default btn-flat">
+<a @click="s.copyApiKeySecret()" class="btn c12-button btn-flat">
 <i class="fa fa-copy">
 </i> <Translated tag="span" text="Copy">
 </Translated>
-</a> <Translated tag="a" text="Close" @click="s.closeApiKeySecret()" class="btn btn-default btn-flat">
+</a> <Translated tag="a" text="Close" @click="s.closeApiKeySecret()" class="btn c12-button btn-flat">
 </Translated>
 </div>
 </div>

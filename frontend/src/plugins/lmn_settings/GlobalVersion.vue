@@ -15,7 +15,7 @@ const aj = inject('aj');
 </tr> <template v-for="(version, packageName, index) in s.LMNVersion" :key="index">
 <tr>
 <td>{{ packageName }}</td> <td>
-<span class="label label-success">{{ version }}</span>
+<span class="badge c12-label bg-success">{{ version }}</span>
 </td>
 </tr>
 </template>
