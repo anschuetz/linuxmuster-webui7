@@ -16,7 +16,7 @@ onMounted(() => header.value.closest('.modal-dialog')?.classList.add('modal-lg')
         <div v-show="state.logVisible"><LmLog path="/tmp/import_devices.log" /></div>
     </div>
     <div class="modal-footer">
-        <a class="btn btn-default btn-flat" @click="toggleLog">{{ aj.gettext(state.logVisible ? 'Hide details' : 'Details') }}</a>
-        <a v-if="!state.working" class="btn btn-default btn-flat" @click="emit('close')">{{ aj.gettext('Close') }}</a>
+        <a class="btn c9-button btn-flat" @click="toggleLog">{{ aj.gettext(state.logVisible ? 'Hide details' : 'Details') }}</a>
+        <a v-if="!state.working" class="btn c9-button btn-flat" @click="emit('close')">{{ aj.gettext('Close') }}</a>
     </div>
 </template>

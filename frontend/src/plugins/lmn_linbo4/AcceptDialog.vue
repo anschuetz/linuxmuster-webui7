@@ -9,7 +9,7 @@ const message = () => aj.gettext('Remove Partition {{partition}}').replace('{{pa
     <div class="modal-header"><h4>{{ aj.gettext('Remove Partition?') }}</h4></div>
     <div class="modal-body">{{ message() }}</div>
     <div class="modal-footer">
-        <button data-action="save" class="btn btn-default btn-flat" @click="emit('close', { response: 'accept' })">{{ aj.gettext('Remove') }}</button>
-        <button data-action="cancel" class="btn btn-default btn-flat" @click="emit('cancel')">{{ aj.gettext('Cancel') }}</button>
+        <button data-action="save" class="btn c9-button btn-flat" @click="emit('close', { response: 'accept' })">{{ aj.gettext('Remove') }}</button>
+        <button data-action="cancel" class="btn c9-button btn-flat" @click="emit('cancel')">{{ aj.gettext('Cancel') }}</button>
     </div>
 </template>

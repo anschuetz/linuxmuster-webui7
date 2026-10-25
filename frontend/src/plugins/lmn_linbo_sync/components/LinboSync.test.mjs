@@ -81,5 +81,5 @@ it('entry mounts through adapter and unmounts cleanly', async () => {
     const { mount: mountPlugin } = await import('../entry.mjs');
     const element = document.createElement('div'); document.body.append(element);
     const dispose = mountPlugin(element, createMockAj({ http: () => ({ data: {} }) })); await flushPromises();
-    expect(element.querySelector('.form-group') !== null).toEqual(true); dispose(); expect(element.textContent).toEqual(''); element.remove();
+    expect(element.querySelector('.c9-field') !== null).toEqual(true); dispose(); expect(element.textContent).toEqual(''); element.remove();
 });

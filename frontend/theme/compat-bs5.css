@@ -857,3 +857,64 @@ html body.customized .c8-tabs > .nav-item > .nav-link.active:hover { border-bott
 .c8-tabs > .nav-item > .nav-link.active:focus:hover { background: rgba(0,0,0,.03); border-color: transparent; border-bottom-color: #2196F3; }
 /* P137 lmn_linbo4 core; P164 C8 scoped legacy appearance; consolidate D1. */
 .c8-icon-menu.dropdown-menu-end { right: 0; left: auto; }
+
+/* P165 C9 LINBO image dialogs and sync; legacy dimensions/colors, consolidate D1. */
+/* P137 LINBO; P165 C9 legacy appearance; consolidate D1. */
+.btn.c9-button { --bs-btn-focus-box-shadow: none; }
+/* P137 LINBO; P165 C9 legacy appearance; consolidate D1. */
+.c9-button { color: #333; background-color: #fff; border-color: #eee; }
+/* P137 LINBO; P165 C9 legacy appearance; consolidate D1. */
+.btn.c9-button:where(:not(.btn-flat)) { color: #333; background-color: #fff; border-color: #eee; }
+/* P137 LINBO; P165 C9 legacy appearance; consolidate D1. */
+.c9-button:focus { color: #333; background-color: #e6e6e6; border-color: #aeaeae; }
+/* P137 LINBO; P165 C9 legacy appearance; consolidate D1. */
+.c9-button:hover, .c9-button:active { color: #333; background-color: #e6e6e6; border-color: #cfcfcf; }
+/* P137 LINBO; P165 C9 legacy appearance; consolidate D1. */
+.c9-button:active:hover, .c9-button:active:focus { color: #333; background-color: #d4d4d4; border-color: #aeaeae; }
+/* P137 LINBO; P165 C9 legacy appearance; consolidate D1. */
+.c9-button[disabled]:hover, .c9-button[disabled]:focus { background-color: #fff; border-color: #eee; }
+/* P137 LINBO; P165 C9 legacy appearance; consolidate D1. */
+.c9-button:focus-visible { color: #333; background-color: #e6e6e6; border-color: #aeaeae; }
+/* P137 LINBO; P165 C9 legacy appearance; consolidate D1. */
+.c9-tabs > .nav-item > .nav-link { padding: 10px 15px; margin-bottom: 0; color: #666; border-radius: 0; isolation: auto; }
+/* P137 LINBO; P165 C9 legacy appearance; consolidate D1. */
+.c9-tabs > .nav-item > .nav-link.active,
+.c9-tabs > .nav-item > .nav-link.active:hover { border: 1px solid transparent; border-bottom: 1px solid #2196F3; color: #2196F3; background: rgba(0,0,0,.03); cursor: default; }
+/* P137 LINBO; P165 C9 legacy appearance; consolidate D1. */
+html body.customized .c9-tabs > .nav-item > .nav-link.active,
+html body.customized .c9-tabs > .nav-item > .nav-link.active:hover { border-bottom-color: #233c4c; color: #233c4c; }
+/* P137 LINBO; P165 C9 legacy appearance; consolidate D1. */
+.c9-tabs > .nav-item > .nav-link.active:focus { color: #666; background-color: #f0f0f0; border: 1px solid #ddd; border-bottom-color: transparent; }
+/* P137 LINBO; P165 C9 legacy appearance; consolidate D1. */
+.c9-tabs > .nav-item > .nav-link:focus-visible { box-shadow: none; }
+
+/* P137 LINBO; P165 C9 legacy appearance; consolidate D1. */
+
+.c9-field { margin-bottom: 30px; }
+/* P137 LINBO; P165 C9 legacy appearance; consolidate D1. */
+.c9-tabs > .nav-item > .nav-link:focus { border: 1px solid transparent; }
+/* P137 LINBO; P165 C9 legacy appearance; consolidate D1. */
+.c9-tabs > .nav-item > .nav-link:hover { border-color: #f0f0f0 #f0f0f0 #eee; }
+/* P137 LINBO; P165 C9 legacy appearance; consolidate D1. */
+.c9-tabs > .nav-item > .nav-link.active:focus { border: 1px solid #ddd; border-bottom-color: transparent; }
+/* P137 LINBO; P165 C9 legacy appearance; consolidate D1. */
+.c9-tabs > .nav-item > .nav-link.active:focus:hover { background: rgba(0,0,0,.03); border-color: transparent; border-bottom-color: #2196F3; }
+
+/* P137 ImagesTab labels; P165 C9 legacy inline geometry; consolidate D1. */
+.badge.c9-label { min-width: 0; padding: .4em .6em .3em; margin-right: 3px; font-size: 75%; font-weight: bold; line-height: 1; color: #fff; text-align: center; white-space: nowrap; vertical-align: baseline; border-radius: .25em; }
+/* P137 ImagesTab labels; P165 C9 legacy green; consolidate D1. */
+.c9-label.bg-success { --bs-success-rgb: 76, 175, 80; }
+/* P137 ImageDialog dropdown; P165 C9 legacy items; consolidate D1. */
+.c9-copy .dropdown-item { color: #333; }
+/* P137 ImageDialog dropdown; P165 C9 legacy hover/focus; consolidate D1. */
+.c9-copy .dropdown-item:hover, .c9-copy .dropdown-item:focus { color: #333; background-color: #f5f5f5; }
+@media (max-width: 767px) {
+ /* P137/P141 D06 SyncGroup table; P165 C9 contain horizontal scroll on mobile; D1. */
+ .c9-sync-table { overflow-x: auto; }
+ /* P137/P141 D06 SyncGroup commands; P165 C9 mobile-only wrap preserves desktop flex; D1. */
+ .c9-command-row { flex-wrap: wrap; gap: 10px 0; }
+ /* P137/P141 D06 SyncGroup commands; P165 C9 fit labels/buttons within viewport; D1. */
+ .c9-command-row > * { max-width: 100%; }
+ /* P137/P141 D06 SyncGroup commands; P165 C9 wrap image names on mobile; D1. */
+ .c9-command-row > div { overflow-wrap: anywhere; }
+}

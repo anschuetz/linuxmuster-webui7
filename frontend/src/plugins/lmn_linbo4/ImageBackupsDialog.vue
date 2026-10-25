@@ -23,11 +23,11 @@ const lines = text => text ? text.split('\n') : [];
                 <td><i>{{ aj.gettext('Backup') }}</i><br><i class="fas fa-history" style="color:orange"></i></td>
                 <td><b>{{ backup.date }}</b><br><i>{{ imageBytes(backup.size, aj.gettext) }}</i></td>
                 <td><div v-for="(line, lineIndex) in lines(backup.desc)" :key="lineIndex">{{ line }}<br></div></td>
-                <td width="1"><button data-action="edit-backup" class="btn btn-default" @click="editImage(backup)"><i class="fa fa-cog"></i></button></td>
-                <td width="1"><button data-action="restore-backup" class="btn btn-default" @click="restoreBackup(current, backup.date)"><i class="fa fa-undo"></i></button></td>
-                <td width="1"><button data-action="delete-backup" class="btn btn-default" @click="deleteBackupImage(current, backup.date)"><i class="fa fa-trash-o"></i></button></td>
+                <td width="1"><button data-action="edit-backup" class="btn c9-button" @click="editImage(backup)"><i class="fa fa-cog"></i></button></td>
+                <td width="1"><button data-action="restore-backup" class="btn c9-button" @click="restoreBackup(current, backup.date)"><i class="fa fa-undo"></i></button></td>
+                <td width="1"><button data-action="delete-backup" class="btn c9-button" @click="deleteBackupImage(current, backup.date)"><i class="fa fa-trash-o"></i></button></td>
             </tr>
         </tbody>
     </table></div>
-    <div class="modal-footer"><a data-action="close" class="btn btn-default btn-flat" @click="emit('close')">{{ aj.gettext('Close') }}</a></div>
+    <div class="modal-footer"><a data-action="close" class="btn c9-button btn-flat" @click="emit('close')">{{ aj.gettext('Close') }}</a></div>
 </template>

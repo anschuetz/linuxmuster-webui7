@@ -14,12 +14,12 @@ const aj = inject('aj');
         <tbody><tr v-for="(image, index) in props.images" :key="index">
             <td><input type="checkbox" :checked="image.selected" @change="emit('toggle-image', image)"></td>
             <td><b data-name>{{ image.name }}</b><br><i>{{ imageBytes(image.size, aj.gettext) }}</i></td>
-            <td><b>{{ image.diff_image?.name }} <button v-if="image.diff_image?.name" data-action="edit-diff" class="btn btn-default btn-xs" @click="emit('edit-image', image.diff_image)"><i class="fa fa-cog fa-xs"></i></button> <button v-if="image.diff_image?.name" data-action="delete-diff" class="btn btn-default btn-xs" @click="emit('delete-diff', image.diff_image)"><i class="fa fa-trash-o fa-xs"></i></button></b><br><i>{{ imageBytes(image.diff_image?.size, aj.gettext) }}</i></td>
-            <td><span v-for="(group, groupIndex) in image.used_in" :key="groupIndex" class="label label-success" style="display:inline-block">{{ group }}</span></td>
-            <td width="1"><button v-if="!image.error" data-action="edit" class="btn btn-default" @click="emit('edit-image', image)"><i class="fa fa-cog"></i></button></td>
-            <td width="1"><button data-action="backups" class="btn btn-default" @click="emit('show-backups', image)"><i class="fa fa-history"></i></button></td>
-            <td width="1"><button data-action="duplicate" class="btn btn-default" @click="emit('duplicate-image', image)"><i class="fa fa-copy"></i></button></td>
-            <td width="1"><button data-action="delete" class="btn btn-default" @click="emit('delete-image', image)"><i class="fa fa-trash-o"></i></button></td>
+            <td><b>{{ image.diff_image?.name }} <button v-if="image.diff_image?.name" data-action="edit-diff" class="btn c9-button btn-xs" @click="emit('edit-image', image.diff_image)"><i class="fa fa-cog fa-xs"></i></button> <button v-if="image.diff_image?.name" data-action="delete-diff" class="btn c9-button btn-xs" @click="emit('delete-diff', image.diff_image)"><i class="fa fa-trash-o fa-xs"></i></button></b><br><i>{{ imageBytes(image.diff_image?.size, aj.gettext) }}</i></td>
+            <td><span v-for="(group, groupIndex) in image.used_in" :key="groupIndex" class="badge c9-label bg-success" style="display:inline-block">{{ group }}</span></td>
+            <td width="1"><button v-if="!image.error" data-action="edit" class="btn c9-button" @click="emit('edit-image', image)"><i class="fa fa-cog"></i></button></td>
+            <td width="1"><button data-action="backups" class="btn c9-button" @click="emit('show-backups', image)"><i class="fa fa-history"></i></button></td>
+            <td width="1"><button data-action="duplicate" class="btn c9-button" @click="emit('duplicate-image', image)"><i class="fa fa-copy"></i></button></td>
+            <td width="1"><button data-action="delete" class="btn c9-button" @click="emit('delete-image', image)"><i class="fa fa-trash-o"></i></button></td>
         </tr></tbody>
     </table>
     <br>

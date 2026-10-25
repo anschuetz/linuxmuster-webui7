@@ -43,7 +43,7 @@ it('renders images in server order, used_in, differential size, error visibility
     const images=[{name:'z',size:1024,used_in:['a','b'],diff_image:{name:'z',size:512,diff:true}},{name:'a',error:true,used_in:[]}];
     const wrapper=mount(ImagesTab,{props:{images},global:{provide:{aj:createMockAj()}}});wrappers.push(wrapper);
     expect(wrapper.findAll('tbody tr').map(r=>r.find('[data-name]').text())).toEqual(['z','a']);
-    expect(wrapper.findAll('.label-success').map(r=>r.text())).toEqual(['a','b']);
+    expect(wrapper.findAll('.badge.bg-success').map(r=>r.text())).toEqual(['a','b']);
     expect(wrapper.findAll('[data-action="edit"]').length).toEqual(1);
     await wrapper.find('[data-action="edit-diff"]').trigger('click');expect(wrapper.emitted('edit-image')).toEqual([[images[0].diff_image]]);
     await wrapper.find('[data-action="duplicate"]').trigger('click');expect(wrapper.emitted('duplicate-image')).toEqual([[images[0]]]);
