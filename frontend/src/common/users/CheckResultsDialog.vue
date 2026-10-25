@@ -23,18 +23,18 @@ function apply() {
 }
 </script>
 <template>
-    <div class="modal-header"><h4>{{ $gettext('Check result') }}</h4></div>
+    <div class="modal-header"><h4 class="modal-title common-user-title">{{ $gettext('Check result') }}</h4></div>
     <div class="modal-body">
-        <ul class="nav nav-tabs">
-            <li :class="{ active: tab === 'all' }"><a href="#" @click.prevent="tab = 'all'">{{ $gettext('Summary') }}</a></li>
-            <li v-for="section in sections" v-show="count(section) > 0" :key="section.mode" :class="{ active: tab === section.mode }"><a href="#" @click.prevent="tab = section.mode">{{ $gettext(section.heading) }}</a></li>
-            <li v-show="errorCount > 0" :class="{ active: tab === 'error' }"><a href="#" @click.prevent="tab = 'error'">{{ $gettext('Errors') }}</a></li>
+        <ul class="nav nav-tabs common-user-tabs">
+            <li class="nav-item"><a class="nav-link" :class="{ active: tab === 'all' }" href="#" @click.prevent="tab = 'all'">{{ $gettext('Summary') }}</a></li>
+            <li v-for="section in sections" v-show="count(section) > 0" :key="section.mode" class="nav-item"><a class="nav-link" :class="{ active: tab === section.mode }" href="#" @click.prevent="tab = section.mode">{{ $gettext(section.heading) }}</a></li>
+            <li v-show="errorCount > 0" class="nav-item"><a class="nav-link" :class="{ active: tab === 'error' }" href="#" @click.prevent="tab = 'error'">{{ $gettext('Errors') }}</a></li>
         </ul><br>
         <div v-show="tab === 'all' && data.error" class="alert alert-danger"><i class="fa fa-warning"></i> {{ $gettext('Check failed') }}: {{ data.error }}</div>
         <div v-show="tab !== 'all' || !data.error">
-            <div v-for="section in visibleSections" :key="section.mode" class="panel" :class="`panel-${section.color}`">
-                <div class="panel-heading"><i class="fa fa-info-circle"></i> {{ $gettext(section.title) }}: {{ count(section) }}</div>
-                <div class="panel-body">
+            <div v-for="section in visibleSections" :key="section.mode" class="card common-user-card" :class="({info:'common-user-card-info',warning:'common-user-card-warning',danger:'common-user-card-danger'})[section.color]">
+                <div class="card-header"><i class="fa fa-info-circle"></i> {{ $gettext(section.title) }}: {{ count(section) }}</div>
+                <div class="card-body">
                     <table class="table table-bordered"><tbody>
                         <tr v-for="(item, id) in data.CHECK_RESULT[section.key]" :key="id">
                             <template v-if="section.mode === 'add'">
@@ -44,7 +44,7 @@ function apply() {
                                 <td>{{ id }}</td><td>
                                     <ul v-for="(values, type) in item" :key="type">
                                         <li v-if="type === 'sophomorixStatus'"><i>{{ $gettext('Status') }}</i> : {{ statusName(values.OLD) }} --&gt; {{ statusName(values.NEW) }}</li>
-                                        <li v-else><i>{{ type.replace('sophomorix', '') }}</i> : {{ values.OLD }} --&gt; {{ values.NEW }} <span v-if="values.OLD === 'attic'" class="label label-danger pull-right"><i class="fa fa-warning fa-xl"></i></span></li>
+                                        <li v-else><i>{{ type.replace('sophomorix', '') }}</i> : {{ values.OLD }} --&gt; {{ values.NEW }} <span v-if="values.OLD === 'attic'" class="badge common-user-badge bg-danger float-end"><i class="fa fa-warning fa-xl"></i></span></li>
                                     </ul>
                                 </td>
                             </template>
@@ -61,7 +61,7 @@ function apply() {
         <table v-show="tab === 'error'"><tbody><tr v-for="(item, id) in data.CHECK_RESULT.ERROR" :key="id"><td><pre>{{ id }} {{ item.REASON }}</pre></td></tr></tbody></table>
     </div>
     <div class="modal-footer">
-        <button class="btn btn-default btn-flat" :disabled="!selected.doAdd && !selected.doMove && !selected.doKill" @click="apply">{{ $gettext(actionLabel) }}</button>
-        <button class="btn btn-default btn-flat" @click="emit('cancel')">{{ $gettext('Cancel') }}</button>
+        <button class="btn btn-light common-user-button btn-flat" :disabled="!selected.doAdd && !selected.doMove && !selected.doKill" @click="apply">{{ $gettext(actionLabel) }}</button>
+        <button class="btn btn-light common-user-button btn-flat" @click="emit('cancel')">{{ $gettext('Cancel') }}</button>
     </div>
 </template>

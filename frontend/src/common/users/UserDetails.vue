@@ -100,7 +100,7 @@ async function killUser() {
 }
 </script>
 <template>
-    <div class="modal-header"><h3>{{ $gettext('User Details') }}{{ user == null ? ' ...' : ` - ${user.givenName} ${user.sn}` }}</h3></div>
+    <div class="modal-header"><h3 class="modal-title common-user-title">{{ $gettext('User Details') }}{{ user == null ? ' ...' : ` - ${user.givenName} ${user.sn}` }}</h3></div>
     <div v-if="user == null" class="spinner" role="status"><i class="fa fa-circle-o-notch fa-spin"></i></div>
     <div v-else style="padding:0 20px">
         <br><h4>{{ $gettext('Properties') }}</h4>
@@ -109,7 +109,7 @@ async function killUser() {
                 <tr><td><b>{{ $gettext('Loginname:') }}</b></td><td>{{ user.sAMAccountName }}</td></tr>
                 <tr><td><b>{{ $gettext('Class:') }}</b></td><td>{{ user.sophomorixAdminClass }}</td></tr>
                 <tr v-if="user.sophomorixBirthdate !== 'hidden'"><td><b>{{ $gettext('Birthday:') }}</b></td><td>{{ user.sophomorixBirthdate }}</td></tr>
-                <tr><td><b>{{ $gettext('Sophomorix Status:') }}</b></td><td><span :class="`label label-${user.sophomorixStatus.color}`">{{ user.sophomorixStatus.tag }}</span></td></tr>
+                <tr><td><b>{{ $gettext('Sophomorix Status:') }}</b></td><td><span class="badge common-user-badge" :class="({default:'bg-secondary',primary:'bg-primary',success:'bg-success',info:'bg-info',warning:'bg-warning',danger:'bg-danger'})[user.sophomorixStatus.color]">{{ user.sophomorixStatus.tag }}</span></td></tr>
                 <tr v-for="[label,key] in [['Role:','sophomorixRole'],['Schoolname:','sophomorixSchoolname'],['User ID (optional):','sophomorixUnid']]" :key="key"><td><b>{{ $gettext(label) }}</b></td><td>{{ user[key] }}</td></tr>
                 <tr v-for="[label,key] in [['DeactivationDate:','sophomorixDeactivationDate'],['TolerationDate:','sophomorixTolerationDate'],['CreationDate:','sophomorixCreationDate']]" :key="key"><td><b>{{ $gettext(label) }}</b></td><td>{{ formatUserDate(user[key],aj.gettext) }}</td></tr>
             </tbody></table>
@@ -118,31 +118,31 @@ async function killUser() {
                     <tr><td><b>{{ $gettext('Parents') }}</b></td><td>{{ user.parents.length === 0 ? $gettext('No parents found!') : '' }}</td><td><a data-action="parent-search" title="Add parent" @click="parentSearchVisible=true"><i class="fa fa-plus"></i></a></td></tr>
                     <tr v-for="(parent,i) in user.parents" :key="i"><td colspan="2" style="text-align:center;border-top:none">{{ parent.displayname }}</td><td><a data-action="remove-parent" title="Remove parent" @click="parentAction(parent,true)"><i class="fa fa-trash-o"></i></a></td></tr>
                 </template>
-                <tr v-if="config.proxyAddresses.show"><td><b>{{ config.proxyAddresses.title || 'Proxy addresses' }}</b></td><td><span v-for="(value,i) in user.proxyAddresses" :key="i" class="label label-info" data-action="remove-proxy" style="display:inline-block" @click="removeValue(null,value)">{{ value }} <i class="far fa-times-circle"></i></span></td><td><a data-action="add-proxy" @click="addValue(null)"><i class="fa fa-plus"></i></a></td></tr>
+                <tr v-if="config.proxyAddresses.show"><td><b>{{ config.proxyAddresses.title || 'Proxy addresses' }}</b></td><td><span v-for="(value,i) in user.proxyAddresses" :key="i" class="badge common-user-badge bg-info" data-action="remove-proxy" style="display:inline-block" @click="removeValue(null,value)">{{ value }} <i class="far fa-times-circle"></i></span></td><td><a data-action="add-proxy" @click="addValue(null)"><i class="fa fa-plus"></i></a></td></tr>
                 <template v-for="n in [1,2,3,4,5]" :key="n">
                     <tr v-if="config.custom[n]?.show"><td><b>{{ config.custom[n].title || `Custom ${n}` }}</b></td><td>{{ user['sophomorixCustom'+n] }}</td><td><a :data-action="`edit-${n}`" @click="editCustom(n)"><i class="fa fa-pencil"></i></a></td></tr>
                 </template>
                 <template v-for="n in [1,2,3,4,5]" :key="n">
-                    <tr v-if="config.customMulti[n]?.show"><td><b>{{ config.customMulti[n].title || `Multi Custom ${n}` }}</b></td><td><span v-for="(value,i) in user['sophomorixCustomMulti'+n]" :key="i" class="label label-info" style="display:inline-block" :data-action="`remove-multi-${n}`" @click="removeValue(n,value)">{{ value }} <i class="far fa-times-circle"></i></span></td><td><a :data-action="`add-multi-${n}`" @click="addValue(n)"><i class="fa fa-plus"></i></a></td></tr>
+                    <tr v-if="config.customMulti[n]?.show"><td><b>{{ config.customMulti[n].title || `Multi Custom ${n}` }}</b></td><td><span v-for="(value,i) in user['sophomorixCustomMulti'+n]" :key="i" class="badge common-user-badge bg-info" style="display:inline-block" :data-action="`remove-multi-${n}`" @click="removeValue(n,value)">{{ value }} <i class="far fa-times-circle"></i></span></td><td><a :data-action="`add-multi-${n}`" @click="addValue(n)"><i class="fa fa-plus"></i></a></td></tr>
                 </template>
             </tbody></table>
         </div>
-        <div class="panel panel-info"><div class="panel-heading"><a class="btn btn-default btn-flat pull-right" data-action="groups" @click="showGroups=!showGroups">{{ $gettext(showGroups?'Hide':'Show') }}</a><h4>{{ $gettext('Group Membership:') }}</h4></div>
-            <div v-show="showGroups" class="panel-body" data-section="groups"><ul class="list-unstyled" style="column-width:300px;padding:0"><li v-for="(group,i) in groups" :key="i" class="cardlist">{{ group.cn }} <span style="position:absolute;right:10px">{{ group.category }}</span></li></ul></div>
+        <div class="card common-user-card common-user-card-info"><div class="card-header"><a class="btn btn-light common-user-button btn-flat float-end" data-action="groups" @click="showGroups=!showGroups">{{ $gettext(showGroups?'Hide':'Show') }}</a><h4>{{ $gettext('Group Membership:') }}</h4></div>
+            <div v-show="showGroups" class="card-body" data-section="groups"><ul class="list-unstyled" style="column-width:300px;padding:0"><li v-for="(group,i) in groups" :key="i" class="cardlist">{{ group.cn }} <span style="position:absolute;right:10px">{{ group.category }}</span></li></ul></div>
         </div>
-        <div class="panel panel-info"><div class="panel-heading"><a class="btn btn-default btn-flat pull-right" data-action="quotas" @click="showQuotas=!showQuotas">{{ $gettext(showQuotas?'Hide':'Show') }}</a><h4>{{ $gettext('Quota:') }}</h4></div>
-            <div v-show="showQuotas" class="panel-body" data-section="quotas" style="padding:15px 30px">
-                <div v-for="quota in quotas" :key="quota.share" style="margin-bottom:15px"><div class="widget-header"><b>{{ quota.share }}</b><span :class="`label label-${quota.type} pull-right`">{{ quota.used }} MiB / {{ quota.total }} - {{ quota.usage }}%</span></div><div class="progress"><div :class="`progress-bar progress-bar-${quota.type}`" role="progressbar" :aria-valuenow="quota.usage" aria-valuemax="100" :style="{width:Math.min(100,Math.max(0,quota.usage))+'%'}"></div></div></div>
+        <div class="card common-user-card common-user-card-info"><div class="card-header"><a class="btn btn-light common-user-button btn-flat float-end" data-action="quotas" @click="showQuotas=!showQuotas">{{ $gettext(showQuotas?'Hide':'Show') }}</a><h4>{{ $gettext('Quota:') }}</h4></div>
+            <div v-show="showQuotas" class="card-body" data-section="quotas" style="padding:15px 30px">
+                <div v-for="quota in quotas" :key="quota.share" style="margin-bottom:15px"><div class="widget-header"><b>{{ quota.share }}</b><span class="badge common-user-badge float-end" :class="({success:'bg-success',warning:'bg-warning',danger:'bg-danger'})[quota.type]">{{ quota.used }} MiB / {{ quota.total }} - {{ quota.usage }}%</span></div><div class="progress"><div class="progress-bar common-user-progress" :class="({success:'bg-success',warning:'bg-warning',danger:'bg-danger'})[quota.type]" role="progressbar" :aria-label="quota.share" aria-valuemin="0" :aria-valuenow="quota.usage" aria-valuemax="100" :style="{width:Math.min(100,Math.max(0,quota.usage))+'%'}"></div></div></div>
                 <br><b>{{ $gettext('Cloudquota Calculated in MiB:') }}</b> {{ user.sophomorixCloudQuotaCalculated }}<br><b>{{ $gettext('Mailquota Calculated in MiB:') }}</b> {{ user.sophomorixMailQuotaCalculated }}
             </div>
         </div>
-        <div class="modal-footer"><a v-if="admin" class="btn btn-danger pull-left" data-action="kill" title="Definitively remove the user's account" @click="killUser"><i class="fa fa-trash"></i> {{ $gettext('Remove account') }}</a><a class="btn btn-default btn-flat" @click="emit('cancel')">{{ $gettext('Close') }}</a></div>
+        <div class="modal-footer"><a v-if="admin" class="btn btn-danger float-start" data-action="kill" title="Definitively remove the user's account" @click="killUser"><i class="fa fa-trash"></i> {{ $gettext('Remove account') }}</a><a class="btn btn-light common-user-button btn-flat" @click="emit('cancel')">{{ $gettext('Close') }}</a></div>
     </div>
     <dialog v-show="parentSearchVisible" :open="parentSearchVisible" class="block-element animate-modal">
         <div class="modal" style="display:block"><div class="modal-dialog"><div class="modal-content">
         <div class="modal-header"><h3 class="modal-title">{{ $gettext('Add parent') }}</h3></div>
-        <div class="modal-body"><input v-model.trim="query" type="text" class="form-control" placeholder="" @keydown="searchKey"><ul class="dropdown-menu" :style="{display:parents.length ? 'block' : 'none'}"><li v-for="(parent,i) in parents" :key="i" :class="{active:i===parentIndex}" @mouseenter="parentIndex=i"><a @click="parentAction(parent)">{{ parent.label }}</a></li></ul></div>
-        <div class="modal-footer"><a class="btn btn-default btn-flat" @click="parentSearchVisible=false">{{ $gettext('Close') }}</a></div>
+        <div class="modal-body"><input v-model.trim="query" type="text" class="form-control" placeholder="" @keydown="searchKey"><ul class="dropdown-menu common-user-parents" :class="{show:parents.length}"><li v-for="(parent,i) in parents" :key="i" @mouseenter="parentIndex=i"><a class="dropdown-item" :class="{active:i===parentIndex}" @click="parentAction(parent)">{{ parent.label }}</a></li></ul></div>
+        <div class="modal-footer"><a class="btn btn-light common-user-button btn-flat" @click="parentSearchVisible=false">{{ $gettext('Close') }}</a></div>
         </div></div></div>
     </dialog>
 </template>
