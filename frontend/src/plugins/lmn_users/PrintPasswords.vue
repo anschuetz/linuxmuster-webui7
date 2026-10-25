@@ -47,8 +47,8 @@ async function print(schoolclass) {
                         <input :id="schoolclass" type="checkbox" :checked="selection.includes(schoolclass)" @change="select(schoolclass)">
                         <span v-if="schoolclass !== ''"><i class="fa fa-users" /> {{ schoolclass }}</span>
                         <span v-else><i class="fa fa-asterisk" /> {{ allUsers }}</span>
-                        <span class="btn btn-default pull-right" data-action="pdf" @click="print([schoolclass])"><i class="fa fa-print" /></span>
-                        <span class="btn btn-default pull-right" data-action="csv" @click="api.csv(schoolclass, side === 1 && schoolclass === '')"><i class="fa-solid fa-file-csv" /></span>
+                        <span class="btn btn-light c11-button float-end" data-action="pdf" @click="print([schoolclass])"><i class="fa fa-print" /></span>
+                        <span class="btn btn-light c11-button float-end" data-action="csv" @click="api.csv(schoolclass, side === 1 && schoolclass === '')"><i class="fa-solid fa-file-csv" /></span>
                     </td></tr></tbody>
                 </table>
             </div>

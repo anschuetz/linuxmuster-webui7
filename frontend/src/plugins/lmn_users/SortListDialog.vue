@@ -25,5 +25,5 @@ function drop(index) {
             <div class="csv-samples"><div v-for="(column,index) in state.data" :key="index" class="csv-cell" style="display:inline-block;padding:10px 20px;background:white;border:2px solid #ccc;border-radius:3px;margin:3px;min-width:200px;vertical-align:top"><div v-for="(value,i) in column.data" :key="i">{{ value || '\u00a0' }}</div></div></div>
         </div>
     </div>
-    <div class="modal-footer"><button class="btn btn-default btn-flat" @click="emit('cancel')">{{ aj.gettext('Abort') }}</button><button class="btn btn-default btn-flat" @click="emit('close',state.data)">{{ aj.gettext('Accept Sorting') }}</button></div>
+    <div class="modal-footer"><button class="btn btn-light c11-button btn-flat" @click="emit('cancel')">{{ aj.gettext('Abort') }}</button><button class="btn btn-light c11-button btn-flat" @click="emit('close',state.data)">{{ aj.gettext('Accept Sorting') }}</button></div>
 </template>

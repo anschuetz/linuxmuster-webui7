@@ -14,6 +14,6 @@ function save() {
 </script>
 <template>
     <div class="modal-header"><h3>{{ aj.gettext('Add Administrator') }}</h3></div>
-    <div class="modal-body scrollable" style="height:200px"><div class="form-group"><form @submit.prevent><label> New {{ role }}: </label><input id="username" v-model.trim="username" name="username" class="form-control" placeholder="username"><p v-if="!valid" style="color:red;margin-top:10px">{{ aj.gettext('Please only use lowercase characters, digits, hyphen or underscore.') }}</p></form></div></div>
-    <div class="modal-footer"><a class="btn btn-default btn-flat" data-action="cancel" @click="emit('cancel')">{{ aj.gettext('Cancel') }}</a><a class="btn btn-default btn-flat" data-action="save" :disabled="!valid ? 'disabled' : undefined" @click="save">{{ aj.gettext('Accept') }}</a></div>
+    <div class="modal-body scrollable" style="height:200px"><div class="c11-form"><form @submit.prevent><label> New {{ role }}: </label><input id="username" v-model.trim="username" name="username" class="form-control" placeholder="username"><p v-if="!valid" style="color:red;margin-top:10px">{{ aj.gettext('Please only use lowercase characters, digits, hyphen or underscore.') }}</p></form></div></div>
+    <div class="modal-footer"><a class="btn btn-light c11-button btn-flat" data-action="cancel" @click="emit('cancel')">{{ aj.gettext('Cancel') }}</a><a class="btn btn-light c11-button btn-flat" data-action="save" :disabled="!valid ? 'disabled' : undefined" @click="save">{{ aj.gettext('Accept') }}</a></div>
 </template>

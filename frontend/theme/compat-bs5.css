@@ -1033,3 +1033,77 @@ html body.customized .c10-tabs > .nav-item > .nav-link.active:hover { border-bot
 .progress-bar.c10-progress.bg-warning { background-color: #ffc107 !important; }
 /* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
 .progress-bar.c10-progress.bg-danger { background-color: #F44336 !important; }
+
+/* P167 C11 remaining user controls. */
+/* P137 lmn_users; P167 C11 retained geometry/state; consolidate D1. */
+.btn.c11-button { --bs-btn-focus-box-shadow: none; }
+/* P137 lmn_users; P167 C11 retained geometry/state; consolidate D1. */
+.c11-button { color: #333; background-color: #fff; border-color: #eee; }
+/* P137 lmn_users; P167 C11 retained geometry/state; consolidate D1. */
+.btn.c11-button:where(:not(.btn-flat)) { border-color: #eee; }
+/* P137 lmn_users; P167 C11 retained geometry/state; consolidate D1. */
+.c11-button:focus { color: #333; background-color: #e6e6e6; border-color: #aeaeae; }
+/* P137 lmn_users; P167 C11 retained geometry/state; consolidate D1. */
+.c11-button:hover, .c11-button:active { color: #333; background-color: #e6e6e6; border-color: #cfcfcf; }
+/* P137 lmn_users; P167 C11 retained geometry/state; consolidate D1. */
+.c11-button:active:hover, .c11-button:active:focus { color: #333; background-color: #d4d4d4; border-color: #aeaeae; }
+/* P137 lmn_users; P167 C11 retained geometry/state; consolidate D1. */
+.c11-button:focus-visible { color: #333; background-color: #e6e6e6; border-color: #aeaeae; }
+/* P137 lmn_users; P167 C11 retained geometry/state; consolidate D1. */
+.c11-tabs > .nav-item > .nav-link { padding: 10px 15px; margin-bottom: 0; color: #666; border-radius: 0; isolation: auto; }
+/* P137 lmn_users; P167 C11 retained geometry/state; consolidate D1. */
+.c11-tabs > .nav-item > .nav-link.active,
+.c11-tabs > .nav-item > .nav-link.active:hover { border: 1px solid transparent; border-bottom: 1px solid #2196F3; color: #2196F3; background: rgba(0,0,0,.03); cursor: default; }
+/* P137 lmn_users; P167 C11 retained geometry/state; consolidate D1. */
+html body.customized .c11-tabs > .nav-item > .nav-link.active,
+html body.customized .c11-tabs > .nav-item > .nav-link.active:hover { border-bottom-color: #233c4c; color: #233c4c; }
+/* P137 lmn_users; P167 C11 retained geometry/state; consolidate D1. */
+.c11-tabs > .nav-item > .nav-link.active:focus { color: #666; background-color: #f0f0f0; border: 1px solid #ddd; border-bottom-color: transparent; }
+/* P137 lmn_users; P167 C11 retained geometry/state; consolidate D1. */
+.c11-tabs > .nav-item > .nav-link:focus-visible { box-shadow: none; }
+/* P137 lmn_users; P167 C11 retained geometry/state; consolidate D1. */
+.c11-menu-control { display: table-cell; width: 1%; white-space: nowrap; vertical-align: middle; position: relative; font-size: 0; }
+/* P137 lmn_users; P167 C11 retained geometry/state; consolidate D1. */
+.c11-menu-control > .btn { position: relative; }
+/* P137 lmn_users; P167 C11 retained geometry/state; consolidate D1. */
+.c11-menu-control > .btn:hover, .c11-menu-control > .btn:focus, .c11-menu-control > .btn:active { z-index: 2; }
+/* P137 lmn_users; P167 C11 retained geometry/state; consolidate D1. */
+.input-group > .c11-menu-control:not(:first-child):not(:last-child) { border-radius: 0; }
+/* P137 lmn_users; P167 C11 retained geometry/state; consolidate D1. */
+.c11-menu-control:last-child > .btn { z-index: 2; margin-left: -1px; border-top-left-radius: 0; border-bottom-left-radius: 0; }
+/* P137 lmn_users; P167 C11 retained geometry/state; consolidate D1. */
+.c11-menu-control .dropdown-menu-end { right: 0; left: auto; }
+/* P137 lmn_users; P167 C11 retained geometry/state; consolidate D1. */
+.c11-tabs > .nav-item > .nav-link:focus { border: 1px solid transparent; }
+/* P137 lmn_users; P167 C11 retained geometry/state; consolidate D1. */
+.c11-tabs > .nav-item > .nav-link:hover { border-color: #f0f0f0 #f0f0f0 #eee; }
+/* P137 lmn_users; P167 C11 retained geometry/state; consolidate D1. */
+.c11-tabs > .nav-item > .nav-link.active:focus { border: 1px solid #ddd; border-bottom-color: transparent; }
+/* P137 lmn_users; P167 C11 retained geometry/state; consolidate D1. */
+.c11-tabs > .nav-item > .nav-link.active:focus:hover { background: rgba(0,0,0,.03); border-color: transparent; border-bottom-color: #2196F3; }
+/* P137 lmn_users; P167 C11 retained geometry/state; consolidate D1. */
+.c11-pagination .page-link:focus { box-shadow: none; }
+/* P137 lmn_users; P167 C11 retained geometry/state; consolidate D1. */
+.c11-pagination { --bs-pagination-font-size: 14px; --bs-pagination-border-radius: 3px; }
+/* P137 lmn_users; P167 C11 retained geometry/state; consolidate D1. */
+.c11-menu a.dropdown-item { color: #333; }
+/* P137 lmn_users; P167 C11 retained geometry/state; consolidate D1. */
+.c11-menu a.dropdown-item:hover, .c11-menu a.dropdown-item:focus { color: #333; background-color: #f5f5f5; }
+/* P137 lmn_users; P167 C11 retained geometry/state; consolidate D1. */
+.c11-menu.dropdown-menu-end { right: 0; left: auto; }
+/* P137 lmn_users; P167 C11 retained geometry/state; consolidate D1. */
+.c11-menu.dropdown-menu-start { left: 0; right: auto; }
+/* P137 lmn_users form-group: final Ajenti spacing; P167 C11, D1. */
+.c11-form { margin-bottom: 30px; }
+/* P137 lmn_users validation colors; P167 C11, D1. */
+.c11-invalid .form-control { background-color: rgba(255,178,178,.29); border-color: red; box-shadow: inset 0 1px 1px rgba(0,0,0,.075); }
+/* P137 lmn_users validation focus; P167 C11, D1. */
+.c11-invalid .form-control:focus { border-color: #843534; box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 6px #ce8483; }
+/* P137 lmn_users; P167 C11: BS5 invalid icon/spacing must not change original inputs; D1. */
+.c11-form .form-control.is-invalid { padding-right: 12px; background-image: none; }
+/* P137 upload progress-bar-warning color; P167 C11, D1. */
+.progress-bar.c11-progress.bg-warning { background-color: #ffc107 !important; }
+/* P137 lmn_users/PrintOptionsDialog.vue active btn-default; P167 C11, D1. */
+.c11-button.active { color: #333; background-color: #e6e6e6; border-color: #cfcfcf; background-image: none; }
+/* P137 lmn_users/PrintOptionsDialog.vue active btn-default interaction; P167 C11, D1. */
+.c11-button.active:hover, .c11-button.active:focus { color: #333; background-color: #d4d4d4; border-color: #aeaeae; }

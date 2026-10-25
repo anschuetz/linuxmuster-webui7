@@ -24,10 +24,10 @@ async function print() { if (await api.print(options.value, () => options.value)
 <template>
     <div class="modal-header"><h4>{{ title }}</h4></div>
     <div class="modal-body">
-        <div class="form-group"><label>{{ gettext('Format') }}</label><br>
-            <div class="btn-group"><button v-for="format in ['pdf', 'csv']" :key="format" class="btn btn-default" :class="{ active: options.format === format }" :data-format="format" @click="options = { ...options, format }"><i :class="format === 'pdf' ? 'fa fa-file' : 'fa fa-ellipsis-v'" /> {{ format.toUpperCase() }}</button></div>
+        <div class="c11-form"><label>{{ gettext('Format') }}</label><br>
+            <div class="btn-group"><button v-for="format in ['pdf', 'csv']" :key="format" class="btn btn-light c11-button" :class="{ active: options.format === format }" :data-format="format" @click="options = { ...options, format }"><i :class="format === 'pdf' ? 'fa fa-file' : 'fa fa-ellipsis-v'" /> {{ format.toUpperCase() }}</button></div>
         </div>
-        <div v-show="options.format === 'pdf'" class="form-group" data-options>
+        <div v-show="options.format === 'pdf'" class="c11-form" data-options>
             <label>{{ gettext('Options') }}</label><br>
             <span checkbox role="checkbox" tabindex="0" :class="{ active: options.one_per_page }" :aria-checked="options.one_per_page" @click="options = { ...options, one_per_page: !options.one_per_page }" @keydown.space.prevent="options = { ...options, one_per_page: !options.one_per_page }"><i class="fa fa-square-o off"></i><i class="fa fa-check-square on"></i> {{ gettext('One per page') }}</span><br>
             <span checkbox role="checkbox" tabindex="0" :class="{ active: options.pdflatex }" :aria-checked="options.pdflatex" @click="options = { ...options, pdflatex: !options.pdflatex }" @keydown.space.prevent="options = { ...options, pdflatex: !options.pdflatex }"><i class="fa fa-square-o off"></i><i class="fa fa-check-square on"></i> {{ gettext('Use pdflatex instead of latex') }}</span><br><br>
@@ -42,5 +42,5 @@ async function print() { if (await api.print(options.value, () => options.value)
             </div>
         </div>
     </div>
-    <div class="modal-footer"><button class="btn btn-default btn-flat" data-action="print" @click="print">{{ gettext('Print') }}</button><button class="btn btn-default btn-flat" data-action="cancel" @click="emit('cancel')">{{ gettext('Cancel') }}</button></div>
+    <div class="modal-footer"><button class="btn btn-light c11-button btn-flat" data-action="print" @click="print">{{ gettext('Print') }}</button><button class="btn btn-light c11-button btn-flat" data-action="cancel" @click="emit('cancel')">{{ gettext('Cancel') }}</button></div>
 </template>
