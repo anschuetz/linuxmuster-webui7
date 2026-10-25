@@ -1,6 +1,6 @@
 <script setup>
 import { computed, ref } from 'vue';
-const props = defineProps({ modelValue: String, groups: { type: Array, required: true } });
+const props = defineProps({ modelValue: String, invalid: Boolean, groups: { type: Array, required: true } });
 const emit = defineEmits(['update:modelValue']);
 const open = ref(false);
 const active = ref(0);
@@ -27,9 +27,9 @@ function keydown(event) {
 </script>
 <template>
     <div style="position:relative">
-        <input type="text" class="form-control" placeholder="Group" v-model.trim="model" role="combobox" :aria-expanded="open && matches.length > 0" autocomplete="off" @input="input" @keydown="keydown" @blur="open = false">
-        <ul v-if="open && matches.length" class="dropdown-menu group-options" style="display:block" role="listbox">
-            <li v-for="(group, index) in matches" :key="group" :class="{ active: active === index }" @mouseenter="active = index"><a role="option" :aria-selected="active === index" @mousedown.prevent="choose(group)">{{ group }}</a></li>
+        <input type="text" class="form-control" :class="{ 'is-invalid': invalid }" placeholder="Group" v-model.trim="model" role="combobox" :aria-expanded="open && matches.length > 0" autocomplete="off" @input="input" @keydown="keydown" @blur="open = false">
+        <ul v-if="open && matches.length" class="dropdown-menu group-options show" role="listbox">
+            <li v-for="(group, index) in matches" :key="group" @mouseenter="active = index"><a class="dropdown-item" :class="{ active: active === index }" role="option" :aria-selected="active === index" @mousedown.prevent="choose(group)">{{ group }}</a></li>
         </ul>
     </div>
 </template>

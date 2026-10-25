@@ -208,12 +208,12 @@ describe('devices original view contract', () => {
     });
     it('applies the original hostname length exceptions for special roles', async () => {
         const { wrapper: w, aj } = setup([device({ sophomorixRole: 'server', hostname: 'very-long-server-hostname' })]); await flushPromises();
-        expect(w.findAll('.has-error-new')).toHaveLength(0);
+        expect(w.findAll('.c3-unchecked-error')).toHaveLength(0);
         await button(w, 'Save').trigger('click'); await flushPromises();
         expect(aj.http.post).toHaveBeenCalledOnce();
         const role = rows(w)[0].find('select');
         await role.setValue('classroom-studentcomputer');
-        expect(w.findAll('.has-error-new')).toHaveLength(1);
+        expect(w.findAll('.c3-unchecked-error')).toHaveLength(1);
     });
     it('normalizes MAC input using the same visible-row index as the legacy validator', async () => {
         const { wrapper: w, aj } = setup([device({ mac: '021700000002' })]); await flushPromises();
@@ -272,4 +272,18 @@ describe('device dialogs', () => {
         const w = mount(ApplyDialog, { global: { provide: { aj } } }); wrappers.push(w); await flushPromises();
         expect(aj.notify.error).toHaveBeenCalledWith('Import failed', 'failed'); expect(button(w, 'Details')).toBeDefined(); expect(button(w, 'Close')).toBeDefined();
     });
+});
+
+it('uses scoped BS5 controls, visible menus and actual invalid input states', async () => {
+    const { wrapper: w } = setup([device({ hostname: '' })]);
+    await flushPromises();
+    expect(w.find('.c3-devices-scroll > .lm-table').exists()).toBe(true);
+    await w.get('.c3-menu-control button').trigger('click');
+    expect(w.find('.dropdown-menu.show .dropdown-item').exists()).toBe(true);
+    await w.get('[data-sort=room]').trigger('click');
+    expect(w.find('.dropdown-menu.show').exists()).toBe(false);
+    await button(w, 'Save').trigger('click');
+    await flushPromises();
+    expect(w.get('[data-field=hostname] input').classes()).toContain('is-invalid');
+    expect(w.find('.has-error, .form-group, .btn-default, .input-group-btn').exists()).toBe(false);
 });

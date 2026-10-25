@@ -11,7 +11,7 @@ const menus = ref({});
 const shell = aj.shell, sidebar = computed(() => shell.layout.sidebar);
 let interval;
 const timeouts = new Set();
-const closeMenus = event => { if (!event.target.closest('.input-group-btn')) menus.value = {}; };
+const closeMenus = event => { if (!event.target.closest('.c3-menu-control')) menus.value = {}; };
 window.addEventListener('click', closeMenus);
 const escapeMenu = event => { if (event.key === 'Escape') menus.value = {}; };
 window.addEventListener('keydown', escapeMenu);
@@ -89,7 +89,7 @@ onUnmounted(() => { window.removeEventListener('click', closeMenus); window.remo
 </script>
 <template>
     <div>
-        <div id="siteContent" style="padding-top:20px">
+        <div class="c3-manager-content" id="siteContent" style="padding-top:20px">
             <div class="alert alert-warning">{{ aj.gettext('This plugin is deprecated and will be removed in a future release. Running LINBO commands is no longer possible here: please use the plugin "Linbo synchronization" instead.') }}</div>
             <div v-if="filtered?.length === 0" id="deviceList" style="width:75%;float:left" class="alert alert-info">{{ aj.gettext('Please select a room to display devices!') }}</div>
             <div v-if="filtered?.length > 0" id="deviceList" style="width:75%;float:left">
@@ -98,19 +98,19 @@ onUnmounted(() => { window.removeEventListener('click', closeMenus); window.remo
                         <div style="float:left"><input type="checkbox" :checked="device.checked" @change="checkDevice(device, $event.target.checked)">
                             <i v-if="['up','down','unknown'].includes(device.online)" class="fas fa-circle" :style="{color: {up:'green',down:'red',unknown:'grey'}[device.online]}" :title="device.online"></i>
                         </div>
-                        <div class="input-group-btn" style="float:right;margin-right:25px" :class="{open: menus[device.hostname] === 'options'}">
-                            <button class="btn btn-default btn-sm" style="padding:3px 8px" :title="aj.gettext('Options')" @click="toggleMenu(device.hostname, 'options')"><i class="fas fa-bars" style="color:black"></i></button>
-                            <div class="dropdown-menu dropdown-menu-left multi-level">
-                                <li v-if="device.online === 'down' && !device.remoteBlock" class="dropdown-item"><a data-action="start" @click="action(device, 'start')"><i class="fa fa-power-off"></i> {{ aj.gettext('Start') }}</a></li>
-                                <li v-if="device.online === 'up' || device.online === 'unknown'" class="dropdown-item disabled"><a><i class="fa fa-power-off"></i> {{ aj.gettext('Start') }}</a></li>
-                                <li v-for="name in ['shutdown','reboot']" :key="name" class="dropdown-item" :class="{disabled: device.os === 'Unknown' || device.remoteBlock}"><a :data-action="device.os !== 'Unknown' && !device.remoteBlock ? name : undefined" @click="device.os !== 'Unknown' && !device.remoteBlock && action(device, name)"><i :class="name === 'reboot' ? 'fa fa-refresh' : 'fa fa-power-off'"></i> {{ aj.gettext(name === 'reboot' ? 'Reboot' : 'Shutdown') }}</a></li>
-                                <li class="dropdown-item" :class="{disabled:device.os !== 'Linbo'}"><a :data-action="device.os === 'Linbo' ? 'remote' : undefined" @click="device.os === 'Linbo' && remote(device, false)"><i class="fa fa-hospital-o"></i> Linbo-Remote</a></li>
-                                <li class="dropdown-item" :class="{disabled:device.remoteBlock}"><a :data-action="!device.remoteBlock ? 'prestart' : undefined" @click="!device.remoteBlock && remote(device, true)"><i class="fa fa-hospital-o"></i> Linbo-Remote (Prestart)</a></li>
+                        <div class="dropdown c3-menu-control" style="float:right;margin-right:25px">
+                            <button class="btn c3-button btn-sm" style="padding:3px 8px" :title="aj.gettext('Options')" @click="toggleMenu(device.hostname, 'options')"><i class="fas fa-bars" style="color:black"></i></button>
+                            <div class="dropdown-menu dropdown-menu-start multi-level c3-manager-options" :class="{ show: menus[device.hostname] === 'options' }">
+                                <li v-if="device.online === 'down' && !device.remoteBlock"><a class="dropdown-item" data-action="start" @click="action(device, 'start')"><i class="fa fa-power-off"></i> {{ aj.gettext('Start') }}</a></li>
+                                <li v-if="device.online === 'up' || device.online === 'unknown'"><a class="dropdown-item disabled"><i class="fa fa-power-off"></i> {{ aj.gettext('Start') }}</a></li>
+                                <li v-for="name in ['shutdown','reboot']" :key="name"><a class="dropdown-item" :class="{disabled: device.os === 'Unknown' || device.remoteBlock}" :data-action="device.os !== 'Unknown' && !device.remoteBlock ? name : undefined" @click="device.os !== 'Unknown' && !device.remoteBlock && action(device, name)"><i :class="name === 'reboot' ? 'fa fa-refresh' : 'fa fa-power-off'"></i> {{ aj.gettext(name === 'reboot' ? 'Reboot' : 'Shutdown') }}</a></li>
+                                <li><a class="dropdown-item" :class="{disabled:device.os !== 'Linbo'}" :data-action="device.os === 'Linbo' ? 'remote' : undefined" @click="device.os === 'Linbo' && remote(device, false)"><i class="fa fa-hospital-o"></i> Linbo-Remote</a></li>
+                                <li><a class="dropdown-item" :class="{disabled:device.remoteBlock}" :data-action="!device.remoteBlock ? 'prestart' : undefined" @click="!device.remoteBlock && remote(device, true)"><i class="fa fa-hospital-o"></i> Linbo-Remote (Prestart)</a></li>
                             </div>
                         </div>
-                        <div class="input-group-btn" style="float:right;margin-right:30px" :class="{open:menus[device.hostname] === 'infos'}">
-                            <button class="btn btn-default btn-sm" style="padding:3px 8px" :title="aj.gettext('Infos')" @click="toggleMenu(device.hostname, 'infos')"><i class="fas fa-question-circle" style="color:black"></i></button>
-                            <ul class="dropdown-menu dropdown-menu-left"><li v-for="[label, field] in [['Room','room'],['Hostname','hostname'],['IP','ip'],['MAC','mac'],['Group','group'],['Type','type'],['OS','os'],['Online','online']]" :key="field" class="dropdown-item" style="padding:0 5px">{{ aj.gettext(label) }}: {{ device[field] }}</li></ul>
+                        <div class="dropdown c3-menu-control" style="float:right;margin-right:30px">
+                            <button class="btn c3-button btn-sm" style="padding:3px 8px" :title="aj.gettext('Infos')" @click="toggleMenu(device.hostname, 'infos')"><i class="fas fa-question-circle" style="color:black"></i></button>
+                            <ul class="dropdown-menu dropdown-menu-start" :class="{ show: menus[device.hostname] === 'infos' }"><li v-for="[label, field] in [['Room','room'],['Hostname','hostname'],['IP','ip'],['MAC','mac'],['Group','group'],['Type','type'],['OS','os'],['Online','online']]" :key="field" class="dropdown-item" style="padding:0 5px">{{ aj.gettext(label) }}: {{ device[field] }}</li></ul>
                         </div>
                     </div>
                     <div id="OSArea" style="text-align:center"><i v-if="['Linux','Windows','Linbo','Unknown'].includes(device.os)" :class="'fa ' + {Linux:'fa-linux', Windows:'fa-windows', Linbo:'fa-hospital-o', Unknown:'fa-question-circle'}[device.os]" style="color:black;font-size:35px;height:40px;width:40px" :title="device.os"></i></div>
@@ -118,8 +118,8 @@ onUnmounted(() => { window.removeEventListener('click', closeMenus); window.remo
                 </div>
             </div>
             <div id="sideBar" style="width:20%;float:right;padding:5px">
-                <div style="margin-bottom:10px"><button class="btn btn-lmn" style="width:100%;text-align:left" :title="aj.gettext('Linbo-Remote Processes currently running')" @click="openProcesses"><span class="badge badge-secondary" style="margin-right:10px">{{ processes?.length }}</span><span>{{ aj.gettext('LR-Processes') }}</span></button></div>
-                <div style="margin-bottom:10px"><button class="btn btn-lmn" style="width:100%;text-align:left" :title="aj.gettext('Commands to use when device starts in linbo')" @click="openPrestart"><span class="badge badge-secondary" style="margin-right:10px">{{ commands?.length }}</span><span>{{ aj.gettext("LR-Prestart's") }}</span></button></div>
+                <div style="margin-bottom:10px"><button class="btn btn-lmn" style="width:100%;text-align:left" :title="aj.gettext('Linbo-Remote Processes currently running')" @click="openProcesses"><span class="badge bg-secondary c3-count" style="margin-right:10px">{{ processes?.length }}</span><span>{{ aj.gettext('LR-Processes') }}</span></button></div>
+                <div style="margin-bottom:10px"><button class="btn btn-lmn" style="width:100%;text-align:left" :title="aj.gettext('Commands to use when device starts in linbo')" @click="openPrestart"><span class="badge bg-secondary c3-count" style="margin-right:10px">{{ commands?.length }}</span><span>{{ aj.gettext("LR-Prestart's") }}</span></button></div>
                 <hr><div style="margin-bottom:10px"><button class="btn btn-lmn" style="width:100%" @click="checkStatus">{{ aj.gettext('Refresh') }}</button></div>
                 <div style="margin-bottom:10px"><input v-model="auto" data-auto type="checkbox"> {{ aj.gettext('Auto-Refresh') }}<br>
                     <div class="input-group" style="margin:10px 0"><input v-model.number="timerStart" type="number" style="width:60%" class="form-control" aria-label="autoRefreshStatusTimerStart"><button data-set class="btn btn-lmn btn-sm" style="margin-left:10px;width:calc(40% - 15px)" @click="countdown = timerStart === '' ? null : timerStart">Set</button></div>
@@ -130,9 +130,9 @@ onUnmounted(() => { window.removeEventListener('click', closeMenus); window.remo
             </div>
         </div>
         <div class="floating-toolbar-padder"></div>
-        <component :is="'floating-toolbar'"><div class="container"><div class="row"><div v-if="sidebar" class="col-md-3"></div><div :class="sidebar ? 'col-md-9' : 'col-md-12'"><div class="bar row">
+        <component :is="'floating-toolbar'"><div class="container"><div class="row"><div v-if="sidebar" class="col-md-3"></div><div :class="sidebar ? 'col-md-9' : 'col-md-12'"><div class="bar row c3-manager-toolbar">
             <template v-if="checked.length > 0"><button v-for="name in ['start','shutdown','reboot']" :key="name" class="btn btn-lmn" @click="open(BulkAction, {devices:checked,action:name})"><i :class="name === 'reboot' ? 'fa fa-refresh' : 'fa fa-power-off'"></i> {{ aj.gettext({start:'Start',shutdown:'Shutdown',reboot:'Reboot'}[name]) }}</button></template>
-            <button v-if="filtered?.length > 0" class="btn btn-lmn pull-right" @click="toggleAll">{{ checked.length }} {{ aj.gettext('devices selected') }}</button>
+            <button v-if="filtered?.length > 0" class="btn btn-lmn float-end" @click="toggleAll">{{ checked.length }} {{ aj.gettext('devices selected') }}</button>
         </div></div></div></div></component>
     </div>
 </template>

@@ -19,7 +19,7 @@ const menu = ref('');
 const dirty = ref(false);
 const sidebar = computed(() => aj.shell.layout.sidebar);
 const showErrors = ref(false);
-const closeMenus = (event) => { if (!event.target.closest('.input-group-btn')) menu.value = ''; };
+const closeMenus = (event) => { if (!event.target.closest('.c3-menu-control')) menu.value = ''; };
 window.addEventListener('click', closeMenus);
 const visible = ref(Object.fromEntries(definitions.map(([id, , shown]) => [id, shown])));
 const sorts = definitions.slice(0, 5);
@@ -158,41 +158,41 @@ load('/api/lmn/devices', (data) => { devices.value = data; });
             <li v-for="message in messages" :key="message">{{ message }}</li>
         </ul></div>
         <div>
-            <button class="btn btn-success pull-right" @click="add()"><i class="fa fa-plus"></i> <span>{{ aj.gettext('Add a device') }}</span></button>
+            <button class="btn btn-success float-end" @click="add()"><i class="fa fa-plus"></i> <span>{{ aj.gettext('Add a device') }}</span></button>
             <div class="input-group">
                 <input v-model.trim="filter" type="search" autofocus class="form-control" placeholder="Filter">
-                <div class="input-group-btn" :class="{ open: menu === 'sort' }">
-                    <button class="btn btn-default" @click="menu = menu === 'sort' ? '' : 'sort'"><i class="fa fa-sort-amount-asc"></i> {{ aj.gettext(sortName) }} <span class="caret"></span></button>
-                    <ul v-if="menu === 'sort'" class="dropdown-menu dropdown-menu-right" style="width:150px"><li v-for="[id, label] in sorts" :key="id"><a :data-sort="id" @click="sort = id; menu = ''"><i class="fa fa-sort-amount-asc"></i> {{ aj.gettext(label) }}</a></li></ul>
+                <div class="dropdown c3-menu-control">
+                    <button class="btn c3-button" @click="menu = menu === 'sort' ? '' : 'sort'"><i class="fa fa-sort-amount-asc"></i> {{ aj.gettext(sortName) }} <span class="caret"></span></button>
+                    <ul v-if="menu === 'sort'" class="dropdown-menu dropdown-menu-end show" style="width:150px"><li v-for="[id, label] in sorts" :key="id"><a class="dropdown-item" :data-sort="id" @click="sort = id; menu = ''"><i class="fa fa-sort-amount-asc"></i> {{ aj.gettext(label) }}</a></li></ul>
                 </div>
-                <div class="input-group-btn" :class="{ open: menu === 'fields' }">
-                    <button class="btn btn-default" @click="menu = menu === 'fields' ? '' : 'fields'"><i class="fa fa-ellipsis-h"></i> {{ aj.gettext('Fields') }} <span class="caret"></span></button>
-                    <ul v-if="menu === 'fields'" class="dropdown-menu dropdown-menu-right" style="width:190px"><li v-for="[id, label] in definitions" :key="id"><label checkbox :class="{ active: visible[id] }" style="font-weight:normal;margin:0"><input class="sr-only" :checked="visible[id]" @change="visible = { ...visible, [id]: $event.target.checked }" type="checkbox" :data-visible="id"><i class="fa fa-square-o off"></i><i class="fa fa-check-square on"></i> {{ aj.gettext(label) }}</label></li></ul>
+                <div class="dropdown c3-menu-control">
+                    <button class="btn c3-button" @click="menu = menu === 'fields' ? '' : 'fields'"><i class="fa fa-ellipsis-h"></i> {{ aj.gettext('Fields') }} <span class="caret"></span></button>
+                    <ul v-if="menu === 'fields'" class="dropdown-menu dropdown-menu-end show" style="width:190px"><li v-for="[id, label] in definitions" :key="id"><label checkbox :class="{ active: visible[id] }" style="font-weight:normal;margin:0"><input class="sr-only" :checked="visible[id]" @change="visible = { ...visible, [id]: $event.target.checked }" type="checkbox" :data-visible="id"><i class="fa fa-square-o off"></i><i class="fa fa-check-square on"></i> {{ aj.gettext(label) }}</label></li></ul>
                 </div>
-                <div class="input-group-btn" :class="{ open: menu === 'rows' }">
-                    <button class="btn btn-default" @click="menu = menu === 'rows' ? '' : 'rows'"><i class="fa fa-list-ol"></i> {{ aj.gettext('Rows') }} <span class="caret"></span></button>
-                    <ul v-if="menu === 'rows'" class="dropdown-menu dropdown-menu-right" style="width:150px"><li v-for="size in [10,25,50,100,500]" :key="size"><a :data-size="size" @click="pageSize = size; menu = ''"><i class="fa fa-list-ol"></i> {{ size }}</a></li><li><input v-model="pageSize" type="number" class="form-control"></li></ul>
+                <div class="dropdown c3-menu-control">
+                    <button class="btn c3-button" @click="menu = menu === 'rows' ? '' : 'rows'"><i class="fa fa-list-ol"></i> {{ aj.gettext('Rows') }} <span class="caret"></span></button>
+                    <ul v-if="menu === 'rows'" class="dropdown-menu dropdown-menu-end show" style="width:150px"><li v-for="size in [10,25,50,100,500]" :key="size"><a class="dropdown-item" :data-size="size" @click="pageSize = size; menu = ''"><i class="fa fa-list-ol"></i> {{ size }}</a></li><li><input v-model="pageSize" type="number" class="form-control"></li></ul>
                 </div>
             </div>
         </div><br>
         <form @submit.prevent>
-            <table class="lm-table lm-table-inputs"><thead><tr><th v-for="[id, label] in fields" :key="id">{{ aj.gettext(label) }}</th><th></th></tr></thead>
+            <div class="c3-devices-scroll"><table class="lm-table lm-table-inputs"><thead><tr><th v-for="[id, label] in fields" :key="id">{{ aj.gettext(label) }}</th><th></th></tr></thead>
                 <tbody><tr v-for="(device, index) in shown" :key="devices.indexOf(device)" class="device-row" :class="{ newDevice: device._isNew }">
-                    <td v-for="[id, label] in fields" :key="id" class="form-group" :width="id === 'room' ? 80 : id === 'pxeFlag' ? 100 : undefined" :data-field="id" :class="{ 'has-error-new': id !== 'sophomorixRole' && !!checks[index]?.[id], 'has-error': !!checks[index]?.[id] && (showErrors || id === 'sophomorixRole') }">
-                        <GroupInput v-if="id === 'group'" :model-value="device.group" :groups="groups" @update:model-value="update(device, id, $event)" />
-                        <select v-else-if="id === 'sophomorixRole' || id === 'pxeFlag'" class="form-control" :value="device[id]" :aria-label="aj.gettext(label)" @change="update(device, id, $event.target.value)"><option v-for="[value, text] in id === 'sophomorixRole' ? roles : pxe" :key="value" :value="value">{{ aj.gettext(text) }}</option></select>
-                        <input v-else type="text" class="form-control" :value="device[id]" :placeholder="placeholders[id] || label" @blur="$event.target.value !== device[id] && update(device, id, $event.target.value.trim())">
+                    <td v-for="[id, label] in fields" :key="id" class="c3-device-field" :width="id === 'room' ? 80 : id === 'pxeFlag' ? 100 : undefined" :data-field="id" :class="{ 'c3-unchecked-error': id !== 'sophomorixRole' && !!checks[index]?.[id], 'c3-invalid': !!checks[index]?.[id] && (showErrors || id === 'sophomorixRole') }">
+                        <GroupInput :invalid="!!checks[index]?.[id] && (showErrors || id === 'sophomorixRole')" v-if="id === 'group'" :model-value="device.group" :groups="groups" @update:model-value="update(device, id, $event)" />
+                        <select v-else-if="id === 'sophomorixRole' || id === 'pxeFlag'" class="form-control" :class="{ 'is-invalid': !!checks[index]?.[id] && (showErrors || id === 'sophomorixRole') }" :value="device[id]" :aria-label="aj.gettext(label)" @change="update(device, id, $event.target.value)"><option v-for="[value, text] in id === 'sophomorixRole' ? roles : pxe" :key="value" :value="value">{{ aj.gettext(text) }}</option></select>
+                        <input v-else type="text" class="form-control" :class="{ 'is-invalid': !!checks[index]?.[id] && (showErrors || id === 'sophomorixRole') }" :value="device[id]" :placeholder="placeholders[id] || label" @blur="$event.target.value !== device[id] && update(device, id, $event.target.value.trim())">
                     </td>
-                    <td width="1"><button type="button" class="btn btn-default" :title="aj.gettext('Duplicate')" @click="add(device)"><i class="fa fa-copy"></i></button></td>
-                    <td width="1"><button type="button" class="btn btn-default" :title="aj.gettext('Remove')" @click="remove(device)"><i class="fa fa-trash-o"></i></button></td>
+                    <td width="1"><button type="button" class="btn c3-button" :title="aj.gettext('Duplicate')" @click="add(device)"><i class="fa fa-copy"></i></button></td>
+                    <td width="1"><button type="button" class="btn c3-button" :title="aj.gettext('Remove')" @click="remove(device)"><i class="fa fa-trash-o"></i></button></td>
                 </tr></tbody>
-            </table><a href="#" id="end_table"></a>
+            </table></div><a href="#" id="end_table"></a>
         </form>
         <br>
-        <ul v-if="devices.length > pageSize" class="pagination"><li><a @click="page = 1">First</a></li><li><a @click="page = Math.max(1, page - 1)">Previous</a></li><li v-for="n in pages" :key="n" :class="{ active: page === n }"><a :data-page="n" @click="page = n">{{ n }}</a></li><li><a @click="page = Math.min(pageCount, page + 1)">Next</a></li><li><a @click="page = pageCount">Last</a></li></ul>
+        <ul v-if="devices.length > pageSize" class="pagination c3-pagination"><li class="page-item"><a class="page-link" @click="page = 1">First</a></li><li class="page-item"><a class="page-link" @click="page = Math.max(1, page - 1)">Previous</a></li><li v-for="n in pages" :key="n" class="page-item" :class="{ active: page === n }"><a class="page-link" :data-page="n" @click="page = n">{{ n }}</a></li><li class="page-item"><a class="page-link" @click="page = Math.min(pageCount, page + 1)">Next</a></li><li class="page-item"><a class="page-link" @click="page = pageCount">Last</a></li></ul>
         <div class="floating-toolbar-padder"></div>
         <component :is="'floating-toolbar'"><div class="container"><div class="row"><div :class="{ 'col-md-3': sidebar }"></div><div :class="sidebar ? 'col-md-9' : 'col-md-12'"><div class="bar row">
-            <button class="btn btn-lmn pull-right" @click="backups"><i class="fa fa-history"></i></button>
+            <button class="btn btn-lmn float-end" @click="backups"><i class="fa fa-history"></i></button>
             <a class="btn btn-lmn" @click="save()">{{ aj.gettext('Save') }}</a>
             <a class="btn btn-lmn" @click="save(true)">{{ aj.gettext('Save & import') }}</a>
             <button class="btn btn-lmn" @click="editCSV">{{ aj.gettext('Edit CSV') }}</button>

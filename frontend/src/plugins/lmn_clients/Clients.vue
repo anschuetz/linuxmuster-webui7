@@ -58,9 +58,9 @@ async function saveDrives() {
 <template>
     <div v-if="allowed">
         <br>
-        <ul class="nav nav-tabs" role="tablist">
-            <li :class="{ active: active === 'scripts' }"><a href="" role="tab" :aria-selected="active === 'scripts'" @click.prevent="active = 'scripts'">{{ aj.gettext('Custom scripts') }}</a></li>
-            <li :class="{ active: active === 'drives' }"><a href="" role="tab" :aria-selected="active === 'drives'" @click.prevent="loadDrives">{{ aj.gettext('Drives') }}</a></li>
+        <ul class="nav nav-tabs c3-client-tabs" role="tablist">
+            <li class="nav-item"><a class="nav-link" :class="{ active: active === 'scripts' }" href="" role="tab" :aria-selected="active === 'scripts'" @click.prevent="active = 'scripts'">{{ aj.gettext('Custom scripts') }}</a></li>
+            <li class="nav-item"><a class="nav-link" :class="{ active: active === 'drives' }" href="" role="tab" :aria-selected="active === 'drives'" @click.prevent="loadDrives">{{ aj.gettext('Drives') }}</a></li>
         </ul>
         <div v-show="active === 'scripts'" class="tab-pane" role="tabpanel">
             <br>
@@ -70,7 +70,7 @@ async function saveDrives() {
                 <h3>{{ kind === 'linux' ? 'Linux' : 'Windows' }}</h3>
                 <ul class="list-group">
                     <li v-for="(script, index) in scripts?.[kind]" :key="index" class="list-group-item">
-                        <button class="btn btn-default pull-right" @click="editing = { kind, index }"><i class="fa fa-edit"></i></button>
+                        <button class="btn c3-button float-end" @click="editing = { kind, index }"><i class="fa fa-edit"></i></button>
                         {{ script.name }}
                     </li>
                 </ul>
@@ -80,8 +80,8 @@ async function saveDrives() {
                     <div class="modal-header"><h4>{{ aj.gettext('Edit custom script') }}</h4></div>
                     <div class="modal-body"><ScriptEditor :content="selected.content" @update="updateScript" /></div>
                     <div class="modal-footer">
-                        <button class="btn btn-default btn-flat" @click="saveScript">{{ aj.gettext('Save') }}</button>
-                        <button class="btn btn-default btn-flat" @click="editing = null">{{ aj.gettext('Close') }}</button>
+                        <button class="btn c3-button btn-flat" @click="saveScript">{{ aj.gettext('Save') }}</button>
+                        <button class="btn c3-button btn-flat" @click="editing = null">{{ aj.gettext('Close') }}</button>
                     </div>
                 </div></div>
             </div>

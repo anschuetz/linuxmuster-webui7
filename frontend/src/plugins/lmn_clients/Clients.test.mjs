@@ -164,3 +164,17 @@ it('mounts through the entry, translates and unmounts', async () => {
     unmount();
     expect(host.textContent).toBe('');
 });
+
+it('places active tab state on BS5 nav-links and keeps editor cancel free of writes', async () => {
+    const { w, http } = await setup();
+    expect(w.findAll('.nav-tabs > .nav-item > .nav-link')).toHaveLength(2);
+    expect(w.get('.nav-link.active').attributes('aria-selected')).toBe('true');
+    await tab(w, 'Drives');
+    expect(w.get('.nav-link.active').text()).toBe('Drives');
+    expect(w.find('.nav-item.active').exists()).toBe(false);
+    await tab(w, 'Custom scripts');
+    await w.get('.list-group-item button').trigger('click');
+    expect(w.get('.modal-footer button').classes()).toContain('c3-button');
+    await button(w, 'Close').trigger('click');
+    expect(post(http)).toBeUndefined();
+});

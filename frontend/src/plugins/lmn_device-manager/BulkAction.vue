@@ -23,5 +23,5 @@ if (['start','shutdown','reboot'].includes(props.action)) {
         <div v-if="current && current !== 'finished'" style="text-align:center">{{ aj.gettext('Now processing') }} {{ current.hostname }}...</div>
         <div v-if="current === 'finished'" style="text-align:center"><span>{{ aj.gettext('Finished!') }}</span><span v-if="errors > 0" style="color:red"><br><br>{{ errors }} {{ aj.gettext('error(s) occourt!') }}<pre style="width:100%;height:100px;overflow-y:scroll;text-align:left;border:1px solid black;border-radius:2px;padding:5px;margin-top:10px">{{ errorText }}</pre></span></div>
     </div>
-    <div class="modal-footer"><button class="btn btn-default" :disabled="current !== 'finished'" @click="emit('close')">{{ aj.gettext('Close') }}</button></div>
+    <div class="modal-footer"><button class="btn c3-button" :disabled="current !== 'finished'" @click="emit('close')">{{ aj.gettext('Close') }}</button></div>
 </template>

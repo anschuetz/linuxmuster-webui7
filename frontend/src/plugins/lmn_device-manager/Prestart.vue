@@ -17,8 +17,8 @@ async function change(command, edit) {
     <div class="modal-body">
         <div v-if="!unref(commands)?.length" class="alert alert-info" style="width:100%">{{ aj.gettext("Currently no Linbo-Pre-Start Command's defined!") }}</div>
         <table v-if="unref(commands)?.length > 0" class="table"><thead><tr><th>{{ aj.gettext('Name') }}</th><th>{{ aj.gettext('Command') }}</th><th></th></tr></thead><tbody>
-            <tr v-for="(command,index) in unref(commands)" :key="index"><td style="vertical-align:middle">{{ command.name }}</td><td style="vertical-align:middle">{{ command.content }}</td><td style="line-height:40px;text-align:right"><button data-edit class="btn btn-default" @click="change(command,true)"><i class="fas fa-pencil"></i> Edit</button> <button data-delete class="btn btn-danger" @click="change(command,false)"><i class="fas fa-times"></i> Delete</button></td></tr>
+            <tr v-for="(command,index) in unref(commands)" :key="index"><td style="vertical-align:middle">{{ command.name }}</td><td style="vertical-align:middle">{{ command.content }}</td><td style="line-height:40px;text-align:right"><button data-edit class="btn c3-button" @click="change(command,true)"><i class="fas fa-pencil"></i> Edit</button> <button data-delete class="btn btn-danger" @click="change(command,false)"><i class="fas fa-times"></i> Delete</button></td></tr>
         </tbody></table>
     </div>
-    <div class="modal-footer"><button class="btn btn-default" @click="refresh">{{ aj.gettext('Refresh') }}</button><button class="btn btn-default" @click="emit('close')">{{ aj.gettext('Close') }}</button></div>
+    <div class="modal-footer"><button class="btn c3-button" @click="refresh">{{ aj.gettext('Refresh') }}</button><button class="btn c3-button" @click="emit('close')">{{ aj.gettext('Close') }}</button></div>
 </template>
