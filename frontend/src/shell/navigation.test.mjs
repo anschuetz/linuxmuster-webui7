@@ -207,3 +207,57 @@ it('keeps the authenticated development restart control and delegates to the exi
     await wrapper.get('[data-action=restart-panel]').trigger('click');
     expect(aj.forceRestart).toHaveBeenCalledOnce();
 });
+
+it('uses BS5 navigation links and Vue-controlled show for the profile dropdown', async () => {
+    const { nav, aj } = setup(); await nav.loadSidebar();
+    const wrapper = mount(ShellNavigation, { attachTo: document.body, props: { nav, aj } }); cleanups.push(() => wrapper.unmount());
+    expect(wrapper.get('nav').classes()).toEqual(expect.arrayContaining(['navbar', 'fixed-top', 'shell-navbar']));
+    expect(wrapper.find('.navbar-default, .navbar-fixed-top, .open').exists()).toBe(false);
+    expect(wrapper.findAll('.sidebar .nav-item .nav-link').length).toBeGreaterThan(0);
+    expect(wrapper.get('.dropdown-menu').classes()).toContain('dropdown-menu-end');
+    expect(wrapper.get('.dropdown-menu').classes()).not.toContain('show');
+    await wrapper.get('.profile-button').trigger('click');
+    expect(wrapper.get('.dropdown-menu').classes()).toContain('show');
+    expect(wrapper.get('.logout').classes()).toContain('dropdown-item');
+    document.body.click(); await nextTick();
+    expect(wrapper.get('.dropdown-menu').classes()).not.toContain('show');
+});
+it('shares the measured header height and restores the previous CSS variable on unmount', () => {
+    let resize; const disconnect = vi.fn(), observe = vi.fn();
+    vi.stubGlobal('ResizeObserver', class { constructor(callback) { resize = callback; } observe = observe; disconnect = disconnect; });
+    const root = document.documentElement;
+    root.style.setProperty('--shell-header-height', '55px');
+    const { nav, aj } = setup();
+    const wrapper = mount(ShellNavigation, { attachTo: document.body, props: { nav, aj } });
+    try {
+        const navbar = wrapper.get('nav').element;
+        navbar.getBoundingClientRect = () => ({ height: 120 });
+        expect(observe).toHaveBeenCalledWith(navbar); resize();
+        expect(root.style.getPropertyValue('--shell-header-height')).toBe('120px');
+        const css = readFileSync('../usr/lib/linuxmuster-webui/plugins/lmn_common/resources/styles.scss', 'utf8');
+        expect(css).toMatch(/\.shell-content[\s\S]*?padding-top: var\(--shell-header-height\)/);
+        expect(css).toMatch(/\.sidebar[\s\S]*?padding-top: var\(--shell-header-height\)/);
+        expect(css).toContain('calc(100dvh - var(--shell-header-height))');
+    } finally { wrapper.unmount(); }
+    expect(disconnect).toHaveBeenCalledOnce();
+    expect(root.style.getPropertyValue('--shell-header-height')).toBe('55px');
+    root.style.removeProperty('--shell-header-height'); vi.unstubAllGlobals();
+});
+it('dismisses the mobile sidebar via backdrop or Escape and returns focus to its toggle', async () => {
+    const { nav, aj } = setup(); await nav.loadSidebar();
+    const wrapper = mount(ShellNavigation, { attachTo: document.body, props: { nav, aj } }); cleanups.push(() => wrapper.unmount());
+    const toggle = wrapper.get('.mobile-navigation');
+    for (const action of ['backdrop', 'Escape']) {
+        toggle.element.focus(); await toggle.trigger('click'); await flushPromises();
+        expect(toggle.attributes('aria-expanded')).toBe('true');
+        expect(document.activeElement).toBe(wrapper.get('.overlay-sidebar .link').element);
+        const dialog = document.createElement('dialog'); dialog.setAttribute('open', ''); document.body.append(dialog);
+        document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' })); await nextTick();
+        expect(nav.layout.overlay).toBe(true); dialog.remove();
+        if (action === 'backdrop') await wrapper.get('.navigation-backdrop').trigger('click');
+        else document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+        await flushPromises();
+        expect(nav.layout.overlay).toBe(false);
+        expect(document.activeElement).toBe(toggle.element);
+    }
+});

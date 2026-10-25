@@ -478,9 +478,9 @@
 /* BS3 navigation; P137 3 matches; frontend/src/plugins/lmn_groupmembership/Details.vue:216; remove B2/B6. */ .navbar-collapse.in { overflow-y: visible; }
 
 }
-/* BS3 navigation; P137 1 matches; frontend/src/shell/navigation-components.mjs:78; remove B2/B6. */ .navbar-fixed-top .navbar-collapse, .navbar-fixed-bottom .navbar-collapse { max-height: 340px; }
+/* BS3 navigation; P137 1 matches; frontend/src/shell/navigation-components.mjs:78; remove B2/B6. */ .navbar-fixed-bottom .navbar-collapse { max-height: 340px; }
 @media (max-device-width: 480px) and (orientation: landscape) {
-/* BS3 navigation; P137 1 matches; frontend/src/shell/navigation-components.mjs:78; remove B2/B6. */ .navbar-fixed-top .navbar-collapse, .navbar-fixed-bottom .navbar-collapse { max-height: 200px; }
+/* BS3 navigation; P137 1 matches; frontend/src/shell/navigation-components.mjs:78; remove B2/B6. */ .navbar-fixed-bottom .navbar-collapse { max-height: 200px; }
 
 }
 /* BS3 navigation; P137 114 family matches; frontend/src/common/users/CheckResultsDialog.vue:28 (legacy structure/state); remove B2/B6. */ .container > .navbar-header, .container-fluid > .navbar-header, .container > .navbar-collapse, .container-fluid > .navbar-collapse { margin-right: -15px; margin-left: -15px; }
@@ -493,12 +493,11 @@
 /* BS3 navigation; P137 114 family matches; frontend/src/common/users/CheckResultsDialog.vue:28 (legacy structure/state); remove B2/B6. */ .navbar-static-top { border-radius: 0; }
 
 }
-/* BS3 navigation; P137 1 matches; frontend/src/shell/navigation-components.mjs:78; remove B2/B6. */ .navbar-fixed-top, .navbar-fixed-bottom { position: fixed; right: 0; left: 0; z-index: 1030; }
+/* BS3 navigation; P137 1 matches; frontend/src/shell/navigation-components.mjs:78; remove B2/B6. */ .navbar-fixed-bottom { position: fixed; right: 0; left: 0; z-index: 1030; }
 @media (min-width: 768px) {
-/* BS3 navigation; P137 1 matches; frontend/src/shell/navigation-components.mjs:78; remove B2/B6. */ .navbar-fixed-top, .navbar-fixed-bottom { border-radius: 0; }
+/* BS3 navigation; P137 1 matches; frontend/src/shell/navigation-components.mjs:78; remove B2/B6. */ .navbar-fixed-bottom { border-radius: 0; }
 
 }
-/* BS3 navigation; P137 1 matches; frontend/src/shell/navigation-components.mjs:78; remove B2/B6. */ .navbar-fixed-top { top: 0; border-width: 0 0 1px; }
 /* BS3 navigation; P137 114 family matches; frontend/src/common/users/CheckResultsDialog.vue:28 (legacy structure/state); remove B2/B6. */ .navbar-fixed-bottom { bottom: 0; margin-bottom: 0; border-width: 1px 0 0; }
 /* BS3 navigation; P137 4 matches; frontend/src/shell/navigation-components.mjs:81; remove B2/B6. */ .navbar-brand:hover, .navbar-brand:focus { text-decoration: none; }
 /* BS3 navigation; P137 4 matches; frontend/src/shell/navigation-components.mjs:81; remove B2/B6. */ .navbar-brand > img { display: block; }

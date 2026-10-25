@@ -231,14 +231,14 @@ html body.customized .nav-tabs > li.active > a:hover {
     color: $theme-color;
 }
 
-.navbar-default .navbar-brand {
+.shell-navbar .navbar-brand {
     color: white;
 }
-.navbar-default .navbar-brand:hover {
+.shell-navbar .navbar-brand:hover {
     color: white;
 }
 
-.navbar-default .navbar-text {
+.shell-navbar .navbar-text {
     color:white;
 }
 
@@ -627,9 +627,9 @@ div.membership-item {
 }
 // Authentication windows; #login-form typography/flip-cycle come from core.css.
 .auth-page {
-    // .navbar / .navbar-brand in the pinned core.css are 60px high.
-    min-height: calc(100vh - 60px);
-    min-height: calc(100dvh - 60px);
+    // Shared with the content offset and both sidebars, including wrapped headers.
+    min-height: calc(100vh - var(--shell-header-height));
+    min-height: calc(100dvh - var(--shell-header-height));
     display: flex;
     align-items: center;
     justify-content: center;
@@ -678,3 +678,32 @@ div.membership-item {
     .auth-card { padding: 16px; }
     .auth-dialog { width: calc(100% - 32px); padding: 16px; }
 }
+
+// B2: one actual navbar height; the fallback is the original single line.
+:root { --shell-header-height: 60px; }
+.shell-navbar.fixed-top {
+    position: fixed;
+    border-radius: 0;
+}
+.shell-navbar .dropdown-menu-end { right: 0; left: auto; }
+// BS5 links keep Ajenti's existing sidebar and profile geometry.
+.sidebar .nav-link { padding-top: 0; padding-bottom: 0; transition: none; }
+.shell-navbar .dropdown-item { width: auto; }
+body > .container > .row > .shell-content,
+body > .container > .row > .sidebar,
+body > .container > .sidebar,
+body > .container > .row > .sidebar.overlay-sidebar,
+body > .container > .sidebar.overlay-sidebar {
+    padding-top: var(--shell-header-height);
+}
+.navigation-backdrop {
+    position: fixed;
+    top: var(--shell-header-height);
+    right: 0;
+    bottom: 0;
+    left: 33%;
+    z-index: 99;
+    opacity: 0;
+}
+
+@media (max-width: 767px) { .navigation-backdrop { left: 80%; } }

@@ -13036,9 +13036,9 @@ button.toast-close-button {
 /* BS3 navigation; P137 3 matches; frontend/src/plugins/lmn_groupmembership/Details.vue:216; remove B2/B6. */ .navbar-collapse.in { overflow-y: visible; }
 
 }
-/* BS3 navigation; P137 1 matches; frontend/src/shell/navigation-components.mjs:78; remove B2/B6. */ .navbar-fixed-top .navbar-collapse, .navbar-fixed-bottom .navbar-collapse { max-height: 340px; }
+/* BS3 navigation; P137 1 matches; frontend/src/shell/navigation-components.mjs:78; remove B2/B6. */ .navbar-fixed-bottom .navbar-collapse { max-height: 340px; }
 @media (max-device-width: 480px) and (orientation: landscape) {
-/* BS3 navigation; P137 1 matches; frontend/src/shell/navigation-components.mjs:78; remove B2/B6. */ .navbar-fixed-top .navbar-collapse, .navbar-fixed-bottom .navbar-collapse { max-height: 200px; }
+/* BS3 navigation; P137 1 matches; frontend/src/shell/navigation-components.mjs:78; remove B2/B6. */ .navbar-fixed-bottom .navbar-collapse { max-height: 200px; }
 
 }
 /* BS3 navigation; P137 114 family matches; frontend/src/common/users/CheckResultsDialog.vue:28 (legacy structure/state); remove B2/B6. */ .container > .navbar-header, .container-fluid > .navbar-header, .container > .navbar-collapse, .container-fluid > .navbar-collapse { margin-right: -15px; margin-left: -15px; }
@@ -13051,12 +13051,11 @@ button.toast-close-button {
 /* BS3 navigation; P137 114 family matches; frontend/src/common/users/CheckResultsDialog.vue:28 (legacy structure/state); remove B2/B6. */ .navbar-static-top { border-radius: 0; }
 
 }
-/* BS3 navigation; P137 1 matches; frontend/src/shell/navigation-components.mjs:78; remove B2/B6. */ .navbar-fixed-top, .navbar-fixed-bottom { position: fixed; right: 0; left: 0; z-index: 1030; }
+/* BS3 navigation; P137 1 matches; frontend/src/shell/navigation-components.mjs:78; remove B2/B6. */ .navbar-fixed-bottom { position: fixed; right: 0; left: 0; z-index: 1030; }
 @media (min-width: 768px) {
-/* BS3 navigation; P137 1 matches; frontend/src/shell/navigation-components.mjs:78; remove B2/B6. */ .navbar-fixed-top, .navbar-fixed-bottom { border-radius: 0; }
+/* BS3 navigation; P137 1 matches; frontend/src/shell/navigation-components.mjs:78; remove B2/B6. */ .navbar-fixed-bottom { border-radius: 0; }
 
 }
-/* BS3 navigation; P137 1 matches; frontend/src/shell/navigation-components.mjs:78; remove B2/B6. */ .navbar-fixed-top { top: 0; border-width: 0 0 1px; }
 /* BS3 navigation; P137 114 family matches; frontend/src/common/users/CheckResultsDialog.vue:28 (legacy structure/state); remove B2/B6. */ .navbar-fixed-bottom { bottom: 0; margin-bottom: 0; border-width: 1px 0 0; }
 /* BS3 navigation; P137 4 matches; frontend/src/shell/navigation-components.mjs:81; remove B2/B6. */ .navbar-brand:hover, .navbar-brand:focus { text-decoration: none; }
 /* BS3 navigation; P137 4 matches; frontend/src/shell/navigation-components.mjs:81; remove B2/B6. */ .navbar-brand > img { display: block; }
@@ -18007,15 +18006,15 @@ html body.customized .nav-tabs > li.active > a:hover {
   color: #233c4c;
 }
 
-.navbar-default .navbar-brand {
+.shell-navbar .navbar-brand {
   color: white;
 }
 
-.navbar-default .navbar-brand:hover {
+.shell-navbar .navbar-brand:hover {
   color: white;
 }
 
-.navbar-default .navbar-text {
+.shell-navbar .navbar-text {
   color: white;
 }
 
@@ -18351,8 +18350,8 @@ div.membership-item {
 }
 
 .auth-page {
-  min-height: calc(100vh - 60px);
-  min-height: calc(100dvh - 60px);
+  min-height: calc(100vh - var(--shell-header-height));
+  min-height: calc(100dvh - var(--shell-header-height));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -18411,6 +18410,53 @@ div.membership-item {
   .auth-dialog {
     width: calc(100% - 32px);
     padding: 16px;
+  }
+}
+:root {
+  --shell-header-height: 60px;
+}
+
+.shell-navbar.fixed-top {
+  position: fixed;
+  border-radius: 0;
+}
+
+.shell-navbar .dropdown-menu-end {
+  right: 0;
+  left: auto;
+}
+
+.sidebar .nav-link {
+  padding-top: 0;
+  padding-bottom: 0;
+  transition: none;
+}
+
+.shell-navbar .dropdown-item {
+  width: auto;
+}
+
+body > .container > .row > .shell-content,
+body > .container > .row > .sidebar,
+body > .container > .sidebar,
+body > .container > .row > .sidebar.overlay-sidebar,
+body > .container > .sidebar.overlay-sidebar {
+  padding-top: var(--shell-header-height);
+}
+
+.navigation-backdrop {
+  position: fixed;
+  top: var(--shell-header-height);
+  right: 0;
+  bottom: 0;
+  left: 33%;
+  z-index: 99;
+  opacity: 0;
+}
+
+@media (max-width: 767px) {
+  .navigation-backdrop {
+    left: 80%;
   }
 }
 .lmp_deviceBoxSM {
