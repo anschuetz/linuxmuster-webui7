@@ -20,5 +20,6 @@ for (const name of await readdir(plugins)) {
     assert.doesNotMatch(metadata, /ng:|resources\/(?:js|partial|build)\//, name);
 }
 assert.match(await readFile(join(output, 'styles.css'), 'utf8'), /assets\/fonts\/glyphicons/);
+await import('./check-core-css.mjs');
 await import('./check-built-resources.mjs');
 console.log('Vue bundles, pinned static assets and plugin metadata current; no Angular build.');

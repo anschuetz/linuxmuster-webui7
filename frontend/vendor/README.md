@@ -11,3 +11,52 @@ Ajenti source is MIT (AJENTI-LICENSE, https://github.com/ajenti/ajenti/blob/mast
 the assets. npm builds copy Ace/Flow/fonts and concatenate CSS, relocating only
 Bootstrap's font URLs. No Angular JavaScript is included. Stock packages stay
 installed and unchanged; Fontawesome/PT Sans remain direct stock resources.
+
+## P149: separate Bootstrap 3 and Ajenti theme inputs
+
+`core.css` remains the unchanged 196,262-byte evidence copy, SHA-256
+`f13d8b526cf033d5a5dfad31fef28b64393f25c5487a44f3d0585798e4bebeb8`.
+The build now consumes these generated, project-owned inputs:
+
+| Input (relative to frontend/) | Provenance / role |
+| --- | --- |
+| `vendor/bootstrap3.css` | Rules identical to npm Bootstrap **3.3.7**, MIT (`BOOTSTRAP-LICENSE`); includes its unchanged Glyphicons font-face/URLs. |
+| `theme/ajenti.css` | Remaining rules from **ajenti.plugin.core 0.116**, Ajenti MIT (`AJENTI-LICENSE`), including modified Bootstrap/Normalize rules under their retained MIT notices. |
+| `theme/core-order.json` | Generated ordering, original line ranges, source offsets and SHA-256 per segment; preserves mixed media blocks and the complete original cascade. |
+| `theme/core-selectors.tsv`, `theme/core-audit.md` | Complete selector/context inventory, every interleaving boundary and every modified upstream rule with both declaration lists (A2 handover). |
+
+The two CSS files are independently valid CSS. Segment wrappers keep media and
+keyframe context valid in each file. A1's build takes only the recorded segment
+bodies and reconstructs the original wrappers/comments/whitespace from the
+manifest. **Do not simply concatenate the files**: original BS3/theme rules
+interleave. Reconstruction is byte-identical to `core.css`; normal font URL
+relocation and all other CSS inputs retain their original order. No Bootstrap 5
+or additional CSS reset is active. A2 can consume the theme directly when it
+replaces BS3 and supplies the required compatibility rules.
+
+Reproduce from an external scratch directory (the package is reference-only;
+it is never copied to the repository or the application bundle):
+
+```sh
+# In an empty /SCRATCH directory outside the repository:
+npm pack bootstrap@3.3.7
+tar -xzf bootstrap-3.3.7.tgz
+# From frontend/:
+node split-core-css.mjs /SCRATCH/package/dist/css/bootstrap.css
+node split-core-css.mjs /SCRATCH/package/dist/css/bootstrap.css --check
+node check-core-css.mjs
+```
+
+The generator pins the reference CSS SHA-256
+`7e630d90c7234b0df1729f62b8f9e4bbfaf293d91a5a0ac46df25f2a6759e39a`.
+Rule identity retains grouping context, the complete selector list and ordered
+property/value/important declarations. It ignores comments, indentation and
+selector comma spacing. Changed/mixed selector lists stay wholly in the theme;
+mixed media queries are split at leaf-rule boundaries. Generated files must
+never be hand-maintained. `check-core-css.mjs` verifies byte and normalized rule
+equality for both the core reconstruction and the **complete** built styles.css;
+`check-ajenti-bundles.mjs` also invokes it.
+
+`SHA256.json` still pins every original input. New `../theme/…` entries are
+relative to this vendor directory, just like the existing asset paths; they
+pin the project-owned theme, manifest and extraction evidence too.
