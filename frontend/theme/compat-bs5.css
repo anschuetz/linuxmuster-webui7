@@ -923,3 +923,113 @@ html body.customized .c7-tabs > .nav-item > .nav-link.active:hover { border-bott
 .c7-tabs > .nav-item > .nav-link.active:focus { border: 1px solid #ddd; border-bottom-color: transparent; }
 /* P137 lmn_docker/lmn_vdi_administration; P163 C7 focused active tab hover follows Ajenti hover order; consolidate D1. */
 .c7-tabs > .nav-item > .nav-link.active:focus:hover { background: rgba(0,0,0,.03); border-color: transparent; border-bottom-color: #2196F3; }
+
+/* P166 C10 UsersTable/AdminsTable/ExtrasTable: BS5 geometry/focus, retained until D1. */
+/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
+.btn.c10-button { --bs-btn-focus-box-shadow: none; }
+/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
+.c10-button { color: #333; background-color: #fff; border-color: #eee; }
+/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
+.btn.c10-button:where(:not(.btn-flat)) { border-color: #eee; }
+/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
+.c10-button:focus { color: #333; background-color: #e6e6e6; border-color: #aeaeae; }
+/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
+.c10-button:hover, .c10-button:active { color: #333; background-color: #e6e6e6; border-color: #cfcfcf; }
+/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
+.c10-button:active:hover, .c10-button:active:focus { color: #333; background-color: #d4d4d4; border-color: #aeaeae; }
+/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
+.c10-button:focus-visible { color: #333; background-color: #e6e6e6; border-color: #aeaeae; }
+/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
+.c10-tabs > .nav-item > .nav-link { padding: 10px 15px; margin-bottom: 0; color: #666; border-radius: 0; isolation: auto; }
+/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
+.c10-tabs > .nav-item > .nav-link.active,
+.c10-tabs > .nav-item > .nav-link.active:hover { border: 1px solid transparent; border-bottom: 1px solid #2196F3; color: #2196F3; background: rgba(0,0,0,.03); cursor: default; }
+/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
+html body.customized .c10-tabs > .nav-item > .nav-link.active,
+html body.customized .c10-tabs > .nav-item > .nav-link.active:hover { border-bottom-color: #233c4c; color: #233c4c; }
+/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
+.c10-tabs > .nav-item > .nav-link.active:focus { color: #666; background-color: #f0f0f0; border: 1px solid #ddd; border-bottom-color: transparent; }
+/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
+.c10-tabs > .nav-item > .nav-link:focus-visible { box-shadow: none; }
+/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
+.c10-menu-control { display: table-cell; width: 1%; white-space: nowrap; vertical-align: middle; position: relative; font-size: 0; }
+/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
+.c10-menu-control > .btn { position: relative; }
+/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
+.c10-menu-control > .btn:hover, .c10-menu-control > .btn:focus, .c10-menu-control > .btn:active { z-index: 2; }
+/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
+.input-group > .c10-menu-control:not(:first-child):not(:last-child) { border-radius: 0; }
+/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
+.c10-menu-control:last-child > .btn { z-index: 2; margin-left: -1px; border-top-left-radius: 0; border-bottom-left-radius: 0; }
+/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
+.c10-menu-control .dropdown-menu-end { right: 0; left: auto; }
+/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
+.c10-tabs > .nav-item > .nav-link:focus { border: 1px solid transparent; }
+/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
+.c10-tabs > .nav-item > .nav-link:hover { border-color: #f0f0f0 #f0f0f0 #eee; }
+/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
+.c10-tabs > .nav-item > .nav-link.active:focus { border: 1px solid #ddd; border-bottom-color: transparent; }
+/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
+.c10-tabs > .nav-item > .nav-link.active:focus:hover { background: rgba(0,0,0,.03); border-color: transparent; border-bottom-color: #2196F3; }
+/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
+.c10-pagination .page-link:focus { box-shadow: none; }
+/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
+.c10-pagination { --bs-pagination-font-size: 14px; --bs-pagination-border-radius: 3px; }
+/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
+.badge.c10-badge { display: inline; padding: 0.4em 0.6em 0.3em; font-size: 75%; font-weight: bold; line-height: 1; color: #fff; text-align: center; white-space: nowrap; vertical-align: baseline; border-radius: 0.25em; margin-right: 3px; min-width: 0; }
+/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
+.c10-badge.bg-secondary { --bs-secondary-rgb: 119, 119, 119; }
+/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
+.c10-badge.bg-primary { --bs-primary-rgb: 33, 150, 243; }
+/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
+.c10-badge.bg-success { --bs-success-rgb: 76, 175, 80; }
+/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
+.c10-badge.bg-info { --bs-info-rgb: 3, 169, 244; }
+/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
+.c10-badge.bg-warning { --bs-warning-rgb: 255, 193, 7; }
+/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
+.c10-badge.bg-danger { --bs-danger-rgb: 244, 67, 54; }
+/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
+.badge.c10-badge:empty { display: none; }
+/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
+.c10-menu a.dropdown-item { color: #333; }
+/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
+.c10-menu a.dropdown-item:hover, .c10-menu a.dropdown-item:focus { color: #333; background-color: #f5f5f5; }
+/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
+.c10-menu.dropdown-menu-end { right: 0; left: auto; }
+/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
+.c10-menu.dropdown-menu-start { left: 0; right: auto; }
+/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
+.c10-addon { display: table-cell; width: 1%; padding: 6px 12px; font-size: 14px; line-height: 1; color: #555; text-align: center; background: #f8f8f8; border: 1px solid transparent; border-bottom-color: #ddd; border-radius: 0; white-space: nowrap; vertical-align: middle; }
+/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
+.c10-addon:first-child { border-right: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; }
+/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
+.c10-invalid .form-control { background-color: rgba(255,178,178,.29); border-color: red; box-shadow: inset 0 1px 1px rgba(0,0,0,.075); }
+/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
+.c10-invalid .form-control:focus { border-color: #843534; box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 6px #ce8483; }
+/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
+.c10-field .form-control.is-invalid { padding-right: 12px; background-image: none; }
+/* P166 D10/D11: only mobile changes; desktop/tablet retain their original layout. */
+@media (max-width: 767px) {
+/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
+  .c10-table-scroll { overflow-x: auto; }
+/* P137 lmn_users ExtrasTable; P166 C10 D10 readable mobile data columns; consolidate D1. */
+  .c10-table-scroll .lm-table-inputs .c10-field { min-width: 140px; }
+/* P137 lmn_users UsersTable; P166 C10 D10 keep password options outside the mobile overflow clip; consolidate D1. */
+  .c10-table-scroll .dropup > .c10-menu { position: fixed; top: auto; bottom: 20px; left: 20px; right: 20px; margin: 0 !important; max-height: calc(100vh - 40px); overflow-y: auto; }
+/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
+  .c10-bind-details { overflow-wrap: anywhere; }
+}
+
+/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
+.c10-field { margin-bottom: 30px; }
+/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
+.progress-bar.c10-progress.bg-primary { background-color: #2196F3 !important; }
+/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
+.progress-bar.c10-progress.bg-success { background-color: #4caf50 !important; }
+/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
+.progress-bar.c10-progress.bg-info { background-color: #03a9f4 !important; }
+/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
+.progress-bar.c10-progress.bg-warning { background-color: #ffc107 !important; }
+/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
+.progress-bar.c10-progress.bg-danger { background-color: #F44336 !important; }

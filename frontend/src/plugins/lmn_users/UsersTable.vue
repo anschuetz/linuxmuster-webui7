@@ -79,12 +79,14 @@ function customValue(user, index) {
     const value = user[display.value.customDisplay[index]];
     return value === 'null' && !isListAttr(display.value.customDisplay[index]) ? '' : value;
 }
+// Explicit BS3 contextual variants; unknown/missing values retain the uncolored base.
+const contextClass = value => ({ default: 'bg-secondary', primary: 'bg-primary', success: 'bg-success', info: 'bg-info', warning: 'bg-warning', danger: 'bg-danger' })[value];
 </script>
 <template>
     <br>
     <div v-if="list == null" class="progress-spinner" role="status"><i class="fa fa-spinner fa-spin"></i></div>
-    <ul v-if="role === 'students'" class="nav nav-tabs">
-        <li v-for="section in sections" v-show="list != null && section.shown" :key="section.key" :class="{active: activeTab === section.key}"><a :data-tab="section.key" @click="activeTab = section.key; menu = ''">{{ aj.gettext(section.key === 'attic' ? 'Attic' : 'Students') }}</a></li>
+    <ul v-if="role === 'students'" class="nav nav-tabs c10-tabs">
+        <li class="nav-item" v-for="section in sections" v-show="list != null && section.shown" :key="section.key"><a class="nav-link" :class="{active: activeTab === section.key}" :data-tab="section.key" @click="activeTab = section.key; menu = ''">{{ aj.gettext(section.key === 'attic' ? 'Attic' : 'Students') }}</a></li>
     </ul>
     <section v-for="section in sections" v-show="list != null && (role !== 'students' || activeTab === section.key)" :key="section.key" :data-section="section.key">
         <br v-if="role === 'students'">
@@ -92,16 +94,16 @@ function customValue(user, index) {
         <template v-if="section.table">
             <div class="input-group">
                 <input v-model.trim="queries[section.key]" type="search" autofocus class="form-control" placeholder="Filter">
-                <div class="input-group-btn" :class="{open: menu === 'sort'}" @click.stop>
-                    <button class="btn btn-default" data-action="sort-menu" @click="toggle('sort')"><i class="fa fa-sort-amount-asc"></i> {{ aj.gettext(sortOptions(role).find(option => option[0] === sort)[1]) }} <span class="caret"></span></button>
-                    <ul v-if="menu === 'sort'" class="dropdown-menu dropdown-menu-right" style="width:150px"><li v-for="[key,label] in sortOptions(role)" :key="key"><a :data-sort="key" @click="setSort(key)"><i class="fa fa-sort-amount-asc"></i> {{ aj.gettext(label) }}</a></li></ul>
+                <div class="c10-menu-control" @click.stop>
+                    <button class="btn btn-light c10-button" data-action="sort-menu" @click="toggle('sort')"><i class="fa fa-sort-amount-asc"></i> {{ aj.gettext(sortOptions(role).find(option => option[0] === sort)[1]) }} <span class="caret"></span></button>
+                    <ul v-if="menu === 'sort'" class="dropdown-menu dropdown-menu-end show c10-menu" style="width:150px"><li v-for="[key,label] in sortOptions(role)" :key="key"><a class="dropdown-item" :data-sort="key" @click="setSort(key)"><i class="fa fa-sort-amount-asc"></i> {{ aj.gettext(label) }}</a></li></ul>
                 </div>
-                <div class="input-group-btn" :class="{open: menu === 'rows'}" @click.stop>
-                    <button class="btn btn-default" data-action="rows-menu" @click="toggle('rows')"><i class="fa fa-list-ol"></i> {{ aj.gettext('Rows') }} <span class="caret"></span></button>
-                    <ul v-show="menu === 'rows'" class="dropdown-menu dropdown-menu-right" style="width:200px"><li v-for="size in [10,50,100,500,1000]" :key="size"><a :data-size="size" @click="setSize(size)"><i class="fa fa-list-ol"></i> {{ size }} {{ aj.gettext(role === 'staff' ? 'staff members' : role) }}</a></li><li><div class="input-group" style="display:table"><div class="input-group-addon">Other:</div><input v-model.number="pageSize" type="number" class="form-control" @change="setSize(pageSize)"></div></li></ul>
+                <div class="c10-menu-control" @click.stop>
+                    <button class="btn btn-light c10-button" data-action="rows-menu" @click="toggle('rows')"><i class="fa fa-list-ol"></i> {{ aj.gettext('Rows') }} <span class="caret"></span></button>
+                    <ul v-show="menu === 'rows'" :class="{show: menu === 'rows'}" class="dropdown-menu dropdown-menu-end c10-menu" style="width:200px"><li v-for="size in [10,50,100,500,1000]" :key="size"><a class="dropdown-item" :data-size="size" @click="setSize(size)"><i class="fa fa-list-ol"></i> {{ size }} {{ aj.gettext(role === 'staff' ? 'staff members' : role) }}</a></li><li><div class="input-group" style="display:table"><div class="input-group-text c10-addon">Other:</div><input v-model.number="pageSize" type="number" class="form-control" @change="setSize(pageSize)"></div></li></ul>
                 </div>
             </div>
-            <table class="table" :class="{'lmn-blurred': blurred}" style="width:100%"><thead><tr>
+            <div class="c10-table-scroll"><table class="table" :class="{'lmn-blurred': blurred}" style="width:100%"><thead><tr>
                 <th><input v-model="selected[section.key]" type="checkbox" @change="selectAll(section)"></th>
                 <th width="120">{{ role === 'teachers' ? 'Login' : aj.gettext(section.key === 'attic' ? 'Login / Old role' : 'Login / Class') }}<span v-if="role === 'teachers' && display.customTitle[1]"> / {{ display.customTitle[1] }}</span></th>
                 <th>Name<span v-if="display.customTitle[role === 'teachers' ? 2 : 1]"> / {{ display.customTitle[role === 'teachers' ? 2 : 1] }}</span></th>
@@ -110,21 +112,21 @@ function customValue(user, index) {
             </tr></thead><tbody>
                 <tr v-for="(user,index) in shown(section)" v-show="user.class?.[0] !== '#'" :key="user.sAMAccountName ?? index">
                     <td width="30" style="text-align:center"><input type="checkbox" :checked="user.selected" @change="selectOne(user, $event.target.checked)"></td>
-                    <td><i>{{ user.sAMAccountName }}</i><template v-if="role !== 'teachers'"><br>{{ section.key === 'attic' ? user.sophomorixExitAdminClass : user.sophomorixAdminClass }}</template><template v-else><br><span v-if="isListAttr(display.customDisplay[1])"><span v-for="(value,i) in customValue(user,1)" :key="i" class="label label-info">{{ value }}</span></span><span v-else>{{ customValue(user,1) }}</span></template></td>
-                    <td><b>{{ user.sn }} {{ user.givenName }}</b><br><span v-if="isListAttr(display.customDisplay[role === 'teachers' ? 2 : 1])"><span v-for="(value,i) in customValue(user,role === 'teachers' ? 2 : 1)" :key="i" class="label label-info">{{ value }}</span></span><span v-else>{{ customValue(user,role === 'teachers' ? 2 : 1) }}</span></td>
-                    <td v-for="column in (role === 'teachers' ? [3] : [2,3])" :key="column"><span v-if="isListAttr(display.customDisplay[column])"><span v-for="(value,i) in customValue(user,column)" :key="i" class="label label-info">{{ value }}</span></span><span v-else>{{ customValue(user,column) }}</span></td>
-                    <td v-if="role === 'teachers'" width="150"><template v-if="quotas"><span :class="`label label-${quotas[user.sAMAccountName]?.TYPE}`">{{ quotas[user.sAMAccountName]?.USED }} %</span><div class="progress"><div class="progress-bar" :class="`progress-bar-${quotas[user.sAMAccountName]?.TYPE}`" :style="{width: (quotas[user.sAMAccountName]?.USED || 0) + '%'}"></div></div></template></td>
-                    <td width="1"><span class="dropup" :class="{open: menu === 'pw-' + user.sAMAccountName}" @click.stop><button class="btn btn-default" :data-action="'password-' + user.sAMAccountName" @click="toggle('pw-' + user.sAMAccountName)"><i class="fa fa-key"></i> <span class="caret"></span></button><ul v-if="menu === 'pw-' + user.sAMAccountName" class="dropdown-menu dropdown-menu-right" style="margin-bottom:-30px;margin-right:40px;z-index:4000">
-                        <li v-for="[cmd,label] in [['show','Show initial password'],['reset','Restore initial password'],['random','Set random initial password'],['first','Set custom first password'],['current','Set current user password']]" :key="cmd"><a :data-action="(cmd === 'first' || cmd === 'current' ? 'custom-' : '') + cmd + '-' + user.sAMAccountName" @click="password(cmd,user)">{{ aj.gettext(label) }}</a></li>
+                    <td><i>{{ user.sAMAccountName }}</i><template v-if="role !== 'teachers'"><br>{{ section.key === 'attic' ? user.sophomorixExitAdminClass : user.sophomorixAdminClass }}</template><template v-else><br><span v-if="isListAttr(display.customDisplay[1])"><span v-for="(value,i) in customValue(user,1)" :key="i" class="badge c10-badge bg-info">{{ value }}</span></span><span v-else>{{ customValue(user,1) }}</span></template></td>
+                    <td><b>{{ user.sn }} {{ user.givenName }}</b><br><span v-if="isListAttr(display.customDisplay[role === 'teachers' ? 2 : 1])"><span v-for="(value,i) in customValue(user,role === 'teachers' ? 2 : 1)" :key="i" class="badge c10-badge bg-info">{{ value }}</span></span><span v-else>{{ customValue(user,role === 'teachers' ? 2 : 1) }}</span></td>
+                    <td v-for="column in (role === 'teachers' ? [3] : [2,3])" :key="column"><span v-if="isListAttr(display.customDisplay[column])"><span v-for="(value,i) in customValue(user,column)" :key="i" class="badge c10-badge bg-info">{{ value }}</span></span><span v-else>{{ customValue(user,column) }}</span></td>
+                    <td v-if="role === 'teachers'" width="150"><template v-if="quotas"><span class="badge c10-badge" :class="contextClass(quotas[user.sAMAccountName]?.TYPE)">{{ quotas[user.sAMAccountName]?.USED }} %</span><div class="progress"><div class="progress-bar c10-progress" :class="quotas[user.sAMAccountName]?.TYPE === 'default' ? undefined : contextClass(quotas[user.sAMAccountName]?.TYPE)" :style="{width: (quotas[user.sAMAccountName]?.USED || 0) + '%'}"></div></div></template></td>
+                    <td width="1"><span class="dropup" @click.stop><button class="btn btn-light c10-button" :data-action="'password-' + user.sAMAccountName" @click="toggle('pw-' + user.sAMAccountName)"><i class="fa fa-key"></i> <span class="caret"></span></button><ul v-if="menu === 'pw-' + user.sAMAccountName" class="dropdown-menu dropdown-menu-end show c10-menu" style="margin-bottom:-30px;margin-right:40px;z-index:4000">
+                        <li v-for="[cmd,label] in [['show','Show initial password'],['reset','Restore initial password'],['random','Set random initial password'],['first','Set custom first password'],['current','Set current user password']]" :key="cmd"><a class="dropdown-item" :data-action="(cmd === 'first' || cmd === 'current' ? 'custom-' : '') + cmd + '-' + user.sAMAccountName" @click="password(cmd,user)">{{ aj.gettext(label) }}</a></li>
                     </ul></span></td>
-                    <td width="1"><button class="btn btn-default" data-action="details" @click="details(user)"><i class="fa fa-cog"></i></button></td>
-                    <td width="1"><span :class="`label label-${user.sophomorixStatus?.color}`">{{ user.sophomorixStatus?.tag }}</span></td>
+                    <td width="1"><button class="btn btn-light c10-button" data-action="details" @click="details(user)"><i class="fa fa-cog"></i></button></td>
+                    <td width="1"><span class="badge c10-badge" :class="contextClass(user.sophomorixStatus?.color)">{{ user.sophomorixStatus?.tag }}</span></td>
                 </tr>
-            </tbody></table>
-            <br><ul v-if="section.users.length > pageSize" class="pagination"><li :class="{disabled:page === 1}"><a @click="page = 1">First</a></li><li :class="{disabled:page === 1}"><a @click="page = Math.max(1,page-1)">Previous</a></li><li v-for="n in pages" :key="n" :class="{active: page === n}"><a :data-page="n" @click="page = n">{{ n }}</a></li><li :class="{disabled:page === pageCount}"><a @click="page = Math.min(pageCount,page+1)">Next</a></li><li :class="{disabled:page === pageCount}"><a @click="page = pageCount">Last</a></li></ul>
+            </tbody></table></div>
+            <br><ul v-if="section.users.length > pageSize" class="pagination c10-pagination"><li class="page-item" :class="{disabled:page === 1}"><a class="page-link" @click="page = 1">First</a></li><li class="page-item" :class="{disabled:page === 1}"><a class="page-link" @click="page = Math.max(1,page-1)">Previous</a></li><li class="page-item" v-for="n in pages" :key="n" :class="{active: page === n}"><a class="page-link" :data-page="n" @click="page = n">{{ n }}</a></li><li class="page-item" :class="{disabled:page === pageCount}"><a class="page-link" @click="page = Math.min(pageCount,page+1)">Next</a></li><li class="page-item" :class="{disabled:page === pageCount}"><a class="page-link" @click="page = pageCount">Last</a></li></ul>
             <div class="floating-toolbar-padder"></div><div class="users-toolbar"><component :is="'floating-toolbar'"><div class="container"><div class="row"><div class="col-md-3"></div><div class="col-md-9"><div class="bar row">
-                <button v-if="role === 'teachers'" class="btn btn-lmn pull-right" data-action="quotas" @click="getQuotas()">{{ aj.gettext('Show quota') }}</button>
-                <div v-if="section.users.some(user => user.selected)" class="btn-group dropup" :class="{open:menu === 'batch'}" @click.stop><button class="btn btn-lmn" data-action="batch-menu" @click="toggle('batch')"><i class="fa fa-key"></i> {{ aj.gettext('For selected') }} <span class="caret"></span></button><ul v-if="menu === 'batch'" class="dropdown-menu dropdown-menu-left"><li v-for="[cmd,key,label] in [['reset-first','reset','Set initial password'],['random-first','random','Set random password'],['custom-first','custom','Set custom password'],['print','print','Print passwords']]" :key="key"><a :data-action="'batch-' + key" @click="batch(section,cmd)">{{ aj.gettext(label) }}</a></li></ul></div>
+                <button v-if="role === 'teachers'" class="btn btn-lmn float-end" data-action="quotas" @click="getQuotas()">{{ aj.gettext('Show quota') }}</button>
+                <div v-if="section.users.some(user => user.selected)" class="btn-group dropup" @click.stop><button class="btn btn-lmn" data-action="batch-menu" @click="toggle('batch')"><i class="fa fa-key"></i> {{ aj.gettext('For selected') }} <span class="caret"></span></button><ul v-if="menu === 'batch'" class="dropdown-menu dropdown-menu-start show c10-menu"><li v-for="[cmd,key,label] in [['reset-first','reset','Set initial password'],['random-first','random','Set random password'],['custom-first','custom','Set custom password'],['print','print','Print passwords']]" :key="key"><a class="dropdown-item" :data-action="'batch-' + key" @click="batch(section,cmd)">{{ aj.gettext(label) }}</a></li></ul></div>
             </div></div></div></div></component></div>
         </template>
     </section>

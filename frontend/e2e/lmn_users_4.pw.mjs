@@ -54,7 +54,7 @@ for(const role of roles.slice(0,2))for(const kind of ['students','courses'])test
     await button(p,/Hinzufügen|Add a/).count(); // add lives outside toolbar
     await p.locator('button:visible').filter({hasText:kind==='students'?/Schüler hinzufügen|Add a student/:/Kurs hinzufügen|Add a course/}).click();await count(rows(p),102);
     // New rows sort last for these fixtures (Angular undefined type sorts before boolean in -_isNew).
-    const row=rows(p).last();await button(p,/^Speichern$|^Save$/).click();await expect.poll(()=>s.writes.length).toBe(1);await count(p.locator('.has-error:visible').filter({has:p.locator('input')}),kind==='students'?2:3);
+    const row=rows(p).last();await button(p,/^Speichern$|^Save$/).click();await expect.poll(()=>s.writes.length).toBe(1);await count(p.locator(vue ? '.c10-invalid:visible' : '.has-error:visible').filter({has:p.locator('input')}),kind==='students'?2:3);
     const fields=kind==='students'?{Birthday:'bad',Login:'not-valid'}:{Count:'bad',Birthday:'bad','Removal date':'bad'};
     for(const [field,val]of Object.entries(fields)){await row.locator(`input[placeholder="${field}"]`).fill(' '+val+' ');await row.locator(`input[placeholder="${field}"]`).blur();}
     if(kind==='students'){await row.locator('input[placeholder="First name"]').fill(' First Last ');await row.locator('input[placeholder="First name"]').blur();}
@@ -72,6 +72,6 @@ for(const kind of ['students','courses'])test(kind+': editor cancel/save and bac
     await toolbar(p).locator(':is(a,button)').filter({has:p.locator('.fa-history')}).click();await (vue ? modal(p).locator('button').filter({hasText:/Wiederherstellen|Restore/}) : modal(p).locator('a[title]').filter({has:p.locator('.fa-history')})).click();await expect.poll(()=>s.writes.length).toBe(4);expect(s.writes.slice(2)).toEqual([['POST','/api/filesystem/write/'+path+'?encoding=utf-8','p120-backup'],['POST','/api/lmn/remove-file',{filepath:path.replace(list+'.csv','.'+list+'.csv.bak.1700000000')}]]);check(s);
 });
 test('students duplicate logins block, invalid strings pass, failed POST never starts check',async({page:p,context})=>{
-    const s=await setup(p,context);s.list=[fixture('students')[0],{...fixture('students')[0],first_name:'Other'}];await navigate(p,'students');await button(p,/^Speichern$|^Save$/).click();expect(s.writes).toEqual([]);await count(p.locator('.has-error:visible'),2);
+    const s=await setup(p,context);s.list=[fixture('students')[0],{...fixture('students')[0],first_name:'Other'}];await navigate(p,'students');await button(p,/^Speichern$|^Save$/).click();expect(s.writes).toEqual([]);await count(p.locator(vue ? '.c10-invalid:visible' : '.has-error:visible'),2);
     await rows(p).last().locator('[placeholder=Login]').fill('has-hyphen');await rows(p).last().locator('[placeholder=Login]').blur();s.fail='extrastudents';await button(p,/Speichern.*prüfen|Save.*check/i).click();await expect.poll(()=>s.writes.length).toBe(1);await p.waitForLoadState('networkidle');expect(s.checks).toBe(0);check(s);
 });
