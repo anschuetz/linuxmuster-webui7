@@ -35,7 +35,7 @@ function add() {
 function remove(row) { rows.value = rows.value.filter(item => item !== row); }
 async function save(check = false) {
     // As in Angular, only rendered cells participate (filtered-out rows don't).
-    if (table.value.querySelector('.has-error, .has-error-new')) {
+    if (table.value.querySelector('.c10-invalid, .c10-invalid-new')) {
         firstSave.value = true;
         aj.notify.error('Required data missing');
         return;
@@ -65,34 +65,34 @@ onMounted(async () => {
     <div v-else>
         <div class="input-group">
             <input v-model.trim="query" type="search" autofocus class="form-control" placeholder="Filter" />
-            <div class="input-group-btn" :class="{open: menu}" @click.stop>
-                <button class="btn btn-default" data-action="sort-menu" @click="menu = !menu"><i class="fa fa-sort-amount-asc"></i> {{ aj.gettext(label(sort)) }} <span class="caret"></span></button>
-                <ul v-if="menu" class="dropdown-menu dropdown-menu-right" style="width:150px"><li v-for="key in sorts" :key="key"><a :data-sort="key" @click="sort = key; menu = false"><i class="fa fa-sort-amount-asc"></i> {{ aj.gettext(label(key)) }}</a></li></ul>
+            <div class="c10-menu-control" @click.stop>
+                <button class="btn btn-light c10-button" data-action="sort-menu" @click="menu = !menu"><i class="fa fa-sort-amount-asc"></i> {{ aj.gettext(label(sort)) }} <span class="caret"></span></button>
+                <ul v-if="menu" class="dropdown-menu dropdown-menu-end show c10-menu" style="width:150px"><li v-for="key in sorts" :key="key"><a class="dropdown-item" :data-sort="key" @click="sort = key; menu = false"><i class="fa fa-sort-amount-asc"></i> {{ aj.gettext(label(key)) }}</a></li></ul>
             </div>
         </div>
         <br />
-        <table ref="table" class="lm-table lm-table-inputs">
+        <div class="c10-table-scroll"><table ref="table" class="lm-table lm-table-inputs">
             <thead><tr><th v-for="field in fields" :key="field.key">{{ aj.gettext(field.label) }}</th><th></th></tr></thead>
             <tbody><tr v-for="row in visibleRows" :key="rows.indexOf(row)" v-show="row[kind === 'students' ? 'class' : 'course']?.[0] !== '#'">
-                <td v-for="field in fields" :key="field.key" class="form-group" :class="error(field, row)">
-                    <ExtraInput :value="row[field.key]" :type="field.key === 'password' ? 'password' : 'text'" :placeholder="field.label" class="form-control" @commit="update(row, field.key, $event)" />
+                <td v-for="field in fields" :key="field.key" class="c10-field" :class="{ 'c10-invalid': error(field, row) === 'has-error', 'c10-invalid-new': error(field, row) === 'has-error-new' }">
+                    <ExtraInput :value="row[field.key]" :type="field.key === 'password' ? 'password' : 'text'" :placeholder="field.label" class="form-control" :class="{ 'is-invalid': error(field, row) === 'has-error' }" @commit="update(row, field.key, $event)" />
                 </td>
-                <td width="1"><button class="btn btn-default" data-action="remove" :title="aj.gettext('Remove')" @click="remove(row)"><i class="fa fa-trash-o"></i></button></td>
+                <td width="1"><button class="btn btn-light c10-button" data-action="remove" :title="aj.gettext('Remove')" @click="remove(row)"><i class="fa fa-trash-o"></i></button></td>
             </tr></tbody>
-        </table>
+        </table></div>
         <br />
-        <button class="btn btn-default" data-action="add" @click="add"><i class="fa fa-plus"></i> {{ aj.gettext(kind === 'students' ? 'Add a student' : 'Add a course') }}</button>
+        <button class="btn btn-light c10-button" data-action="add" @click="add"><i class="fa fa-plus"></i> {{ aj.gettext(kind === 'students' ? 'Add a student' : 'Add a course') }}</button>
         <br />
-        <ul v-if="kind === 'students' && pages > 1" class="pagination">
-            <li :class="{disabled: page === 1}"><a href="#" @click.prevent="page = 1">First</a></li>
-            <li :class="{disabled: page === 1}"><a href="#" @click.prevent="page = Math.max(1, page - 1)">Previous</a></li>
-            <li v-for="n in pageNumbers" :key="n" :class="{active: n === page}"><a href="#" :data-page="n" @click.prevent="page = n">{{ n }}</a></li>
-            <li :class="{disabled: page === pages}"><a href="#" @click.prevent="page = Math.min(pages, page + 1)">Next</a></li>
-            <li :class="{disabled: page === pages}"><a href="#" @click.prevent="page = pages">Last</a></li>
+        <ul v-if="kind === 'students' && pages > 1" class="pagination c10-pagination">
+            <li class="page-item" :class="{disabled: page === 1}"><a class="page-link" href="#" @click.prevent="page = 1">First</a></li>
+            <li class="page-item" :class="{disabled: page === 1}"><a class="page-link" href="#" @click.prevent="page = Math.max(1, page - 1)">Previous</a></li>
+            <li class="page-item" v-for="n in pageNumbers" :key="n" :class="{active: n === page}"><a class="page-link" href="#" :data-page="n" @click.prevent="page = n">{{ n }}</a></li>
+            <li class="page-item" :class="{disabled: page === pages}"><a class="page-link" href="#" @click.prevent="page = Math.min(pages, page + 1)">Next</a></li>
+            <li class="page-item" :class="{disabled: page === pages}"><a class="page-link" href="#" @click.prevent="page = pages">Last</a></li>
         </ul>
         <div class="floating-toolbar-padder"></div>
         <component :is="'floating-toolbar'"><div class="container"><div class="row"><div class="col-md-3"></div><div class="col-md-9"><div class="bar row">
-            <button class="btn btn-lmn pull-right" data-action="backups" @click="backups"><i class="fa fa-history"></i></button>
+            <button class="btn btn-lmn float-end" data-action="backups" @click="backups"><i class="fa fa-history"></i></button>
             <button class="btn btn-lmn" data-action="save" @click="save()">{{ aj.gettext('Save') }}</button>
             <button class="btn btn-lmn" data-action="check" @click="save(true)">{{ saveCheckText }}</button>
             <button class="btn btn-lmn" data-action="editor" @click="editor">{{ aj.gettext('Edit CSV') }}</button>

@@ -88,7 +88,7 @@ it('selects hidden/commented rows after filtering and pages raw totals; retains 
 });
 it('renders custom columns in different teacher positions and hides string null, uses list badges',async()=>{
     const {w}=render('teachers');await flushPromises();const cells=rows(w)[0].findAll('td');
-    expect(cells[1].text()).toBe('p118-0smtp:p118@test.invalid');expect(cells[2].text()).toBe('User Equalcustom-only');expect(cells[3].findAll('.label').map(x=>x.text())).toEqual(['multi-a','multi-b']);w.unmount();
+    expect(cells[1].text()).toBe('p118-0smtp:p118@test.invalid');expect(cells[2].text()).toBe('User Equalcustom-only');expect(cells[3].findAll('.badge').map(x=>x.text())).toEqual(['multi-a','multi-b']);w.unmount();
 });
 it('uses all sort options, presets and other numeric sizes without resetting search page',async()=>{
     const {w}=render('teachers');await flushPromises();await action(w,'sort-menu').trigger('click');await section(w).find('[data-sort="sAMAccountName"]').trigger('click');

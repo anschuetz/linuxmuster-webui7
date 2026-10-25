@@ -59,11 +59,11 @@ it('preserves outer spaces in a course password typed character by character',as
 });
 it('duplicate login blocks save/check; filtering removes errors from validation DOM',async()=>{
     const writes=[],s=await render('students',{http:async r=>{if(r.method==='post')writes.push(r.data);return {data:r.url==='/api/lmn/schoolsettings'?{}:[student(),{...student(),first_name:'Other'}]};}});
-    await action(s.w,'check').trigger('click');await flushPromises();expect(writes).toEqual([]);expect(s.open.mock.calls).toEqual([]);expect(s.w.findAll('.has-error').length).toEqual(2);
+    await action(s.w,'check').trigger('click');await flushPromises();expect(writes).toEqual([]);expect(s.open.mock.calls).toEqual([]);expect(s.w.findAll('.c10-invalid').length).toEqual(2);
     await s.w.find('input[type=search]').setValue('unmatched');await action(s.w,'save').trigger('click');await flushPromises();expect(writes.length).toEqual(1);expect(writes[0].length).toEqual(2);
 });
 it.each(['students','courses'])('%s blank added row blocks check; invalid nonempty strings retain legacy acceptance',async kind=>{
-    const s=await render(kind);await action(s.w,'add').trigger('click');expect(s.w.find('.has-error-new').exists()).toEqual(true);await action(s.w,'check').trigger('click');await flushPromises();expect(s.open.mock.calls).toEqual([]);expect(s.notify.mock.calls).toEqual([['error','Required data missing',undefined]]);expect(s.w.find('.has-error').exists()).toEqual(true);
+    const s=await render(kind);await action(s.w,'add').trigger('click');expect(s.w.find('.c10-invalid-new').exists()).toEqual(true);await action(s.w,'check').trigger('click');await flushPromises();expect(s.open.mock.calls).toEqual([]);expect(s.notify.mock.calls).toEqual([['error','Required data missing',undefined]]);expect(s.w.find('.c10-invalid').exists()).toEqual(true);
     const row=s.w.findAll('tbody tr').at(-1);for(const field of extraFields(kind).filter(f=>f.validation && !['TODO','Password'].includes(f.validation))){const input=row.find(`[placeholder="${field.label}"]`);await input.setValue(field.key==='login'?'other-invalid':'bad');await input.trigger('blur');}
     await action(s.w,'check').trigger('click');await flushPromises();expect(s.open.mock.calls).toEqual([[CheckDialog,{}, {backdrop:'static'}]]);
 });
