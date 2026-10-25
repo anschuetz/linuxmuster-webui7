@@ -205,3 +205,11 @@ Shared legacy rules remain: src plus usr/**/resources still contain btn-default,
 - Shared legacy compat rules remain in use by other frontend/src and usr/**/resources consumers; removal deferred to D1.
 
 P168 R1 / CHAT 339: real no-blur search captures and effective Built-CSS measurements confirm settings anchors without href/class render #333 in all active/hover/focus states (compat :not([href]):not([class]) specificity). C12 retains these effective colors; new regression test freezes them. C4 anchors have href and correctly retain their own pre-C4 #fff active / #262626 inactive hover/focus colors; measured only, no C4 change.
+
+## P169 C13 — School settings
+- SchoolSettings: nav-item/nav-link, active moved from li to link; pull-right → float-end. Customized tab color/focus retained; dead global-color variants omitted per CHAT 351/352 (F46).
+- SchoolHolidays: two btn-default → c13-button, validateDate return class mapped to c13-date-invalid (same validation/payload); error/focus appearance preserved.
+- SchoolCustom/SchoolPassword: form-group → c13-field (30px); no input-group, panels, wells, badges or dynamic contextual classes in School*.vue.
+- SchoolGeneral/SchoolListImport/SchoolQuota/SchoolPrinting: no targeted legacy structures. FileDialog/PathSelector: unchanged re-exports of migrated common components (B4), no plugin DOM.
+- Global compat rules remain used elsewhere; removal belongs to D1. Existing grid/breakpoints retained; no assigned P141 mobile defect.
+- F44: lmn_settings.pw.mjs uses nav-tabs a and form/field selectors; no C13 selector depends on migrated classes. Angular selectors unchanged.

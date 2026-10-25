@@ -8,7 +8,7 @@ const aj = inject('aj');
 <div v-if="s.passwordConstraintsForm">
 <br> <div v-if="s.passwordConstraints">
 <div class="row">
-<div class="form-group">
+<div class="c13-field">
 <div class="col-md-4">
 <Translated tag="label" text="Choose a role to configure">
 </Translated> <select v-model="s.passwordConstraintsRole" class="form-control">
