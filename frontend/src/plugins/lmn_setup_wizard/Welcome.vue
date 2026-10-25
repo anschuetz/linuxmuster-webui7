@@ -33,11 +33,11 @@ async function apply() {
         <h3>{{ aj.gettext('Welcome to linuxmuster.net V7') }}</h3>
     </div>
     <div class="modal-body">
-        <img :src="'/resources/lmn_common/resources/img/logo-full.png'" />
+        <img class="c14-logo" :src="'/resources/lmn_common/resources/img/logo-full.png'" />
         <p>{{ aj.gettext('Please follow the next few steps to quickly configure your system') }}</p>
-        <div class="form-group">
+        <div class="c14-field">
             <label>{{ aj.gettext('System language') }}</label>
-            <select v-model="config.language" class="form-control" @change="updateLanguage"><option v-for="language in languages" :key="language" :value="language">{{ language }}</option></select>
+            <select v-model="config.language" class="form-control form-select c14-select" @change="updateLanguage"><option v-for="language in languages" :key="language" :value="language">{{ language }}</option></select>
         </div>
         <div style="height: 200px; overflow: auto;">
             <h3 style="text-align: center;">GNU GENERAL PUBLIC LICENSE</h3>
@@ -673,7 +673,7 @@ async function apply() {
     <label><input v-model="licenseAccepted" type="checkbox"> I accept the license terms </label>
     </div>
     <div class="modal-footer">
-        <a href="#" :disabled="!licenseAccepted" class="btn btn-default btn-flat" @click.prevent="apply">{{ aj.gettext('Next') }}</a>
+        <a href="#" :disabled="!licenseAccepted" class="btn btn-light c14-button btn-flat" @click.prevent="apply">{{ aj.gettext('Next') }}</a>
     </div>
 
 

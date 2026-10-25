@@ -13955,6 +13955,25 @@ html body.customized smart-progress .progress .c5-progress.bg-warning { backgrou
 /* P137 lmn_session_new/*.vue; P162 C6 neutral buttons preserve B3/B4 focus and Ajenti flat/LMN cascade; consolidate D1. */
 .c6-button.active:hover, .c6-button.active:focus { color: #333; background-color: #d4d4d4; border-color: #aeaeae; }
 
+/* P137 lmn_setup_wizard; P170 C14 preserves Ajenti 30px spacing (ajenti-bs5.css:2723) at the 10px rem root; consolidate D1. */
+.c14-field { margin-bottom: 30px; }
+/* P137 lmn_setup_wizard; P170 C14 neutral flat buttons preserve B3/B4 focus token and Ajenti cascade; consolidate D1. */
+.btn.c14-button { --bs-btn-focus-box-shadow: none; }
+/* P137 lmn_setup_wizard; P170 C14 neutral flat button cascade; consolidate D1. */
+.c14-button { color: #333; background-color: #fff; border-color: #eee; }
+/* P137 lmn_setup_wizard; P170 C14 neutral flat button cascade; consolidate D1. */
+.c14-button:focus, .c14-button:focus-visible { color: #333; background-color: #e6e6e6; border-color: #aeaeae; }
+/* P137 lmn_setup_wizard; P170 C14 neutral flat button cascade; consolidate D1. */
+.c14-button:hover, .c14-button:active { color: #333; background-color: #e6e6e6; border-color: #cfcfcf; }
+/* P137 lmn_setup_wizard; P170 C14 neutral flat button cascade; consolidate D1. */
+.c14-button:active:hover, .c14-button:active:focus { color: #333; background-color: #d4d4d4; border-color: #aeaeae; }
+/* P137 lmn_setup_wizard; P170 C14 neutral flat button cascade; consolidate D1. */
+.c14-button[disabled]:hover, .c14-button[disabled]:focus { background-color: #fff; border-color: #eee; }
+/* P137/P141 D12; P170 C14 Welcome logo fits its dialog body on mobile; natural size retained on larger screens. */
+.c14-logo { max-width: 100%; height: auto; }
+/* P137 lmn_setup_wizard; P170 C14 native BS5 select retains Ajenti control geometry, like C6; consolidate D1. */
+.c14-select { appearance: auto; background-image: none; padding: 6px 12px; }
+
 /*! P150 active Ajenti theme, MIT (vendor/AJENTI-LICENSE).
  * Derived from theme/ajenti.css after its Normalize/print prelude; A1 evidence unchanged.
  * See core-audit.md, P150 disposition.
