@@ -43,7 +43,7 @@ describe('device manager legacy contract', () => {
         expect(requests.filter(r => r.url.endsWith('checkOnline')).map(r => r.data)).toEqual([{ device }]);
         await w.find('.lmp_deviceBoxSM input').setValue(true);
         expect(w.find('floating-toolbar').text()).toContain('0 devices selected');
-        await w.find('floating-toolbar .pull-right').trigger('click');
+        await w.find('floating-toolbar .float-end').trigger('click');
         expect(w.find('floating-toolbar').text()).toContain('1 devices selected');
         await w.find('#sideBar .room input').setValue(false); await flushPromises();
         expect(w.find('floating-toolbar').text()).toContain('Start'); // Original retains checked-list across room changes.
@@ -128,18 +128,18 @@ it('entry mounts without Angular; toolbar selection and all five modal paths use
     const open = vi.fn(async () => undefined);
     const { w } = setup(DeviceManager, { modal: { open }, responses: { activeschool: 'default-school', getdevices: [device], checkOS: 'Linbo', checkOnline: 'down', getrunninglinboremotecommands: [], getPrestartCommands: [] } });
     await flushPromises(); await w.find('.room input').setValue(true); await flushPromises();
-    await w.find('floating-toolbar .pull-right').trigger('click');
+    await w.find('floating-toolbar .float-end').trigger('click');
     expect(w.find('floating-toolbar').text()).toContain('1 devices selected');
     await w.find('floating-toolbar button').trigger('click');
     await w.find('[data-action=remote]').trigger('click'); await w.find('[data-action=prestart]').trigger('click');
     await w.findAll('#sideBar button')[0].trigger('click'); await w.findAll('#sideBar button')[1].trigger('click'); await flushPromises();
     expect(open.mock.calls.map(c => c[0])).toEqual([BulkAction, LinboRemote, LinboRemote, Processes, Prestart]);
     expect(open.mock.calls.map(c => c[2])).toEqual(Array(5).fill({ backdrop: 'static' }));
-    await w.find('floating-toolbar .pull-right').trigger('click'); expect(w.find('floating-toolbar').text()).toContain('0 devices selected');
+    await w.find('floating-toolbar .float-end').trigger('click'); expect(w.find('floating-toolbar').text()).toContain('0 devices selected');
     await w.find('.lmp_deviceBoxSM button:has(.fa-bars)').trigger('click');
-    expect(w.find('.input-group-btn.open').exists()).toBe(true);
+    expect(w.find('.dropdown-menu.show').exists()).toBe(true);
     window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' })); await flushPromises();
-    expect(w.find('.input-group-btn.open').exists()).toBe(false);
+    expect(w.find('.dropdown-menu.show').exists()).toBe(false);
 });
 it('prestart cancel/HTTP error preserve list; delete status false reports backend message', async () => {
     const command = { name: 'pc01', content: 'sync:1' }, refresh = vi.fn();
@@ -161,4 +161,22 @@ it('Linbo dialog shares status updates with the device list while open', async (
     expect(shared.value).toEqual({ ...device, linboconfig: [], online: 'up', os: 'Linbo', format: true });
     await w.find('[data-run]').trigger('click'); await flushPromises();
     expect(requests.at(-1).data).toEqual({ command: 'linbo-remote -s default-school -i pc01 -p format' });
+});
+
+it('puts the Vue menu state on BS5 dropdowns and retains neutral remote buttons', async () => {
+    const { w } = setup(DeviceManager, { responses: { activeschool: 'default-school', getdevices: [device], checkOS: 'Linbo', checkOnline: 'down' } });
+    await flushPromises(); await w.get('.room input').setValue(true); await flushPromises();
+    await w.get('.lmp_deviceBoxSM button:has(.fa-bars)').trigger('click');
+    expect(w.find('.dropdown-menu.show [data-action=start].dropdown-item').exists()).toBe(true);
+    window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' })); await flushPromises();
+    expect(w.find('.dropdown-menu.show').exists()).toBe(false);
+    expect(w.find('.c3-manager-toolbar').exists()).toBe(true);
+    expect(w.find('.badge.bg-secondary.c3-count').exists()).toBe(true);
+    const remote = setup(LinboRemote, { props: { device }, responses: { getlinboconfig: [] } });
+    await flushPromises();
+    expect(remote.w.get('[data-global=initcache]').classes()).toContain('c3-button');
+    expect(remote.w.get('[data-run]').attributes('disabled')).toBeDefined();
+    await remote.w.get('[data-cancel]').trigger('click');
+    expect(remote.w.emitted('close')).toHaveLength(1);
+    expect(remote.requests.some(r => r.url.endsWith('/run'))).toBe(false);
 });

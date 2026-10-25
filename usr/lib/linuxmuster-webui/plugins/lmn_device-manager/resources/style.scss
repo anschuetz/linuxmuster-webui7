@@ -11,3 +11,20 @@
 .lmp_deviceBoxSM_topBar {
     margin-bottom: 40px;
 }
+
+// P159 D08: retain the desktop/tablet geometry, stack the mobile control sidebar.
+@media (max-width: 767px) {
+    .c3-manager-content #deviceList,
+    .c3-manager-content #sideBar {
+        width: 100% !important;
+        float: none !important;
+    }
+    .c3-manager-content #deviceList { display: flow-root; }
+    .c3-manager-toolbar { display: flex; flex-wrap: wrap; gap: 5px 0; }
+    .c3-manager-toolbar > .btn { white-space: normal; }
+    // P159 D05: all original columns/actions stay reachable by horizontal scrolling.
+    .c3-devices-scroll { max-width: 100%; overflow-x: auto; }
+    .c3-devices-scroll > .lm-table { min-width: 900px; }
+    // A typeahead must grow the scroll area instead of being clipped below its row.
+    .c3-devices-scroll .group-options { position: static; }
+}

@@ -61,10 +61,10 @@ onUnmounted(() => clearInterval(timer));
             </td></tr>
         </tbody></table>
         <h5>Global options</h5><table class="table" style="border:0"><tbody><tr><td v-for="(label,key) in {format:'Format',partition:'Partition',initcache:'Init cache',disablegui:'Disable GUI'}" :key="key">
-            <button :data-global="key" :class="'btn ' + ({format:'btn-danger',partition:'btn-info'}[key] || 'btn-default')" style="width:100%" :disabled="key === 'disablegui' && !command?.length" @click="toggleGlobal(key)"><i :class="{format:'fas fa-eraser',partition:'fas fa-eraser',initcache:'fas fa-sync-alt',disablegui:'fas fa-terminal'}[key]"></i> {{ label }}</button>
+            <button :data-global="key" :class="'btn ' + ({format:'btn-danger',partition:'btn-info'}[key] || 'c3-button')" style="width:100%" :disabled="key === 'disablegui' && !command?.length" @click="toggleGlobal(key)"><i :class="{format:'fas fa-eraser',partition:'fas fa-eraser',initcache:'fas fa-sync-alt',disablegui:'fas fa-terminal'}[key]"></i> {{ label }}</button>
         </td></tr></tbody></table>
         <div v-if="command?.length > 0" style="width:100%" class="alert alert-info">{{ command }}</div>
         <textarea v-if="result?.length > 0" id="linbocommandlog" :value="result" class="form-control" rows="10" style="width:100%;resize:none" disabled></textarea>
     </div>
-    <div class="modal-footer"><button data-run class="btn btn-default" :disabled="!command?.length" @click="run">{{ aj.gettext('Run') }}</button><button data-cancel class="btn btn-default" @click="close">{{ aj.gettext('Cancel') }}</button></div>
+    <div class="modal-footer"><button data-run class="btn c3-button" :disabled="!command?.length" @click="run">{{ aj.gettext('Run') }}</button><button data-cancel class="btn c3-button" @click="close">{{ aj.gettext('Cancel') }}</button></div>
 </template>

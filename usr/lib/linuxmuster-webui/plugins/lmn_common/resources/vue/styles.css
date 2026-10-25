@@ -13840,6 +13840,84 @@ body.global-color-teal .cron-tabs > .nav-item > .nav-link.active:hover {
   color: #088f82;
 }
 
+/* P137 lmn_devices/lmn_clients/lmn_device-manager; P159 C3 scoped migrated appearance; consolidate D1. */
+.btn.c3-button { --bs-btn-focus-box-shadow: none; }
+/* P137 lmn_devices/lmn_clients/lmn_device-manager; P159 C3 scoped migrated appearance; consolidate D1. */
+.c3-button { color: #333; background-color: #fff; border-color: #eee; }
+/* P137 lmn_devices/lmn_clients/lmn_device-manager; P159 C3 normal neutral border follows .btn, flat keeps its later theme reset; consolidate D1. */
+.btn.c3-button:where(:not(.btn-flat)) { border-color: #eee; }
+/* P137 lmn_devices/lmn_clients/lmn_device-manager; P159 C3 scoped migrated appearance; consolidate D1. */
+.c3-button:focus { color: #333; background-color: #e6e6e6; border-color: #aeaeae; }
+/* P137 lmn_devices/lmn_clients/lmn_device-manager; P159 C3 scoped migrated appearance; consolidate D1. */
+.c3-button:hover, .c3-button:active { color: #333; background-color: #e6e6e6; border-color: #cfcfcf; }
+/* P137 lmn_devices/lmn_clients/lmn_device-manager; P159 C3 scoped migrated appearance; consolidate D1. */
+.c3-button:active:hover, .c3-button:active:focus { color: #333; background-color: #d4d4d4; border-color: #aeaeae; }
+/* P137 lmn_devices/lmn_clients/lmn_device-manager; P159 C3 scoped migrated appearance; consolidate D1. */
+.c3-button:disabled { color: inherit; background-color: transparent; border-color: currentColor; }
+/* P137 lmn_devices/lmn_clients/lmn_device-manager; P159 C3 scoped migrated appearance; consolidate D1. */
+.c3-button:focus-visible { color: #333; background-color: #e6e6e6; border-color: #aeaeae; }
+/* P137 lmn_devices/lmn_clients/lmn_device-manager; P159 C3 scoped migrated appearance; consolidate D1. */
+.c3-client-tabs > .nav-item > .nav-link { padding: 10px 15px; margin-bottom: 0; color: #666; border-radius: 0; isolation: auto; }
+/* P137 lmn_devices/lmn_clients/lmn_device-manager; P159 C3 scoped migrated appearance; consolidate D1. */
+.c3-client-tabs > .nav-item > .nav-link.active,
+.c3-client-tabs > .nav-item > .nav-link.active:hover { border: 1px solid transparent; border-bottom: 1px solid #2196F3; color: #2196F3; background: rgba(0,0,0,.03); cursor: default; }
+/* P137 lmn_devices/lmn_clients/lmn_device-manager; P159 C3 scoped migrated appearance; consolidate D1. */
+html body.customized .c3-client-tabs > .nav-item > .nav-link.active,
+html body.customized .c3-client-tabs > .nav-item > .nav-link.active:hover { border-bottom-color: #233c4c; color: #233c4c; }
+/* P137 lmn_devices/lmn_clients/lmn_device-manager; P159 C3 scoped migrated appearance; consolidate D1. */
+.c3-client-tabs > .nav-item > .nav-link.active:focus { color: #666; background-color: #f0f0f0; border: 1px solid #ddd; border-bottom-color: transparent; }
+/* P137 lmn_devices/lmn_clients/lmn_device-manager; P159 C3 scoped migrated appearance; consolidate D1. */
+.c3-client-tabs > .nav-item > .nav-link:focus-visible { box-shadow: none; }
+/* P137 lmn_devices/lmn_clients/lmn_device-manager; P159 C3 scoped migrated appearance; consolidate D1. */
+.c3-menu-control { display: table-cell; width: 1%; white-space: nowrap; vertical-align: middle; position: relative; font-size: 0; }
+/* P137 lmn_devices/lmn_clients/lmn_device-manager; P159 C3 scoped migrated appearance; consolidate D1. */
+.c3-menu-control > .btn { position: relative; }
+/* P137 lmn_devices/lmn_clients/lmn_device-manager; P159 C3 scoped migrated appearance; consolidate D1. */
+.c3-menu-control > .btn:hover, .c3-menu-control > .btn:focus, .c3-menu-control > .btn:active { z-index: 2; }
+/* P137 lmn_devices/lmn_clients/lmn_device-manager; P159 C3 scoped migrated appearance; consolidate D1. */
+.input-group > .c3-menu-control:not(:first-child):not(:last-child) { border-radius: 0; }
+/* P137 lmn_devices/lmn_clients/lmn_device-manager; P159 C3 scoped migrated appearance; consolidate D1. */
+.c3-menu-control:last-child > .btn { z-index: 2; margin-left: -1px; border-top-left-radius: 0; border-bottom-left-radius: 0; }
+/* P137 lmn_devices/lmn_clients/lmn_device-manager; P159 C3 scoped migrated appearance; consolidate D1. */
+.c3-menu-control .dropdown-menu-end { right: 0; left: auto; }
+/* P137 lmn_devices/lmn_clients/lmn_device-manager; P159 C3 scoped migrated appearance; consolidate D1. */
+.c3-menu-control a.dropdown-item, .group-options .dropdown-item { color: #333; }
+/* P137 lmn_devices/lmn_clients/lmn_device-manager; P159 C3 scoped migrated appearance; consolidate D1. */
+.c3-menu-control a.dropdown-item:hover, .c3-menu-control a.dropdown-item:focus,
+.group-options .dropdown-item:hover, .group-options .dropdown-item:focus { color: #333; background-color: #f5f5f5; }
+/* P137 lmn_devices/lmn_clients/lmn_device-manager; P159 C3 scoped migrated appearance; consolidate D1. */
+.group-options .dropdown-item.active, .group-options .dropdown-item.active:hover, .group-options .dropdown-item.active:focus { color: #333; text-decoration: none; outline: 0; background-color: #2196F3; }
+/* P137 lmn_devices/lmn_clients/lmn_device-manager; P159 C3 scoped migrated appearance; consolidate D1. */
+.c3-menu-control a.dropdown-item.disabled { color: #777; cursor: not-allowed; pointer-events: auto; }
+/* P137 lmn_devices/lmn_clients/lmn_device-manager; P159 C3 scoped migrated appearance; consolidate D1. */
+.c3-menu-control a.dropdown-item.disabled:hover, .c3-menu-control a.dropdown-item.disabled:focus { color: #777; text-decoration: none; background-color: transparent; background-image: none; }
+/* P137 lmn_devices/lmn_clients/lmn_device-manager; P159 C3 scoped migrated appearance; consolidate D1. */
+.c3-device-field, .c3-device-form { margin-bottom: 30px; }
+/* P137 lmn_devices/lmn_clients/lmn_device-manager; P159 C3 scoped migrated appearance; consolidate D1. */
+.c3-device-field .form-control.is-invalid { padding-right: 12px; background-image: none; background-color: rgba(255,178,178,.29); border-color: red; box-shadow: inset 0 1px 1px rgba(0,0,0,.075); }
+/* P137 lmn_devices/lmn_clients/lmn_device-manager; P159 C3 scoped migrated appearance; consolidate D1. */
+.c3-device-field .is-invalid:focus { border-color: #843534; box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 6px #ce8483; }
+/* P137 lmn_devices/lmn_clients/lmn_device-manager; P159 C3 scoped migrated appearance; consolidate D1. */
+.badge.c3-count.bg-secondary { --bs-secondary-rgb: 119, 119, 119; }
+
+/* P137 lmn_clients/Clients.vue; P159 C3 BS5 link focus keeps the legacy tab borders; consolidate D1. */
+.c3-client-tabs > .nav-item > .nav-link:focus { border: 1px solid transparent; }
+/* P137 lmn_clients/Clients.vue; P159 C3 inactive hover border matches Ajenti; consolidate D1. */
+.c3-client-tabs > .nav-item > .nav-link:hover { border-color: #f0f0f0 #f0f0f0 #eee; }
+/* P137 lmn_clients/Clients.vue; P159 C3 active focus remains the legacy focused tab; consolidate D1. */
+.c3-client-tabs > .nav-item > .nav-link.active:focus { border: 1px solid #ddd; border-bottom-color: transparent; }
+/* P137 lmn_clients/Clients.vue; P159 C3 focused active tab hover follows Ajenti hover order; consolidate D1. */
+.c3-client-tabs > .nav-item > .nav-link.active:focus:hover { background: rgba(0,0,0,.03); border-color: transparent; border-bottom-color: #2196F3; }
+/* P137 lmn_devices/Devices.vue; P159 C3 page links retain the legacy focus without the BS5 shadow; consolidate D1. */
+.c3-pagination .page-link:focus { box-shadow: none; }
+
+/* P137 lmn_device-manager/DeviceManager.vue; P159 C3 legacy nested item padding survives on the semantic list row; consolidate D1. */
+.c3-manager-options > li { padding: 2.5px 10px; }
+/* P137 lmn_device-manager/DeviceManager.vue; P159 C3 nested row hover background matches the former dropdown-item wrapper; consolidate D1. */
+.c3-manager-options > li:has(> a:not(.disabled)):hover { background-color: var(--bs-dropdown-link-hover-bg); }
+/* P137 lmn_devices/Devices.vue; P159 C3 page links keep the legacy 14px font/3px corners with the 10px rem root; consolidate D1. */
+.c3-pagination { --bs-pagination-font-size: 14px; --bs-pagination-border-radius: 3px; }
+
 /*! P150 active Ajenti theme, MIT (vendor/AJENTI-LICENSE).
  * Derived from theme/ajenti.css after its Normalize/print prelude; A1 evidence unchanged.
  * See core-audit.md, P150 disposition.
@@ -18977,6 +19055,35 @@ body > .container > .sidebar.overlay-sidebar {
 
 .lmp_deviceBoxSM_topBar {
   margin-bottom: 40px;
+}
+
+@media (max-width: 767px) {
+  .c3-manager-content #deviceList,
+  .c3-manager-content #sideBar {
+    width: 100% !important;
+    float: none !important;
+  }
+  .c3-manager-content #deviceList {
+    display: flow-root;
+  }
+  .c3-manager-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px 0;
+  }
+  .c3-manager-toolbar > .btn {
+    white-space: normal;
+  }
+  .c3-devices-scroll {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+  .c3-devices-scroll > .lm-table {
+    min-width: 900px;
+  }
+  .c3-devices-scroll .group-options {
+    position: static;
+  }
 }
 .sidebar.ng-hide + .content .permissions-toolbar-offset {
   display: none;
