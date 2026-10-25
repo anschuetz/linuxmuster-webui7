@@ -52,16 +52,8 @@
 /* BS3 input table with a single TOTP control shrink-wraps; P137 forms 102 uses, frontend/src/shell/auth-components.mjs; remove B3/C12. */ .input-group { width: auto; }
 /* BS3 btn-block follows btn display in the original cascade; P137 btn-block 2 uses, frontend/src/plugins/lmn_linbo4/PartitionDialog.vue:47 plus auth-components.mjs; remove B3/C8. */ .btn.btn-block { display: block; }
 /* BS3 text-primary color through BS5 important utility; P137 frontend/src/plugins/lmn_users/UsersTable.vue; remove C10. */ .text-primary { --bs-primary-rgb: 33, 150, 243; }
-/* BS3 text-success color through BS5 important utility; P137 frontend/src/plugins/lmn_users/UsersTable.vue; remove C10. */ .text-success { --bs-success-rgb: 60, 118, 61; }
-/* BS3 text-info color through BS5 important utility; P137 frontend/src/plugins/lmn_users/UsersTable.vue; remove C10. */ .text-info { --bs-info-rgb: 49, 112, 143; }
-/* BS3 text-warning color through BS5 important utility; P137 frontend/src/plugins/lmn_users/UsersTable.vue; remove C10. */ .text-warning { --bs-warning-rgb: 138, 109, 59; }
-/* BS3 text-danger color through BS5 important utility; P137 frontend/src/plugins/lmn_users/UsersTable.vue; remove C10. */ .text-danger { --bs-danger-rgb: 169, 68, 66; }
 /* BS3 text-muted color through BS5 important utility; P137 frontend/src/plugins/lmn_users/UsersTable.vue; remove C10. */ .text-muted { --bs-secondary-color: #777777; }
 /* BS3 bg-primary color through BS5 important utility; P137 frontend/src/plugins/lmn_landingpage/Landingpage.vue; remove C1. */ .bg-primary { --bs-primary-rgb: 33, 150, 243; }
-/* BS3 bg-success color through BS5 important utility; P137 frontend/src/plugins/lmn_landingpage/Landingpage.vue; remove C1. */ .bg-success { --bs-success-rgb: 223, 240, 216; }
-/* BS3 bg-info color through BS5 important utility; P137 frontend/src/plugins/lmn_landingpage/Landingpage.vue; remove C1. */ .bg-info { --bs-info-rgb: 217, 237, 247; }
-/* BS3 bg-warning color through BS5 important utility; P137 frontend/src/plugins/lmn_landingpage/Landingpage.vue; remove C1. */ .bg-warning { --bs-warning-rgb: 252, 248, 227; }
-/* BS3 bg-danger color through BS5 important utility; P137 frontend/src/plugins/lmn_landingpage/Landingpage.vue; remove C1. */ .bg-danger { --bs-danger-rgb: 242, 222, 222; }
 /* BS3 inactive nav anchors without href keep Common link color; P137 nav 36 uses, frontend/src/plugins/lmn_settings/GlobalSettings.vue; remove B6/C12. */ .nav-pills > li:not(.active) > a:not([href]):not([class]) { color: #233c4c; }
 
 /* BS3 info-card border keeps Common SCSS precedence over contextual panels; P137 panel family 67 uses, frontend/src/plugins/lmn_landingpage/Landingpage.vue:77; remove C1. */ .info-cards > .panel { border-color: #eee; }

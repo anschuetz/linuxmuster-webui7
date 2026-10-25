@@ -46,7 +46,8 @@ it('keeps the old grid breakpoint, open/fade states and native messagebox stacki
 it('retains the Ajenti theme except measured dead F46 tab colors and unused Glyphicons and accounts for A1 counterparts', async () => {
     const original = normalizedRules(await read('theme/ajenti.css'));
     const start = original.findIndex(rule => rule[1] === 'body');
-    const theme = normalizedRules(await read('theme/ajenti-bs5.css'));
+    const active = normalizedRules(await read('theme/ajenti-bs5.css'));
+    const theme = active.slice(active.findIndex(rule => rule[1] === 'body'));
     const restSelectors = new Set([
         '.aj-dropdown-marker', '.dropdown-toggle.aj-dropdown-marker::after',
         '.dropup .dropdown-toggle.aj-dropdown-marker::after', 'label.form-check.aj-native-check',

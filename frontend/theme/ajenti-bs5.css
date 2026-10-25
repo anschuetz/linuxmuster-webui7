@@ -1,3 +1,123 @@
+/* P176 Ajenti typography on BS5. Public --aj-type-* values retain the 10px rem
+ * contract. BS5 owns alignment, transforms, unstyled lists and color !important;
+ * contextual RGB variables adapt its utilities, including hover/focus states.
+ * Semantic selectors keep their original specificity; plugin SCSS remains last.
+ */
+:root {
+  --aj-type-root: 10px;
+  --aj-type-tap-highlight: transparent;
+  --aj-type-space: 10px;
+  --aj-type-section-space: 20px;
+  --aj-type-heading-weight: 500;
+  --aj-type-heading-line: 1.1;
+  --aj-type-h1: 36px;
+  --aj-type-h2: 30px;
+  --aj-type-h3: 24px;
+  --aj-type-h4: 18px;
+  --aj-type-h5: 14px;
+  --aj-type-h6: 12px;
+  --aj-type-small: 85%;
+  --aj-type-heading-small: 65%;
+  --aj-type-subheading-small: 75%;
+  --aj-type-lead: 16px;
+  --aj-type-lead-wide: 21px;
+  --aj-type-lead-weight: 300;
+  --aj-type-lead-line: 1.4;
+  --aj-type-list-line: 1.42857143;
+  --aj-type-mono: Menlo, Monaco, Consolas, "Courier New", monospace;
+  --aj-type-success-rgb: 60, 118, 61;
+  --aj-type-info-rgb: 49, 112, 143;
+  --aj-type-warning-rgb: 138, 109, 59;
+  --aj-type-danger-rgb: 169, 68, 66;
+  --aj-type-success-bg-rgb: 223, 240, 216;
+  --aj-type-info-bg-rgb: 217, 237, 247;
+  --aj-type-warning-bg-rgb: 252, 248, 227;
+  --aj-type-danger-bg-rgb: 242, 222, 222;
+  --aj-type-field-label-gap: 5px;
+  --aj-type-check-gap: 4px;
+  --aj-type-focus-outline: 5px auto -webkit-focus-ring-color;
+  --aj-type-focus-offset: -2px;
+  --aj-type-jumbo-heading: 63px;
+}
+html { font-size: var(--aj-type-root); -webkit-tap-highlight-color: var(--aj-type-tap-highlight); }
+figure { margin: 0; }
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+  font-family: inherit;
+  font-weight: var(--aj-type-heading-weight);
+  line-height: var(--aj-type-heading-line);
+  color: inherit;
+  margin-top: var(--aj-type-section-space);
+  margin-bottom: var(--aj-type-space);
+}
+h1, .h1 { font-size: var(--aj-type-h1); }
+h2, .h2 { font-size: var(--aj-type-h2); }
+h3, .h3 { font-size: var(--aj-type-h3); }
+h4, .h4 { font-size: var(--aj-type-h4); }
+h5, .h5 { font-size: var(--aj-type-h5); }
+h6, .h6 { font-size: var(--aj-type-h6); }
+h4, h5, h6, .h4, .h5, .h6 { margin-top: var(--aj-type-space); }
+small, .small { font-size: var(--aj-type-small); }
+h1 small, .h1 small, h2 small, .h2 small, h3 small, .h3 small,
+h1 .small, .h1 .small, h2 .small, .h2 .small, h3 .small, .h3 .small { font-size: var(--aj-type-heading-small); }
+h4 small, .h4 small, h5 small, .h5 small, h6 small, .h6 small,
+h4 .small, .h4 .small, h5 .small, .h5 .small, h6 .small, .h6 .small { font-size: var(--aj-type-subheading-small); }
+p { margin: 0 0 var(--aj-type-space); }
+.lead { margin-bottom: var(--aj-type-section-space); font-size: var(--aj-type-lead); font-weight: var(--aj-type-lead-weight); line-height: var(--aj-type-lead-line); }
+@media (min-width: 768px) {
+  .lead { font-size: var(--aj-type-lead-wide); }
+}
+@media screen and (min-width: 768px) {
+  .jumbotron h1, .jumbotron .h1 { font-size: var(--aj-type-jumbo-heading); }
+}
+/* These extension hooks remain supported even without current source hits. */
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+.text-justify { text-align: justify; }
+.text-success { --bs-success-rgb: var(--aj-type-success-rgb); }
+.text-info { --bs-info-rgb: var(--aj-type-info-rgb); }
+.text-warning { --bs-warning-rgb: var(--aj-type-warning-rgb); }
+.text-danger { --bs-danger-rgb: var(--aj-type-danger-rgb); }
+.bg-success { --bs-success-rgb: var(--aj-type-success-bg-rgb); }
+.bg-info { --bs-info-rgb: var(--aj-type-info-bg-rgb); }
+.bg-warning { --bs-warning-rgb: var(--aj-type-warning-bg-rgb); }
+.bg-danger { --bs-danger-rgb: var(--aj-type-danger-bg-rgb); }
+ul, ol { margin-top: 0; margin-bottom: var(--aj-type-space); }
+ul ul, ol ul, ul ol, ol ol { margin-bottom: 0; }
+dl { margin-top: 0; margin-bottom: var(--aj-type-section-space); }
+dt, dd { line-height: var(--aj-type-list-line); }
+blockquote footer:before, blockquote small:before, blockquote .small:before { content: '\2014 \00A0'; }
+.blockquote-reverse footer:before, blockquote.pull-right footer:before,
+.blockquote-reverse small:before, blockquote.pull-right small:before,
+.blockquote-reverse .small:before, blockquote.pull-right .small:before { content: ''; }
+.blockquote-reverse footer:after, blockquote.pull-right footer:after,
+.blockquote-reverse small:after, blockquote.pull-right small:after,
+.blockquote-reverse .small:after, blockquote.pull-right .small:after { content: '\00A0 \2014'; }
+code, kbd, pre, samp { font-family: var(--aj-type-mono); }
+pre code { padding: 0; font-size: inherit; color: inherit; white-space: pre-wrap; background-color: transparent; border-radius: 0; }
+label { display: inline-block; max-width: 100%; margin-bottom: var(--aj-type-field-label-gap); font-weight: bold; }
+input[type="radio"], input[type="checkbox"] { margin: var(--aj-type-check-gap) 0 0; line-height: normal; }
+input[type="file"], input[type="range"] { display: block; }
+input[type="range"] { width: 100%; }
+select[multiple], select[size] { height: auto; }
+input[type="file"]:focus, input[type="radio"]:focus, input[type="checkbox"]:focus { outline: var(--aj-type-focus-outline); outline-offset: var(--aj-type-focus-offset); }
+input[type="search"] { -webkit-appearance: none; }
+input[type="radio"][disabled], input[type="checkbox"][disabled],
+input[type="radio"].disabled, input[type="checkbox"].disabled,
+fieldset[disabled] input[type="radio"], fieldset[disabled] input[type="checkbox"] { cursor: not-allowed; }
+.list-group-item.active .list-group-item-heading,
+.list-group-item.active:hover .list-group-item-heading,
+.list-group-item.active:focus .list-group-item-heading,
+.list-group-item.active .list-group-item-heading > small,
+.list-group-item.active:hover .list-group-item-heading > small,
+.list-group-item.active:focus .list-group-item-heading > small,
+.list-group-item.active .list-group-item-heading > .small,
+.list-group-item.active:hover .list-group-item-heading > .small,
+.list-group-item.active:focus .list-group-item-heading > .small,
+.panel-title > a, .panel-title > small, .panel-title > .small,
+.panel-title > small > a, .panel-title > .small > a { color: inherit; }
+.text-hide { font: 0/0 a; color: transparent; text-shadow: none; background-color: transparent; border: 0; }
+/* End P176 typography. */
+
 /*! P150 active Ajenti theme, MIT (vendor/AJENTI-LICENSE).
  * Derived from theme/ajenti.css after its Normalize/print prelude; A1 evidence unchanged.
  * See core-audit.md, P150 disposition.

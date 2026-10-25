@@ -5,65 +5,7 @@
  */
 /* BS3 row children before column widths; P137 col-xs-* 5 uses, frontend/src/plugins/lmn_landingpage/Landingpage.vue; remove B2/C1. */ .row > * { width: auto; max-width: none; padding-left: 0; padding-right: 0; flex-shrink: 1; margin-top: 0; }
 /* BS3 column base outside rows, before xs/sm/md/lg widths; P137 col-xs-* 5 uses and frontend/src/plugins/lmn_quotas/Quotas.vue:138; remove B2/C4. */ .col-xs-1, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9, .col-xs-10, .col-xs-11, .col-xs-12, .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12, .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12, .col-lg-1, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-10, .col-lg-11, .col-lg-12 { width: auto; max-width: none; }
-/* BS3 type; P137 shell typography; remove B3/B6. */ html { font-size: 10px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
-/* BS3 typography; P137 0 static matches; P150 explicit compatibility contract; remove B3/B6. */ input, button, select, textarea { font-family: inherit; font-size: inherit; line-height: inherit; }
-/* BS3 typography; P137 0 static matches; P150 explicit compatibility contract; remove B3/B6. */ figure { margin: 0; }
-/* BS3 typography; P137 0 static matches; P150 explicit compatibility contract; remove B3/B6. */ img { vertical-align: middle; }
 /* BS3 helpers; P137 114 family matches; frontend/src/common/users/CheckResultsDialog.vue:47 (legacy structure/state); remove B2/D1. */ .sr-only-focusable:active, .sr-only-focusable:focus { position: static; width: auto; height: auto; margin: 0; overflow: visible; clip: auto; }
-/* BS3 typography; P137 0 static matches; P150 explicit compatibility contract; remove B3/B6. */ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 { font-family: inherit; font-weight: 500; line-height: 1.1; color: inherit; }
-/* BS3 typography; P137 0 static matches; P150 explicit compatibility contract; remove B3/B6. */ h1, .h1, h2, .h2, h3, .h3 { margin-top: 20px; margin-bottom: 10px; }
-/* BS3 text; P137 0 static matches; P150 explicit compatibility contract; remove B6/C1. */ h1 small, .h1 small, h2 small, .h2 small, h3 small, .h3 small, h1 .small, .h1 .small, h2 .small, .h2 .small, h3 .small, .h3 .small { font-size: 65%; }
-/* BS3 typography; P137 0 static matches; P150 explicit compatibility contract; remove B3/B6. */ h4, .h4, h5, .h5, h6, .h6 { margin-top: 10px; margin-bottom: 10px; }
-/* BS3 text; P137 0 static matches; P150 explicit compatibility contract; remove B6/C1. */ h4 small, .h4 small, h5 small, .h5 small, h6 small, .h6 small, h4 .small, .h4 .small, h5 .small, .h5 .small, h6 .small, .h6 .small { font-size: 75%; }
-/* BS3 typography; P137 0 static matches; P150 explicit compatibility contract; remove B3/B6. */ h1, .h1 { font-size: 36px; }
-/* BS3 typography; P137 0 static matches; P150 explicit compatibility contract; remove B3/B6. */ h2, .h2 { font-size: 30px; }
-/* BS3 typography; P137 0 static matches; P150 explicit compatibility contract; remove B3/B6. */ h3, .h3 { font-size: 24px; }
-/* BS3 typography; P137 0 static matches; P150 explicit compatibility contract; remove B3/B6. */ h4, .h4 { font-size: 18px; }
-/* BS3 typography; P137 0 static matches; P150 explicit compatibility contract; remove B3/B6. */ h5, .h5 { font-size: 14px; }
-/* BS3 typography; P137 0 static matches; P150 explicit compatibility contract; remove B3/B6. */ h6, .h6 { font-size: 12px; }
-/* BS3 typography; P137 0 static matches; P150 explicit compatibility contract; remove B3/B6. */ p { margin: 0 0 10px; }
-/* BS3 text; P137 0 static matches; P150 explicit compatibility contract; remove B6/C1. */ .lead { margin-bottom: 20px; font-size: 16px; font-weight: 300; line-height: 1.4; }
-@media (min-width: 768px) {
-/* BS3 text; P137 0 static matches; P150 explicit compatibility contract; remove B6/C1. */ .lead { font-size: 21px; }
-
-}
-/* BS3 text; P137 0 static matches; P150 explicit compatibility contract; remove B6/C1. */ small, .small { font-size: 85%; }
-/* BS3 text; P137 0 static matches; P150 explicit compatibility contract; remove B6/C1. */ .text-left { text-align: left; }
-/* BS3 text; P137 0 static matches; P150 explicit compatibility contract; remove B6/C1. */ .text-right { text-align: right; }
-/* BS3 text; P137 0 static matches; P150 explicit compatibility contract; remove B6/C1. */ .text-center { text-align: center; }
-/* BS3 text; P137 0 static matches; P150 explicit compatibility contract; remove B6/C1. */ .text-justify { text-align: justify; }
-/* BS3 text; P137 0 static matches; P150 explicit compatibility contract; remove B6/C1. */ .text-nowrap { white-space: nowrap; }
-/* BS3 text; P137 0 static matches; P150 explicit compatibility contract; remove B6/C1. */ .text-lowercase { text-transform: lowercase; }
-/* BS3 text; P137 0 static matches; P150 explicit compatibility contract; remove B6/C1. */ .text-uppercase { text-transform: uppercase; }
-/* BS3 text; P137 0 static matches; P150 explicit compatibility contract; remove B6/C1. */ .text-capitalize { text-transform: capitalize; }
-/* BS3 text; P137 0 static matches; P150 explicit compatibility contract; remove B6/C1. */ .text-success { color: #3c763d; }
-/* BS3 text; P137 0 static matches; P150 explicit compatibility contract; remove B6/C1. */ a.text-success:hover, a.text-success:focus { color: #2b542c; }
-/* BS3 text; P137 0 static matches; P150 explicit compatibility contract; remove B6/C1. */ .text-info { color: #31708f; }
-/* BS3 text; P137 0 static matches; P150 explicit compatibility contract; remove B6/C1. */ a.text-info:hover, a.text-info:focus { color: #245269; }
-/* BS3 text; P137 0 static matches; P150 explicit compatibility contract; remove B6/C1. */ .text-warning { color: #8a6d3b; }
-/* BS3 text; P137 0 static matches; P150 explicit compatibility contract; remove B6/C1. */ a.text-warning:hover, a.text-warning:focus { color: #66512c; }
-/* BS3 text; P137 0 static matches; P150 explicit compatibility contract; remove B6/C1. */ .text-danger { color: #a94442; }
-/* BS3 text; P137 0 static matches; P150 explicit compatibility contract; remove B6/C1. */ a.text-danger:hover, a.text-danger:focus { color: #843534; }
-/* BS3 text; P137 0 static matches; P150 explicit compatibility contract; remove B6/C1. */ .bg-success { background-color: #dff0d8; }
-/* BS3 text; P137 0 static matches; P150 explicit compatibility contract; remove B6/C1. */ a.bg-success:hover, a.bg-success:focus { background-color: #c1e2b3; }
-/* BS3 text; P137 0 static matches; P150 explicit compatibility contract; remove B6/C1. */ .bg-info { background-color: #d9edf7; }
-/* BS3 text; P137 0 static matches; P150 explicit compatibility contract; remove B6/C1. */ a.bg-info:hover, a.bg-info:focus { background-color: #afd9ee; }
-/* BS3 text; P137 0 static matches; P150 explicit compatibility contract; remove B6/C1. */ .bg-warning { background-color: #fcf8e3; }
-/* BS3 text; P137 0 static matches; P150 explicit compatibility contract; remove B6/C1. */ a.bg-warning:hover, a.bg-warning:focus { background-color: #f7ecb5; }
-/* BS3 text; P137 0 static matches; P150 explicit compatibility contract; remove B6/C1. */ .bg-danger { background-color: #f2dede; }
-/* BS3 text; P137 0 static matches; P150 explicit compatibility contract; remove B6/C1. */ a.bg-danger:hover, a.bg-danger:focus { background-color: #e4b9b9; }
-/* BS3 typography; P137 0 static matches; P150 explicit compatibility contract; remove B3/B6. */ ul, ol { margin-top: 0; margin-bottom: 10px; }
-/* BS3 typography; P137 0 static matches; P150 explicit compatibility contract; remove B3/B6. */ ul ul, ol ul, ul ol, ol ol { margin-bottom: 0; }
-/* BS3 text; P137 0 static matches; P150 explicit compatibility contract; remove B6/C1. */ .list-unstyled { padding-left: 0; list-style: none; }
-/* BS3 typography; P137 0 static matches; P150 explicit compatibility contract; remove B3/B6. */ dl { margin-top: 0; margin-bottom: 20px; }
-/* BS3 typography; P137 0 static matches; P150 explicit compatibility contract; remove B3/B6. */ dt, dd { line-height: 1.42857143; }
-/* BS3 typography; P137 0 static matches; P150 explicit compatibility contract; remove B3/B6. */ dt { font-weight: bold; }
-/* BS3 typography; P137 0 static matches; P150 explicit compatibility contract; remove B3/B6. */ dd { margin-left: 0; }
-/* BS3 text; P137 0 static matches; P150 explicit compatibility contract; remove B6/C1. */ blockquote footer:before, blockquote small:before, blockquote .small:before { content: '\2014 \00A0'; }
-/* BS3 text; P137 83 matches; frontend/src/common/users/CheckResultsDialog.vue:47; remove B6/C1. */ .blockquote-reverse footer:before, blockquote.pull-right footer:before, .blockquote-reverse small:before, blockquote.pull-right small:before, .blockquote-reverse .small:before, blockquote.pull-right .small:before { content: ''; }
-/* BS3 text; P137 83 matches; frontend/src/common/users/CheckResultsDialog.vue:47; remove B6/C1. */ .blockquote-reverse footer:after, blockquote.pull-right footer:after, .blockquote-reverse small:after, blockquote.pull-right small:after, .blockquote-reverse .small:after, blockquote.pull-right .small:after { content: '\00A0 \2014'; }
-/* BS3 typography; P137 0 static matches; P150 explicit compatibility contract; remove B3/B6. */ code, kbd, pre, samp { font-family: Menlo, Monaco, Consolas, "Courier New", monospace; }
-/* BS3 typography; P137 0 static matches; P150 explicit compatibility contract; remove B3/B6. */ pre code { padding: 0; font-size: inherit; color: inherit; white-space: pre-wrap; background-color: transparent; border-radius: 0; }
 @media (min-width: 768px) {
 /* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .container { width: 750px; }
 
@@ -310,19 +252,11 @@
 /* BS3 tables; P137 1 family matches; frontend/src/plugins/lmn_settings/GlobalSettings.vue:212 (legacy structure/state); remove C3/C10. */ .table-hover > tbody > tr > td.warning:hover, .table-hover > tbody > tr > th.warning:hover, .table-hover > tbody > tr.warning:hover > td, .table-hover > tbody > tr:hover > .warning, .table-hover > tbody > tr.warning:hover > th { background-color: #faf2cc; }
 /* BS3 tables; P137 1 family matches; frontend/src/plugins/lmn_settings/GlobalSettings.vue:212 (legacy structure/state); remove C3/C10. */ .table > thead > tr > td.danger, .table > tbody > tr > td.danger, .table > tfoot > tr > td.danger, .table > thead > tr > th.danger, .table > tbody > tr > th.danger, .table > tfoot > tr > th.danger, .table > thead > tr.danger > td, .table > tbody > tr.danger > td, .table > tfoot > tr.danger > td, .table > thead > tr.danger > th, .table > tbody > tr.danger > th, .table > tfoot > tr.danger > th { background-color: #f2dede; }
 /* BS3 tables; P137 1 family matches; frontend/src/plugins/lmn_settings/GlobalSettings.vue:212 (legacy structure/state); remove C3/C10. */ .table-hover > tbody > tr > td.danger:hover, .table-hover > tbody > tr > th.danger:hover, .table-hover > tbody > tr.danger:hover > td, .table-hover > tbody > tr:hover > .danger, .table-hover > tbody > tr.danger:hover > th { background-color: #ebcccc; }
-/* BS3 typography; P137 0 static matches; P150 explicit compatibility contract; remove B3/B6. */ label { display: inline-block; max-width: 100%; margin-bottom: 5px; font-weight: bold; }
-/* BS3 typography; P137 0 static matches; P150 explicit compatibility contract; remove B3/B6. */ input[type="search"] { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
-/* BS3 typography; P137 0 static matches; P150 explicit compatibility contract; remove B3/B6. */ input[type="radio"], input[type="checkbox"] { margin: 4px 0 0; margin-top: 1px \9; line-height: normal; }
-/* BS3 typography; P137 0 static matches; P150 explicit compatibility contract; remove B3/B6. */ input[type="file"] { display: block; }
-/* BS3 typography; P137 0 static matches; P150 explicit compatibility contract; remove B3/B6. */ input[type="range"] { display: block; width: 100%; }
-/* BS3 typography; P137 0 static matches; P150 explicit compatibility contract; remove B3/B6. */ select[multiple], select[size] { height: auto; }
-/* BS3 typography; P137 0 static matches; P150 explicit compatibility contract; remove B3/B6. */ input[type="file"]:focus, input[type="radio"]:focus, input[type="checkbox"]:focus { outline: 5px auto -webkit-focus-ring-color; outline-offset: -2px; }
 /* BS3 forms; P137 124 family matches; frontend/src/common/LmLog.vue:45 (legacy structure/state); remove B3/B4/C12. */ .form-control::-moz-placeholder { color: #999; opacity: 1; }
 /* BS3 forms; P137 124 family matches; frontend/src/common/LmLog.vue:45 (legacy structure/state); remove B3/B4/C12. */ .form-control:-ms-input-placeholder { color: #999; }
 /* BS3 forms; P137 124 family matches; frontend/src/common/LmLog.vue:45 (legacy structure/state); remove B3/B4/C12. */ .form-control::-webkit-input-placeholder { color: #999; }
 /* BS3 forms; P137 124 family matches; frontend/src/common/LmLog.vue:45 (legacy structure/state); remove B3/B4/C12. */ .form-control[disabled], fieldset[disabled] .form-control { cursor: not-allowed; }
 /* BS3 forms; P137 124 family matches; frontend/src/common/LmLog.vue:45 (legacy structure/state); remove B3/B4/C12. */ textarea.form-control { height: auto; }
-/* BS3 typography; P137 0 static matches; P150 explicit compatibility contract; remove B3/B6. */ input[type="search"] { -webkit-appearance: none; }
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
 /* BS3 forms; P137 124 family matches; frontend/src/common/LmLog.vue:45 (legacy structure/state); remove B3/B4/C12. */ input[type="date"].form-control, input[type="time"].form-control, input[type="datetime-local"].form-control, input[type="month"].form-control { line-height: 34px; }
 /* BS3 forms; P137 124 family matches; frontend/src/common/LmLog.vue:45 (legacy structure/state); remove B3/B4/C12. */ input[type="date"].input-sm, input[type="time"].input-sm, input[type="datetime-local"].input-sm, input[type="month"].input-sm, .input-group-sm input[type="date"], .input-group-sm input[type="time"], .input-group-sm input[type="datetime-local"], .input-group-sm input[type="month"] { line-height: 30px; }
@@ -334,7 +268,6 @@
 /* BS3 forms; P137 9 matches; frontend/src/plugins/lmn_linbo4/ConfigDialog.vue:385; remove B3/B4/C12. */ .radio label, .checkbox label { min-height: 20px; padding-left: 20px; margin-bottom: 0; font-weight: normal; cursor: pointer; }
 /* BS3 forms; P137 9 matches; frontend/src/plugins/lmn_linbo4/ConfigDialog.vue:385; remove B3/B4/C12. */ .radio + .radio, .checkbox + .checkbox { margin-top: -5px; }
 /* BS3 forms; P137 3 matches; frontend/src/plugins/lmn_settings/SchoolPassword.vue:34; remove B3/B4/C12. */ .radio-inline + .radio-inline, .checkbox-inline + .checkbox-inline { margin-top: 0; margin-left: 10px; }
-/* BS3 typography; P137 0 static matches; P150 explicit compatibility contract; remove B3/B6. */ input[type="radio"][disabled], input[type="checkbox"][disabled], input[type="radio"].disabled, input[type="checkbox"].disabled, fieldset[disabled] input[type="radio"], fieldset[disabled] input[type="checkbox"] { cursor: not-allowed; }
 /* BS3 forms; P137 3 matches; frontend/src/plugins/lmn_settings/SchoolPassword.vue:34; remove B3/B4/C12. */ .radio-inline.disabled, .checkbox-inline.disabled, fieldset[disabled] .radio-inline, fieldset[disabled] .checkbox-inline { cursor: not-allowed; }
 /* BS3 forms; P137 9 matches; frontend/src/plugins/lmn_linbo4/ConfigDialog.vue:385; remove B3/B4/C12. */ .radio.disabled label, .checkbox.disabled label, fieldset[disabled] .radio label, fieldset[disabled] .checkbox label { cursor: not-allowed; }
 /* BS3 forms; P137 124 family matches; frontend/src/common/LmLog.vue:45 (legacy structure/state); remove B3/B4/C12. */ .input-sm { height: 30px; padding: 5px 10px; font-size: 12px; line-height: 1.5; border-radius: 3px; }
@@ -562,12 +495,7 @@
 /* BS3 panels; P137 32 matches; frontend/src/common/FileBackupsDialog.vue:79; remove C1/C4. */ .list-group-item > .badge { float: right; }
 /* BS3 panels; P137 32 matches; frontend/src/common/FileBackupsDialog.vue:79; remove C1/C4. */ .list-group-item > .badge + .badge { margin-right: 5px; }
 /* BS3 panels; P137 9 matches; frontend/src/plugins/lmn_device-manager/DeviceManager.vue:121; remove C1/C4. */ .nav-pills > li > a > .badge { margin-left: 3px; }
-/* BS3 typography; P137 0 static matches; P150 explicit compatibility contract; remove B3/B6. */ .jumbotron h1, .jumbotron .h1 { color: inherit; }
 /* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .jumbotron .container { max-width: 100%; }
-@media screen and (min-width: 768px) {
-/* BS3 typography; P137 0 static matches; P150 explicit compatibility contract; remove B3/B6. */ .jumbotron h1, .jumbotron .h1 { font-size: 63px; }
-
-}
 /* BS3 alerts; P137 0 static matches; P150 explicit compatibility contract; remove B6/C1. */ .alert h4 { margin-top: 0; color: inherit; }
 /* BS3 alerts; P137 0 static matches; P150 explicit compatibility contract; remove B6/C1. */ .alert .alert-link { font-weight: bold; }
 /* BS3 alerts; P137 0 static matches; P150 explicit compatibility contract; remove B6/C1. */ .alert > p, .alert > ul { margin-bottom: 0; }
@@ -588,7 +516,6 @@
 /* BS3 panels; P137 23 matches; frontend/src/common/FileBackupsDialog.vue:79; remove C1/C4. */ a.list-group-item .list-group-item-heading, button.list-group-item .list-group-item-heading { color: #333; }
 /* BS3 panels; P137 23 matches; frontend/src/common/FileBackupsDialog.vue:79; remove C1/C4. */ button.list-group-item { width: 100%; text-align: left; }
 /* BS3 panels; P137 23 matches; frontend/src/common/FileBackupsDialog.vue:79; remove C1/C4. */ .list-group-item.disabled .list-group-item-heading, .list-group-item.disabled:hover .list-group-item-heading, .list-group-item.disabled:focus .list-group-item-heading { color: inherit; }
-/* BS3 text; P137 23 matches; frontend/src/common/FileBackupsDialog.vue:79; remove B6/C1. */ .list-group-item.active .list-group-item-heading, .list-group-item.active:hover .list-group-item-heading, .list-group-item.active:focus .list-group-item-heading, .list-group-item.active .list-group-item-heading > small, .list-group-item.active:hover .list-group-item-heading > small, .list-group-item.active:focus .list-group-item-heading > small, .list-group-item.active .list-group-item-heading > .small, .list-group-item.active:hover .list-group-item-heading > .small, .list-group-item.active:focus .list-group-item-heading > .small { color: inherit; }
 /* BS3 panels; P137 214 family matches; frontend/src/common/FileBackupsDialog.vue:79 (legacy structure/state); remove C1/C4. */ .list-group-item-success { color: #3c763d; background-color: #dff0d8; }
 /* BS3 panels; P137 214 family matches; frontend/src/common/FileBackupsDialog.vue:79 (legacy structure/state); remove C1/C4. */ a.list-group-item-success, button.list-group-item-success { color: #3c763d; }
 /* BS3 panels; P137 214 family matches; frontend/src/common/FileBackupsDialog.vue:79 (legacy structure/state); remove C1/C4. */ a.list-group-item-success .list-group-item-heading, button.list-group-item-success .list-group-item-heading { color: inherit; }
@@ -614,7 +541,6 @@
 /* BS3 panels; P137 17 matches; frontend/src/common/users/CheckResultsDialog.vue:37; remove C1/C4. */ .panel-body { padding: 15px; }
 /* BS3 panels; P137 21 matches; frontend/src/common/users/CheckResultsDialog.vue:36; remove C1/C4. */ .panel-heading > .dropdown .dropdown-toggle { color: inherit; }
 /* BS3 panels; P137 214 family matches; frontend/src/common/FileBackupsDialog.vue:79 (legacy structure/state); remove C1/C4. */ .panel-title { margin-top: 0; margin-bottom: 0; font-size: 16px; color: inherit; }
-/* BS3 text; P137 0 static matches; P150 explicit compatibility contract; remove B6/C1. */ .panel-title > a, .panel-title > small, .panel-title > .small, .panel-title > small > a, .panel-title > .small > a { color: inherit; }
 /* BS3 panels; P137 36 matches; frontend/src/common/FileDialog.vue:47; remove C1/C4. */ .panel > .list-group, .panel > .panel-collapse > .list-group { margin-bottom: 0; }
 /* BS3 panels; P137 59 matches; frontend/src/common/FileBackupsDialog.vue:79; remove C1/C4. */ .panel > .list-group .list-group-item, .panel > .panel-collapse > .list-group .list-group-item { border-width: 1px 0; border-radius: 0; }
 /* BS3 panels; P137 59 matches; frontend/src/common/FileBackupsDialog.vue:79; remove C1/C4. */ .panel-heading + .list-group .list-group-item:first-child { border-top-width: 0; }
@@ -675,7 +601,6 @@
 /* BS3 helpers; P137 114 family matches; frontend/src/common/users/CheckResultsDialog.vue:47 (legacy structure/state); remove B2/D1. */ .hide { display: none !important; }
 /* BS3 helpers; P137 114 family matches; frontend/src/common/users/CheckResultsDialog.vue:47 (legacy structure/state); remove B2/D1. */ .show { display: block !important; }
 /* BS3 helpers; P137 114 family matches; frontend/src/common/users/CheckResultsDialog.vue:47 (legacy structure/state); remove B2/D1. */ .invisible { visibility: hidden; }
-/* BS3 text; P137 0 static matches; P150 explicit compatibility contract; remove B6/C1. */ .text-hide { font: 0/0 a; color: transparent; text-shadow: none; background-color: transparent; border: 0; }
 /* BS3 helpers; P137 114 family matches; frontend/src/common/users/CheckResultsDialog.vue:47 (legacy structure/state); remove B2/D1. */ .hidden { display: none !important; }
 /* BS3 helpers; P137 114 family matches; frontend/src/common/users/CheckResultsDialog.vue:47 (legacy structure/state); remove B2/D1. */ .visible-xs, .visible-sm, .visible-md, .visible-lg { display: none !important; }
 /* BS3 helpers; P137 114 family matches; frontend/src/common/users/CheckResultsDialog.vue:47 (legacy structure/state); remove B2/D1. */ .visible-xs-block, .visible-xs-inline, .visible-xs-inline-block, .visible-sm-block, .visible-sm-inline, .visible-sm-inline-block, .visible-md-block, .visible-md-inline, .visible-md-inline-block, .visible-lg-block, .visible-lg-inline, .visible-lg-inline-block { display: none !important; }
