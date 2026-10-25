@@ -13938,6 +13938,22 @@ html body.customized .c3-client-tabs > .nav-item > .nav-link.active:hover { bord
 .progress-bar.c5-progress.bg-warning { background-color: #ffc107 !important; }
 /* P137 P161 C5 common/styles.scss smart-progress theme override retains customized Samba orange; D1. */
 html body.customized smart-progress .progress .c5-progress.bg-warning { background-color: #ffab40 !important; }
+/* P137 lmn_session_new/*.vue; P162 C6 neutral buttons preserve B3/B4 focus and Ajenti flat/LMN cascade; consolidate D1. */
+.btn.c6-button { --bs-btn-focus-box-shadow: none; }
+/* P137 lmn_session_new/*.vue; P162 C6 neutral buttons preserve B3/B4 focus and Ajenti flat/LMN cascade; consolidate D1. */
+.c6-button { color: #333; background-color: #fff; border-color: #eee; }
+/* P137 lmn_session_new/*.vue; P162 C6 neutral buttons preserve B3/B4 focus and Ajenti flat/LMN cascade; consolidate D1. */
+.btn.c6-button:where(:not(.btn-flat):not(.btn-lmn):not(.btn-lmn-danger-inv):not(.btn-lmn-success-inv)) { color: #333; background-color: #fff; border-color: #eee; }
+/* P137 lmn_session_new/*.vue; P162 C6 neutral buttons preserve B3/B4 focus and Ajenti flat/LMN cascade; consolidate D1. */
+.c6-button:focus, .c6-button:focus-visible { color: #333; background-color: #e6e6e6; border-color: #aeaeae; }
+/* P137 lmn_session_new/*.vue; P162 C6 neutral buttons preserve B3/B4 focus and Ajenti flat/LMN cascade; consolidate D1. */
+.c6-button:hover, .c6-button:active { color: #333; background-color: #e6e6e6; border-color: #cfcfcf; }
+/* P137 lmn_session_new/*.vue; P162 C6 neutral buttons preserve B3/B4 focus and Ajenti flat/LMN cascade; consolidate D1. */
+.c6-button:active:hover, .c6-button:active:focus { color: #333; background-color: #d4d4d4; border-color: #aeaeae; }
+/* P137 lmn_session_new/*.vue; P162 C6 neutral buttons preserve B3/B4 focus and Ajenti flat/LMN cascade; consolidate D1. */
+.c6-button.active { color: #333; background-color: #e6e6e6; border-color: #cfcfcf; background-image: none; }
+/* P137 lmn_session_new/*.vue; P162 C6 neutral buttons preserve B3/B4 focus and Ajenti flat/LMN cascade; consolidate D1. */
+.c6-button.active:hover, .c6-button.active:focus { color: #333; background-color: #d4d4d4; border-color: #aeaeae; }
 
 /*! P150 active Ajenti theme, MIT (vendor/AJENTI-LICENSE).
  * Derived from theme/ajenti.css after its Normalize/print prelude; A1 evidence unchanged.
@@ -19233,6 +19249,125 @@ body::after {
   position: absolute;
   top: 55px;
   left: 60px;
+}
+
+.badge.c6-badge {
+  display: inline;
+  padding: 0.4em 0.6em 0.3em;
+  margin-right: 3px;
+  font-size: 75%;
+  font-weight: bold;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 0.25em;
+  min-width: 0;
+}
+
+.badge.c6-badge:empty {
+  display: none;
+}
+
+.c6-badge.bg-secondary {
+  --bs-secondary-rgb: 119, 119, 119;
+}
+
+.c6-badge.bg-info {
+  --bs-info-rgb: 3, 169, 244;
+}
+
+.c6-badge.bg-success {
+  --bs-success-rgb: 76, 175, 80;
+}
+
+.c6-progress.bg-warning {
+  --bs-warning-rgb: 255, 193, 7;
+}
+
+.c6-sort {
+  appearance: auto;
+  background-image: none;
+  padding: 6px 12px;
+}
+
+.c6-menu.show {
+  display: block;
+}
+
+.c6-menu.dropdown-menu-end {
+  right: 0;
+  left: auto;
+}
+
+.c6-menu .dropdown-item {
+  color: #333;
+}
+
+.c6-menu .dropdown-item:hover, .c6-menu .dropdown-item:focus {
+  color: #262626;
+  background-color: #f5f5f5;
+}
+
+.c6-menu button.dropdown-item {
+  width: auto;
+  background-color: transparent;
+  color: #333;
+  text-decoration: underline;
+}
+
+.c6-menu button.dropdown-item:hover, .c6-menu button.dropdown-item:focus {
+  color: #0a6ebd;
+  background-color: transparent;
+}
+
+.c6-menu button.dropdown-item:active {
+  color: var(--bs-btn-active-color);
+  background-color: transparent;
+}
+
+.c6-group-actions {
+  display: table-cell;
+  width: 1%;
+  white-space: nowrap;
+  vertical-align: middle;
+  position: relative;
+  font-size: 0;
+}
+
+.c6-group-actions > .btn {
+  position: relative;
+}
+
+.c6-group-actions > .btn + .btn {
+  margin-left: -1px;
+}
+
+.c6-group-actions > .btn:hover, .c6-group-actions > .btn:focus, .c6-group-actions > .btn:active {
+  z-index: 2;
+}
+
+.c6-group-actions:not(:first-child):not(:last-child) {
+  border-radius: 0;
+}
+
+.c6-group-actions:first-child > .btn {
+  margin-right: -1px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.c6-group-actions:last-child > .btn {
+  z-index: 2;
+  margin-left: -1px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.c6-group-actions:last-child > .btn:not(:last-child) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
 }
 .changed {
   color: green !important;

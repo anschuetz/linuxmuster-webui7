@@ -4,7 +4,7 @@ const props = defineProps({ store: Object, api: Object, user: Object });
 const icons = ['fas fa-wifi', 'fa fa-globe', 'fa fa-print'];
 function classes(group) {
     const members = props.store.state.current.members, count = members.filter(u => u[group] === true).length;
-    return { 'btn-lmn-success-inv': count === members.length, 'btn-lmn-danger-inv': count === 0, 'btn-default': count < members.length };
+    return { 'btn-lmn-success-inv': count === members.length, 'btn-lmn-danger-inv': count === 0, 'btn-light': count < members.length, 'c6-button': count < members.length };
 }
 async function toggle(group) {
     // The old ng:click sees the previous checkbox model; its directive toggles afterwards.

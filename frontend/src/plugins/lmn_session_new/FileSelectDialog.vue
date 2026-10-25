@@ -76,19 +76,19 @@ const title = computed(() => !props.action ? aj.gettext('Browse collected files'
             <template #default="{ browseRef, progress }">
                 <div class="list-group" style="min-height:600px">
                     <div style="margin-bottom:20px;text-align:center">
-                        <button data-mkdir class="btn btn-link pull-right" :aria-label="aj.gettext('Directory name :')" @click="run(mkdir)"><i class="fas fa-folder-plus fa-2x"></i></button>
-                        <button :ref="browseRef" class="btn btn-link pull-right" :aria-label="aj.gettext('Upload file')"><i class="fas fa-cloud-upload-alt fa-2x"></i></button>
-                        <button v-if="currentPath !== path" data-back class="btn btn-link pull-left" :aria-label="aj.gettext('Back')" @click="run(back)"><i class="fas fa-arrow-left"></i></button>
+                        <button data-mkdir class="btn btn-link float-end" :aria-label="aj.gettext('Directory name :')" @click="run(mkdir)"><i class="fas fa-folder-plus fa-2x"></i></button>
+                        <button :ref="browseRef" class="btn btn-link float-end" :aria-label="aj.gettext('Upload file')"><i class="fas fa-cloud-upload-alt fa-2x"></i></button>
+                        <button v-if="currentPath !== path" data-back class="btn btn-link float-start" :aria-label="aj.gettext('Back')" @click="run(back)"><i class="fas fa-arrow-left"></i></button>
                         &nbsp; <span v-if="action">{{ aj.gettext(action === 'share' ? 'Select files you want to share' : action === 'copy' ? 'Select files you want to copy' : 'Select files you want to move') }}</span>
                     </div>
                     <div v-if="items?.length === 0" class="alert alert-info">{{ aj.gettext('Empty directory.') }}</div>
                     <div v-if="progress.reduce((sum, item) => sum + item.progress, 0) !== progress.length * 100" class="uploads">
                         <h3>{{ aj.gettext('Uploading ... ') }}</h3>
-                        <template v-for="p in progress" :key="p.id"><div v-if="p.progress < 100" style="margin-top:10px"><span>{{ p.name }} ({{ p.progress }} %) </span><div class="progress"><div class="progress-bar progress-bar-warning" role="progressbar" :aria-label="p.name" aria-valuemin="0" aria-valuemax="100" :aria-valuenow="p.progress" :style="{ width: p.progress + '%' }"></div></div></div></template>
+                        <template v-for="p in progress" :key="p.id"><div v-if="p.progress < 100" style="margin-top:10px"><span>{{ p.name }} ({{ p.progress }} %) </span><div class="progress"><div class="progress-bar bg-warning c6-progress" role="progressbar" :aria-label="p.name" aria-valuemin="0" aria-valuemax="100" :aria-valuenow="p.progress" :style="{ width: p.progress + '%' }"></div></div></div></template>
                     </div>
                     <div v-if="items?.length" class="list-group-item list-group-item-small">
                         <input v-if="action && action !== 'share'" v-model="toggle" data-toggle-all type="checkbox" :aria-label="aj.gettext('Select all')" @change="toggleAll">
-                        <span data-count class="pull-right">{{ count }} {{ aj.gettext('item(s) selected') }}</span>&nbsp;
+                        <span data-count class="float-end">{{ count }} {{ aj.gettext('item(s) selected') }}</span>&nbsp;
                     </div>
                     <div v-for="item in rows" :key="item.path" :data-item="item.name" class="list-group-item list-group-item-small" :style="item.selected ? { background: '#ffc876' } : {}">
                         <button :data-delete-file="item.isFile ? '' : undefined" :data-delete-dir="item.isDir ? '' : undefined" class="btn btn-link list-group-btn" :aria-label="aj.gettext('Delete')" @click="run(() => remove(item))"><i class="fa fa-trash"></i></button>
@@ -101,5 +101,5 @@ const title = computed(() => !props.action ? aj.gettext('Browse collected files'
             </template>
         </SmbUpload>
     </div>
-    <div class="modal-footer"><button v-if="action" data-save class="btn btn-default btn-flat" @click="save">{{ aj.gettext(action === 'share' ? 'Share' : 'Collect from User') }}</button> <button data-close class="btn btn-default btn-flat" @click="emit('cancel')">{{ aj.gettext('Close') }}</button></div>
+    <div class="modal-footer"><button v-if="action" data-save class="btn btn-light c6-button btn-flat" @click="save">{{ aj.gettext(action === 'share' ? 'Share' : 'Collect from User') }}</button> <button data-close class="btn btn-light c6-button btn-flat" @click="emit('cancel')">{{ aj.gettext('Close') }}</button></div>
 </template>

@@ -59,7 +59,7 @@ function kill(item) {
         <template v-for="(section, index) in sections" :key="section.key">
             <hr v-if="index">
             <div class="list-group">
-                <button v-if="section.key === 'group'" class="btn btn-success pull-right" @click="create()"><i class="fa fa-plus"></i> {{ aj.gettext('New group') }}</button>
+                <button v-if="section.key === 'group'" class="btn btn-success float-end" @click="create()"><i class="fa fa-plus"></i> {{ aj.gettext('New group') }}</button>
                 <h3 style="margin-bottom:30px">{{ aj.gettext(section.title) }}</h3>
                 <div v-if="!loading && section.key === 'room' && room?.name === ''" class="alert alert-info">{{ aj.gettext("Currenty it's not possible to determine your room, are you logged on a school computer ?") }}</div>
                 <div v-if="!loading && section.key === 'schoolclass' && schoolclasses?.length === 0" class="alert alert-info">
@@ -75,9 +75,9 @@ function kill(item) {
                         <div style="clear:right;float:right;width:50%"><div class="session_container">
                             <h4 style="word-break:break-all;height:2em">{{ item.name }}</h4><div class="session_hr"></div><i class="fa fa-users"></i> <span>{{ item.membersCount }}</span>
                             <div v-if="section.key === 'group'">
-                                <a class="btn btn-flat pull-right" style="padding:6px" @click.stop="kill(item)"><i class="fa fa-trash"></i></a>
-                                <a class="btn btn-flat pull-right" style="padding:6px" @click.stop="create(item.members)"><i class="fa-regular fa-copy"></i></a>
-                                <a class="btn btn-flat pull-right" style="padding:6px" @click.stop="rename(item)"><i class="fa fa-pencil"></i></a>
+                                <a class="btn btn-flat float-end" style="padding:6px" @click.stop="kill(item)"><i class="fa fa-trash"></i></a>
+                                <a class="btn btn-flat float-end" style="padding:6px" @click.stop="create(item.members)"><i class="fa-regular fa-copy"></i></a>
+                                <a class="btn btn-flat float-end" style="padding:6px" @click.stop="rename(item)"><i class="fa fa-pencil"></i></a>
                             </div>
                         </div></div>
                     </div>

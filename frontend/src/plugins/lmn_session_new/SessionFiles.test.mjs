@@ -10,7 +10,7 @@ const setup=(userIndex,foreign=false,error='')=>{
     const wrapper=mount(SessionFiles,{props:{store,api,user},global:{provide:{aj}}});return{wrapper,api,user};
 };
 it('toolbar invokes share/copy/move/archive, dropdown closes on command',async()=>{
-    const s=setup();await s.wrapper.get('[data-share-all]').trigger('click');await s.wrapper.get('[data-collect-toggle]').trigger('click');expect(s.wrapper.find('.open').exists()).toBe(true);await s.wrapper.get('[data-collect-all-copy]').trigger('click');await s.wrapper.get('[data-collect-toggle]').trigger('click');await s.wrapper.get('[data-collect-all-move]').trigger('click');await s.wrapper.get('[data-archive]').trigger('click');await flushPromises();
+    const s=setup();await s.wrapper.get('[data-share-all]').trigger('click');await s.wrapper.get('[data-collect-toggle]').trigger('click');expect(s.wrapper.find('.dropdown-menu.show').exists()).toBe(true);await s.wrapper.get('[data-collect-all-copy]').trigger('click');await s.wrapper.get('[data-collect-toggle]').trigger('click');await s.wrapper.get('[data-collect-all-move]').trigger('click');await s.wrapper.get('[data-archive]').trigger('click');await flushPromises();
     expect(s.api.shareAll.mock.calls).toEqual([[]]);expect(s.api.collectAll.mock.calls).toEqual([['copy'],['move']]);expect(s.api.browseCollected.mock.calls).toEqual([[]]);s.wrapper.unmount();
 });
 it('student/examuser row actions call single transfers; teacher/error/foreign-exam rows have none',async()=>{

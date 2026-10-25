@@ -49,26 +49,26 @@ function bytes(value) {
     <div class="input-group">
         <div v-for="(placeholder, kind) in ['Add Student', 'Add Class']" :key="kind" :style="{ width: kind === 0 ? '70%' : '30%', position: 'relative', display: 'table-cell' }">
             <input v-model.trim="queries[kind]" type="text" class="form-control" :placeholder="aj.gettext(placeholder)" autocomplete="off" role="combobox" :aria-expanded="results[kind].length > 0" @input="search(kind)" @keydown="key($event, kind)" @blur="reset(kind)">
-            <ul v-if="results[kind].length" class="dropdown-menu" style="display:block" role="listbox" :data-users="kind === 0 ? '' : undefined" :data-classes="kind === 1 ? '' : undefined">
-                <li v-for="(user, index) in results[kind]" :key="index" :class="{ active: selected[kind] === index }"><button type="button" role="option" class="btn btn-link" :aria-selected="selected[kind] === index" @mousedown.prevent @click="choose(user, kind)">{{ label(user, kind) }}</button></li>
+            <ul v-if="results[kind].length" class="dropdown-menu c6-menu show" role="listbox" :data-users="kind === 0 ? '' : undefined" :data-classes="kind === 1 ? '' : undefined">
+                <li v-for="(user, index) in results[kind]" :key="index"><button type="button" role="option" class="btn btn-link dropdown-item" :class="{ active: selected[kind] === index }" :aria-selected="selected[kind] === index" @mousedown.prevent @click="choose(user, kind)">{{ label(user, kind) }}</button></li>
             </ul>
         </div>
-        <div class="input-group-btn"><select v-model.number="sort" class="form-control" :aria-label="aj.gettext('Lastname')"><option v-for="(item, index) in participantSorts" :key="index" :value="index">{{ aj.gettext(item.name) }}</option></select></div>
+        <div class="c6-group-actions"><select v-model.number="sort" class="form-control form-select c6-sort" :aria-label="aj.gettext('Lastname')"><option v-for="(item, index) in participantSorts" :key="index" :value="index">{{ aj.gettext(item.name) }}</option></select></div>
         <slot name="actions" />
     </div>
     <br>
     <div v-if="store.state.current.members.length === 0" class="alert alert-info">{{ aj.gettext("There's currently no student in this group. You can add these with the input above.") }}</div>
     <table v-else class="table table-bordered" :class="{ 'lmn-blurred': blurred }" style="margin-bottom:60px">
         <thead><tr>
-            <th style="text-align:center">{{ aj.gettext('Users') }}<br><span class="label label-info">{{ store.state.current.members.length }} {{ aj.gettext('student(s)') }}</span></th>
+            <th style="text-align:center">{{ aj.gettext('Users') }}<br><span class="badge c6-badge bg-info">{{ store.state.current.members.length }} {{ aj.gettext('student(s)') }}</span></th>
             <th style="text-align:center">{{ aj.gettext('Transfer') }}</th>
-            <th style="text-align:center">{{ aj.gettext('Working directory') }}<br><span class="label label-default">transfer/{{ aj.identity.user }}/_collect</span>
-                <button v-if="!files.active.value" data-files-start class="btn btn-default" :aria-label="aj.gettext('Start autorefresh')" @click="files.start"><i class="fas fa-sync"></i></button>
-                <button v-else data-files-stop class="btn btn-default" :aria-label="aj.gettext('Stop autorefresh')" @click="files.stop"><i class="fas fa-sync fa-spin"></i></button>
+            <th style="text-align:center">{{ aj.gettext('Working directory') }}<br><span class="badge c6-badge bg-secondary">transfer/{{ aj.identity.user }}/_collect</span>
+                <button v-if="!files.active.value" data-files-start class="btn btn-light c6-button" :aria-label="aj.gettext('Start autorefresh')" @click="files.start"><i class="fas fa-sync"></i></button>
+                <button v-else data-files-stop class="btn btn-light c6-button" :aria-label="aj.gettext('Stop autorefresh')" @click="files.stop"><i class="fas fa-sync fa-spin"></i></button>
             </th><th v-if="$slots['exam-header']" style="text-align:center"><slot name="exam-header" /></th><slot name="management-header" /><th v-if="$slots.password"></th><th></th>
         </tr></thead>
         <tbody><tr v-for="(user, index) in rows" :key="index">
-            <td><span v-if="user.computer" class="label label-success pull-right">{{ user.computer }}</span><a><b>{{ user.sn }}, {{ user.givenName }}</b></a><br><span class="label label-default pull-right">{{ user.sophomorixAdminClass }}</span><i>{{ user.sAMAccountName }}</i></td>
+            <td><span v-if="user.computer" class="badge c6-badge bg-success float-end">{{ user.computer }}</span><a><b>{{ user.sn }}, {{ user.givenName }}</b></a><br><span class="badge c6-badge bg-secondary float-end">{{ user.sophomorixAdminClass }}</span><i>{{ user.sAMAccountName }}</i></td>
             <td><slot name="files" :user="user" /></td>
             <td v-if="!isStudent(user)"><div class="alert alert-danger">{{ aj.gettext("It's currently not possible to create share directory in other teacher's home or to handle their management groups.") }}</div></td>
             <td v-else style="text-align:center">
@@ -82,7 +82,7 @@ function bytes(value) {
             <td v-if="$slots.exam && isStudent(user)" style="text-align:center"><slot name="exam" :user="user" /></td>
             <slot v-if="isStudent(user)" name="management" :user="user" />
             <td v-if="$slots.password && isStudent(user)" width="1"><slot name="password" :user="user" /></td>
-            <td><button v-if="!store.state.current.generated" data-remove class="btn btn-default" :aria-label="aj.gettext('Delete')" @click="action(() => api.remove(user))"><i class="fa fa-trash"></i></button></td>
+            <td><button v-if="!store.state.current.generated" data-remove class="btn btn-light c6-button" :aria-label="aj.gettext('Delete')" @click="action(() => api.remove(user))"><i class="fa fa-trash"></i></button></td>
         </tr></tbody>
     </table>
 </template>
