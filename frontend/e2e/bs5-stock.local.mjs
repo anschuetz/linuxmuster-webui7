@@ -62,7 +62,10 @@ for (const name of ['before','after']) {
         } },vue()], build:{write:false,target:'esnext',minify:false,rolldownOptions:{input:'fixture-entry',output:{format:'es',inlineDynamicImports:true}}} });
     bundles[name]=result.output[0].code;
 }
-const scenes = ['dashboard','dashboard-tab','dashboard-disk','dashboard-datetime','dashboard-hover','dashboard-focus','dashboard-active','dashboard-keyboard','dashboard-flat-keyboard','sessions','settings','settings-security','settings-smtp','settings-tfa','denied-settings','denied-sessions','404','configuration-error','ui-test','quotas-disabled'];
+const tabScenes = ['normal','hover','focus','active','keyboard'].flatMap(state => [
+    ...[0,1].map(i => `dashboard-nav-${i}-${state}`), ...[0,1,2,3].map(i => `settings-nav-${i}-${state}`),
+]);
+const scenes = [...tabScenes, 'dashboard','dashboard-tab','dashboard-disk','dashboard-datetime','dashboard-hover','dashboard-focus','dashboard-active','dashboard-keyboard','dashboard-flat-keyboard','sessions','settings','settings-security','settings-smtp','settings-tfa','denied-settings','denied-sessions','404','configuration-error','ui-test','quotas-disabled'];
 const only = process.argv.includes('--only') ? process.argv[process.argv.indexOf('--only')+1].split(',') : null;
 const browser = await chromium.launch({headless:true}); const results=[];
 try {
@@ -82,7 +85,22 @@ try {
             const tab = { 'settings-security':'Security','settings-smtp':'Smtp relay','settings-tfa':'2FA' }[scene];
             if(tab) await page.locator('[data-tab="'+tab+'"]').click();
             await page.evaluate(()=>document.activeElement?.blur());await page.mouse.move(width-1,height-1);
-            const control=page.locator(scene==='dashboard-flat-keyboard'?'[data-action="save-config"]':'[data-action="add-tab"]');
+            const navScene=scene.match(/^(dashboard|settings)-nav-(\d)-(normal|hover|focus|active|keyboard)$/);
+            const navTarget=navScene && (navScene[1]==='dashboard' ? navScene[2] : ['General','Security','Smtp relay','2FA'][Number(navScene[2])]);
+            const control=page.locator(navScene ? '[data-tab="'+navTarget+'"]' : scene==='dashboard-flat-keyboard'?'[data-action="save-config"]':'[data-action="add-tab"]');
+            if(navScene){
+                if(navScene[3]==='hover') await control.hover();
+                if(navScene[3]==='active'){await control.hover();await page.mouse.down();}
+                if(navScene[3]==='focus'||navScene[3]==='keyboard'){
+                    // Keyboard modality and real Tab traversal, including selected and unselected links.
+                    for(let i=0;i<40;i++){
+                        await page.keyboard.press('Tab');
+                        if(await control.evaluate(el=>el===document.activeElement))break;
+                    }
+                    assert.ok(await control.evaluate(el=>el===document.activeElement&&el.matches(':focus-visible')),'Tab traversal must reach '+navTarget);
+                    if(navScene[3]==='keyboard')await page.keyboard.down(' ');
+                }
+            }
             if(scene==='dashboard-hover') await control.hover();
             if(scene==='dashboard-focus') await control.focus();
             if(scene==='dashboard-active') {await control.hover();await page.mouse.down();}

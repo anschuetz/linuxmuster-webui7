@@ -223,3 +223,8 @@ html body.customized .form-control:focus + .common-path-addon a i { color: #233c
 .shell-widget-column.col-4 { width: 33.33333333%; }
 /* P137 shell/Widget.vue; B6 widths after transitional .row child reset; consolidate D1. */
 .shell-widget-column.col-8 { width: 66.66666667%; }
+
+/* P137 shell/Dashboard.vue/StockSettings.vue; P156 B6 review: native tab focus had no BS5 shadow; consolidate D1. */
+.shell-settings-tabs > .nav-link:focus-visible, .shell-dashboard-tabs > .nav-item > .nav-link:focus-visible { box-shadow: none; }
+/* P137 shell/navigation-components.mjs; P156 CHAT 309 B2 follow-up: measured keyboard focus in desktop/overlay sidebar against P151; consolidate D1. */
+.sidebar .nav-link:focus-visible { box-shadow: none; }
