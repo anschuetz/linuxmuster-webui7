@@ -48,16 +48,17 @@ for(const scene of scenes.filter(s=>!process.env.C12_ONLY||process.env.C12_ONLY.
  await page.waitForTimeout(80);assert.deepEqual(errors,[],scene+' '+name);
  await page.evaluate(()=>{document.addEventListener('click',e=>{e.preventDefault();e.stopImmediatePropagation();},true);document.addEventListener('keydown',e=>{if(e.code==='Space')e.preventDefault();},true);});
  }
- const selectors=[...(scene.startsWith('api-')?[]:['.nav-tabs a']),scene.startsWith('api-')?'.modal-footer .btn:visible':'.tab-pane.active .btn:visible'];
+ const selectors=[...(scene.startsWith('api-')?[]:['.nav-tabs a']),scene==='api-search'?'.modal input':scene.startsWith('api-')?'.modal-footer .btn:visible':'.tab-pane.active .btn:visible'];
  for(const [kind,selector]of selectors.entries()){
  const available=(await Promise.all(pages.map(p=>p.locator(selector).count()))).every(Boolean);
  for(const state of available?['normal','hover','focus','active','space']:['normal']){
  const shots=[],styles=[];
  for(let i=0;i<2;i++){
- const page=pages[i];await page.mouse.up();await page.keyboard.up(' ');await page.evaluate(()=>{document.activeElement?.blur();window.scrollTo(0,0);});await page.mouse.move(width-1,height-1);
+ const page=pages[i];await page.mouse.up();await page.keyboard.up(' ');await page.evaluate(scene=>{if(scene!=='api-search')document.activeElement?.blur();window.scrollTo(0,0);},scene);await page.mouse.move(width-1,height-1);
  const control=scene.startsWith('api-')?page.locator(selector).last():page.locator(selector).first();
  if(available){if(state==='hover'||state==='active')await control.hover();if(state==='active')await page.mouse.down();if(state==='focus'||state==='space'){await control.evaluate(el=>el.tabIndex=0);await control.focus();if(state==='space')await page.keyboard.down(' ');}}
  await page.evaluate(()=>window.scrollTo(0,0));await page.waitForTimeout(30);
+ if(scene==='api-search')assert.ok(await page.locator('[role=listbox]').isVisible(), 'api-search dropdown must remain visible at capture: '+['before','after'][i]+' '+state+' '+width);
  shots.push(await page.screenshot({path:join(output,`${scene}-${kind}-${state}-${width}-${['before','after'][i]}.png`)}));
  styles.push(await page.locator('.btn,.nav-tabs a,.badge,.label,.dropdown-menu a,input,select,th,td').evaluateAll(els=>els.map(el=>{const r=el.getBoundingClientRect(),s=getComputedStyle(el);return {text:el.textContent,x:r.x,y:r.y,width:r.width,height:r.height,color:s.color,background:s.backgroundColor,border:s.border,shadow:s.boxShadow,padding:s.padding,margin:s.margin,display:s.display};})));
  }

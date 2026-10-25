@@ -198,3 +198,5 @@ Legacy shared form/dropdown/tab/pagination rules are still consumed across front
 - Form spacing/feedback and justified SMTP controls are local compatibility rules; 768px compat grid and 10px rem root remain. No Bootstrap JS. D13 toolbar wraps only below 768px; desktop/tablet unchanged.
 - Scripts, payload/cancel handlers, endpoint and rights checks remain byte-equal. F44: lmn_settings.pw.mjs API-label selectors choose c12-label.bg-info/bg-warning only for Vue c12-tabs; Angular keeps label-info/label-warning. Matching unit selector update in forms.test.mjs.
 - Shared legacy compat rules remain in use by other frontend/src and usr/**/resources consumers; removal deferred to D1.
+
+P168 R1 / CHAT 339: real no-blur search captures and effective Built-CSS measurements confirm settings anchors without href/class render #333 in all active/hover/focus states (compat :not([href]):not([class]) specificity). C12 retains these effective colors; new regression test freezes them. C4 anchors have href and correctly retain their own pre-C4 #fff active / #262626 inactive hover/focus colors; measured only, no C4 change.

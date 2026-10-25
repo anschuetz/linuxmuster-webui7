@@ -52,3 +52,9 @@ it('C12 built CSS preserves focus and wraps the mobile toolbar',async()=>{
  expect(declarations('.c12-toolbar')['flex-wrap']).toBe('wrap');
  expect(declarations('.c12-footer .col-md-9')['width']).toBe('100%');
 });
+it('C12 built search CSS keeps the effective baseline active and inactive hover/focus text colors',async()=>{
+ const css=postcss.parse(await buildStyles(process.cwd()));
+ const color=selector=>{let value;css.walkRules(r=>{if(r.selectors.includes(selector))r.walkDecls('color',d=>{value=d.value;});});return value;};
+ for(const suffix of ['.active','.active:hover','.active:focus']) expect(color('.c12-search .dropdown-item'+suffix)).toBe('#333');
+ for(const suffix of [':hover',':focus']) expect(color('.c12-search .dropdown-item'+suffix)).toBe('#333');
+});
