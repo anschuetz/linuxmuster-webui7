@@ -23,12 +23,12 @@ const aj = inject('aj');
 <tr>
 <td>
 <input v-model.lazy.trim="holiday.name" type="text" placeholder="Name" class="form-control">
-</td> <td :class="s.validateDate(holiday.start)">
+</td> <td :class="{ 'c13-date-invalid': !!s.validateDate(holiday.start) }">
 <input v-model.lazy.trim="holiday.start" type="text" placeholder="dd.mm.yyyy" class="form-control">
-</td> <td :class="s.validateDate(holiday.end)">
+</td> <td :class="{ 'c13-date-invalid': !!s.validateDate(holiday.end) }">
 <input v-model.lazy.trim="holiday.end" type="text" placeholder="dd.mm.yyyy" class="form-control">
 </td> <td width="1">
-<button class="btn btn-default" @click="s.removeHoliday(holiday)" :title="s.trans.remove">
+<button class="btn c13-button" @click="s.removeHoliday(holiday)" :title="s.trans.remove">
 <i class="fa fa-trash-o">
 </i>
 </button>
@@ -37,7 +37,7 @@ const aj = inject('aj');
 </template>
 
 </tbody>
-</table> <button class="btn btn-default" @click="s.addHoliday()">
+</table> <button class="btn c13-button" @click="s.addHoliday()">
 <i class="fa fa-plus">
 </i> <Translated tag="span" text="Add holidays">
 </Translated>

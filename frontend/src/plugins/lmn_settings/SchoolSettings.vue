@@ -33,9 +33,9 @@ function selectTab(index) {
 </div>
 </component>
 <div v-if="s.settings">
-<ul class="nav nav-tabs">
-<li v-for="(heading, index) in headings" :key="index" :class="{ active: s.activetab === index }">
-<a href="#" @click.prevent="selectTab(index)">{{ heading }}</a>
+<ul class="nav nav-tabs c13-tabs">
+<li v-for="(heading, index) in headings" :key="index" class="nav-item">
+<a class="nav-link" :class="{ active: s.activetab === index }" href="#" @click.prevent="selectTab(index)">{{ heading }}</a>
 </li>
 </ul>
 <div class="tab-content">
@@ -64,7 +64,7 @@ function selectTab(index) {
 <div class="floating-toolbar-padder">
 </div>
 <component :is="'floating-toolbar'"><div class="container"><div class="row"><div :class="{ 'col-md-3': layout.sidebar }"></div><div :class="layout.sidebar ? 'col-md-9' : 'col-md-12'"><div class="bar row">
-<button v-show="s.activetab !== 4 &amp;&amp; s.activetab !== 6" @click="s.backups()" class="btn btn-lmn pull-right">
+<button v-show="s.activetab !== 4 &amp;&amp; s.activetab !== 6" @click="s.backups()" class="btn btn-lmn float-end">
 <i class="fa fa-history">
 </i>
 </button> <Translated tag="button" text="Save &amp;amp; check" v-show="s.activetab === 0" @click="s.saveAndCheck()" class="btn btn-lmn">

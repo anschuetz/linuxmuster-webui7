@@ -253,3 +253,11 @@ P166 follow-up CHAT 348: removed eight redundant C10 global-color tab rules. Rea
 - Eight scripts, handlers, data/name/id/aria attributes byte-equal against 1070e6052; payload/cancel, rights, endpoint and adapter logic untouched (coordination logs/p165/unchanged-contracts.json).
 - F44: lmn_linbo_sync.pw.mjs online classification selects a.c9-status when Vue c9-tabs exists; original Angular a.btn-default retained. Static verification only. Existing unit selectors updated for migrated classes.
 - Shared BS3 compat remains for other frontend/src and usr/**/resources consumers, deferred to D1 (coordination logs/p165/remaining-bs3-consumers.txt).
+
+## P169 C13 — School settings
+- SchoolSettings: nav-item/nav-link, active moved from li to link; pull-right → float-end. Customized tab color/focus retained; dead global-color variants omitted per CHAT 351/352 (F46).
+- SchoolHolidays: two btn-default → c13-button, validateDate return class mapped to c13-date-invalid (same validation/payload); error/focus appearance preserved.
+- SchoolCustom/SchoolPassword: form-group → c13-field (30px); no input-group, panels, wells, badges or dynamic contextual classes in School*.vue.
+- SchoolGeneral/SchoolListImport/SchoolQuota/SchoolPrinting: no targeted legacy structures. FileDialog/PathSelector: unchanged re-exports of migrated common components (B4), no plugin DOM.
+- Global compat rules remain used elsewhere; removal belongs to D1. Existing grid/breakpoints retained; no assigned P141 mobile defect.
+- F44: lmn_settings.pw.mjs uses nav-tabs a and form/field selectors; no C13 selector depends on migrated classes. Angular selectors unchanged.
