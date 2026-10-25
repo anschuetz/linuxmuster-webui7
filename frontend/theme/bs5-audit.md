@@ -261,3 +261,10 @@ P166 follow-up CHAT 348: removed eight redundant C10 global-color tab rules. Rea
 - SchoolGeneral/SchoolListImport/SchoolQuota/SchoolPrinting: no targeted legacy structures. FileDialog/PathSelector: unchanged re-exports of migrated common components (B4), no plugin DOM.
 - Global compat rules remain used elsewhere; removal belongs to D1. Existing grid/breakpoints retained; no assigned P141 mobile defect.
 - F44: lmn_settings.pw.mjs uses nav-tabs a and form/field selectors; no C13 selector depends on migrated classes. Angular selectors unchanged.
+
+## P167 C11 — remaining user components
+- `lmn_users/{ListManagement,ListTable,PrintPasswords,AddUserDialog,AddAdminDialog,PrintOptionsDialog,SortListDialog,UploadDialog,ShowBindPasswordDialog}.vue`: btn-light/c11-button (B3/B4 focus token), float-end, scoped former form-group spacing, dropdown-menu-end/start/show and dropdown-item, page-item/page-link; list tabs use nav-item/nav-link with active on the link and focus-visible shadow reset. No panel/well/label variants, rem or grid changes; 768px compat retained. Remaining wrapper components/ExtraInput need no migration.
+- Validation helpers unchanged: existing `has-error-new`/`has-error` result tokens map individually to c11-new/c11-invalid at the template boundary (including the combined result after first save). Only actual invalid inputs receive is-invalid; DOM promotion in the existing save guard uses these markers. Upload progress-bar-warning becomes bg-warning/c11-progress with original #ffc107. No dynamic color classes remain in this package.
+- API/payload/cancel/rights and protected attributes/event handlers unchanged; evidence `logs/p167/unchanged-contracts.json` in coordination repo. F36–F42 remain inherited; no check/apply/upload on Satz E.
+- F44: `lmn_users_7.pw.mjs` chooses nav-item/nav-link for Vue and keeps Angular li; both `lmn_users_4.pw.mjs` error selectors already migrated to c10-invalid in C10, unchanged. No VM E2E run.
+- Shared BS3 compatibility remains for other consumers, D1 owns removal. Offline three-viewport Chromium comparison against ff57e7463: `e2e/bs5-c11.local.mjs`; full evidence in coordination logs/p167.

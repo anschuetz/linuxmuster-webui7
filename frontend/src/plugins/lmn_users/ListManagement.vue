@@ -49,7 +49,7 @@ async function save(kind, check = false) {
     errorSummary.value = { empty, messages };
     if (empty + messages.length) {
         firstSave.value = { ...firstSave.value, [kind]: true }; showErrors.value = true;
-        document.querySelectorAll('.has-error-new').forEach(el => el.classList.add('has-error'));
+        document.querySelectorAll('.c11-new').forEach(el => el.classList.add('c11-invalid'));
         aj.notify.error(aj.gettext('Please check the errors.')); return;
     }
     showErrors.value = false; firstSave.value = { ...firstSave.value, [kind]: false };
@@ -88,7 +88,7 @@ onBeforeUnmount(() => document.removeEventListener('keydown', hotkey));
 <template>
     <br>
     <div v-if="showErrors && errorSummary.empty + errorSummary.messages.length" id="error_messages" class="alert alert-danger"><ul><li v-if="errorSummary.empty">{{ errorSummary.empty }} {{ aj.gettext('empty cells') }}.</li><li v-for="message in errorSummary.messages" :key="message">{{ message }}</li></ul></div>
-    <ul class="nav nav-tabs"><li v-for="(kind,index) in listTabs" :key="kind" :class="{active:active === index}"><a href="#" :data-tab="kind" @click.prevent="active = index; load(kind)">{{ aj.gettext(listLabels[kind]) }}</a></li></ul>
+    <ul class="nav nav-tabs c11-tabs"><li class="nav-item" v-for="(kind,index) in listTabs" :key="kind"><a class="nav-link" :class="{active:active === index}" href="#" :data-tab="kind" @click.prevent="active = index; load(kind)">{{ aj.gettext(listLabels[kind]) }}</a></li></ul>
     <ListTable v-for="(kind,index) in listTabs" v-show="active === index" :key="kind" :kind="kind" :rows="lists[kind]" :size="size" :first-save="firstSave[kind]" :validate="validate"
         @update="(row,key,value) => update(kind,row,key,value)" @remove="(row,i,page,n) => remove(kind,row,i,page,n)" @add="add(kind)" @save="save(kind)" @check="save(kind,true)" @upload="upload(kind)" @editor="editor(kind)" @backups="backups(kind)" @size="size = $event" />
 </template>

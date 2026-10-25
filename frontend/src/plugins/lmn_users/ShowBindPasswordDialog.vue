@@ -15,5 +15,5 @@ async function copy() {
     <div class="modal-header"><h3>{{ aj.gettext('Show bind user password') }}</h3></div>
     <div v-if="password == null" class="progress-spinner" role="status"><i class="fa fa-spinner fa-spin"></i></div>
     <div v-else style="padding:0 20px"><br><p><b>{{ aj.gettext('Loginname:') }}</b> {{ user.sAMAccountName }}</p><input type="text" readonly class="form-control" style="font-family:monospace" :value="password" @click="$event.target.select()"></div>
-    <div class="modal-footer"><a v-if="password != null" class="btn btn-default btn-flat" data-action="copy" @click="copy"><i class="fa fa-copy"></i> {{ aj.gettext('Copy') }}</a><a class="btn btn-default btn-flat" data-action="close" @click="emit('close')">{{ aj.gettext('Close') }}</a></div>
+    <div class="modal-footer"><a v-if="password != null" class="btn btn-light c11-button btn-flat" data-action="copy" @click="copy"><i class="fa fa-copy"></i> {{ aj.gettext('Copy') }}</a><a class="btn btn-light c11-button btn-flat" data-action="close" @click="emit('close')">{{ aj.gettext('Close') }}</a></div>
 </template>
