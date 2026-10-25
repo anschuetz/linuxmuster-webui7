@@ -75,3 +75,21 @@ it('retains every post-Reboot Ajenti rule unchanged and accounts for all 368 A1 
     expect(audit.map(row => row.slice(0, 4))).toEqual(modified.map(row => [row[0], row[1], row[3], row[4]]));
     expect(audit).toHaveLength(368);
 });
+
+it('builds C2 neutral focus tokens, nav focus reset, spacing and DHCP invalid colors', async () => {
+    const css = postcss.parse(await buildStyles(frontend));
+    const declaration = (selector, prop) => {
+        let value;
+        css.walkRules(rule => { if (rule.selectors.includes(selector)) rule.walkDecls(prop, d => { value = d.value; }); });
+        return value;
+    };
+    expect(declaration('.btn.dhcp-button', '--bs-btn-focus-box-shadow')).toBe('none');
+    expect(declaration('.btn.dns-button', '--bs-btn-focus-box-shadow')).toBe('none');
+    expect(declaration('.btn.cron-button', '--bs-btn-focus-box-shadow')).toBe('none');
+    expect(declaration('.cron-tabs > .nav-item > .nav-link:focus-visible', 'box-shadow')).toBe('none');
+    expect(declaration('.dhcp-field', 'margin-bottom')).toBe('30px');
+    expect(declaration('.cron-field', 'margin-bottom')).toBe('30px');
+    expect(declaration('.dhcp-field .is-invalid', 'border-color')).toBe('red');
+    expect(declaration('.dhcp-field .is-invalid:focus', 'border-color')).toBe('#843534');
+    expect(declaration('.dhcp-field .is-invalid:focus', 'background-color')).toBe('rgba(255, 178, 178, 0.29)');
+});

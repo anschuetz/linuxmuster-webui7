@@ -147,3 +147,13 @@ Dynamic inventory resolved explicitly in templates: UserDetails status label col
 Shared legacy panel/label/form/nav/dropdown rules still serve plugins (C4/C6/C10/C11/C12 etc.) and remain until those packages/D1. No global rule removed on the strength of B5 alone. P138 only contains admin-add dialogs in lmn_users, no common/users details/password/check/apply/delete states; the latter require local fixtures only. No password/account/list action is allowed on E.
 
 P155 review R1: common-user card/badge duplicate selectors consolidated without changing effective declarations. Badge padding is **0.4em 0.6em 0.3em** (Ajenti's later `.label` rule overrides the earlier 0.2em top padding), margin-right 3px; card body 15px. B5 rules share one scoped P137/removal-owner section annotation; the integrity check accepts grouped provenance only inside that section and only for common-user selectors. E2E detail groups use shared stable data-action/data-section selectors; Angular keeps its original panel locators.
+
+## P158 · C2 DHCP, Samba DNS, Crontab
+- `lmn_dhcp/{Dhcp,AddDialog}.vue`: four neutral buttons → `dhcp-button`; form → `dhcp-field` (30px Ajenti spacing). Two actual duplicate states move from `td.has-error` to `input.is-invalid`, preserving the original error/focus colors and shadows without the BS5 validation icon.
+- `lmn_samba_dns/components/SambaDns.vue`: four neutral actions → `dns-button`; add action → `float-end`. Existing Vue-controlled `modal show` retained.
+- `lmn_crontab/components/Crontab.vue`: neutral actions → `cron-button`, two groups → `cron-field`, two floats → `float-end`; tabs gain `nav-item/nav-link`, active state moves to the link. Focus-visible shadow reset is explicit; original active-focus border/color cascade retained.
+- No panel/well/label/badge/progress dynamic classes, dropdowns, input-group-addon or col-xs classes in these four components. Existing col-md grid and single-control input groups retain compatibility geometry.
+- Script sections, handlers, payloads, access checks and selector attributes are unchanged. DHCP F35/F36 and DNS F37/F38 remain inherited.
+- Legacy selectors remain in other `frontend/src` plugins and `usr/**/resources`; no global compat rule removed. Remaining cleanup belongs to D1.
+- `e2e/lmn_dhcp.pw.mjs:68`: Vue form uses `input.is-invalid`; Angular retains `td.has-error`. Static selector audit; no VM E2E writes run.
+- Local reference: `2ffbc6257`; `e2e/bs5-c2.local.mjs` mounts actual before/after Vue components offline at 1440/768/390 with normal, hover, keyboard focus, pointer active and Space states. Results in coordination `logs/p158/local-acceptance.json` (targeted final DHCP focus comparisons included).

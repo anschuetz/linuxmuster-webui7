@@ -85,14 +85,14 @@ async function remove(sub) {
             <thead><tr><th>{{ aj.gettext('Type') }}</th><th>{{ aj.gettext('TTL') }}</th><th>{{ aj.gettext('Value') }}</th></tr></thead>
             <tbody><tr v-for="(sub, index) in entries?.root" :key="index"><td>{{ sub.type }}</td><td>{{ sub.ttl }}</td><td>{{ sub.value }}</td></tr></tbody>
         </table>
-        <button class="btn btn-success pull-right" @click="add"><i class="fa fa-plus"></i> <span>{{ aj.gettext('Add an entry') }}</span></button>
+        <button class="btn btn-success float-end" @click="add"><i class="fa fa-plus"></i> <span>{{ aj.gettext('Add an entry') }}</span></button>
         <h3>{{ aj.gettext('Subdomains') }}</h3>
         <table class="table">
             <thead><tr><th>{{ aj.gettext('Host') }}</th><th>{{ aj.gettext('Type') }}</th><th>{{ aj.gettext('TTL') }}</th><th>{{ aj.gettext('Value') }}</th><th></th><th></th></tr></thead>
             <tbody><tr v-for="(sub, index) in entries?.sub" :key="index">
                 <td>{{ sub.host }} <span v-if="sub.type === 'MX'">({{ sub.priority }})</span></td><td>{{ sub.type }}</td><td>{{ sub.ttl }}</td><td>{{ sub.value }}</td>
-                <td width="1"><button class="btn btn-default" :title="titles.modify" @click="modify(index)"><i class="fa fa-edit"></i></button></td>
-                <td width="1"><button class="btn btn-default" :title="titles.delete" @click="remove(sub)"><i class="fa fa-trash-o"></i></button></td>
+                <td width="1"><button class="btn dns-button" :title="titles.modify" @click="modify(index)"><i class="fa fa-edit"></i></button></td>
+                <td width="1"><button class="btn dns-button" :title="titles.delete" @click="remove(sub)"><i class="fa fa-trash-o"></i></button></td>
             </tr></tbody>
         </table>
         <div v-if="editing" class="modal show" role="dialog" aria-modal="true" style="display:block;background:rgba(0,0,0,.5)">
@@ -106,8 +106,8 @@ async function remove(sub) {
                     </template>
                 </form></div>
                 <div class="modal-footer">
-                    <a class="btn btn-default btn-flat" @click="save">{{ aj.gettext(editing.mode === 'new' ? 'Save' : 'Update') }}</a>
-                    <a class="btn btn-default btn-flat" @click="editing = null">{{ aj.gettext('Close') }}</a>
+                    <a class="btn dns-button btn-flat" @click="save">{{ aj.gettext(editing.mode === 'new' ? 'Save' : 'Update') }}</a>
+                    <a class="btn dns-button btn-flat" @click="editing = null">{{ aj.gettext('Close') }}</a>
                 </div>
             </div></div>
         </div>

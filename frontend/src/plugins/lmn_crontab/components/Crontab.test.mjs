@@ -171,3 +171,19 @@ it('renders the crontab choice with the existing German catalog msgid (D21)', as
     expect(wrapper.get('label[for="cron-user"]').text()).toBe('Wähle den Crontab aus, den du bearbeiten möchtest:');
     wrapper.unmount();
 });
+
+it('puts active state on BS5 nav links and preserves tab/Cancel behavior', async () => {
+    const { wrapper: w, http } = await setup();
+    expect(w.findAll('.cron-tabs > .nav-item > .nav-link')).toHaveLength(3);
+    expect(w.get('.nav-link.active').text()).toBe('Jobs');
+    expect(w.find('li.active').exists()).toBe(false);
+    await button(w, 'Special').trigger('click');
+    expect(w.get('.nav-link.active').text()).toBe('Special');
+    expect(w.get('.tab-pane.active').text()).toContain('There is no special task.');
+    await button(w, 'Add').trigger('click');
+    expect(w.get('form').classes()).toContain('cron-field');
+    await button(w, 'Cancel').trigger('click');
+    expect(w.find('[role=dialog]').exists()).toBe(false);
+    expect(http.mock.calls).toHaveLength(1);
+    w.unmount();
+});

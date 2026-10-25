@@ -65,7 +65,7 @@ for (const role of roles) {
         await expect(dialog(page).locator('select').nth(0)).toHaveValue('0');
         await expect(dialog(page).locator('select').nth(1)).toHaveValue('staffcomputer');
         await fill(page, ['r36', lease.mac, registered.ip, registered.hostname, 'p36group']);
-        await expect(dialog(page).locator('td.has-error')).toHaveCount(2);
+        await expect(dialog(page).locator(await dialog(page).locator('form.dhcp-field').count() > 0 ? 'input.is-invalid' : 'td.has-error')).toHaveCount(2);
         await fill(page, ['r36', lease.mac, 'bad-ip', 'bad host', 'p36group']);
         let posts = 0;
         await page.route('**/api/lmn/dhcp/register', (route) => { posts++; return route.fulfill({ json: true }); });

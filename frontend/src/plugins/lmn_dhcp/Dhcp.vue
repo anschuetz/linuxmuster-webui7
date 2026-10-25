@@ -26,7 +26,7 @@ function addDevice(device) {
             <tr v-for="(device, index) in leases" :key="index">
                 <td>{{ device.mac }}<br /><span v-if="alreadyIn(device.mac)" style="color:red;">{{ aj.gettext('Already registered!') }}</span></td>
                 <td>{{ device.ip }}</td><td>{{ device.starts }}</td><td>{{ device.ends }}</td>
-                <td><button v-if="!alreadyIn(device.mac)" class="btn btn-default" @click="addDevice(device)"><i class="fas fa-plus"></i></button></td>
+                <td><button v-if="!alreadyIn(device.mac)" class="btn dhcp-button" @click="addDevice(device)"><i class="fas fa-plus"></i></button></td>
             </tr>
         </tbody></table>
     </div>

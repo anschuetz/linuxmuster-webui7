@@ -83,7 +83,7 @@ async function save() {
 <template>
     <br>
     <div v-if="allowed">
-        <div class="form-group" style="margin-bottom:50px;"><div class="row"><div class="col-md-4">
+        <div class="cron-field" style="margin-bottom:50px;"><div class="row"><div class="col-md-4">
             <label for="cron-user">{{ aj.gettext('Choose which crontab you want to edit:') }}</label>
             <select id="cron-user" v-model="user" class="form-control">
                 <option value="globaladministrator">{{ aj.gettext('As globaladministrator') }}</option>
@@ -91,9 +91,9 @@ async function save() {
             </select>
         </div></div></div>
         <hr class="clearfix">
-        <ul class="nav nav-tabs" role="tablist">
-            <li v-for="section in sections" :key="section.type" :class="{ active: active === section.type }" role="presentation">
-                <a href="" role="tab" :aria-selected="active === section.type" @click.prevent="active = section.type">{{ aj.gettext(section.title) }}</a>
+        <ul class="nav nav-tabs cron-tabs" role="tablist">
+            <li v-for="section in sections" :key="section.type" class="nav-item" role="presentation">
+                <a class="nav-link" :class="{ active: active === section.type }" href="" role="tab" :aria-selected="active === section.type" @click.prevent="active = section.type">{{ aj.gettext(section.title) }}</a>
             </li>
         </ul>
         <div v-for="section in sections.filter((s) => s.type === active)" :key="section.type" class="tab-pane active" role="tabpanel">
@@ -118,17 +118,17 @@ async function save() {
                         <td :class="{ 'text-center': active === 'normal_tasks' }">{{ job.command }}</td>
                     </template>
                     <template v-else><td>{{ job.name }}</td><td>{{ job.value }}</td></template>
-                    <td style="width:1px"><button class="btn btn-default" title="Modify" @click="modify(active, index)"><i class="fa fa-cog"></i></button></td>
-                    <td style="width:1px"><button class="btn btn-default" title="Remove" @click="replace(active, crontab[active].filter((_, i) => i !== index))"><i class="fa fa-trash-o"></i></button></td>
+                    <td style="width:1px"><button class="btn cron-button" title="Modify" @click="modify(active, index)"><i class="fa fa-cog"></i></button></td>
+                    <td style="width:1px"><button class="btn cron-button" title="Remove" @click="replace(active, crontab[active].filter((_, i) => i !== index))"><i class="fa fa-trash-o"></i></button></td>
                 </tr></tbody>
             </table>
-            <button class="btn btn-default" @click="add">{{ aj.gettext('Add') }}</button>
+            <button class="btn cron-button" @click="add">{{ aj.gettext('Add') }}</button>
         </div>
         <div v-if="editing" class="modal show" role="dialog" aria-modal="true" style="display:block;background:rgba(0,0,0,.5)">
             <div class="modal-dialog"><div class="modal-content">
                 <div class="modal-header"><h4>{{ aj.gettext('Modify') }} {{ aj.gettext(sections.find((s) => s.type === editing.type).singular) }}</h4></div>
                 <div class="modal-body scrollable">
-                    <form class="form-group" @submit.prevent="accept">
+                    <form class="cron-field" @submit.prevent="accept">
                         <template v-for="field in fields" :key="field.name">
                             <label :for="`cron-${field.name}`">{{ aj.gettext(field.label) }}</label>
                             <div class="input-group">
@@ -138,8 +138,8 @@ async function save() {
                             </div>
                         </template>
                         <div v-if="editing.type !== 'env_settings'"><label for="cron-holiday">{{ aj.gettext('Disable holidays') }}</label> <input id="cron-holiday" type="checkbox" :checked="editing.job.disable_holiday" @change="update('disable_holiday', $event.target.checked)"></div>
-                        <button type="button" class="btn btn-default btn-flat pull-right" @click="editing = null">{{ aj.gettext('Cancel') }}</button>
-                        <button type="submit" class="btn btn-default btn-flat pull-right">{{ aj.gettext('OK') }}</button>
+                        <button type="button" class="btn cron-button btn-flat float-end" @click="editing = null">{{ aj.gettext('Cancel') }}</button>
+                        <button type="submit" class="btn cron-button btn-flat float-end">{{ aj.gettext('OK') }}</button>
                     </form>
                 </div>
             </div></div>
