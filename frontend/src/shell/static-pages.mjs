@@ -8,11 +8,11 @@ export const StaticPage = defineComponent({
             const t = props.gettext;
             if (props.kind === 'configuration-error') return h('div', { role: 'alert', class: 'alert alert-danger' }, t('Could not load config'));
             if (props.kind === 'quotas-disabled') return h('div', { class: 'text-center' }, [
-                h('h2', 'Quotas are disabled'), h('a', { class: 'btn btn-default btn-lg', href: `${props.prefix}/view/lmn/settings` }, ['Enable quotas in the Settings ', h('i', { class: 'fa fa-arrow-right' })]),
+                h('h2', 'Quotas are disabled'), h('a', { class: 'btn btn-light shell-stock-button btn-lg', href: `${props.prefix}/view/lmn/settings` }, ['Enable quotas in the Settings ', h('i', { class: 'fa fa-arrow-right' })]),
             ]);
             if (props.kind === 'ui-test') return h('div', [h('h1', 'Index'),
                 ...['Send a task', 'Boom', 'Click', 'Click', 'Click', 'Click', 'Click'].flatMap((text, index) => [
-                    h('a', { class: `btn btn-${['default', 'default', 'default', 'warning', 'success', 'info', 'danger'][index]}` }, text), h('br'), h('br'),
+                    h('a', { class: `btn btn-${['light shell-stock-button', 'light shell-stock-button', 'light shell-stock-button', 'warning', 'success', 'info', 'danger'][index]}` }, text), h('br'), h('br'),
                 ]), h('div', { class: 'list-group' }, ['Alpha', 'Bravo', 'Charlie'].map(text => h('a', { class: 'list-group-item' }, text))),
             ]);
             const url = `${window.location.origin}${props.prefix}${props.route.fullPath}`;

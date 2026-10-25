@@ -28,8 +28,8 @@ onBeforeUnmount(props.model.dispose);
     <div v-else>
         <div v-if="!cfg" role="progressbar" :aria-label="t('Please wait')"></div>
         <template v-else>
-            <nav class="nav nav-tabs">
-                <button v-for="name in ['General', 'Security', 'Smtp relay', '2FA']" :key="name" type="button" class="btn btn-default" :data-tab="name" :aria-selected="s.tab === name" @click="tab(name)">{{ t(name) }}</button>
+            <nav class="nav nav-tabs shell-settings-tabs">
+                <button v-for="name in ['General', 'Security', 'Smtp relay', '2FA']" :key="name" type="button" class="nav-item nav-link btn btn-light shell-stock-button" :class="{active:s.tab === name}" :data-tab="name" :aria-selected="s.tab === name" @click="tab(name)">{{ t(name) }}</button>
             </nav>
             <section v-if="s.tab === 'General'">
                 <div v-if="visible('hideMachineSettings')">
@@ -55,9 +55,9 @@ onBeforeUnmount(props.model.dispose);
                         <label :title="help[kind]">{{ t(label) }}</label>
                         <div v-for="(_, i) in cfg[kind]" :key="i" class="input-group">
                             <Field v-model="cfg[kind][i]" :label="`${label} ${i + 1}`" />
-                            <button type="button" class="btn btn-default" :data-action="`delete-${kind}`" @click="model.deleteTrusted(kind, cfg[kind][i])">{{ t('Delete') }}</button>
+                            <button type="button" class="btn btn-light shell-stock-button" :data-action="`delete-${kind}`" @click="model.deleteTrusted(kind, cfg[kind][i])">{{ t('Delete') }}</button>
                         </div>
-                        <button type="button" class="btn btn-default" :data-action="`add-${kind}`" @click="model.addTrusted(kind)">{{ t(kind === 'trusted_domains' ? 'New domain' : 'New proxy') }}</button>
+                        <button type="button" class="btn btn-light shell-stock-button" :data-action="`add-${kind}`" @click="model.addTrusted(kind)">{{ t(kind === 'trusted_domains' ? 'New domain' : 'New proxy') }}</button>
                     </div>
                 </div>
                 <Field v-if="visible('hideSessionSettings')" v-model="cfg.session_max_time" label="Max session time" type="number" />
@@ -66,7 +66,7 @@ onBeforeUnmount(props.model.dispose);
                     <div v-if="cfg.ssl.enable">
                         <Field v-model="cfg.ssl.force" label="Force SSL" type="checkbox" />
                         <label :title="help.certificate">{{ t('SSL certificate file') }}<PathSelector v-model="cfg.ssl.certificate" /></label>
-                        <button type="button" class="btn btn-default" data-action="generate-server" @click="model.createNewServerCertificate()">{{ t('Generate a self-signed certificate') }}</button>
+                        <button type="button" class="btn btn-light shell-stock-button" data-action="generate-server" @click="model.createNewServerCertificate()">{{ t('Generate a self-signed certificate') }}</button>
                         <label :title="help.fqdn">{{ t('SSL FQDN certificate file') }}<PathSelector v-model="cfg.ssl.fqdn_certificate" /></label>
                         <div v-if="visible('hideSSLClientAuthSettings')">
                             <Field v-model="cfg.ssl.client_auth.enable" label="Enable client authentication" type="checkbox" />
@@ -75,21 +75,21 @@ onBeforeUnmount(props.model.dispose);
                                 <p v-if="cfg.ssl.client_auth.certificates.length === 0" class="alert alert-warning">{{ t('No certificates are created yet.') }}</p>
                                 <div v-for="(certificate, i) in cfg.ssl.client_auth.certificates" :key="i" class="list-group-item">
                                     {{ certificate.user }} <code>{{ certificate.digest }}</code>
-                                    <button type="button" class="btn btn-default" data-action="revoke" @click="revoke(i)">{{ t('Revoke') }}</button>
+                                    <button type="button" class="btn btn-light shell-stock-button" data-action="revoke" @click="revoke(i)">{{ t('Revoke') }}</button>
                                 </div>
-                                <button type="button" class="btn btn-default" data-action="new-certificate" @click="s.newClientCertificateDialogVisible = true">{{ t('New certificate') }}</button>
+                                <button type="button" class="btn btn-light shell-stock-button" data-action="new-certificate" @click="s.newClientCertificateDialogVisible = true">{{ t('New certificate') }}</button>
                                 <div v-if="s.newClientCertificateDialogVisible" role="dialog" aria-modal="true" :aria-label="t('New client certificate')" class="modal-dialog">
                                     <h4>{{ t('New client certificate') }}</h4>
                                     <div v-if="s.newClientCertificate.generating" role="progressbar">{{ t('Generating certificate') }}</div>
                                     <template v-else-if="s.newClientCertificate.generated">
                                         <a class="btn btn-primary" :download="`${s.newClientCertificate.user}.p12`" :href="s.newClientCertificate.url">{{ t('Download certificate') }}</a>
-                                        <button type="button" class="btn btn-default" data-action="save-close" @click="saveClose">{{ t('Save and Close') }}</button>
+                                        <button type="button" class="btn btn-light shell-stock-button" data-action="save-close" @click="saveClose">{{ t('Save and Close') }}</button>
                                     </template>
                                     <template v-else>
                                         <Field :model-value="s.newClientCertificate.user" label="Login as" :options="[...(s.availableUsers ?? [])].sort((a, b) => a.name.localeCompare(b.name)).map(x => x.name)" @update:model-value="model.changeClientUser" />
                                         <Field v-for="[key, label] in [['c','Country'], ['st','State'], ['o','Organization'], ['cn','Common name']]" :key="key" v-model="s.newClientCertificate[key]" :label="label" />
-                                        <button type="button" class="btn btn-default" data-action="generate-client" @click="model.generateClientCertificate()">{{ t('Generate') }}</button>
-                                        <button type="button" class="btn btn-default" data-action="cancel-client" @click="closeCertificate">{{ t('Cancel') }}</button>
+                                        <button type="button" class="btn btn-light shell-stock-button" data-action="generate-client" @click="model.generateClientCertificate()">{{ t('Generate') }}</button>
+                                        <button type="button" class="btn btn-light shell-stock-button" data-action="cancel-client" @click="closeCertificate">{{ t('Cancel') }}</button>
                                     </template>
                                 </div>
                             </div>
@@ -106,19 +106,19 @@ onBeforeUnmount(props.model.dispose);
                         <Field v-model="s.smtp_config.smtp.port" label="Port" :options="[{ id: 'starttls', name: 'TLS ( port 587 )' }, { id: 'ssl', name: 'SSL ( port 465 )' }]" />
                         <Field v-model="s.smtp_config.smtp.user" label="SMTP user" />
                         <Field :key="String(s.showSMTPPassword)" v-model="s.smtp_config.smtp.password" label="SMTP password" :type="s.showSMTPPassword ? 'text' : 'password'" />
-                        <button type="button" class="btn btn-default" data-action="smtp-password" @click="s.showSMTPPassword = !s.showSMTPPassword">{{ t(s.showSMTPPassword ? 'Hide password' : 'Show password') }}</button>
+                        <button type="button" class="btn btn-light shell-stock-button" data-action="smtp-password" @click="s.showSMTPPassword = !s.showSMTPPassword">{{ t(s.showSMTPPassword ? 'Hide password' : 'Show password') }}</button>
                     </template>
                     <Field v-model="cfg.email.templates.reset_email" label="Template email reset" />
                 </div>
             </section>
             <table v-if="s.tab === '2FA'" class="table">
                 <thead><tr><th>{{ t('User') }}</th><th>{{ t('Description') }}</th><th>{{ t('Created') }}</th><th></th></tr></thead>
-                <tbody><tr v-for="(row, i) in s.tfaList" :key="i"><td>{{ row.user }} <span class="badge">{{ row.provider }}</span></td><td>{{ row.desc }}</td><td>{{ date(row.created) }}</td><td><button type="button" class="btn btn-default" data-action="delete-tfa" @click="model.deleteTfa(row)">{{ t('Delete') }}</button></td></tr></tbody>
+                <tbody><tr v-for="(row, i) in s.tfaList" :key="i"><td>{{ row.user }} <span class="badge">{{ row.provider }}</span></td><td>{{ row.desc }}</td><td>{{ date(row.created) }}</td><td><button type="button" class="btn btn-light shell-stock-button" data-action="delete-tfa" @click="model.deleteTfa(row)">{{ t('Delete') }}</button></td></tr></tbody>
             </table>
         </template>
         <div class="floating-toolbar">
-            <button type="button" class="btn btn-default" data-action="save" @click="model.save()">{{ t('Save') }}</button>
-            <button type="button" class="btn btn-default" data-action="restart" @click="model.restart()">{{ t('Restart panel') }}</button>
+            <button type="button" class="btn btn-light shell-stock-button" data-action="save" @click="model.save()">{{ t('Save') }}</button>
+            <button type="button" class="btn btn-light shell-stock-button" data-action="restart" @click="model.restart()">{{ t('Restart panel') }}</button>
         </div>
     </div>
 </template>

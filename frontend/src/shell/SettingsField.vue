@@ -6,9 +6,9 @@ const aj = inject('aj');
 const value = computed({ get: () => props.modelValue, set: value => emit('update:modelValue', props.type === 'number' && value === '' ? null : value) });
 </script>
 <template>
-    <label class="form-group">
+    <label class="shell-stock-field">
         {{ aj.gettext(label) }}
-        <select v-if="options" v-model="value" class="form-control" :aria-label="aj.gettext(label)">
+        <select v-if="options" v-model="value" class="form-control form-select shell-stock-select" :aria-label="aj.gettext(label)">
             <option v-for="option in options" :key="option.id ?? option" :value="option.id ?? option">{{ option.name ?? option }}</option>
         </select>
         <input v-else-if="type === 'checkbox'" v-model="value" type="checkbox" :aria-label="aj.gettext(label)">
