@@ -4,3 +4,6 @@ export const config = () => ({custom:{1:{show:true,title:'Single'}},customMulti:
 // Never include these synthetic secrets in logs or assertion diagnostics.
 export const syntheticPassword = '  Synt hetic7!  ';
 export const firstPassword = 'synthetic-only';
+
+// Shared by the Vue detail E2E flow and its offline DOM-contract regression.
+export const detailGroups = { body: '[data-section=groups]', toggle: '[data-action=groups]' };

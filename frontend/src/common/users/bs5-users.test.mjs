@@ -3,7 +3,7 @@ import postcss from 'postcss';
 import { afterEach, expect, it } from 'vitest';
 import { flushPromises, mount } from '@vue/test-utils';
 import { createMockAj } from '../../adapter/mock.mjs';
-import { user } from '../../../e2e/fixtures/users_1.mjs';
+import { user, detailGroups } from '../../../e2e/fixtures/users_1.mjs';
 import { result } from '../../../e2e/fixtures/users_3.mjs';
 import UserDetails from './UserDetails.vue';
 import CustomPassword from './CustomPassword.vue';
@@ -46,4 +46,12 @@ it('binds migrated appearance to built CSS', () => {
     expect(declarations('.common-user-card > .card-body').padding).toBe('15px');
     expect(declarations('.common-user-parents .dropdown-item.active').color).toBe('#333');
     expect(declarations('.common-user-badge.bg-warning')['--bs-warning-rgb']).toBe('255, 193, 7');
+});
+
+it('keeps the E2E group-body and toggle selectors usable after the card migration', async () => {
+    const w = render(UserDetails, {id:'fixture',role:'students'}); await flushPromises();
+    const body = w.get(detailGroups.body), toggle = w.get(detailGroups.toggle);
+    expect(body.get('li').text()).toContain('schoolclasses');
+    await toggle.trigger('click'); expect(body.element.style.display).toBe('none');
+    await toggle.trigger('click'); expect(body.element.style.display).not.toBe('none');
 });

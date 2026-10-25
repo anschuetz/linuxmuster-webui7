@@ -1,4 +1,4 @@
-// Offline real Vue common-file fixtures. No VM, credentials or network.
+// Offline real Vue common-user fixtures. No VM, credentials or network.
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
