@@ -71,8 +71,8 @@ const Message = defineComponent({
                                 onKeydown: event => { if (event.key === 'Enter') answer(true); }, autofocus: true })]) : null,
                         ]),
                         h('div', { class: 'modal-footer' }, [
-                            m.positive ? h('button', { class: 'positive btn btn-default btn-flat', onClick: () => answer(true) }, t(m.positive)) : null,
-                            m.negative ? h('button', { class: 'negative btn btn-default btn-flat', onClick: () => answer(false) }, t(m.negative)) : null,
+                            m.positive ? h('button', { class: 'positive btn btn-light shell-rest-button btn-flat', onClick: () => answer(true) }, t(m.positive)) : null,
+                            m.negative ? h('button', { class: 'negative btn btn-light shell-rest-button btn-flat', onClick: () => answer(false) }, t(m.negative)) : null,
                         ]),
                     ])]),
                 ]),

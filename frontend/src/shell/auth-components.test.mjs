@@ -11,7 +11,7 @@ function render(component, state) {
 }
 it('renders login grid, card, logo, placeholders and eye toggle', async () => {
     const { wrapper: w } = render(Login, { mode: 'normal', username: '', password: '', showPWReset: true });
-    expect(w.find('.container.auth-page #login-form.row .col-sm-4.auth-card').exists()).toBe(true);
+    expect(w.find('.container.auth-page #login-form.row .auth-layout-column.auth-card').exists()).toBe(true);
     expect(w.find('.text-center img').attributes('src')).toBe('/logo.png');
     expect(w.find('h1 .fa-lock').exists()).toBe(true);
     expect(w.find('label').exists()).toBe(false);
@@ -41,7 +41,7 @@ it('renders working/success lock, sudo action and structured TOTP dialog', async
 it('renders matching reset cards with original icons, placeholders and primary actions', () => {
     for (const state of [{ mail: '' }, { serial: 'valid', ready: true, serial_ok: true, password1: '', password2: '' }]) {
         const { wrapper: w } = render(PasswordReset, state);
-        expect(w.find('.auth-page #login-form.row .auth-card.col-sm-4').exists()).toBe(true);
+        expect(w.find('.auth-page #login-form.row .auth-card.auth-layout-column').exists()).toBe(true);
         expect(w.find('.text-center img').exists()).toBe(true);
         expect(w.find(`h1 .${state.serial ? 'fa-user-edit' : 'fa-envelope'}`).exists()).toBe(true);
         expect(w.find('button[type=submit]').classes()).toEqual(expect.arrayContaining(['btn-primary', 'd-block', 'w-100']));

@@ -642,7 +642,7 @@ div.membership-item {
     display: flex;
     justify-content: center;
 }
-.auth-page #login-form > .col-sm-4:empty {
+.auth-page #login-form > .auth-layout-column:empty {
     display: none;
 }
 .auth-card, .auth-dialog {

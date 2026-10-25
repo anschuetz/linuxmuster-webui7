@@ -25,7 +25,7 @@ async function change() {
 <template>
     <br />
     <div class="alert alert-info">
-        <i class="fa fa-info-circle fa-3x pull-left"></i>
+        <i class="fa fa-info-circle fa-3x float-start"></i>
         <span>{{ aj.gettext('Minimal length is 7 characters. Use upper, lower and special characters or numbers. (e.g. Muster!)') }}</span>
         <br />
         <span>{{ aj.gettext('Valid characters are: a-z A-Z 0-9 ?!§+-@#$%&amp;*( )[ ]{ }').replaceAll('&amp;', '&') }}</span>
@@ -33,8 +33,8 @@ async function change() {
         <strong>{{ aj.gettext('All fields are required') }}</strong>
     </div>
     <div class="row">
-        <div class="col-md-3"></div>
-        <div class="col-md-6">
+        <div class="col-lg-3 auth-change-quarter"></div>
+        <div class="col-lg-6 auth-change-half">
             <div class="auth-field mb-3">
                 <label>{{ aj.gettext('Current password') }}</label>
                 <!-- Angular never trims password inputs; only the visible text copy trims. -->
@@ -63,6 +63,6 @@ async function change() {
                 </button>
             </div>
         </div>
-        <div class="col-md-3"></div>
+        <div class="col-lg-3 auth-change-quarter"></div>
     </div>
 </template>

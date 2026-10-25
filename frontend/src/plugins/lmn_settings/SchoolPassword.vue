@@ -19,7 +19,7 @@ const aj = inject('aj');
 </div>
 </div>
 </div> <br> <hr> <br> <Translated tag="h3" text="Default rules (all schools)">
-</Translated> <Translated tag="p" text="Only global administrators can change the default rules applied to every school." class="help-block" v-if="!s.isGlobalAdmin">
+</Translated> <Translated tag="p" text="Only global administrators can change the default rules applied to every school." class="shell-help" v-if="!s.isGlobalAdmin">
 </Translated> <table class="table">
 <tbody>
 <tr>
@@ -46,7 +46,7 @@ const aj = inject('aj');
 </table> <br> <hr> <br> <label class="checkbox-inline">
 <input type="checkbox" :checked="s.hasSchoolOverride(s.passwordConstraintsRole)" @click="s.toggleSchoolOverride(s.passwordConstraintsRole)"> <Translated tag="span" text="Override for this school">
 </Translated> ({{ s.currentSchool }})
-        </label> <Translated tag="p" text="This replaces the default rules above for this role in this school — it does not add to them." class="help-block" v-show="s.hasSchoolOverride(s.passwordConstraintsRole)">
+        </label> <Translated tag="p" text="This replaces the default rules above for this role in this school — it does not add to them." class="shell-help" v-show="s.hasSchoolOverride(s.passwordConstraintsRole)">
 </Translated> <div v-if="s.hasSchoolOverride(s.passwordConstraintsRole)">
 <br> <table class="table">
 <tbody>

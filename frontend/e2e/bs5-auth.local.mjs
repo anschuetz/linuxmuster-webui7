@@ -11,7 +11,8 @@ import { buildStyles } from '../static-assets.mjs';
 const frontend = fileURLToPath(new URL('..', import.meta.url));
 const output = process.argv[2]; assert.ok(output, 'Pass local evidence directory');
 await mkdir(output, { recursive: true });
-const previous = path => execFileSync('git', ['show', `4371b41d6:${path}`], { cwd: frontend, encoding: 'utf8' });
+const reference = process.argv.includes('--reference') ? process.argv[process.argv.indexOf('--reference') + 1] : '4371b41d6';
+const previous = path => execFileSync('git', ['show', `${reference}:${path}`], { cwd: frontend, encoding: 'utf8' });
 const css = { before: previous('usr/lib/linuxmuster-webui/plugins/lmn_common/resources/vue/styles.css'), after: await buildStyles(frontend) };
 const logo = 'data:image/png;base64,' + (await readFile(join(frontend, '../usr/lib/linuxmuster-webui/plugins/lmn_common/resources/img/logo-full.png'))).toString('base64');
 const fixtureFont = '@font-face { font-family: FixtureAwesome; src: url(data:font/woff2;base64,' + (await readFile(join(frontend, '../docs/_static/fonts/fontawesome-webfont.woff2'))).toString('base64') + ') } .fa,.fas,.far { font-family: FixtureAwesome; font-style: normal; } .fa-eye:before { content: "\\f06e"; } .fa-eye-slash:before { content: "\\f070"; } .fa-lock:before { content: "\\f023"; } .fa-envelope:before { content: "\\f0e0"; }';
@@ -99,7 +100,7 @@ try {
                 }
                 assert.equal(await page.evaluate(() => window.fixture.calls.includes('save') || window.fixture.calls.includes('login')), false);
             }
-            const neutral = page.locator(name === 'before' ? '.btn-default' : '.auth-secondary').first();
+            const neutral = page.locator(name === 'before' && reference === '4371b41d6' ? '.btn-default' : '.auth-secondary').first();
             const states = [];
             if (await neutral.count()) {
                 await page.evaluate(() => document.activeElement?.blur());

@@ -8,10 +8,10 @@ export const TaskSidebar = defineComponent({
             const progress = task.progress ?? {}, t = props.aj.gettext ?? (text => text);
             const percent = progress.total ? Number((100 * progress.done / progress.total).toFixed(2)) : 100;
             return h('div', { key: task.id, class: 'task-status animate-list' }, [
-                h('div', { class: 'pull-left' }, [h('i', { class: 'fa fa-spinner fa-spin', 'aria-hidden': true })]),
-                h('h5', t(task.name)), h('div', { class: 'progress' }, [h('div', { class: ['progress-bar progress-bar-warning', !progress.total && 'indeterminate'],
+                h('div', { class: 'float-start' }, [h('i', { class: 'fa fa-spinner fa-spin', 'aria-hidden': true })]),
+                h('h5', t(task.name)), h('div', { class: 'progress' }, [h('div', { class: ['progress-bar bg-warning shell-task-progress', !progress.total && 'indeterminate'],
                     role: 'progressbar', 'aria-valuenow': progress.done, 'aria-valuemax': progress.total,
-                    style: { width: `${percent}%` } })]), h('div', { class: 'values' }, [h('span', { class: 'pull-left no-wrap' }, t(progress.message) || '...')]),
+                    style: { width: `${percent}%` } })]), h('div', { class: 'values' }, [h('span', { class: 'float-start no-wrap' }, t(progress.message) || '...')]),
             ]);
         }));
     },
@@ -28,7 +28,7 @@ export const PluginsPage = defineComponent({
     props: { owner: { type: Object, required: true }, gettext: { type: Function, default: text => text } },
     setup(props) {
         const tab = ref('official'), filter = ref('');
-        const button = (text, action, attrs = {}) => h('button', { type: 'button', class: 'btn btn-default btn-flat', onClick: action, ...attrs }, props.gettext(text));
+        const button = (text, action, attrs = {}) => h('button', { type: 'button', class: 'btn btn-light shell-rest-button btn-flat', onClick: action, ...attrs }, props.gettext(text));
         const sort = list => [...(list ?? [])].sort((a, b) => {
             const x = a.title.toLowerCase(), y = b.title.toLowerCase(); return x < y ? -1 : x > y ? 1 : 0;
         });
@@ -40,7 +40,7 @@ export const PluginsPage = defineComponent({
             return h('section', { role: 'dialog', 'aria-modal': true, class: 'modal show', style: { display: 'block' } }, [h('div', { class: 'modal-dialog' }, [
                 h('div', { class: 'modal-content' }, [h('div', { class: 'modal-header' }, [h('h4', [installed && h('i', { class: `fa fa-${plugin.icon}` }), plugin.title])]),
                     h('div', { class: 'modal-body scrollable' }, [
-                        ...fields.map(field => h('div', { class: 'form-group' }, [h('label', props.gettext(({ name: 'Name', version: 'Version', path: 'Location', author: 'Author', pypi_name: 'PyPI ID', last_month_downloads: 'Downloads in the last month' })[field] ?? '' )), h('div', String(plugin[field] ?? ''))])),
+                        ...fields.map(field => h('div', { class: 'shell-rest-field' }, [h('label', props.gettext(({ name: 'Name', version: 'Version', path: 'Location', author: 'Author', pypi_name: 'PyPI ID', last_month_downloads: 'Downloads in the last month' })[field] ?? '' )), h('div', String(plugin[field] ?? ''))])),
                         plugin.crash && h('div', { class: 'alert alert-danger' }, [h('b', props.gettext('This plugin crashed with the following error:')),
                             plugin.crash.type === 'PluginDependency.Unsatisfied' && h('div', interpolate('This plugin requires plugin {{pluginName}}, which was unavailable during startup.', plugin.crash)),
                             plugin.crash.type === 'BinaryDependency.Unsatisfied' && h('div', interpolate('This plugin requires application binary {{binaryName}}, which was unavailable during startup.', plugin.crash)),
@@ -67,8 +67,8 @@ export const PluginsPage = defineComponent({
                 h('div', { class: 'list-group' }, sort(s.installedPlugins).map(plugin => h('div', { class: 'list-group-item' }, [
                     owner.isUninstallable(plugin) && button('Uninstall', () => owner.uninstallPlugin(plugin)),
                     button(`${plugin.title} ${plugin.name} ${plugin.version}`, () => { s.selectedInstalledPlugin = plugin; }, { 'data-plugin': plugin.name }),
-                    owner.getUpgrade(plugin) && h('span', { class: 'label label-info' }, interpolate('Upgradeable to {{getUpgrade(plugin).version}}', { 'getUpgrade(plugin).version': owner.getUpgrade(plugin).version })),
-                    plugin.crash && h('span', { class: 'label label-danger' }, t('Loading error')),
+                    owner.getUpgrade(plugin) && h('span', { class: 'badge bg-info shell-stock-label' }, interpolate('Upgradeable to {{getUpgrade(plugin).version}}', { 'getUpgrade(plugin).version': owner.getUpgrade(plugin).version })),
+                    plugin.crash && h('span', { class: 'badge bg-danger shell-stock-label' }, t('Loading error')),
                 ]))),
                 h('h3', t('Available plugins')), s.repoList == null ? h('i', { class: 'fa fa-spinner fa-spin', role: 'status' }) : h('div', [
                     button('Official', () => { tab.value = 'official'; }, { 'data-tab': 'official' }),
@@ -77,7 +77,7 @@ export const PluginsPage = defineComponent({
                     h('div', { class: 'list-group' }, repository.map(plugin => h('div', { class: 'list-group-item' }, [
                         !owner.isInstalled(plugin) && button('Install', () => owner.installPlugin(plugin)),
                         button(`${plugin.title} ${plugin.name} ${plugin.version}`, () => { s.selectedRepoPlugin = plugin; }, { 'data-repo': plugin.name }),
-                        owner.isInstalled(plugin) && h('span', { class: 'label label-info' }, t('Installed')),
+                        owner.isInstalled(plugin) && h('span', { class: 'badge bg-info shell-stock-label' }, t('Installed')),
                     ]))),
                 ]),
                 details(s.selectedInstalledPlugin, true, owner), details(s.selectedRepoPlugin, false, owner),

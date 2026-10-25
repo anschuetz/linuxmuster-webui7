@@ -886,3 +886,36 @@ html body.customized .c11-tabs > .nav-item > .nav-link.active:hover { border-bot
 .c11-button.active { color: #333; background-color: #e6e6e6; border-color: #cfcfcf; background-image: none; }
 /* P137 lmn_users/PrintOptionsDialog.vue active btn-default interaction; P167 C11, D1. */
 .c11-button.active:hover, .c11-button.active:focus { color: #333; background-color: #d4d4d4; border-color: #aeaeae; }
+
+/* P174 shell/plugin controls retain the measured Ajenti palette and focus token. */
+.btn.shell-rest-button { --bs-btn-focus-box-shadow: none; }
+
+.shell-rest-button, .btn.shell-rest-button:not(.btn-flat) { color: #333; background-color: #fff; border-color: #eee; }
+
+.shell-rest-button:focus, .btn.shell-rest-button:not(.btn-flat):focus { color: #333; background-color: #e6e6e6; border-color: #aeaeae; }
+
+.shell-rest-button:hover, .shell-rest-button:active, .btn.shell-rest-button:not(.btn-flat):hover, .btn.shell-rest-button:not(.btn-flat):active { color: #333; background-color: #e6e6e6; border-color: #cfcfcf; }
+
+.shell-rest-button:active:hover, .shell-rest-button:active:focus, .btn.shell-rest-button:not(.btn-flat):active:hover, .btn.shell-rest-button:not(.btn-flat):active:focus { color: #333; background-color: #d4d4d4; border-color: #aeaeae; }
+
+.shell-rest-button:disabled, .btn.shell-rest-button:not(.btn-flat):disabled { color: inherit; background-color: transparent; border-color: currentColor; }
+
+.shell-rest-field { margin-bottom: 30px; }
+.shell-restart-button { margin-top: 8px; margin-bottom: 8px; }
+.shell-help { display: block; margin-top: 5px; margin-bottom: 10px; color: #a6a6a6; }
+.shell-task-progress.bg-warning { --bs-warning-rgb: 255, 193, 7; }
+
+.btn.shell-profile-button { --bs-btn-focus-box-shadow: none; }
+.shell-profile-button { color: #333; background-color: #fff; border-color: #eee; }
+.shell-profile-button:focus { color: #333; background-color: #e6e6e6; border-color: #aeaeae; }
+.shell-profile-button:hover, .shell-profile-button:active { color: #333; background-color: #e6e6e6; border-color: #cfcfcf; }
+.shell-profile-button:active:hover, .shell-profile-button:active:focus { color: #333; background-color: #d4d4d4; border-color: #aeaeae; }
+
+.shell-plugins .list-group-item > .shell-stock-label { float: none; }
+
+/* P174 password change retains its measured 992px breakpoint; login keeps its existing flex card. */
+.row > .auth-change-quarter, .row > .auth-change-half { position: relative; min-height: 1px; padding-left: 15px; padding-right: 15px; width: auto; max-width: none; float: none; }
+
+@media (min-width: 992px) { .row > .auth-change-quarter { float: left; width: 25%; } .row > .auth-change-half { float: left; width: 50%; } }
+
+.auth-layout-column { position: relative; min-height: 1px; padding-left: 15px; padding-right: 15px; }

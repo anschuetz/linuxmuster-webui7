@@ -100,7 +100,7 @@ export const ShellNavigation = defineComponent({
             ]);
             return [
                 h('nav', { ref: navbar, class: 'navbar shell-navbar fixed-top' }, [
-                    props.devMode && identity.user ? h('button', { class: 'btn btn-danger navbar-btn pull-right', 'data-action': 'restart-panel', onClick: () => aj.forceRestart() }, [h('i', { class: 'fas fa-redo' })]) : null,
+                    props.devMode && identity.user ? h('button', { class: 'btn btn-danger shell-restart-button float-end', 'data-action': 'restart-panel', onClick: () => aj.forceRestart() }, [h('i', { class: 'fas fa-redo' })]) : null,
                     h('div', { class: 'container' }, [
                         ...[false, true].map(mobile => h('button', { class: ['navbar-brand navigation-toggle', mobile ? 'mobile-navigation hide-desktop hide-large' : 'hide-phone hide-tablet'],
                             'aria-expanded': mobile ? layout.overlay : layout.sidebar, 'aria-controls': mobile ? 'shell-mobile-navigation' : undefined,
@@ -108,22 +108,22 @@ export const ShellNavigation = defineComponent({
                             onClick: () => mobile ? nav.toggleOverlayNavigation() : nav.toggleNavigation() }, [h('i', { class: 'fa fa-navicon' })])),
                         core.logoURL ? h('a', { class: 'navbar-brand', href: `${nav.prefix}/view/` }, [h('img', { src: core.logoURL })]) : null,
                         h('a', { class: 'navbar-brand ellipsis', href: `${nav.prefix}/view/` }, [t('School Console'), aj.state?.pageTitle ? h('span', { class: 'subtitle hide-phone hide-tablet' }, ` > ${t(aj.state.pageTitle)}`) : null]),
-                        h('button', { class: 'navbar-brand navigation-toggle hide-phone hide-tablet pull-right', 'aria-label': t('Widescreen'), onClick: () => nav.toggleWidescreen() },
+                        h('button', { class: 'navbar-brand navigation-toggle hide-phone hide-tablet float-end', 'aria-label': t('Widescreen'), onClick: () => nav.toggleWidescreen() },
                             [h('i', { class: `fa fa-${layout.widescreen ? 'compress' : 'expand'}` })]),
-                        identity.user ? h('div', { class: ['pull-right dropdown', { show: dropdown.value }] }, [
-                            h('button', { class: ['btn btn-default profile-button', { superuser: identity.isSuperuser }], 'aria-expanded': dropdown.value,
+                        identity.user ? h('div', { class: ['float-end dropdown', { show: dropdown.value }] }, [
+                            h('button', { class: ['btn btn-light shell-profile-button profile-button', { superuser: identity.isSuperuser }], 'aria-expanded': dropdown.value,
                                 onClick: () => { dropdown.value = !dropdown.value; } }, [identity.user[0].toUpperCase(), identity.isSuperuser ? h('span', { class: 'rank' }, [h('i', { class: 'fa fa-angle-double-up' })]) : null]),
                             h('ul', { class: ['dropdown-menu dropdown-menu-end', { show: dropdown.value }] }, [
-                                h('li', [h('div', [h('span', { class: 'subtle pull-right' }, `UID ${details.effective ?? ''}`), h('i', { class: 'fa fa-fw fa-user' }), ` ${identity.user}`])]),
+                                h('li', [h('div', [h('span', { class: 'subtle float-end' }, `UID ${details.effective ?? ''}`), h('i', { class: 'fa fa-fw fa-user' }), ` ${identity.user}`])]),
                                 h('li', { class: 'hide-tablet hide-desktop hide-large' }, details.machine?.name),
                                 ...(core.extraProfileMenuItems ?? []).map(item => h('li', [h('a', { class: 'extra-profile dropdown-item', href: href(item.url) }, [h('i', { class: `fa fa-fw fa-${item.icon}` }), item.name])])),
                                 h('li', [h('a', { class: 'totp dropdown-item', href: '#', onClick: event => { event.preventDefault(); nav.manageTotp(); } }, [h('i', { class: 'fas fa-lock' }), ` ${t('TFA')}`])]),
                                 h('li', [h('a', { class: 'logout dropdown-item', href: '#', onClick: event => { event.preventDefault(); nav.logout(); } }, [h('i', { class: 'fa fa-fw fa-power-off' }), ` ${t('Log out')}`])]),
                             ]),
                         ]) : null,
-                        h('p', { class: 'navbar-text pull-right hide-phone' }, details.machine?.name),
-                        identity.user && props.sessionState ? h('span', { class: 'pull-right sessiontime hide-phone' }, `${t('Session time :')} ${props.sessionState.counter.join(':')}`) : null,
-                        identity.user && identity.profile.school_show ? h('p', { class: 'navbar-text pull-right hide-phone' }, [
+                        h('p', { class: 'navbar-text float-end hide-phone' }, details.machine?.name),
+                        identity.user && props.sessionState ? h('span', { class: 'float-end sessiontime hide-phone' }, `${t('Session time :')} ${props.sessionState.counter.join(':')}`) : null,
+                        identity.user && identity.profile.school_show ? h('p', { class: 'navbar-text float-end hide-phone' }, [
                             identity.profile.activeSchool, ' ', h('a', { class: 'school-change', href: `${nav.prefix}/view/lmn/change-school` }, `(${t('change')})`),
                         ]) : null,
                     ]),
@@ -137,7 +137,7 @@ export const ShellNavigation = defineComponent({
                         onKeyup: event => { if (event.key === 'Escape') nav.cancelSearch(); } }),
                     h('div', { class: 'list-group' }, (search.results ?? []).map((result, index) => h('a', {
                         class: 'list-group-item', href: href(`${nav.prefix}${result.url}`), onClick: event => { event.preventDefault(); nav.openResult(result); },
-                    }, [index === 0 ? h('code', { class: 'navbox-hotkey pull-right' }, t('Enter')) : null,
+                    }, [index === 0 ? h('code', { class: 'navbox-hotkey float-end' }, t('Enter')) : null,
                         h('i', { class: `fa fa-fw fa-${result.icon}` }), t(result.title)]))),
                 ])]) : null,
             ];
