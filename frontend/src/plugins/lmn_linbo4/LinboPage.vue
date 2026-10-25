@@ -46,9 +46,9 @@ function downloadIso() { emit('download-iso'); window.location.href = '/lmn/down
     <br>
     <component :is="'progress-spinner'" v-if="state.configs === undefined" role="status"><div><div class="one"></div><div class="two"></div></div></component>
     <div v-else>
-        <ul class="nav nav-tabs">
-            <li :class="{ active: tab === 0 }"><a href="" @click.prevent="tab = 0">{{ aj.gettext('Groups') }}</a></li>
-            <li :class="{ active: tab === 1 }"><a href="" @click.prevent="tab = 1">{{ aj.gettext('Images') }}</a></li>
+        <ul class="nav nav-tabs c8-tabs">
+            <li class="nav-item"><a class="nav-link" :class="{ active: tab === 0 }" href="" @click.prevent="tab = 0">{{ aj.gettext('Groups') }}</a></li>
+            <li class="nav-item"><a class="nav-link" :class="{ active: tab === 1 }" href="" @click.prevent="tab = 1">{{ aj.gettext('Images') }}</a></li>
         </ul>
         <div v-show="tab === 0"><GroupsTab :sidebar="sidebar" :configs="state.configs" :examples="state.examples" :changed="state.changed"
             @create-config="groups.createConfig" @duplicate-config="groups.duplicateConfig" @delete-config="groups.deleteConfig"

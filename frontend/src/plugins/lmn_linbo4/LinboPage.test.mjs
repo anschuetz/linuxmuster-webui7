@@ -28,8 +28,8 @@ it('mounts translated heading/tabs, loads filtered sorted rows and releases guar
     expect(wrapper.find('[role="status"]').exists()).toBe(true); await flushPromises();
     expect(title.mock.calls).toEqual([['LINBO 4']]);
     expect(wrapper.findComponent(GroupsTab).findAll('tbody tr td:first-child b').map(n => n.text())).toEqual(['alpha', 'local', 'zulu']);
-    expect(wrapper.text()).toContain('legacy.cloop'); expect(wrapper.find('.label-info').text()).toBe('linux.qcow2');
-    expect(wrapper.find('.label-default').text()).toBe('legacy.cloop'); expect(guards[0]()).toBe(true);
+    expect(wrapper.text()).toContain('legacy.cloop'); expect(wrapper.find('.c8-label.bg-info').text()).toBe('linux.qcow2');
+    expect(wrapper.find('.c8-label.bg-secondary').text()).toBe('legacy.cloop'); expect(guards[0]()).toBe(true);
     expect(wrapper.findComponent(GroupsTab).findAll('button:has(.fa-copy)').length).toBe(3);
     // Rename has no UI trigger in Angular and must not acquire one here.
     expect(wrapper.text()).not.toContain('Rename');
@@ -71,9 +71,9 @@ it('keeps table hidden when config loading rejects; examples do not fake a succe
 });
 it('hash images selects the image slot; clicking groups is local and does not navigate', async () => {
     window.history.replaceState({}, '', '/view/lmn/linbo4#images');
-    const { wrapper } = setup(); await flushPromises(); expect(wrapper.find('.nav-tabs li.active').text()).toBe('Images');
+    const { wrapper } = setup(); await flushPromises(); expect(wrapper.find('.nav-tabs .nav-link.active').text()).toBe('Images');
     expect(wrapper.findComponent(GroupsTab).find('table').isVisible()).toBe(false);
-    await wrapper.find('.nav-tabs a').trigger('click'); expect(wrapper.find('.nav-tabs li.active').text()).toBe('Groups');
+    await wrapper.find('.nav-tabs a').trigger('click'); expect(wrapper.find('.nav-tabs .nav-link.active').text()).toBe('Groups');
     expect(window.location.hash).toBe('#images');
 });
 it('entry mounts with the adapter and cleans up the guard', async () => {
@@ -83,7 +83,7 @@ it('entry mounts with the adapter and cleans up the guard', async () => {
 });
 it('groups keeps image ordering, skips empty image labels and has no invented empty message', () => {
     const aj = createMockAj(), wrapper = mount(GroupsTab, { props: { configs: [{ file: 'start.conf.test', images: ['', 'a.cloop', 'z.qcow2'] }], examples: undefined, changed: false }, global: { provide: { aj } } });
-    wrappers.push(wrapper); expect(wrapper.findAll('.label').map(n => n.text())).toEqual(['a.cloop', 'z.qcow2']);
+    wrappers.push(wrapper); expect(wrapper.findAll('.c8-label').map(n => n.text())).toEqual(['a.cloop', 'z.qcow2']);
     expect(wrapper.find('[data-action="import"]').exists()).toBe(false); expect(wrapper.findAll('[data-example]').length).toBe(1);
     expect(wrapper.findAll('button:has(.fa-pencil)').length).toBe(1);
 });

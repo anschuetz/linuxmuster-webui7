@@ -104,7 +104,7 @@ for (const role of allowed) {
         await expect(pane(page).locator('tr td:first-child b')).toHaveText(['alpha', 'local', 'zulu']);
         await expect(pane(page)).toContainText('legacy.cloop');
         await open(page, '#images');
-        await expect((vue ? pane(page) : page).locator('.nav-tabs li.active')).toContainText(/Images|Abbilder/);
+        await expect((vue ? pane(page) : page).locator(vue ? '.nav-tabs .nav-link.active' : '.nav-tabs li.active')).toContainText(/Images|Abbilder/);
         if (!vue) await expect(pane(page)).toContainText('zulu');
         clean(state);
     });

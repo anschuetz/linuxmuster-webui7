@@ -130,7 +130,7 @@ for(const role of allowed) {
         const rows=pane(page).locator('tr:visible').filter({has:page.locator('td')});
         await expect(rows).toHaveCount(3);
         expect(await rows.evaluateAll(rows=>rows.map(r=>r.querySelector('b')?.textContent.trim()))).toEqual(['p86','source','broken']);
-        await expect(row(page).locator('.label-success')).toHaveText(['one','two']);
+        await expect(row(page).locator(vue ? 'td:nth-child(4) > span' : '.label-success')).toHaveText(['one','two']);
         await expect(row(page)).toContainText('1.5 KB');
         await edit(page);expect(await model(page,'desc').getAttribute('rows')).toBe('3');expect(await model(page,'info').getAttribute('rows')).toBe('2');
         await model(page,'desc').fill('cancel draft');await close(page);expect(state.writes).toEqual([]);
