@@ -15,10 +15,10 @@ onMounted(() => {
 <template>
     <div>
         <br>
-        <div class="form-group">
-            <ul class="nav nav-tabs" role="tablist">
-                <li v-for="(_, name) in groups" :key="name" :class="{ active: active === String(name) }" role="presentation">
-                    <a href="" role="tab" :aria-selected="active === String(name)" @click.prevent="active = String(name)">{{ name }}</a>
+        <div class="c9-field">
+            <ul class="nav nav-tabs c9-tabs" role="tablist">
+                <li v-for="(_, name) in groups" :key="name" class="nav-item" role="presentation">
+                    <a class="nav-link" :class="{ active: active === String(name) }" href="" role="tab" :aria-selected="active === String(name)" @click.prevent="active = String(name)">{{ name }}</a>
                 </li>
             </ul>
             <div class="tab-content">

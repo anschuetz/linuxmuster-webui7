@@ -37,12 +37,12 @@ function run() {
 <template>
     <div>
         <h1>{{ name }}</h1>
-        <table class="table"><tbody>
+        <div class="c9-sync-table"><table class="table"><tbody>
             <tr>
                 <td><input type="checkbox" :checked="command.target === 'group'" @click="host(name)"></td>
                 <th>{{ aj.gettext('Hostname') }}</th><th>{{ aj.gettext('IP') }}</th><th>{{ aj.gettext('Mac address') }}</th>
                 <th v-for="(image, index) in details.os" :key="index"><span>{{ aj.gettext('Last sync') }} </span><br>{{ image.baseimage }}</th>
-                <th class="pull-right">{{ aj.gettext('Online ?') }}</th>
+                <th class="float-end">{{ aj.gettext('Online ?') }}</th>
             </tr>
             <tr v-for="(h, index) in details.hosts" :key="index">
                 <td><input type="checkbox" :checked="command.host.includes(h.ip) || command.target === 'group'" @click="host(h.ip)"></td>
@@ -51,16 +51,16 @@ function run() {
                     <span v-show="image.date !== 'Never'">{{ syncDate(image.date) }}</span>
                     <span v-show="image.date === 'Never'">{{ aj.gettext('No date found.') }}</span>
                 </td>
-                <td><a class="btn btn-default pull-right" :class="h.upClass || 'btn-primary'" @click="isUp(index)">
+                <td><a class="btn c9-status float-end" :class="h.upClass || 'btn-primary'" @click="isUp(index)">
                     <i v-show="h.up_comment" class="fa-lg" :class="h.up_icon"></i> {{ h.up_comment || 'Up ?' }}
                 </a></td>
             </tr>
-        </tbody></table>
+        </tbody></table></div>
         <hr>
         <h3>{{ aj.gettext('Run linbo-remote command') }}</h3>
         <table class="table"><tbody>
             <tr v-for="(image, index) in details.os" :key="index">
-                <td style="display:flex;">
+                <td class="c9-command-row" style="display:flex;">
                     <div style="width:200px;font-weight:bold;">{{ image.baseimage }} (sda{{ image.partition }})</div>
                     <ActionButton class="btn-danger" style="width:110px;" icon="fas fa-eraser" label="Format" :checked="image.run_format === 1" @click="osAction(index, 'format')" />
                     <ActionButton class="btn-warning" style="width:110px;" icon="fas fa-sync-alt" label="Sync" :checked="image.run_sync === 'sync'" @click="osAction(index, 'sync')" />
@@ -68,22 +68,22 @@ function run() {
                     <ActionButton v-show="image.new_enabled" class="btn-danger" style="width:110px;" icon="fas fa-exclamation-triangle" label="New" :checked="image.run_sync === 'new'" @click="osAction(index, 'new')" />
                 </td>
             </tr>
-            <tr><td style="display:flex;">
+            <tr><td class="c9-command-row" style="display:flex;">
                 <div style="width:200px;font-weight:bold;">{{ aj.gettext('Power management') }}</div>
                 <ActionButton class="btn-danger" style="width:110px;" icon="fas fa-power-off" label="Halt" :checked="details.power?.halt === 'halt'" @click="power('halt')" />
                 <ActionButton class="btn-warning" style="width:110px;" icon="fas fa-sync" label="Reboot" :checked="details.power?.halt === 'reboot'" @click="power('reboot')" />
-                <ActionButton class="btn-default" style="width:200px;" icon="fas fa-lightbulb" label="Wake on lan" :checked="!!details.auto?.wol" @click="auto('wol')" />
-                <button v-show="details.auto?.wol > 0" class="btn btn-default" style="margin-left:10px;"><i class="fas fa-clock"></i> Boot timeout (in seconds):</button>
+                <ActionButton class="c9-button" style="width:200px;" icon="fas fa-lightbulb" label="Wake on lan" :checked="!!details.auto?.wol" @click="auto('wol')" />
+                <button v-show="details.auto?.wol > 0" class="btn c9-button" style="margin-left:10px;"><i class="fas fa-clock"></i> Boot timeout (in seconds):</button>
                 <input v-show="details.auto?.wol > 0" v-model.number="timeout" type="number" min="1" style="width:50px;text-align:center;">
             </td></tr>
-            <tr><td style="display:flex;">
+            <tr><td class="c9-command-row" style="display:flex;">
                 <div style="width:200px;font-weight:bold;">{{ aj.gettext('Global options') }}</div>
                 <!-- Original binds image.run_partition outside its repeat scope. -->
                 <ActionButton class="btn-info" style="width:130px;" icon="fas fa-eraser" label="Partition" :checked="false" @click="auto('partition')" />
-                <ActionButton class="btn-default" style="width:150px;" icon="fas fa-terminal" label="Disable GUI" :checked="!!details.auto?.disable_gui" @click="auto('disable_gui')" />
-                <ActionButton v-show="details.auto?.wol > 0" class="btn-default" style="width:170px;" icon="fas fa-directions" label="Bypass autostart" :checked="!!details.auto?.bypass" @click="auto('bypass')" />
-                <ActionButton class="btn-default" style="width:150px;" icon="fas fa-plug" label="Use Prestart" :checked="!!details.auto?.prestart" @click="auto('prestart')" />
-                <ActionButton class="btn-default" style="width:150px;" icon="fas fa-terminal" label="Broadcast" :checked="!!details.auto?.broadcast" @click="auto('broadcast')" />
+                <ActionButton class="c9-button" style="width:150px;" icon="fas fa-terminal" label="Disable GUI" :checked="!!details.auto?.disable_gui" @click="auto('disable_gui')" />
+                <ActionButton v-show="details.auto?.wol > 0" class="c9-button" style="width:170px;" icon="fas fa-directions" label="Bypass autostart" :checked="!!details.auto?.bypass" @click="auto('bypass')" />
+                <ActionButton class="c9-button" style="width:150px;" icon="fas fa-plug" label="Use Prestart" :checked="!!details.auto?.prestart" @click="auto('prestart')" />
+                <ActionButton class="c9-button" style="width:150px;" icon="fas fa-terminal" label="Broadcast" :checked="!!details.auto?.broadcast" @click="auto('broadcast')" />
             </td></tr>
         </tbody></table>
         <div v-show="!command.show" class="alert alert-info"><i class="fas fa-info-circle"></i> {{ hint }}</div>

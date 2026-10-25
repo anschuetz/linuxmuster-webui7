@@ -244,3 +244,12 @@ P168 R1 / CHAT 339: real no-blur search captures and effective Built-CSS measure
 - Shared BS3 rules still have consumers in frontend/src and usr/**/resources; no removal, D1 owns cleanup. Local reference 78cfb5e48, offline three-viewport Chromium fixtures in `e2e/bs5-c10.local.mjs`; evidence in coordination logs/p166.
 
 P166 follow-up CHAT 348: removed eight redundant C10 global-color tab rules. Real runtime body combines customized/global-color-red; computed active tab color and underline remain #233c4c. Built-CSS Chromium regression checks the real cascade and absence of redundant rules; no payload/selector changes.
+
+## P165 · C9 LINBO images/import and synchronization
+- Eight remaining components: ImagesTab, ImageDialog, ImageBackupsDialog, ImportDialog, AcceptDialog; SyncGroup, LinboSync, ActionButton. btn-default → scoped c9-button with B3/B4 focus token; pull-right → float-end; form-group → c9-field (30px); label-success → badge.c9-label.bg-success (legacy green and inline geometry).
+- Image/sync tabs use nav-item/nav-link, active on the link, focus-visible shadow reset. Only customized tab colors, no global-color variants. Image-copy dropdown uses Vue show/dropdown-item. No Bootstrap JS, rem dimensions or grid breakpoint changes.
+- Dynamic audit: h.upClass / btn-primary remains original primary/success/danger status; date success/danger cells, image errors, sync tab-pane active and custom checkbox states unchanged. No constructed panel-/label-/progress-bar-* strings or has-error/input-group-addon/panel/well in scope; Import uses its original progress-spinner.
+- P141 D06: below 768px only, host table scrolls within its wrapper and command flex rows wrap; children fit the viewport and image names may break. Desktop/tablet preserve original layout. No image/sync/power/check actions on E.
+- Eight scripts, handlers, data/name/id/aria attributes byte-equal against 1070e6052; payload/cancel, rights, endpoint and adapter logic untouched (coordination logs/p165/unchanged-contracts.json).
+- F44: lmn_linbo_sync.pw.mjs online classification selects a.c9-status when Vue c9-tabs exists; original Angular a.btn-default retained. Static verification only. Existing unit selectors updated for migrated classes.
+- Shared BS3 compat remains for other frontend/src and usr/**/resources consumers, deferred to D1 (coordination logs/p165/remaining-bs3-consumers.txt).

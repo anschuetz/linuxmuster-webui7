@@ -32,33 +32,33 @@ async function example(key, name) {
 
 <template>
     <div class="modal-header">
-        <button v-if="!image.backup && !image.diff" data-action="rename" class="btn btn-default pull-right" @click="renameImage(draft)"><i class="fa fa-pencil"></i></button>
+        <button v-if="!image.backup && !image.diff" data-action="rename" class="btn c9-button float-end" @click="renameImage(draft)"><i class="fa fa-pencil"></i></button>
         <h4>{{ image.name }} <span v-if="image.diff">{{ aj.gettext('- Differential image') }}</span><span v-if="image.backup">{{ image.name }} - Backup {{ image.date }}</span></h4>
     </div>
     <div class="modal-body">
-        <ul class="nav nav-tabs">
-            <li :class="{active:tab === 'general'}"><a href="" @click.prevent="tab = 'general'; menu = null">{{ aj.gettext('General') }}</a></li>
-            <li v-for="[key, label] in scripts" :key="key" :class="{active:tab === key}"><a href="" :data-tab="key" @click.prevent="tab = key; menu = null">{{ aj.gettext(label) }}</a></li>
+        <ul class="nav nav-tabs c9-tabs">
+            <li class="nav-item"><a class="nav-link" :class="{active:tab === 'general'}" href="" @click.prevent="tab = 'general'; menu = null">{{ aj.gettext('General') }}</a></li>
+            <li v-for="[key, label] in scripts" :key="key" class="nav-item"><a class="nav-link" :class="{active:tab === key}" href="" :data-tab="key" @click.prevent="tab = key; menu = null">{{ aj.gettext(label) }}</a></li>
         </ul>
         <div v-show="tab === 'general'"><br>
-            <div v-for="[key, label] in [['desc','Description'],['info','Info']]" :key="key" class="form-group">
+            <div v-for="[key, label] in [['desc','Description'],['info','Info']]" :key="key" class="c9-field">
                 <label>{{ aj.gettext(label) }}</label><textarea v-model.trim="image[key]" :data-model="'image.' + key" :rows="rows[key]" class="form-control"></textarea>
             </div>
-            <div class="form-group"><label>{{ aj.gettext('Size') }}</label><div>{{ imageBytes(image.size, aj.gettext) }}</div></div>
+            <div class="c9-field"><label>{{ aj.gettext('Size') }}</label><div>{{ imageBytes(image.size, aj.gettext) }}</div></div>
         </div>
         <div v-for="[key] in scripts" v-show="tab === key" :key="key" :data-panel="key"><br>
             <ScriptEditor v-model="image[key]" :field="key" :active="tab === key" />
-            <div data-image-copy class="dropdown" :class="{open:menu === key}">
-                <button class="btn btn-default" :aria-expanded="menu === key" @click="menu = menu === key ? null : key"><i class="fa fa-copy"></i> Copy from <i class="fa fa-caret-down"></i></button>
-                <ul v-show="menu === key" class="dropdown-menu">
-                    <li v-for="(source, index) in sources[key]" :key="'source'+index"><a :data-source="key + ':' + source.name" @click="copyScript(key, source[key])">{{ source.name }}</a></li>
-                    <li v-for="(name, index) in examples[key]" :key="'example'+index"><a :data-example="key + ':' + name" @click="example(key, name)">{{ name }} <small><i>Example</i></small></a></li>
+            <div data-image-copy class="dropdown c9-copy">
+                <button class="btn c9-button" :aria-expanded="menu === key" @click="menu = menu === key ? null : key"><i class="fa fa-copy"></i> Copy from <i class="fa fa-caret-down"></i></button>
+                <ul v-show="menu === key" class="dropdown-menu" :class="{show:menu === key}">
+                    <li v-for="(source, index) in sources[key]" :key="'source'+index"><a class="dropdown-item" :data-source="key + ':' + source.name" @click="copyScript(key, source[key])">{{ source.name }}</a></li>
+                    <li v-for="(name, index) in examples[key]" :key="'example'+index"><a class="dropdown-item" :data-example="key + ':' + name" @click="example(key, name)">{{ name }} <small><i>Example</i></small></a></li>
                 </ul>
             </div>
         </div>
     </div>
     <div class="modal-footer">
-        <a data-action="save" class="btn btn-default btn-flat" @click="emit('close', draft)">{{ aj.gettext('Save') }}</a>
-        <a data-action="cancel" class="btn btn-default btn-flat" @click="emit('cancel')">{{ aj.gettext('Close') }}</a>
+        <a data-action="save" class="btn c9-button btn-flat" @click="emit('close', draft)">{{ aj.gettext('Save') }}</a>
+        <a data-action="cancel" class="btn c9-button btn-flat" @click="emit('cancel')">{{ aj.gettext('Close') }}</a>
     </div>
 </template>

@@ -6,6 +6,6 @@ defineProps({ icon: String, label: String, checked: Boolean });
 <template>
     <button type="button" class="btn" style="margin-left:10px;">
         <i :class="icon"></i> {{ label }}
-        <input type="checkbox" class="pull-right" :checked="checked">
+        <input type="checkbox" class="float-end" :checked="checked">
     </button>
 </template>
