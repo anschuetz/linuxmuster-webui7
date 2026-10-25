@@ -1,5 +1,6 @@
 import { readFileSync } from 'node:fs';
 import postcss from 'postcss';
+import { chromium } from '@playwright/test';
 import { afterEach, expect, it } from 'vitest';
 import { mount, flushPromises } from '@vue/test-utils';
 import { createMockAj } from '../../adapter/mock.mjs';
@@ -63,11 +64,15 @@ it('keeps a default quota bar on its original base color', async () => {
     expect(w.get('.progress-bar').classes().some(c => c.startsWith('bg-'))).toBe(false);
 });
 
-it('retains all eight user-selected tab accent colors in built CSS', () => {
-    const root = postcss.parse(readFileSync('../usr/lib/linuxmuster-webui/plugins/lmn_common/resources/vue/styles.css','utf8'));
-    const colors={red:'#e94c41',bluegrey:'#6c797f',purple:'#9432a5',blue:'#2d95e7',green:'#59a25c',deeporange:'#f45d2d',orange:'#f2960d',teal:'#088f82'};
-    for(const [name,color] of Object.entries(colors)) {
-        const found=[];root.walkRules(r=>{if(r.selectors.includes('body.global-color-'+name+' .c10-tabs > .nav-item > .nav-link.active'))r.walkDecls('color',d=>found.push(d.value));});
-        expect(found).toEqual([color]);
-    }
+it('keeps customized tab color with the real body classes and no redundant accent overrides', async () => {
+    const css = readFileSync('../usr/lib/linuxmuster-webui/plugins/lmn_common/resources/vue/styles.css','utf8');
+    const browser = await chromium.launch({headless:true});
+    try {
+        const page = await browser.newPage();
+        await page.setContent('<body class="customized global-color-red"><ul class="nav nav-tabs c10-tabs"><li class="nav-item"><a class="nav-link active">Students</a></li></ul></body>');
+        await page.addStyleTag({content:css});
+        await page.waitForFunction(() => getComputedStyle(document.querySelector('.nav-link')).color === 'rgb(35, 60, 76)');
+        expect(await page.locator('.nav-link').evaluate(el=>({color:getComputedStyle(el).color,border:getComputedStyle(el).borderBottomColor}))).toEqual({color:'rgb(35, 60, 76)',border:'rgb(35, 60, 76)'});
+        expect(/body\.global-color-[\w-]+ \.c10-tabs/.test(css)).toBe(false);
+    } finally { await browser.close(); }
 });
