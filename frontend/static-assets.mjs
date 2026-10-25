@@ -15,8 +15,8 @@ export async function buildStaticAssets(frontend, output) {
 /** One Reboot, then temporary structure compatibility and the Ajenti theme. */
 export async function buildStyles(frontend) {
     const css = [];
-    for (const name of ['vendor/bootstrap5.css', 'theme/compat-glyphicons.css', 'theme/compat-bs3.css', 'theme/compat-bs5.css',
-        'theme/ajenti-bs5.css', 'vendor/core-vendor.css', 'vendor/ace.css', 'vendor/dashboard.css']) {
+    for (const name of ['vendor/bootstrap5.css', 'vendor/core-vendor.css', 'theme/compat-glyphicons.css', 'theme/compat-bs3.css', 'theme/compat-bs5.css',
+        'theme/ajenti-bs5.css', 'vendor/ace.css', 'vendor/dashboard.css']) {
         css.push((await readFile(join(frontend, name), 'utf8')).replaceAll('../fonts/', 'assets/fonts/'));
     }
     const plugins = resolve(frontend, '../usr/lib/linuxmuster-webui/plugins');

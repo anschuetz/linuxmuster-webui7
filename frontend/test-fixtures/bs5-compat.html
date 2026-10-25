@@ -9,6 +9,28 @@
 <form><div class="form-group has-error has-feedback" data-check="form-group"><label data-check="form-label">Benutzername</label><input class="form-control" value="p150-test" data-check="input"><span class="form-control-feedback" data-check="feedback">!</span><span class="help-block" data-check="help">Eingabe prüfen</span></div>
 <div class="form-group"><select class="form-control" data-check="select"><option>Standard-Schule</option></select></div><textarea class="form-control" rows="3" data-check="textarea">Text</textarea><div class="input-group" data-check="input-group"><span class="input-group-addon" data-check="addon">@</span><input class="form-control" data-check="group-input"><span class="input-group-btn"><button class="btn btn-default" data-check="group-button">Suchen</button></span></div>
 <label class="checkbox-inline" data-check="checkbox"><input type="checkbox">Auswahl</label><button class="btn btn-default" data-check="default-button">Standard</button><button class="btn btn-primary btn-xs" data-check="small-button">Klein</button><button class="btn btn-default btn-flat" data-check="flat-button">Flach</button><button class="btn btn-lmn" data-check="lmn-button">Aktion</button><input class="form-control" disabled value="Gesperrt" data-check="disabled-input"><button class="btn btn-default btn-sm" data-check="sm-button">Kleiner</button><button class="btn btn-default btn-lg" data-check="lg-button">Größer</button></form>
+<!-- P150 E findings: actual Landingpage info-card context and unclassed action anchor. -->
+<div class="info-cards"><div class="panel panel-info" data-check="info-card"><div class="panel-heading">Konto</div><div class="panel-body"><a data-check="card-action">Mobiler Zugriff</a></div></div></div>
+<!-- P150 E finding: list-group sibling borders and normal block flow. -->
+<div class="list-group" data-check="list-group"><div class="list-group-item" data-check="list-first">Alpha</div><div class="list-group-item" data-check="list-second">Bravo</div><div class="list-group-item" data-check="list-last">Charlie</div></div>
+<!-- P150 E finding: Dashboard native tab button and summary, same DOM as Dashboard.vue. -->
+<ul class="nav nav-tabs"><li><button role="tab" data-check="native-tab">Home</button></li></ul><details><summary data-check="widget-summary">Widget hinzufügen</summary></details>
+<!-- P150 E finding: direct row children in the quota toolbar must keep natural button width. -->
+<div style="width:160px"><div class="bar row"><a class="btn btn-lmn pull-right" data-check="toolbar-button">Standardquota konfigurieren</a></div></div>
+<!-- P150 E finding: md columns outside a .row must still begin at 992, as Quotas.vue's check form does. -->
+<form><label class="col-md-3" data-check="standalone-md-label">Hauptverzeichnisse für Benutzer auflisten:</label><div class="has-feedback col-md-6" data-check="standalone-md-search"><input class="form-control" placeholder="Suche"></div><div class="col-md-2"><button class="btn btn-success">Check</button></div></form>
+<!-- P150 E finding: the lm-table-inputs cells originally had zero native table padding. -->
+<table class="lm-table lm-table-inputs" data-check="device-table"><thead><tr><th data-check="device-th">Raum</th><th>Gruppe</th></tr></thead><tbody><tr><td data-check="device-td"><input type="text" class="form-control" value="r100-pc01"></td><td><select class="form-control"><option>winlin</option></select></td></tr><tr><td><input type="text" class="form-control" value="r100-pc02"></td><td><select class="form-control"><option>winlin</option></select></td></tr></tbody></table>
+<!-- P150 E finding: Linbo Sync's old divider must not inherit BS5's 0.25 opacity. -->
+<hr data-check="linbo-divider">
+<!-- P150 E finding: LINBO's dropup wrapper is a non-column direct row child. -->
+<div class="bar row"><div class="dropup pull-left" data-check="create-wrapper"><button class="btn btn-lmn" data-check="create-button">Erstellen</button></div></div>
+<!-- P150 E finding: Device-Manager's direct input-group action keeps four rounded corners. -->
+<div class="input-group"><input class="form-control" value="Gerätegruppe"><button class="btn btn-lmn" data-check="direct-set-button">Set</button></div>
+<!-- P150 E finding: notifications use Toaster .toast classes without Bootstrap's .show state. -->
+<div id="toast-container" class="toast-top-right"><div class="toast toast-error" role="status" data-check="error-toast"><div class="toast-title">Fehler</div><div class="toast-message">VDI Tools not installed!</div></div><div class="toast toast-info" role="status" data-check="info-toast"><div class="toast-message">Hinweis</div></div></div>
+<!-- P150 E finding: GlobalEdulution's formerly inert card/list-group-flush markup must keep BS3 geometry. -->
+<div class="card" style="width:100%" data-check="legacy-card"><ul class="list-group list-group-flush" data-check="flush-group"><li class="list-group-item" style="display:flex;align-items:center;height:80px" data-check="flush-item"><span style="width:50px">✓</span><span style="margin-left:10px">Externe Domain: <input type="text" value="localhost" data-check="domain-input"></span></li></ul></div><div class="card" style="width:100%" data-check="next-card"><ul class="list-group list-group-flush"><li class="list-group-item" style="display:flex;align-items:center;height:80px">API vorhanden</li></ul></div>
 <!-- Plugin tabs/dropdown/progress/table DOM. -->
 <ul class="nav nav-tabs" data-check="tabs"><li class="active" data-check="tab-active"><a data-check="tab-link">Allgemein</a></li><li><a>Weitere</a></li></ul>
 <ul class="nav nav-pills" data-check="pills"><li class="active"><a data-check="pill-link">Aktiv</a></li><li><a>Weiter</a></li></ul>

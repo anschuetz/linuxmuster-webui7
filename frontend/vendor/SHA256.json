@@ -3,7 +3,7 @@
   "BOOTSTRAP-LICENSE": "8a68c27ad022244b78dc5c9adb4cc5a4c92a994e3e11d356b291f227b2b04eaf",
   "FLOW-LICENSE": "a07c17a38158228bf5d1580ddcf1ca05b5d98e6cac37fd8e6d149ed3c85e4b09",
   "LOADINGBAR-LICENSE": "27f17c59cc854d8541f7ca879fd2ca56e370a425ddb70580f49e5b068d8dca1a",
-  "README.md": "f201f55cc4ba79dcdad52b72449906b1b1d0c965097dab3a26c07d7bc4288c7c",
+  "README.md": "3baa9b843dcdf5a9905f811cd11e548b12d28ebcebf9caf6655a2b5d3053853f",
   "TOASTER-LICENSE": "3b07ee04f3ba715d3d1b21d28dd6bdf10ad7bc258f8cb54b97bb1d8d1784c5b8",
   "ace/LICENSE": "850f545c5254e8c08204edb2a6d50bbb72727c38a82982c17a84bebf6064cdf8",
   "ace/ace.js": "6383db0d406627a0ffd8255c4358525ad150a6bc0e1b98b08fd0bf7357a116d3",
@@ -403,10 +403,10 @@
   "../theme/core-audit.md": "0a396a1f12326f24f5660f7fae76f07c45ee3e5e91af1d6ba524ec69a286636a",
   "bootstrap5.css": "4a50207b956a4ab943640ee993118b554a34e96a23261cfe58b9aa1807a7849b",
   "BOOTSTRAP5-LICENSE": "4620c84ad5ce8602ff65640ed6b7c8b78ebb9e036584f0ebc1ccc88206a4bb51",
-  "../theme/compat-bs3.css": "69bc6634d0a50c88ba3b2f0943a4fed3cab947633861e2f1d4a2cf34bb47f3c9",
+  "../theme/compat-bs3.css": "407d2001a5858cb6dae0e60658f5f6c23f6a24beed2f00466ea123dabe5bf12a",
   "../theme/compat-glyphicons.css": "8aa607dd9ca3896530aae2da9469637e801be0a83f72eaa7a5035edf06e96a62",
   "../theme/ajenti-bs5.css": "2a10a653c3859a759a230ff82f048e6992c24aa23b33e1b63559dfa10bbae53e",
-  "../theme/compat-bs5.css": "c0bcf26b3dab3afc2af7213d0473ad54f4b84e161edba44e42f99d21264b56ec",
-  "../theme/bs5-audit.md": "e3a65053dcc889dd7f235f0d095aa4516b43ab9ae46638b6874aecdcdb97303c",
+  "../theme/compat-bs5.css": "01edd4505e62996addabf67c836bd35b14db2447b048b6eaeb1b0d75410057c1",
+  "../theme/bs5-audit.md": "4d8b6cb301cc6fab95ff2900c1308c13acd8a06695287c67f5fe68812e579d01",
   "../theme/bs5-counterparts.tsv": "e3c162f0105fd6f929dd4bcbdf8794ebde742f0088389e8920eff059931126dc"
 }

@@ -18,8 +18,10 @@ The compatibility sheet starts after the BS3 reset/print section and includes
 only selected component/typography/grid contracts, never Normalize.
 715 of 730 A1 theme leaf rules remain, with identical ordered declarations.
 
-BS5 → legacy Glyphicons → selected BS3 structural compatibility → BS5 bridges
-→ active Ajenti theme → Toaster/loadingbar, Ace, dashboard → sorted plugin SCSS.
+BS5 → Toaster/loadingbar base CSS → legacy Glyphicons → selected BS3 structural
+compatibility → BS5 bridges → active Ajenti theme → Ace, dashboard → sorted
+plugin SCSS. Base Toaster CSS precedes Ajenti so the original 0.85/0.9 toast
+opacity and theme precedence remain intact.
 The order gives the Ajenti colors and Common customization the final word.
 A1's 324 interleaving boundaries show why simple concatenation alone is
 insufficient: generic `.btn`, `.panel` and `.navbar` theme rules originally
@@ -48,7 +50,7 @@ BS5's earlier 576 container maximum and row child defaults are neutralized.
 Each compatibility rule names P137 evidence and removal package. Static counts
 in those comments count only `kind=class` rows, not CSS selectors or dynamic
 expressions. Zero static uses for Glyphicons/BS hidden-visible helpers is
-explicit; their retention was required by P150. The three compatibility files total 172357 bytes, of which 67458 remain
+explicit; their retention was required by P150. The three compatibility files total 177025 bytes, of which 69388 remain
 without comments (including whitespace); the rest is per-rule documentation.
 
 ## Handover to B/C/D
@@ -69,3 +71,32 @@ bytes against A1 commit `a176c2c0b`. Six scenes × five widths (1440/768/767/576
 cover shell/page, three modal sizes, native messagebox and P132 login/TOTP.
 This is a local critical-contract check, not the pending all-page Satz-E capture
 or a Safari/Firefox/Edge visual acceptance.
+
+## Teil 2: actual Satz-E findings (temporary compatibility, not B/C fixes)
+
+The first 8755a1d36 capture exposed contracts absent from the initial local
+fixtures. Each is now represented once by the corresponding DOM fragment in
+`test-fixtures/bs5-compat.html` and the same offline image/style comparison:
+
+- Landing `.info-cards` panel border precedence and the unclassed action anchor.
+- List-group block flow, inherited foreground and complete overlapping borders.
+- Native Dashboard tab button painting/foreground and summary marker.
+- Non-column `.row` children: restore zero padding and remove BS5 max-width caps
+  before column/component rules supply their own dimensions; LINBO/footer cases.
+- Column base widths outside `.row`, before the original 768/992/1200 rules;
+  Quotas check form at 768 must not pick up BS5's earlier md width.
+- Native zero cell padding in `.lm-table`, before Common's header/padded variants;
+  Devices and ListTable editable cells must keep their original height.
+- Divider opacity/UA geometry/foreground from the old hr contract.
+- Direct `.input-group > .btn-lmn` action keeps its old corners, static position
+  and Common margins; it is not the BS3 `.input-group-btn` wrapper structure.
+- Toaster notifications have Vue-owned lifetime and no BS5 `.show`. Restore
+  visibility and native font/border sizing; retain original vendor→theme order.
+- Formerly inert `.card` wrappers around `.list-group-flush` in GlobalEdulution
+  and Wireguard keep plain block geometry until C12/C5 port that structure.
+
+P140 sidebar spacing, P148 translated catalog keys (2a4187927), session counts,
+bind-user ordering and live Dashboard statistics are independent of the A2 CSS.
+Missing VDI error toasts in the first capture were an A2 visibility defect, not
+a service-state classification; the notification fixture catches it.
+Existing P141 mobile clipping remains B/C work and must not grow in the A2 build.

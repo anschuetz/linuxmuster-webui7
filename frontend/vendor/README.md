@@ -70,8 +70,8 @@ with `npm pack bootstrap@5.3.8` (npm release 2025-08-26, older than two weeks on
 No Bootstrap JavaScript, Popper or jQuery is installed or bundled.
 
 Active order: `bootstrap5.css` (the only reset, BS5 Reboot),
-`theme/compat-glyphicons.css`, `theme/compat-bs3.css`, `theme/compat-bs5.css`, `theme/ajenti-bs5.css`,
-then core-vendor (Toaster/loadingbar), Ace, dashboard and alphabetically sorted
+`core-vendor.css` (Toaster/loadingbar), `theme/compat-glyphicons.css`, `theme/compat-bs3.css`, `theme/compat-bs5.css`, `theme/ajenti-bs5.css`,
+then Ace, dashboard and alphabetically sorted
 plugin SCSS. The original A1 inputs above remain **evidence only**; neither
 `core.css` nor `bootstrap3.css` nor `theme/ajenti.css` is bundled.
 The A1 manifest still reconstructs the unchanged original for provenance checks.

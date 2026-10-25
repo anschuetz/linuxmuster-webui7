@@ -19,6 +19,9 @@ it('builds one pinned Bootstrap 5 before documented compatibility, Ajenti and pl
     expect(css.indexOf(bootstrap)).toBeGreaterThanOrEqual(0);
     expect(css.indexOf(compat.replaceAll('../fonts/', 'assets/fonts/'))).toBeGreaterThan(css.indexOf(bootstrap));
     expect(css.indexOf(theme)).toBeGreaterThan(css.indexOf(compat));
+    const toaster = await read('vendor/core-vendor.css');
+    expect(css.indexOf(toaster)).toBeGreaterThan(css.indexOf(bootstrap));
+    expect(css.indexOf(toaster)).toBeLessThan(css.indexOf(compat));
     expect(compat).not.toContain('.carousel-inner');
     const hashes = JSON.parse(await read('vendor/SHA256.json'));
     expect(hashes['bootstrap5.css']).toBe(createHash('sha256').update(bootstrap).digest('hex'));
