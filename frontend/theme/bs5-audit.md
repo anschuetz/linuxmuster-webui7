@@ -201,3 +201,4 @@ Legacy shared form/dropdown/tab/pagination rules are still consumed across front
 - Dashboard/Participants bereits passend. Keine dynamischen panel-/label-/progress-bar-Varianten, kein Raster, keine has-error-Zustände, keine P141-Mobilbefunde im Paket. Bestehende BS5-Badges und modal.show unverändert.
 - F44: lmn_websession.pw.mjs/docker.pw.mjs/vdi.pw.mjs statisch geprüft; keine betroffenen Klassenselektoren. Angular-Zweig unberührt.
 - D1: globale Compat-Regeln bleiben wegen Restverbrauchern in frontend/src und usr/**/resources; Belege logs/p163/remaining-bs3-consumers.txt im Koordinationsrepo. Scriptblöcke und geschützte Attribute aller acht Komponenten bytegleich: logs/p163/unchanged-contracts.json.
+- R1/CHAT 345: acht global-color-Varianten der aktiven Docker-/VDI-Tabs inkl. Hover wie vor C7 erhalten; ein Built-CSS-Test vergleicht Randwerte mit Legacy und prüft die acht Farben.

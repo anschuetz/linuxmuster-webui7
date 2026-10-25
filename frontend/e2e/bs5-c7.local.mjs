@@ -11,6 +11,7 @@ import vue from '@vitejs/plugin-vue';
 import { buildStyles } from '../static-assets.mjs';
 const frontend=fileURLToPath(new URL('..',import.meta.url)), output=process.argv[2], reference='78cfb5e48';
 assert.ok(output); await mkdir(output,{recursive:true});
+const bodyClass=process.env.C7_BODY_CLASS||'customized';
 const previous=path=>execFileSync('git',['show',`${reference}:${path}`],{cwd:frontend,encoding:'utf8'});
 const css={before:previous('usr/lib/linuxmuster-webui/plugins/lmn_common/resources/vue/styles.css'),after:await buildStyles(frontend)};
 const entry=`import {createApp,h} from 'vue';
@@ -55,13 +56,13 @@ for(const name of ['before','after']){
 }
 const scenes=['web','web-stopped','web-other','web-student','web-loading','web-denied','web-disabled','web-empty','create','create-password','create-dropdown','create-selected','create-error','participants','participants-empty','docker','docker-stopped','docker-empty','docker-missing','docker-loading','docker-images','docker-images-empty','docker-details','admin','admin-clones','admin-loading','admin-empty','admin-error','dashboard','dashboard-loading','dashboard-empty','dashboard-unavailable','group','master'];
 const results=[],browser=await chromium.launch({headless:true});
-await writeFile(join(output,'metadata.json'),JSON.stringify({reference,browser:browser.version(),fixture:'offline synthetic reads; frozen motion',cssSha256:Object.fromEntries(Object.entries(css).map(([k,v])=>[k,createHash('sha256').update(v).digest('hex')]))},null,2));
+await writeFile(join(output,'metadata.json'),JSON.stringify({reference,bodyClass,browser:browser.version(),fixture:'offline synthetic reads; frozen motion',cssSha256:Object.fromEntries(Object.entries(css).map(([k,v])=>[k,createHash('sha256').update(v).digest('hex')]))},null,2));
 try{
  for(const scene of scenes.filter(s=>!process.env.C7_ONLY||process.env.C7_ONLY.split(',').includes(s)))for(const [width,height]of [[1440,900],[768,1024],[390,844]]){
  const pages=[];
  for(const name of ['before','after']){
  const page=await browser.newPage({viewport:{width,height},locale:'en-GB',timezoneId:'UTC'});pages.push(page);
- const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.route('**/*',r=>r.request().url()==='https://fixture.invalid/'?r.fulfill({contentType:'text/html',body:'<!doctype html><html><body class="customized"><main id="fixture" style="padding:20px"></main></body></html>'}):r.abort());
+ const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.route('**/*',r=>r.request().url()==='https://fixture.invalid/'?r.fulfill({contentType:'text/html',body:`<!doctype html><html><body class="${bodyClass}"><main id="fixture" style="padding:20px"></main></body></html>`}):r.abort());
  await page.goto('https://fixture.invalid/');await page.addStyleTag({content:css[name]});await page.addStyleTag({content:'*,*::before,*::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }'});
  await page.evaluate(scene=>{window.fixtureScene=scene;window.requests=[];},scene);await page.addScriptTag({type:'module',content:bundles[name]});await page.waitForFunction(()=>window.fixture?.ready);
  if(scene==='create-password')await page.locator('#websession-type').selectOption('password');

@@ -13987,6 +13987,23 @@ html body.customized .c7-tabs > .nav-item > .nav-link.active:hover { border-bott
 /* P137 lmn_docker/lmn_vdi_administration; P163 C7 focused active tab hover follows Ajenti hover order; consolidate D1. */
 .c7-tabs > .nav-item > .nav-link.active:focus:hover { background: rgba(0,0,0,.03); border-color: transparent; border-bottom-color: #2196F3; }
 
+/* P137 P163 C7 tabs preserve global-color-red selection; D1. */
+body.global-color-red .c7-tabs > .nav-item > .nav-link.active, body.global-color-red .c7-tabs > .nav-item > .nav-link.active:hover { border-bottom: 1px solid #e94c41; color: #e94c41; }
+/* P137 P163 C7 tabs preserve global-color-bluegrey selection; D1. */
+body.global-color-bluegrey .c7-tabs > .nav-item > .nav-link.active, body.global-color-bluegrey .c7-tabs > .nav-item > .nav-link.active:hover { border-bottom: 1px solid #6c797f; color: #6c797f; }
+/* P137 P163 C7 tabs preserve global-color-purple selection; D1. */
+body.global-color-purple .c7-tabs > .nav-item > .nav-link.active, body.global-color-purple .c7-tabs > .nav-item > .nav-link.active:hover { border-bottom: 1px solid #9432a5; color: #9432a5; }
+/* P137 P163 C7 tabs preserve global-color-blue selection; D1. */
+body.global-color-blue .c7-tabs > .nav-item > .nav-link.active, body.global-color-blue .c7-tabs > .nav-item > .nav-link.active:hover { border-bottom: 1px solid #2d95e7; color: #2d95e7; }
+/* P137 P163 C7 tabs preserve global-color-green selection; D1. */
+body.global-color-green .c7-tabs > .nav-item > .nav-link.active, body.global-color-green .c7-tabs > .nav-item > .nav-link.active:hover { border-bottom: 1px solid #59a25c; color: #59a25c; }
+/* P137 P163 C7 tabs preserve global-color-deeporange selection; D1. */
+body.global-color-deeporange .c7-tabs > .nav-item > .nav-link.active, body.global-color-deeporange .c7-tabs > .nav-item > .nav-link.active:hover { border-bottom: 1px solid #f45d2d; color: #f45d2d; }
+/* P137 P163 C7 tabs preserve global-color-orange selection; D1. */
+body.global-color-orange .c7-tabs > .nav-item > .nav-link.active, body.global-color-orange .c7-tabs > .nav-item > .nav-link.active:hover { border-bottom: 1px solid #f2960d; color: #f2960d; }
+/* P137 P163 C7 tabs preserve global-color-teal selection; D1. */
+body.global-color-teal .c7-tabs > .nav-item > .nav-link.active, body.global-color-teal .c7-tabs > .nav-item > .nav-link.active:hover { border-bottom: 1px solid #088f82; color: #088f82; }
+
 /*! P150 active Ajenti theme, MIT (vendor/AJENTI-LICENSE).
  * Derived from theme/ajenti.css after its Normalize/print prelude; A1 evidence unchanged.
  * See core-audit.md, P150 disposition.

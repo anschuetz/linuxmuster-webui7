@@ -71,3 +71,19 @@ it('C7 built CSS keeps card geometry, neutral focus tokens and nav keyboard focu
     expect(declarations('.c7-session-card > .card-body')['padding']).toBe('20px');
     expect(declarations('.c7-session-card > .card-header')['padding']).toBe('1px 15px');
 });
+it('C7 built CSS preserves every user color on active tabs and their hover state', async () => {
+    const css = postcss.parse(await buildStyles(process.cwd()));
+    const declarations = selector => {
+        const result = {};
+        css.walkRules(rule => { if (rule.selectors.includes(selector)) rule.walkDecls(decl => { result[decl.prop] = decl.value; }); });
+        return result;
+    };
+    for (const [color, value] of Object.entries({ red: '#e94c41', bluegrey: '#6c797f', purple: '#9432a5', blue: '#2d95e7', green: '#59a25c', deeporange: '#f45d2d', orange: '#f2960d', teal: '#088f82' })) {
+        for (const state of ['', ':hover']) {
+            const legacy = declarations(`body.global-color-${color} .nav-tabs > li.active > a${state}`);
+            const migrated = declarations(`body.global-color-${color} .c7-tabs > .nav-item > .nav-link.active${state}`);
+            expect(migrated.color, color + state).toBe(value);
+            expect(migrated['border-bottom'], color + state).toBe(legacy['border-bottom']);
+        }
+    }
+});
