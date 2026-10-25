@@ -47,10 +47,7 @@
 
 /* BS3 small button size after base theme; P137 buttons 364 uses, frontend/src/common/FileDialog.vue; remove B4/C1. */ .btn.btn-sm { padding: 5px 10px; font-size: 12px; line-height: 1.5; }
 /* BS3 panel contextual borders after base panel; P137 panels 67 uses, frontend/src/plugins/lmn_landingpage/Landingpage.vue; remove C1/C4. */ .panel.panel-primary { border-color: #2196F3; }
-/* BS3 panel contextual borders; P137 panels 67 uses, frontend/src/plugins/lmn_landingpage/Landingpage.vue; remove C1/C4. */ .panel.panel-success { border-color: #d6e9c6; }
-/* BS3 panel contextual borders; P137 panels 67 uses, frontend/src/plugins/lmn_landingpage/Landingpage.vue; remove C1/C4. */ .panel.panel-info { border-color: #bce8f1; }
-/* BS3 panel contextual borders; P137 panels 67 uses, frontend/src/plugins/lmn_landingpage/Landingpage.vue; remove C1/C4. */ .panel.panel-warning { border-color: #faebcc; }
-/* BS3 panel contextual borders; P137 panels 67 uses, frontend/src/plugins/lmn_landingpage/Landingpage.vue; remove C1/C4. */ .panel.panel-danger { border-color: #ebccd1; }
+/* BS3 panel contextual borders; P137 panels 67 uses, frontend/src/plugins/lmn_landingpage/Landingpage.vue; remove C1/C4. */ .panel.panel-success { border-color: #d6e9c6; } .panel.panel-info { border-color: #bce8f1; } .panel.panel-warning { border-color: #faebcc; } .panel.panel-danger { border-color: #ebccd1; }
 /* BS3 alert normal positioning; P137 frontend/src/plugins/lmn_settings/GlobalSettings.vue; remove C12. */ .alert { position: static; }
 /* BS3 input table with a single TOTP control shrink-wraps; P137 forms 102 uses, frontend/src/shell/auth-components.mjs; remove B3/C12. */ .input-group { width: auto; }
 /* BS3 btn-block follows btn display in the original cascade; P137 btn-block 2 uses, frontend/src/plugins/lmn_linbo4/PartitionDialog.vue:47 plus auth-components.mjs; remove B3/C8. */ .btn.btn-block { display: block; }
@@ -89,11 +86,8 @@
  * Legacy consumers retain their original selectors until B5/C/D1. */
 /* P137 common/FileDialog/FileEditorDialog.vue; P154 migrated B4 appearance; consolidate theme in D1. */
 .btn.common-file-button { --bs-btn-focus-box-shadow: none; color: #333; background-color: #fff; border-color: #eee; }
-/* P137 common/FileDialog/FileEditorDialog.vue; P154 migrated B4 appearance; consolidate theme in D1. */
 .btn.common-file-button:focus { color: #333; background-color: #e6e6e6; border-color: #aeaeae; }
-/* P137 common/FileDialog/FileEditorDialog.vue; P154 migrated B4 appearance; consolidate theme in D1. */
 .btn.common-file-button:hover, .btn.common-file-button:active { color: #333; background-color: #e6e6e6; border-color: #cfcfcf; }
-/* P137 common/FileDialog/FileEditorDialog.vue; P154 migrated B4 appearance; consolidate theme in D1. */
 .btn.common-file-button:active:hover, .btn.common-file-button:active:focus { color: #333; background-color: #d4d4d4; border-color: #aeaeae; }
 /* P137 common/FileEditorDialog.vue; P154 migrated B4 appearance; consolidate theme in D1. */
 .common-file-drop { position: static; display: block; min-width: auto; color: inherit; overflow-wrap: normal; min-height: 20px; padding: 19px; margin-bottom: 20px; background-color: #f5f5f5; border: 1px solid #e3e3e3; border-radius: 3px; box-shadow: inset 0 1px 1px rgba(0,0,0,.05); }
@@ -101,89 +95,67 @@
 .common-file-title { margin: 10px 0; line-height: 1.1; }
 /* P137 common/PathSelector.vue; P154 migrated B4 appearance; consolidate theme in D1. */
 .input-group-text.common-path-addon { display: table-cell; width: 1%; white-space: nowrap; vertical-align: middle; padding: 6px 12px; font-size: 14px; font-weight: normal; line-height: 1; color: #555555; text-align: center; border: 1px solid transparent; border-bottom-color: #ddd; border-radius: 0; box-shadow: none; background: #f8f8f8; }
-/* P137 common/PathSelector.vue; P154 migrated B4 appearance; consolidate theme in D1. */
 .common-path-addon a i { color: #666; }
-/* P137 common/PathSelector.vue; P154 migrated B4 appearance; consolidate theme in D1. */
 .form-control:focus + .common-path-addon { border-color: transparent; border-bottom-color: #2196F3; background: white; }
-/* P137 common/PathSelector.vue; P154 migrated B4 appearance; consolidate theme in D1. */
 .form-control:focus + .common-path-addon a i { color: #2196F3; }
 /* P137 common/PathSelector.vue; existing Ajenti color variant, migrated B4; consolidate D1. */
 body.global-color-red .form-control:focus + .common-path-addon {
   border-bottom-color: #e94c41;
 }
-/* P137 common/PathSelector.vue; existing Ajenti color variant, migrated B4; consolidate D1. */
 body.global-color-red .form-control:focus + .common-path-addon a i {
   color: #e94c41;
 }
-/* P137 common/PathSelector.vue; existing Ajenti color variant, migrated B4; consolidate D1. */
 body.global-color-bluegrey .form-control:focus + .common-path-addon {
   border-bottom-color: #6c797f;
 }
-/* P137 common/PathSelector.vue; existing Ajenti color variant, migrated B4; consolidate D1. */
 body.global-color-bluegrey .form-control:focus + .common-path-addon a i {
   color: #6c797f;
 }
-/* P137 common/PathSelector.vue; existing Ajenti color variant, migrated B4; consolidate D1. */
 body.global-color-purple .form-control:focus + .common-path-addon {
   border-bottom-color: #9432a5;
 }
-/* P137 common/PathSelector.vue; existing Ajenti color variant, migrated B4; consolidate D1. */
 body.global-color-purple .form-control:focus + .common-path-addon a i {
   color: #9432a5;
 }
-/* P137 common/PathSelector.vue; existing Ajenti color variant, migrated B4; consolidate D1. */
 body.global-color-blue .form-control:focus + .common-path-addon {
   border-bottom-color: #2d95e7;
 }
-/* P137 common/PathSelector.vue; existing Ajenti color variant, migrated B4; consolidate D1. */
 body.global-color-blue .form-control:focus + .common-path-addon a i {
   color: #2d95e7;
 }
-/* P137 common/PathSelector.vue; existing Ajenti color variant, migrated B4; consolidate D1. */
 body.global-color-green .form-control:focus + .common-path-addon {
   border-bottom-color: #59a25c;
 }
-/* P137 common/PathSelector.vue; existing Ajenti color variant, migrated B4; consolidate D1. */
 body.global-color-green .form-control:focus + .common-path-addon a i {
   color: #59a25c;
 }
-/* P137 common/PathSelector.vue; existing Ajenti color variant, migrated B4; consolidate D1. */
 body.global-color-deeporange .form-control:focus + .common-path-addon {
   border-bottom-color: #f45d2d;
 }
-/* P137 common/PathSelector.vue; existing Ajenti color variant, migrated B4; consolidate D1. */
 body.global-color-deeporange .form-control:focus + .common-path-addon a i {
   color: #f45d2d;
 }
-/* P137 common/PathSelector.vue; existing Ajenti color variant, migrated B4; consolidate D1. */
 body.global-color-orange .form-control:focus + .common-path-addon {
   border-bottom-color: #f2960d;
 }
-/* P137 common/PathSelector.vue; existing Ajenti color variant, migrated B4; consolidate D1. */
 body.global-color-orange .form-control:focus + .common-path-addon a i {
   color: #f2960d;
 }
-/* P137 common/PathSelector.vue; existing Ajenti color variant, migrated B4; consolidate D1. */
 body.global-color-teal .form-control:focus + .common-path-addon {
   border-bottom-color: #088f82;
 }
-/* P137 common/PathSelector.vue; existing Ajenti color variant, migrated B4; consolidate D1. */
 body.global-color-teal .form-control:focus + .common-path-addon a i {
   color: #088f82;
 }
 /* Same Common-SCSS customized focus palette, restricted to the migrated addon. */
-/* P137 common/PathSelector.vue; P154 migrated B4 appearance; consolidate theme in D1. */
 html body.customized .form-control:focus + .common-path-addon { border-bottom-color: #233c4c; }
-/* P137 common/PathSelector.vue; P154 migrated B4 appearance; consolidate theme in D1. */
 html body.customized .form-control:focus + .common-path-addon a i { color: #233c4c; }
 /* P137 common/FlowUpload.vue/wait.mjs; P154 migrated B4 appearance; consolidate theme in D1. */
 .progress-bar.common-file-progress { --bs-warning-rgb: 255, 193, 7; background-color: #ffc107; }
 /* P137 common/LmLog.vue; P154 migrated B4 appearance; consolidate theme in D1. */
 .common-log-options { margin-bottom: 30px; }
 /* BS5 disabled defaults previously had no contextual variables on .btn-default. */
-/* P137 common/FileDialog/FileEditorDialog.vue; P154 migrated B4 appearance; consolidate theme in D1. */
 .btn.common-file-button:disabled { color: inherit; background-color: transparent; border-color: currentColor; }
-/* P137 common/PathSelector.vue; P154 migrated B4 appearance; consolidate theme in D1. */
 .input-group-text.common-path-addon:last-child { border-left: 0; }
 /* P137 common/FileDialog.vue; BS5 actionable-list hover/focus keeps Ajenti colors, B4; consolidate D1. */
 .file-open-dialog .list-group-item-action:hover, .file-open-dialog .list-group-item-action:focus { color: #666; background-color: #f5f5f5; }
@@ -264,7 +236,6 @@ html body.customized .common-user-tabs > .nav-item > .nav-link.active:hover { bo
 
 /* P137 shell/Widget.vue; B6 widths after transitional .row child reset; consolidate D1. */
 .shell-widget-column.col-4 { width: 33.33333333%; }
-/* P137 shell/Widget.vue; B6 widths after transitional .row child reset; consolidate D1. */
 .shell-widget-column.col-8 { width: 66.66666667%; }
 
 /* P137 shell/Dashboard.vue/StockSettings.vue; P156 B6 review: native tab focus had no BS5 shadow; consolidate D1. */
@@ -285,56 +256,33 @@ html body.customized .common-user-tabs > .nav-item > .nav-link.active:hover { bo
 
 /* P137 lmn_groupmembership/Details.vue + C4 labels/buttons; scoped legacy geometry; consolidate D1. */
 .c4-card { margin-bottom: 20px; background-color: #fff; border: 1px solid transparent; border-radius: 3px; -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05); box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05); position: static; display: block; min-width: auto; color: inherit; overflow-wrap: normal; }
-/* P137 lmn_groupmembership/Details.vue + C4 labels/buttons; scoped legacy geometry; consolidate D1. */
 .c4-card > .card-header { padding: 10px 15px; border-bottom: 1px solid transparent; border-top-right-radius: 2px; border-top-left-radius: 2px; margin-bottom: 0; }
-/* P137 lmn_groupmembership/Details.vue + C4 labels/buttons; scoped legacy geometry; consolidate D1. */
 .c4-card > .card-body { padding: 15px; flex: none; color: inherit; }
-/* P137 lmn_groupmembership/Details.vue + C4 labels/buttons; scoped legacy geometry; consolidate D1. */
 .c4-card-info { border-color: #bce8f1; }
-/* P137 lmn_groupmembership/Details.vue + C4 labels/buttons; scoped legacy geometry; consolidate D1. */
 .c4-card-info > .card-header { color: #31708f; background-color: #d9edf7; border-color: #bce8f1; }
-/* P137 lmn_groupmembership/Details.vue + C4 labels/buttons; scoped legacy geometry; consolidate D1. */
 .c4-card-danger { border-color: #ebccd1; }
-/* P137 lmn_groupmembership/Details.vue + C4 labels/buttons; scoped legacy geometry; consolidate D1. */
 .c4-card-danger > .card-header { color: #a94442; background-color: #f2dede; border-color: #ebccd1; }
-/* P137 lmn_groupmembership/Details.vue + C4 labels/buttons; scoped legacy geometry; consolidate D1. */
 .badge.c4-badge { display: inline; padding: 0.4em 0.6em 0.3em; margin-right: 3px; font-size: 75%; font-weight: bold; line-height: 1; color: #fff; text-align: center; white-space: nowrap; vertical-align: baseline; border-radius: 0.25em; min-width: 0; }
-/* P137 lmn_groupmembership/Details.vue + C4 labels/buttons; scoped legacy geometry; consolidate D1. */
 .c4-badge.bg-secondary { --bs-secondary-rgb: 119, 119, 119; }
-/* P137 lmn_groupmembership/Details.vue + C4 labels/buttons; scoped legacy geometry; consolidate D1. */
 .c4-badge.bg-primary { --bs-primary-rgb: 33, 150, 243; }
-/* P137 lmn_groupmembership/Details.vue + C4 labels/buttons; scoped legacy geometry; consolidate D1. */
 .c4-badge.bg-success { --bs-success-rgb: 76, 175, 80; }
-/* P137 lmn_groupmembership/Details.vue + C4 labels/buttons; scoped legacy geometry; consolidate D1. */
 .c4-badge.bg-info { --bs-info-rgb: 3, 169, 244; }
-/* P137 lmn_groupmembership/Details.vue + C4 labels/buttons; scoped legacy geometry; consolidate D1. */
 .c4-badge.bg-danger { --bs-danger-rgb: 244, 67, 54; }
-/* P137 lmn_groupmembership/Details.vue + C4 labels/buttons; scoped legacy geometry; consolidate D1. */
 .btn.c4-button { --bs-btn-focus-box-shadow: none; }
-/* P137 lmn_groupmembership/Details.vue + C4 labels/buttons; scoped legacy geometry; consolidate D1. */
 .c4-button { color: #333; background-color: #fff; border-color: #eee; }
-/* P137 lmn_groupmembership/Details.vue + C4 labels/buttons; scoped legacy geometry; consolidate D1. */
 /* P137 C4 neutral button border must follow the later Ajenti .btn base without overriding flat/LMN variants; consolidate D1. */
 .btn.c4-button:where(:not(.btn-flat):not(.btn-lmn)) { color: #333; background-color: #fff; border-color: #eee; }
 /* P137 C4 neutral focus; consolidate D1. */
 .c4-button:focus { color: #333; background-color: #e6e6e6; border-color: #aeaeae; }
-/* P137 lmn_groupmembership/Details.vue + C4 labels/buttons; scoped legacy geometry; consolidate D1. */
 .c4-button:hover, .c4-button:active { color: #333; background-color: #e6e6e6; border-color: #cfcfcf; }
-/* P137 lmn_groupmembership/Details.vue + C4 labels/buttons; scoped legacy geometry; consolidate D1. */
 .c4-button:active:hover, .c4-button:active:focus { color: #333; background-color: #d4d4d4; border-color: #aeaeae; }
-/* P137 lmn_groupmembership/Details.vue + C4 labels/buttons; scoped legacy geometry; consolidate D1. */
-.c4-button:disabled { color: inherit; background-color: transparent; border-color: currentColor; }
-/* P137 lmn_groupmembership/Details.vue + C4 labels/buttons; scoped legacy geometry; consolidate D1. */
 .c4-button:focus-visible { color: #333; background-color: #e6e6e6; border-color: #aeaeae; }
 /* P137 lmn_quotas/Quotas.vue + lmn_permissions/Permissions.vue; C4 tab geometry; consolidate D1. */
 .c4-tabs { --bs-nav-link-color: #666; --bs-nav-link-hover-color: #666; --bs-nav-tabs-link-hover-border-color: #f0f0f0 #f0f0f0 #eee; }
-/* P137 lmn_quotas/Quotas.vue + lmn_permissions/Permissions.vue; C4 tab geometry; consolidate D1. */
 .c4-tabs > .nav-item > .nav-link { padding: 10px 15px; margin-bottom: 0; border-radius: 0; }
-/* P137 lmn_quotas/Quotas.vue + lmn_permissions/Permissions.vue; C4 tab geometry; consolidate D1. */
 .c4-tabs > .nav-item > .nav-link.active,
 .c4-tabs > .nav-item > .nav-link.active:hover,
 .c4-tabs > .nav-item > .nav-link.active:focus { color: #666; background-color: rgba(0,0,0,.03); border: 1px solid transparent; border-bottom-color: #2196F3; cursor: default; }
-/* P137 lmn_quotas/Quotas.vue + lmn_permissions/Permissions.vue; C4 tab geometry; consolidate D1. */
 html body.customized .c4-tabs > .nav-item > .nav-link.active,
 html body.customized .c4-tabs > .nav-item > .nav-link.active:hover { border-bottom: 1px solid #233c4c; color: #233c4c; }
 /* P137 C4 tabs introduced nav-link; BS5 focus shadow was absent before; consolidate D1. */
@@ -345,11 +293,8 @@ html body.customized .c4-tabs > .nav-item > .nav-link.active:hover { border-bott
 .c4-group-actions > .btn { position: relative; float: none; }
 /* P137 C4 grouped filter buttons; consolidate D1. */
 .c4-group-actions > .btn + .btn { margin-left: -1px; }
-/* P137 C4 grouped filter buttons; consolidate D1. */
 .c4-group-actions > .btn:hover, .c4-group-actions > .btn:focus, .c4-group-actions > .btn:active { z-index: 2; }
-/* P137 C4 grouped filter buttons; consolidate D1. */
 .c4-group-actions:not(:last-child) > .btn { border-radius: 0; }
-/* P137 C4 grouped filter buttons; consolidate D1. */
 .c4-group-actions:last-child > .btn { border-top-left-radius: 0; border-bottom-left-radius: 0; z-index: 2; margin-left: -1px; }
 /* P137 lmn_permissions/Permissions.vue; C4 former form-group spacing; consolidate D1. */
 .c4-permissions { margin-bottom: 30px; }
@@ -410,44 +355,27 @@ body.global-color-teal .c4-tabs > .nav-item > .nav-link.active, body.global-colo
  * preserved here; shared legacy panel rules remain for C4/C8 and stock resources (D1). */
 /* P137 C1; P157 scoped counterpart, Landingpage/Links/SchoolSwitcher and dialogs; remove D1. */
 .c1-card { margin-bottom: 20px; background-color: #fff; border: 1px solid #eee; border-radius: 3px; box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05); position: static; display: block; min-width: auto; color: inherit; overflow-wrap: normal; }
-/* P137 C1; P157 scoped counterpart, Landingpage/Links/SchoolSwitcher and dialogs; remove D1. */
 .c1-card > .card-header { padding: 1px 15px; border-bottom: medium solid #f99e15; border-top-right-radius: 2px; border-top-left-radius: 2px; margin-bottom: 0; color: #fff; font-weight: bold; background-color: #233c4c; }
-/* P137 C1; P157 scoped counterpart, Landingpage/Links/SchoolSwitcher and dialogs; remove D1. */
 .c1-card > .card-body { padding: 20px; flex: none; color: inherit; }
-/* P137 C1; P157 scoped counterpart, Landingpage/Links/SchoolSwitcher and dialogs; remove D1. */
 .c1-card > .card-body::before, .c1-card > .card-body::after { content: ' '; display: table; }
-/* P137 C1; P157 scoped counterpart, Landingpage/Links/SchoolSwitcher and dialogs; remove D1. */
 .c1-card > .card-body::after { clear: both; }
-/* P137 C1; P157 scoped counterpart, Landingpage/Links/SchoolSwitcher and dialogs; remove D1. */
 .c1-card > .card-body > span { display: inline-block; width: 100px; }
 /* P141 D03: only landing cards expand below the original 768px breakpoint. */
 @media (max-width: 767px) { /* P137 C1; P141 D03 mobile landing width; retain after D1. */ .c1-landing > .c1-card { width: calc(100% - 20px); } }
-/* P137 C1; P157 scoped counterpart, Landingpage/Links/SchoolSwitcher and dialogs; remove D1. */
 .badge.c1-badge { display: inline; padding: 0.4em 0.6em 0.3em; font-size: 75%; font-weight: bold; line-height: 1; color: #fff; text-align: center; white-space: nowrap; vertical-align: baseline; border-radius: 0.25em; margin-right: 3px; min-width: 0; }
-/* P137 C1; P157 scoped counterpart, Landingpage/Links/SchoolSwitcher and dialogs; remove D1. */
 .badge.c1-badge:empty { display: none; }
-/* P137 C1; P157 scoped counterpart, Landingpage/Links/SchoolSwitcher and dialogs; remove D1. */
 .c1-badge.bg-info { --bs-info-rgb: 3, 169, 244; }
-/* P137 C1; P157 scoped counterpart, Landingpage/Links/SchoolSwitcher and dialogs; remove D1. */
 .c1-badge.bg-danger, .c1-progress.bg-danger { --bs-danger-rgb: 244, 67, 54; }
-/* P137 C1; P157 scoped counterpart, Landingpage/Links/SchoolSwitcher and dialogs; remove D1. */
 .c1-progress.bg-success { --bs-success-rgb: 76, 175, 80; }
-/* P137 C1; P157 scoped counterpart, Landingpage/Links/SchoolSwitcher and dialogs; remove D1. */
 .c1-progress.bg-warning { --bs-warning-rgb: 255, 193, 7; }
 /* Neutral controls use B3/B4 focus token, scoped to this package. */
-/* P137 C1; P157 scoped counterpart, Landingpage/Links/SchoolSwitcher and dialogs; remove D1. */
 .btn.c1-button { --bs-btn-focus-box-shadow: none; }
-/* P137 C1; P157 scoped counterpart, Landingpage/Links/SchoolSwitcher and dialogs; remove D1. */
 .c1-button { color: #333; background-color: #fff; border-color: #eee; }
 /* P137 C1; Links normal neutral border follows Ajenti .btn, scoped card counterpart; legacy removal D1. */
 .c1-card .c1-button { border-color: #eee; }
-/* P137 C1; P157 scoped counterpart, Landingpage/Links/SchoolSwitcher and dialogs; remove D1. */
 .c1-button:focus, .c1-button:focus-visible { color: #333; background-color: #e6e6e6; border-color: #aeaeae; }
-/* P137 C1; P157 scoped counterpart, Landingpage/Links/SchoolSwitcher and dialogs; remove D1. */
 .c1-button:hover, .c1-button:active { color: #333; background-color: #e6e6e6; border-color: #cfcfcf; }
-/* P137 C1; P157 scoped counterpart, Landingpage/Links/SchoolSwitcher and dialogs; remove D1. */
 .c1-button:active:hover, .c1-button:active:focus { color: #333; background-color: #d4d4d4; border-color: #aeaeae; }
-/* P137 C1; P157 scoped counterpart, Landingpage/Links/SchoolSwitcher and dialogs; remove D1. */
 .c1-button:disabled { color: inherit; background-color: transparent; border-color: currentColor; }
 
 /* P137 C2 neutral button focus token (B3/B4 pattern); consolidate D1. */
@@ -456,31 +384,20 @@ body.global-color-teal .c4-tabs > .nav-item > .nav-link.active, body.global-colo
 .btn.dhcp-button:not(:where(.btn-flat)), .btn.dns-button:not(:where(.btn-flat)), .btn.cron-button:not(:where(.btn-flat)) { border-color: #eee; }
 /* P137 C2 neutral actions keep original specificity below btn-flat; consolidate D1. */
 .dhcp-button, .dns-button, .cron-button { color: #333; background-color: #fff; border-color: #eee; }
-/* P137 C2 neutral actions keep original specificity below btn-flat; consolidate D1. */
 .dhcp-button:focus, .dns-button:focus, .cron-button:focus { color: #333; background-color: #e6e6e6; border-color: #aeaeae; }
-/* P137 C2 neutral actions keep original specificity below btn-flat; consolidate D1. */
 .dhcp-button:hover, .dhcp-button:active, .dns-button:hover, .dns-button:active, .cron-button:hover, .cron-button:active { color: #333; background-color: #e6e6e6; border-color: #cfcfcf; }
-/* P137 C2 neutral actions keep original specificity below btn-flat; consolidate D1. */
 .dhcp-button:active:hover, .dhcp-button:active:focus, .dns-button:active:hover, .dns-button:active:focus, .cron-button:active:hover, .cron-button:active:focus { color: #333; background-color: #d4d4d4; border-color: #aeaeae; }
 /* P137 C2 DHCP error/form and Cron tabs; P158 migration, consolidate D1. */
 .dhcp-field, .cron-field { margin-bottom: 30px; }
-/* P137 C2 DHCP error/form and Cron tabs; P158 migration, consolidate D1. */
 .dhcp-field .is-invalid { border-color: red; background-color: rgba(255, 178, 178, 0.29); background-image: none; padding-right: 12px; box-shadow: inset 0 1px 1px rgba(0,0,0,.075); }
-/* P137 C2 DHCP error/form and Cron tabs; P158 migration, consolidate D1. */
 .dhcp-field .is-invalid:focus { border-color: #843534; background-color: rgba(255, 178, 178, 0.29); box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 6px #ce8483; }
-/* P137 C2 DHCP error/form and Cron tabs; P158 migration, consolidate D1. */
 .cron-tabs > .nav-item > .nav-link { padding: 10px 15px; margin-bottom: 0; border-radius: 0; color: #666; }
 /* P137 C2 Cron inactive focus/hover borders match pre-nav-link Ajenti; consolidate D1. */
 .cron-tabs > .nav-item > .nav-link:focus { border-color: transparent; }
-/* P137 C2 Cron inactive focus/hover borders match pre-nav-link Ajenti; consolidate D1. */
 .cron-tabs > .nav-item > .nav-link:hover { border-color: #f0f0f0 #f0f0f0 #eee; }
-/* P137 C2 DHCP error/form and Cron tabs; P158 migration, consolidate D1. */
 .cron-tabs > .nav-item > .nav-link.active:focus { color: #666; background-color: #f0f0f0; border-color: #ddd; border-bottom-color: transparent; }
-/* P137 C2 DHCP error/form and Cron tabs; P158 migration, consolidate D1. */
 .cron-tabs > .nav-item > .nav-link.active, .cron-tabs > .nav-item > .nav-link.active:hover { color: #2196F3; background: rgba(0,0,0,.03); border: 1px solid transparent; border-bottom-color: #2196F3; cursor: default; }
-/* P137 C2 DHCP error/form and Cron tabs; P158 migration, consolidate D1. */
 html body.customized .cron-tabs > .nav-item > .nav-link.active, html body.customized .cron-tabs > .nav-item > .nav-link.active:hover { border-bottom: 1px solid #233c4c; color: #233c4c; }
-/* P137 C2 DHCP error/form and Cron tabs; P158 migration, consolidate D1. */
 .cron-tabs > .nav-item > .nav-link:focus-visible { box-shadow: none; }
 /* P137 C2 Cron crontab selector row previously inside form-group; consolidate D1. */
 .cron-field > .row > div { margin-bottom: 10px; }
@@ -490,43 +407,36 @@ body.global-color-red .cron-tabs > .nav-item > .nav-link.active:hover {
   border-bottom: 1px solid #e94c41;
   color: #e94c41;
 }
-/* P137 C2 Cron Ajenti global-color variant retained; consolidate D1. */
 body.global-color-bluegrey .cron-tabs > .nav-item > .nav-link.active,
 body.global-color-bluegrey .cron-tabs > .nav-item > .nav-link.active:hover {
   border-bottom: 1px solid #6c797f;
   color: #6c797f;
 }
-/* P137 C2 Cron Ajenti global-color variant retained; consolidate D1. */
 body.global-color-purple .cron-tabs > .nav-item > .nav-link.active,
 body.global-color-purple .cron-tabs > .nav-item > .nav-link.active:hover {
   border-bottom: 1px solid #9432a5;
   color: #9432a5;
 }
-/* P137 C2 Cron Ajenti global-color variant retained; consolidate D1. */
 body.global-color-blue .cron-tabs > .nav-item > .nav-link.active,
 body.global-color-blue .cron-tabs > .nav-item > .nav-link.active:hover {
   border-bottom: 1px solid #2d95e7;
   color: #2d95e7;
 }
-/* P137 C2 Cron Ajenti global-color variant retained; consolidate D1. */
 body.global-color-green .cron-tabs > .nav-item > .nav-link.active,
 body.global-color-green .cron-tabs > .nav-item > .nav-link.active:hover {
   border-bottom: 1px solid #59a25c;
   color: #59a25c;
 }
-/* P137 C2 Cron Ajenti global-color variant retained; consolidate D1. */
 body.global-color-deeporange .cron-tabs > .nav-item > .nav-link.active,
 body.global-color-deeporange .cron-tabs > .nav-item > .nav-link.active:hover {
   border-bottom: 1px solid #f45d2d;
   color: #f45d2d;
 }
-/* P137 C2 Cron Ajenti global-color variant retained; consolidate D1. */
 body.global-color-orange .cron-tabs > .nav-item > .nav-link.active,
 body.global-color-orange .cron-tabs > .nav-item > .nav-link.active:hover {
   border-bottom: 1px solid #f2960d;
   color: #f2960d;
 }
-/* P137 C2 Cron Ajenti global-color variant retained; consolidate D1. */
 body.global-color-teal .cron-tabs > .nav-item > .nav-link.active,
 body.global-color-teal .cron-tabs > .nav-item > .nav-link.active:hover {
   border-bottom: 1px solid #088f82;
@@ -535,62 +445,36 @@ body.global-color-teal .cron-tabs > .nav-item > .nav-link.active:hover {
 
 /* P137 lmn_devices/lmn_clients/lmn_device-manager; P159 C3 scoped migrated appearance; consolidate D1. */
 .btn.c3-button { --bs-btn-focus-box-shadow: none; }
-/* P137 lmn_devices/lmn_clients/lmn_device-manager; P159 C3 scoped migrated appearance; consolidate D1. */
 .c3-button { color: #333; background-color: #fff; border-color: #eee; }
 /* P137 lmn_devices/lmn_clients/lmn_device-manager; P159 C3 normal neutral border follows .btn, flat keeps its later theme reset; consolidate D1. */
 .btn.c3-button:where(:not(.btn-flat)) { border-color: #eee; }
-/* P137 lmn_devices/lmn_clients/lmn_device-manager; P159 C3 scoped migrated appearance; consolidate D1. */
 .c3-button:focus { color: #333; background-color: #e6e6e6; border-color: #aeaeae; }
-/* P137 lmn_devices/lmn_clients/lmn_device-manager; P159 C3 scoped migrated appearance; consolidate D1. */
 .c3-button:hover, .c3-button:active { color: #333; background-color: #e6e6e6; border-color: #cfcfcf; }
-/* P137 lmn_devices/lmn_clients/lmn_device-manager; P159 C3 scoped migrated appearance; consolidate D1. */
 .c3-button:active:hover, .c3-button:active:focus { color: #333; background-color: #d4d4d4; border-color: #aeaeae; }
-/* P137 lmn_devices/lmn_clients/lmn_device-manager; P159 C3 scoped migrated appearance; consolidate D1. */
 .c3-button:disabled { color: inherit; background-color: transparent; border-color: currentColor; }
-/* P137 lmn_devices/lmn_clients/lmn_device-manager; P159 C3 scoped migrated appearance; consolidate D1. */
 .c3-button:focus-visible { color: #333; background-color: #e6e6e6; border-color: #aeaeae; }
-/* P137 lmn_devices/lmn_clients/lmn_device-manager; P159 C3 scoped migrated appearance; consolidate D1. */
 .c3-client-tabs > .nav-item > .nav-link { padding: 10px 15px; margin-bottom: 0; color: #666; border-radius: 0; isolation: auto; }
-/* P137 lmn_devices/lmn_clients/lmn_device-manager; P159 C3 scoped migrated appearance; consolidate D1. */
 .c3-client-tabs > .nav-item > .nav-link.active,
 .c3-client-tabs > .nav-item > .nav-link.active:hover { border: 1px solid transparent; border-bottom: 1px solid #2196F3; color: #2196F3; background: rgba(0,0,0,.03); cursor: default; }
-/* P137 lmn_devices/lmn_clients/lmn_device-manager; P159 C3 scoped migrated appearance; consolidate D1. */
 html body.customized .c3-client-tabs > .nav-item > .nav-link.active,
 html body.customized .c3-client-tabs > .nav-item > .nav-link.active:hover { border-bottom-color: #233c4c; color: #233c4c; }
-/* P137 lmn_devices/lmn_clients/lmn_device-manager; P159 C3 scoped migrated appearance; consolidate D1. */
 .c3-client-tabs > .nav-item > .nav-link.active:focus { color: #666; background-color: #f0f0f0; border: 1px solid #ddd; border-bottom-color: transparent; }
-/* P137 lmn_devices/lmn_clients/lmn_device-manager; P159 C3 scoped migrated appearance; consolidate D1. */
 .c3-client-tabs > .nav-item > .nav-link:focus-visible { box-shadow: none; }
-/* P137 lmn_devices/lmn_clients/lmn_device-manager; P159 C3 scoped migrated appearance; consolidate D1. */
 .c3-menu-control { display: table-cell; width: 1%; white-space: nowrap; vertical-align: middle; position: relative; font-size: 0; }
-/* P137 lmn_devices/lmn_clients/lmn_device-manager; P159 C3 scoped migrated appearance; consolidate D1. */
 .c3-menu-control > .btn { position: relative; }
-/* P137 lmn_devices/lmn_clients/lmn_device-manager; P159 C3 scoped migrated appearance; consolidate D1. */
 .c3-menu-control > .btn:hover, .c3-menu-control > .btn:focus, .c3-menu-control > .btn:active { z-index: 2; }
-/* P137 lmn_devices/lmn_clients/lmn_device-manager; P159 C3 scoped migrated appearance; consolidate D1. */
 .input-group > .c3-menu-control:not(:first-child):not(:last-child) { border-radius: 0; }
-/* P137 lmn_devices/lmn_clients/lmn_device-manager; P159 C3 scoped migrated appearance; consolidate D1. */
 .c3-menu-control:last-child > .btn { z-index: 2; margin-left: -1px; border-top-left-radius: 0; border-bottom-left-radius: 0; }
-/* P137 lmn_devices/lmn_clients/lmn_device-manager; P159 C3 scoped migrated appearance; consolidate D1. */
 .c3-menu-control .dropdown-menu-end { right: 0; left: auto; }
-/* P137 lmn_devices/lmn_clients/lmn_device-manager; P159 C3 scoped migrated appearance; consolidate D1. */
 .c3-menu-control a.dropdown-item, .group-options .dropdown-item { color: #333; }
-/* P137 lmn_devices/lmn_clients/lmn_device-manager; P159 C3 scoped migrated appearance; consolidate D1. */
 .c3-menu-control a.dropdown-item:hover, .c3-menu-control a.dropdown-item:focus,
 .group-options .dropdown-item:hover, .group-options .dropdown-item:focus { color: #333; background-color: #f5f5f5; }
-/* P137 lmn_devices/lmn_clients/lmn_device-manager; P159 C3 scoped migrated appearance; consolidate D1. */
 .group-options .dropdown-item.active, .group-options .dropdown-item.active:hover, .group-options .dropdown-item.active:focus { color: #333; text-decoration: none; outline: 0; background-color: #2196F3; }
-/* P137 lmn_devices/lmn_clients/lmn_device-manager; P159 C3 scoped migrated appearance; consolidate D1. */
 .c3-menu-control a.dropdown-item.disabled { color: #777; cursor: not-allowed; pointer-events: auto; }
-/* P137 lmn_devices/lmn_clients/lmn_device-manager; P159 C3 scoped migrated appearance; consolidate D1. */
 .c3-menu-control a.dropdown-item.disabled:hover, .c3-menu-control a.dropdown-item.disabled:focus { color: #777; text-decoration: none; background-color: transparent; background-image: none; }
-/* P137 lmn_devices/lmn_clients/lmn_device-manager; P159 C3 scoped migrated appearance; consolidate D1. */
 .c3-device-field, .c3-device-form { margin-bottom: 30px; }
-/* P137 lmn_devices/lmn_clients/lmn_device-manager; P159 C3 scoped migrated appearance; consolidate D1. */
 .c3-device-field .form-control.is-invalid { padding-right: 12px; background-image: none; background-color: rgba(255,178,178,.29); border-color: red; box-shadow: inset 0 1px 1px rgba(0,0,0,.075); }
-/* P137 lmn_devices/lmn_clients/lmn_device-manager; P159 C3 scoped migrated appearance; consolidate D1. */
 .c3-device-field .is-invalid:focus { border-color: #843534; box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 6px #ce8483; }
-/* P137 lmn_devices/lmn_clients/lmn_device-manager; P159 C3 scoped migrated appearance; consolidate D1. */
 .badge.c3-count.bg-secondary { --bs-secondary-rgb: 119, 119, 119; }
 
 /* P137 lmn_clients/Clients.vue; P159 C3 BS5 link focus keeps the legacy tab borders; consolidate D1. */
@@ -633,147 +517,95 @@ html body.customized .c3-client-tabs > .nav-item > .nav-link.active:hover { bord
 html body.customized smart-progress .progress .c5-progress.bg-warning { background-color: #ffab40 !important; }
 /* P137 lmn_session_new/*.vue; P162 C6 neutral buttons preserve B3/B4 focus and Ajenti flat/LMN cascade; consolidate D1. */
 .btn.c6-button { --bs-btn-focus-box-shadow: none; }
-/* P137 lmn_session_new/*.vue; P162 C6 neutral buttons preserve B3/B4 focus and Ajenti flat/LMN cascade; consolidate D1. */
 .c6-button { color: #333; background-color: #fff; border-color: #eee; }
-/* P137 lmn_session_new/*.vue; P162 C6 neutral buttons preserve B3/B4 focus and Ajenti flat/LMN cascade; consolidate D1. */
 .btn.c6-button:where(:not(.btn-flat):not(.btn-lmn):not(.btn-lmn-danger-inv):not(.btn-lmn-success-inv)) { color: #333; background-color: #fff; border-color: #eee; }
-/* P137 lmn_session_new/*.vue; P162 C6 neutral buttons preserve B3/B4 focus and Ajenti flat/LMN cascade; consolidate D1. */
 .c6-button:focus, .c6-button:focus-visible { color: #333; background-color: #e6e6e6; border-color: #aeaeae; }
-/* P137 lmn_session_new/*.vue; P162 C6 neutral buttons preserve B3/B4 focus and Ajenti flat/LMN cascade; consolidate D1. */
 .c6-button:hover, .c6-button:active { color: #333; background-color: #e6e6e6; border-color: #cfcfcf; }
-/* P137 lmn_session_new/*.vue; P162 C6 neutral buttons preserve B3/B4 focus and Ajenti flat/LMN cascade; consolidate D1. */
 .c6-button:active:hover, .c6-button:active:focus { color: #333; background-color: #d4d4d4; border-color: #aeaeae; }
-/* P137 lmn_session_new/*.vue; P162 C6 neutral buttons preserve B3/B4 focus and Ajenti flat/LMN cascade; consolidate D1. */
 .c6-button.active { color: #333; background-color: #e6e6e6; border-color: #cfcfcf; background-image: none; }
-/* P137 lmn_session_new/*.vue; P162 C6 neutral buttons preserve B3/B4 focus and Ajenti flat/LMN cascade; consolidate D1. */
 .c6-button.active:hover, .c6-button.active:focus { color: #333; background-color: #d4d4d4; border-color: #aeaeae; }
 
 /* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
 .btn.c12-button { --bs-btn-focus-box-shadow: none; }
-/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
 .c12-button { color: #333; background-color: #fff; border-color: #eee; }
-/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
 .btn.c12-button:where(:not(.btn-flat)) { color: #333; background-color: #fff; border-color: #eee; }
-/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
 .c12-button:focus { color: #333; background-color: #e6e6e6; border-color: #aeaeae; }
-/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
 .c12-button:hover, .c12-button:active { color: #333; background-color: #e6e6e6; border-color: #cfcfcf; }
-/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
 .c12-button:active:hover, .c12-button:active:focus { color: #333; background-color: #d4d4d4; border-color: #aeaeae; }
-/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
 .c12-button[disabled]:hover, .c12-button[disabled]:focus { background-color: #fff; border-color: #eee; }
-/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
 .c12-button:focus-visible { color: #333; background-color: #e6e6e6; border-color: #aeaeae; }
-/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
 .c12-tabs > .nav-item > .nav-link { padding: 10px 15px; margin-bottom: 0; border-radius: 0; color: #666; }
-/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
 .c12-tabs > .nav-item > .nav-link:focus { border-color: transparent; }
-/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
 .c12-tabs > .nav-item > .nav-link:hover { border-color: #f0f0f0 #f0f0f0 #eee; }
-/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
 .c12-tabs > .nav-item > .nav-link.active:focus { color: #666; background-color: #f0f0f0; border-color: #ddd; border-bottom-color: transparent; }
-/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
 .c12-tabs > .nav-item > .nav-link.active, .c12-tabs > .nav-item > .nav-link.active:hover { color: #2196F3; background: rgba(0,0,0,.03); border: 1px solid transparent; border-bottom-color: #2196F3; cursor: default; }
-/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
 html body.customized .c12-tabs > .nav-item > .nav-link.active, html body.customized .c12-tabs > .nav-item > .nav-link.active:hover { border-bottom: 1px solid #233c4c; color: #233c4c; }
-/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
 .c12-tabs > .nav-item > .nav-link:focus-visible { box-shadow: none; }
-/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
 body.global-color-red .c12-tabs > .nav-item > .nav-link.active,
 body.global-color-red .c12-tabs > .nav-item > .nav-link.active:hover {
   border-bottom: 1px solid #e94c41;
   color: #e94c41;
 }
-/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
 body.global-color-bluegrey .c12-tabs > .nav-item > .nav-link.active,
 body.global-color-bluegrey .c12-tabs > .nav-item > .nav-link.active:hover {
   border-bottom: 1px solid #6c797f;
   color: #6c797f;
 }
-/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
 body.global-color-purple .c12-tabs > .nav-item > .nav-link.active,
 body.global-color-purple .c12-tabs > .nav-item > .nav-link.active:hover {
   border-bottom: 1px solid #9432a5;
   color: #9432a5;
 }
-/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
 body.global-color-blue .c12-tabs > .nav-item > .nav-link.active,
 body.global-color-blue .c12-tabs > .nav-item > .nav-link.active:hover {
   border-bottom: 1px solid #2d95e7;
   color: #2d95e7;
 }
-/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
 body.global-color-green .c12-tabs > .nav-item > .nav-link.active,
 body.global-color-green .c12-tabs > .nav-item > .nav-link.active:hover {
   border-bottom: 1px solid #59a25c;
   color: #59a25c;
 }
-/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
 body.global-color-deeporange .c12-tabs > .nav-item > .nav-link.active,
 body.global-color-deeporange .c12-tabs > .nav-item > .nav-link.active:hover {
   border-bottom: 1px solid #f45d2d;
   color: #f45d2d;
 }
-/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
 body.global-color-orange .c12-tabs > .nav-item > .nav-link.active,
 body.global-color-orange .c12-tabs > .nav-item > .nav-link.active:hover {
   border-bottom: 1px solid #f2960d;
   color: #f2960d;
 }
-/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
 body.global-color-teal .c12-tabs > .nav-item > .nav-link.active,
 body.global-color-teal .c12-tabs > .nav-item > .nav-link.active:hover {
   border-bottom: 1px solid #088f82;
   color: #088f82;
 }
-/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
 .c12-field { margin-bottom: 30px; }
-/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
 .c12-field > .row > div { margin-bottom: 10px; }
-/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
 .c12-feedback { position: relative; }
-/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
 .c12-feedback .form-control { padding-right: 42.5px; }
-/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
 .c12-feedback-icon { position: absolute; top: 0; right: 0; z-index: 2; display: block; width: 34px; height: 34px; line-height: 34px; text-align: center; pointer-events: none; }
-/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
 .c12-justified { display: table; width: 100%; table-layout: fixed; border-collapse: separate; }
-/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
 .c12-justified > .btn { float: none; display: table-cell; width: 1%; }
-/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
 .c12-button.active { color: #333; background-color: #e6e6e6; border-color: #cfcfcf; }
 /* P137 lmn_settings; P168 C12 selected SMTP focus/hover; D1. */
 .c12-button.active:hover, .c12-button.active:focus { color: #333; background-color: #d4d4d4; border-color: #aeaeae; }
-/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
 .badge.c12-label { display: inline; padding: .4em .6em .3em; margin-right: 3px; font-size: 75%; font-weight: bold; line-height: 1; color: #fff; text-align: center; white-space: nowrap; vertical-align: baseline; border-radius: .25em; min-width: 0; }
-/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
 .badge.c12-label:empty { display: none; }
-/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
 .c12-label.bg-info { background-color: #03a9f4 !important; }
-/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
 .c12-label.bg-warning { background-color: #ffc107 !important; }
-/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
 .c12-label.bg-success { background-color: #4caf50 !important; }
-/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
 .badge.c12-provider { display: inline-block; min-width: 10px; padding: 3px 7px; font-size: 12px; font-weight: bold; color: #fff; line-height: 1; vertical-align: middle; white-space: nowrap; text-align: center; background-color: #777; border-radius: 10px; }
-/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
 .c12-search .dropdown-item { color: #333; }
-/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
 .c12-search .dropdown-item.active, .c12-search .dropdown-item.active:hover, .c12-search .dropdown-item.active:focus { color: #333; background-color: #2196F3; text-decoration: none; outline: 0; }
-/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
 .c12-search .dropdown-item:hover, .c12-search .dropdown-item:focus { color: #333; background-color: #f5f5f5; }
-/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
 .c12-input-button { position: relative; display: table-cell; width: 1%; font-size: 0; white-space: nowrap; vertical-align: middle; }
-/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
 .c12-input-button > .btn { position: relative; }
-/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
 .c12-input-button:last-child > .btn { z-index: 2; margin-left: -1px; border-top-left-radius: 0; border-bottom-left-radius: 0; }
-/* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
 .c12-input-button > .btn:hover, .c12-input-button > .btn:focus, .c12-input-button > .btn:active { z-index: 2; }
 @media (max-width: 767px) {
- /* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
  .c12-toolbar { display: flex; flex-wrap: wrap; }
- /* P137 lmn_settings Global views/UserSearch; P168 C12 legacy appearance and D13 mobile wrap; consolidate D1. */
  .c12-toolbar > .btn { max-width: 100%; white-space: normal; }
 }
 
@@ -785,77 +617,45 @@ body.global-color-teal .c12-tabs > .nav-item > .nav-link.active:hover {
 /* P164 C8 lmn_linbo4 core: retain Ajenti dimensions/colors; consolidate in D1. */
 /* P137 lmn_linbo4 core; P164 C8 scoped legacy appearance; consolidate D1. */
 .btn.c8-button { --bs-btn-focus-box-shadow: none; }
-/* P137 lmn_linbo4 core; P164 C8 scoped legacy appearance; consolidate D1. */
 .c8-button { color: #333; background-color: #fff; border-color: #eee; }
-/* P137 lmn_linbo4 core; P164 C8 scoped legacy appearance; consolidate D1. */
 .btn.c8-button:where(:not(.btn-flat)) { color: #333; background-color: #fff; border-color: #eee; }
-/* P137 lmn_linbo4 core; P164 C8 scoped legacy appearance; consolidate D1. */
 .c8-button:focus { color: #333; background-color: #e6e6e6; border-color: #aeaeae; }
-/* P137 lmn_linbo4 core; P164 C8 scoped legacy appearance; consolidate D1. */
 .c8-button:hover, .c8-button:active { color: #333; background-color: #e6e6e6; border-color: #cfcfcf; }
-/* P137 lmn_linbo4 core; P164 C8 scoped legacy appearance; consolidate D1. */
 .c8-button:active:hover, .c8-button:active:focus { color: #333; background-color: #d4d4d4; border-color: #aeaeae; }
-/* P137 lmn_linbo4 core; P164 C8 scoped legacy appearance; consolidate D1. */
 .c8-button[disabled]:hover, .c8-button[disabled]:focus { background-color: #fff; border-color: #eee; }
-/* P137 lmn_linbo4 core; P164 C8 scoped legacy appearance; consolidate D1. */
 .c8-button:focus-visible { color: #333; background-color: #e6e6e6; border-color: #aeaeae; }
-/* P137 lmn_linbo4 core; P164 C8 scoped legacy appearance; consolidate D1. */
 .c8-tabs > .nav-item > .nav-link { padding: 10px 15px; margin-bottom: 0; color: #666; border-radius: 0; isolation: auto; }
-/* P137 lmn_linbo4 core; P164 C8 scoped legacy appearance; consolidate D1. */
 .c8-tabs > .nav-item > .nav-link.active,
 .c8-tabs > .nav-item > .nav-link.active:hover { border: 1px solid transparent; border-bottom: 1px solid #2196F3; color: #2196F3; background: rgba(0,0,0,.03); cursor: default; }
-/* P137 lmn_linbo4 core; P164 C8 scoped legacy appearance; consolidate D1. */
 html body.customized .c8-tabs > .nav-item > .nav-link.active,
 html body.customized .c8-tabs > .nav-item > .nav-link.active:hover { border-bottom-color: #233c4c; color: #233c4c; }
-/* P137 lmn_linbo4 core; P164 C8 scoped legacy appearance; consolidate D1. */
 .c8-tabs > .nav-item > .nav-link.active:focus { color: #666; background-color: #f0f0f0; border: 1px solid #ddd; border-bottom-color: transparent; }
-/* P137 lmn_linbo4 core; P164 C8 scoped legacy appearance; consolidate D1. */
 .c8-tabs > .nav-item > .nav-link:focus-visible { box-shadow: none; }
 
-/* P137 lmn_linbo4 core; P164 C8 scoped legacy appearance; consolidate D1. */
-
 .c8-field { margin-bottom: 30px; }
-/* P137 lmn_linbo4 core; P164 C8 scoped legacy appearance; consolidate D1. */
 .card.c8-card { position: static; display: block; min-width: auto; color: inherit; overflow-wrap: normal; margin-bottom: 20px; background-color: #fff; border: 1px solid #ddd; border-radius: 3px; box-shadow: 0 1px 1px rgba(0,0,0,.05); }
-/* P137 lmn_linbo4 core; P164 C8 scoped legacy appearance; consolidate D1. */
 .c8-card > .card-header { padding: 10px 15px; margin-bottom: 0; color: #333; background-color: #f5f5f5; border-bottom: 1px solid #ddd; border-radius: 2px 2px 0 0; }
-/* P137 lmn_linbo4 core; P164 C8 scoped legacy appearance; consolidate D1. */
 .c8-card > .card-body { padding: 15px; flex: none; color: inherit; }
-/* P137 lmn_linbo4 core; P164 C8 scoped legacy appearance; consolidate D1. */
 .c8-card > .card-body::before, .c8-card > .card-body::after { display: table; content: ' '; }
-/* P137 lmn_linbo4 core; P164 C8 scoped legacy appearance; consolidate D1. */
 .c8-card > .card-body::after { clear: both; }
-/* P137 lmn_linbo4 core; P164 C8 scoped legacy appearance; consolidate D1. */
 .badge.c8-label { min-width: 0; padding: .4em .6em .3em; margin-right: 3px; font-size: 75%; font-weight: bold; line-height: 1; color: #fff; text-align: center; white-space: nowrap; vertical-align: baseline; border-radius: .25em; }
-/* P137 lmn_linbo4 core; P164 C8 scoped legacy appearance; consolidate D1. */
 .c8-label.bg-info { --bs-info-rgb: 3, 169, 244; }
-/* P137 lmn_linbo4 core; P164 C8 scoped legacy appearance; consolidate D1. */
 .c8-label.bg-secondary { --bs-secondary-rgb: 119, 119, 119; }
-/* P137 lmn_linbo4 core; P164 C8 scoped legacy appearance; consolidate D1. */
 .c8-create-menu .dropdown-item, .c8-icon-menu .dropdown-item { color: #333; }
-/* P137 lmn_linbo4 core; P164 C8 scoped legacy appearance; consolidate D1. */
 .c8-create-menu .dropdown-item:hover, .c8-create-menu .dropdown-item:focus,
 .c8-icon-menu .dropdown-item:hover, .c8-icon-menu .dropdown-item:focus { color: #333; background-color: #f5f5f5; }
 /* D09: mobile menu anchors to the fixed toolbar, long template names wrap within the viewport. */
 @media (max-width: 767px) {
-    /* P137 lmn_linbo4 core; P164 C8 scoped legacy appearance; consolidate D1. */
     .col-md-9.c8-menu-host, .col-md-12.c8-menu-host, .dropup.c8-create-menu { position: static; }
-    /* P137 lmn_linbo4 core; P164 C8 scoped legacy appearance; consolidate D1. */
     .c8-create-menu > .dropdown-menu { left: 20px; right: 20px; width: auto; max-width: calc(100vw - 40px); }
-    /* P137 lmn_linbo4 core; P164 C8 scoped legacy appearance; consolidate D1. */
     .c8-create-menu .dropdown-item { white-space: normal; overflow-wrap: anywhere; }
 }
 
 /* C8 legacy hover/focus order and icon-menu alignment, no Popper/Bootstrap JS. */
-/* P137 lmn_linbo4 core; P164 C8 scoped legacy appearance; consolidate D1. */
 .c8-tabs > .nav-item > .nav-link:focus { border: 1px solid transparent; }
-/* P137 lmn_linbo4 core; P164 C8 scoped legacy appearance; consolidate D1. */
 .c8-tabs > .nav-item > .nav-link:hover { border-color: #f0f0f0 #f0f0f0 #eee; }
-/* P137 lmn_linbo4 core; P164 C8 scoped legacy appearance; consolidate D1. */
 .c8-tabs > .nav-item > .nav-link.active:focus { border: 1px solid #ddd; border-bottom-color: transparent; }
-/* P137 lmn_linbo4 core; P164 C8 scoped legacy appearance; consolidate D1. */
 .c8-tabs > .nav-item > .nav-link.active:focus:hover { background: rgba(0,0,0,.03); border-color: transparent; border-bottom-color: #2196F3; }
-/* P137 lmn_linbo4 core; P164 C8 scoped legacy appearance; consolidate D1. */
 .c8-icon-menu.dropdown-menu-end { right: 0; left: auto; }
 /* P137 lmn_setup_wizard; P170 C14 preserves Ajenti 30px spacing (ajenti-bs5.css:2723) at the 10px rem root; consolidate D1. */
 .c14-field { margin-bottom: 30px; }
@@ -863,13 +663,9 @@ html body.customized .c8-tabs > .nav-item > .nav-link.active:hover { border-bott
 .btn.c14-button { --bs-btn-focus-box-shadow: none; }
 /* P137 lmn_setup_wizard; P170 C14 neutral flat button cascade; consolidate D1. */
 .c14-button { color: #333; background-color: #fff; border-color: #eee; }
-/* P137 lmn_setup_wizard; P170 C14 neutral flat button cascade; consolidate D1. */
 .c14-button:focus, .c14-button:focus-visible { color: #333; background-color: #e6e6e6; border-color: #aeaeae; }
-/* P137 lmn_setup_wizard; P170 C14 neutral flat button cascade; consolidate D1. */
 .c14-button:hover, .c14-button:active { color: #333; background-color: #e6e6e6; border-color: #cfcfcf; }
-/* P137 lmn_setup_wizard; P170 C14 neutral flat button cascade; consolidate D1. */
 .c14-button:active:hover, .c14-button:active:focus { color: #333; background-color: #d4d4d4; border-color: #aeaeae; }
-/* P137 lmn_setup_wizard; P170 C14 neutral flat button cascade; consolidate D1. */
 .c14-button[disabled]:hover, .c14-button[disabled]:focus { background-color: #fff; border-color: #eee; }
 /* P137/P141 D12; P170 C14 Welcome logo fits its dialog body on mobile; natural size retained on larger screens. */
 .c14-logo { max-width: 100%; height: auto; }
@@ -901,19 +697,14 @@ html body.customized .c8-tabs > .nav-item > .nav-link.active:hover { border-bott
 .c7-session-card > .card-body { padding: 20px; }
 /* P137 P163 C7 panel-body clearfix retained for floated contents; D1. */
 .c7-session-card > .card-body::before, .c7-session-card > .card-body::after { display: table; content: " "; }
-/* P137 P163 C7 panel-body clearfix retained for floated contents; D1. */
 .c7-session-card > .card-body::after { clear: both; }
 /* P137 lmn_docker/lmn_vdi_administration; P163 C7 scoped migrated appearance; consolidate D1. */
 .c7-tabs > .nav-item > .nav-link { padding: 10px 15px; margin-bottom: 0; color: #666; border-radius: 0; isolation: auto; }
-/* P137 lmn_docker/lmn_vdi_administration; P163 C7 scoped migrated appearance; consolidate D1. */
 .c7-tabs > .nav-item > .nav-link.active,
 .c7-tabs > .nav-item > .nav-link.active:hover { border: 1px solid transparent; border-bottom: 1px solid #2196F3; color: #2196F3; background: rgba(0,0,0,.03); cursor: default; }
-/* P137 lmn_docker/lmn_vdi_administration; P163 C7 scoped migrated appearance; consolidate D1. */
 html body.customized .c7-tabs > .nav-item > .nav-link.active,
 html body.customized .c7-tabs > .nav-item > .nav-link.active:hover { border-bottom-color: #233c4c; color: #233c4c; }
-/* P137 lmn_docker/lmn_vdi_administration; P163 C7 scoped migrated appearance; consolidate D1. */
 .c7-tabs > .nav-item > .nav-link.active:focus { color: #666; background-color: #f0f0f0; border: 1px solid #ddd; border-bottom-color: transparent; }
-/* P137 lmn_docker/lmn_vdi_administration; P163 C7 scoped migrated appearance; consolidate D1. */
 .c7-tabs > .nav-item > .nav-link:focus-visible { box-shadow: none; }
 /* P137 lmn_docker/lmn_vdi_administration; P163 C7 BS5 link focus keeps the legacy tab borders; consolidate D1. */
 .c7-tabs > .nav-item > .nav-link:focus { border: 1px solid transparent; }
@@ -927,153 +718,86 @@ html body.customized .c7-tabs > .nav-item > .nav-link.active:hover { border-bott
 /* P166 C10 UsersTable/AdminsTable/ExtrasTable: BS5 geometry/focus, retained until D1. */
 /* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
 .btn.c10-button { --bs-btn-focus-box-shadow: none; }
-/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
 .c10-button { color: #333; background-color: #fff; border-color: #eee; }
-/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
 .btn.c10-button:where(:not(.btn-flat)) { border-color: #eee; }
-/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
 .c10-button:focus { color: #333; background-color: #e6e6e6; border-color: #aeaeae; }
-/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
 .c10-button:hover, .c10-button:active { color: #333; background-color: #e6e6e6; border-color: #cfcfcf; }
-/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
 .c10-button:active:hover, .c10-button:active:focus { color: #333; background-color: #d4d4d4; border-color: #aeaeae; }
-/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
 .c10-button:focus-visible { color: #333; background-color: #e6e6e6; border-color: #aeaeae; }
-/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
 .c10-tabs > .nav-item > .nav-link { padding: 10px 15px; margin-bottom: 0; color: #666; border-radius: 0; isolation: auto; }
-/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
 .c10-tabs > .nav-item > .nav-link.active,
 .c10-tabs > .nav-item > .nav-link.active:hover { border: 1px solid transparent; border-bottom: 1px solid #2196F3; color: #2196F3; background: rgba(0,0,0,.03); cursor: default; }
-/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
 html body.customized .c10-tabs > .nav-item > .nav-link.active,
 html body.customized .c10-tabs > .nav-item > .nav-link.active:hover { border-bottom-color: #233c4c; color: #233c4c; }
-/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
 .c10-tabs > .nav-item > .nav-link.active:focus { color: #666; background-color: #f0f0f0; border: 1px solid #ddd; border-bottom-color: transparent; }
-/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
 .c10-tabs > .nav-item > .nav-link:focus-visible { box-shadow: none; }
-/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
 .c10-menu-control { display: table-cell; width: 1%; white-space: nowrap; vertical-align: middle; position: relative; font-size: 0; }
-/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
 .c10-menu-control > .btn { position: relative; }
-/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
 .c10-menu-control > .btn:hover, .c10-menu-control > .btn:focus, .c10-menu-control > .btn:active { z-index: 2; }
-/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
 .input-group > .c10-menu-control:not(:first-child):not(:last-child) { border-radius: 0; }
-/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
 .c10-menu-control:last-child > .btn { z-index: 2; margin-left: -1px; border-top-left-radius: 0; border-bottom-left-radius: 0; }
-/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
 .c10-menu-control .dropdown-menu-end { right: 0; left: auto; }
-/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
 .c10-tabs > .nav-item > .nav-link:focus { border: 1px solid transparent; }
-/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
 .c10-tabs > .nav-item > .nav-link:hover { border-color: #f0f0f0 #f0f0f0 #eee; }
-/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
 .c10-tabs > .nav-item > .nav-link.active:focus { border: 1px solid #ddd; border-bottom-color: transparent; }
-/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
 .c10-tabs > .nav-item > .nav-link.active:focus:hover { background: rgba(0,0,0,.03); border-color: transparent; border-bottom-color: #2196F3; }
-/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
 .c10-pagination .page-link:focus { box-shadow: none; }
-/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
 .c10-pagination { --bs-pagination-font-size: 14px; --bs-pagination-border-radius: 3px; }
-/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
 .badge.c10-badge { display: inline; padding: 0.4em 0.6em 0.3em; font-size: 75%; font-weight: bold; line-height: 1; color: #fff; text-align: center; white-space: nowrap; vertical-align: baseline; border-radius: 0.25em; margin-right: 3px; min-width: 0; }
-/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
 .c10-badge.bg-secondary { --bs-secondary-rgb: 119, 119, 119; }
-/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
 .c10-badge.bg-primary { --bs-primary-rgb: 33, 150, 243; }
-/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
 .c10-badge.bg-success { --bs-success-rgb: 76, 175, 80; }
-/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
 .c10-badge.bg-info { --bs-info-rgb: 3, 169, 244; }
-/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
 .c10-badge.bg-warning { --bs-warning-rgb: 255, 193, 7; }
-/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
 .c10-badge.bg-danger { --bs-danger-rgb: 244, 67, 54; }
-/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
 .badge.c10-badge:empty { display: none; }
-/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
 .c10-menu a.dropdown-item { color: #333; }
-/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
 .c10-menu a.dropdown-item:hover, .c10-menu a.dropdown-item:focus { color: #333; background-color: #f5f5f5; }
-/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
 .c10-menu.dropdown-menu-end { right: 0; left: auto; }
-/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
 .c10-menu.dropdown-menu-start { left: 0; right: auto; }
-/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
 .c10-addon { display: table-cell; width: 1%; padding: 6px 12px; font-size: 14px; line-height: 1; color: #555; text-align: center; background: #f8f8f8; border: 1px solid transparent; border-bottom-color: #ddd; border-radius: 0; white-space: nowrap; vertical-align: middle; }
-/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
 .c10-addon:first-child { border-right: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; }
-/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
 .c10-invalid .form-control { background-color: rgba(255,178,178,.29); border-color: red; box-shadow: inset 0 1px 1px rgba(0,0,0,.075); }
-/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
 .c10-invalid .form-control:focus { border-color: #843534; box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 6px #ce8483; }
-/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
 .c10-field .form-control.is-invalid { padding-right: 12px; background-image: none; }
 /* P166 D10/D11: only mobile changes; desktop/tablet retain their original layout. */
 @media (max-width: 767px) {
-/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
   .c10-table-scroll { overflow-x: auto; }
 /* P137 lmn_users ExtrasTable; P166 C10 D10 readable mobile data columns; consolidate D1. */
   .c10-table-scroll .lm-table-inputs .c10-field { min-width: 140px; }
 /* P137 lmn_users UsersTable; P166 C10 D10 keep password options outside the mobile overflow clip; consolidate D1. */
   .c10-table-scroll .dropup > .c10-menu { position: fixed; top: auto; bottom: 20px; left: 20px; right: 20px; margin: 0 !important; max-height: calc(100vh - 40px); overflow-y: auto; }
-/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
   .c10-bind-details { overflow-wrap: anywhere; }
 }
-
-/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
 .c10-field { margin-bottom: 30px; }
-/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
 .progress-bar.c10-progress.bg-primary { background-color: #2196F3 !important; }
-/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
 .progress-bar.c10-progress.bg-success { background-color: #4caf50 !important; }
-/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
 .progress-bar.c10-progress.bg-info { background-color: #03a9f4 !important; }
-/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
 .progress-bar.c10-progress.bg-warning { background-color: #ffc107 !important; }
-/* P137 lmn_users tables; P166 C10 geometry/state; consolidate D1. */
 .progress-bar.c10-progress.bg-danger { background-color: #F44336 !important; }
 
 /* P165 C9 LINBO image dialogs and sync; legacy dimensions/colors, consolidate D1. */
 /* P137 LINBO; P165 C9 legacy appearance; consolidate D1. */
 .btn.c9-button { --bs-btn-focus-box-shadow: none; }
-/* P137 LINBO; P165 C9 legacy appearance; consolidate D1. */
 .c9-button { color: #333; background-color: #fff; border-color: #eee; }
-/* P137 LINBO; P165 C9 legacy appearance; consolidate D1. */
 .btn.c9-button:where(:not(.btn-flat)) { color: #333; background-color: #fff; border-color: #eee; }
-/* P137 LINBO; P165 C9 legacy appearance; consolidate D1. */
 .c9-button:focus { color: #333; background-color: #e6e6e6; border-color: #aeaeae; }
-/* P137 LINBO; P165 C9 legacy appearance; consolidate D1. */
 .c9-button:hover, .c9-button:active { color: #333; background-color: #e6e6e6; border-color: #cfcfcf; }
-/* P137 LINBO; P165 C9 legacy appearance; consolidate D1. */
 .c9-button:active:hover, .c9-button:active:focus { color: #333; background-color: #d4d4d4; border-color: #aeaeae; }
-/* P137 LINBO; P165 C9 legacy appearance; consolidate D1. */
 .c9-button[disabled]:hover, .c9-button[disabled]:focus { background-color: #fff; border-color: #eee; }
-/* P137 LINBO; P165 C9 legacy appearance; consolidate D1. */
 .c9-button:focus-visible { color: #333; background-color: #e6e6e6; border-color: #aeaeae; }
-/* P137 LINBO; P165 C9 legacy appearance; consolidate D1. */
 .c9-tabs > .nav-item > .nav-link { padding: 10px 15px; margin-bottom: 0; color: #666; border-radius: 0; isolation: auto; }
-/* P137 LINBO; P165 C9 legacy appearance; consolidate D1. */
 .c9-tabs > .nav-item > .nav-link.active,
 .c9-tabs > .nav-item > .nav-link.active:hover { border: 1px solid transparent; border-bottom: 1px solid #2196F3; color: #2196F3; background: rgba(0,0,0,.03); cursor: default; }
-/* P137 LINBO; P165 C9 legacy appearance; consolidate D1. */
 html body.customized .c9-tabs > .nav-item > .nav-link.active,
 html body.customized .c9-tabs > .nav-item > .nav-link.active:hover { border-bottom-color: #233c4c; color: #233c4c; }
-/* P137 LINBO; P165 C9 legacy appearance; consolidate D1. */
 .c9-tabs > .nav-item > .nav-link.active:focus { color: #666; background-color: #f0f0f0; border: 1px solid #ddd; border-bottom-color: transparent; }
-/* P137 LINBO; P165 C9 legacy appearance; consolidate D1. */
 .c9-tabs > .nav-item > .nav-link:focus-visible { box-shadow: none; }
 
-/* P137 LINBO; P165 C9 legacy appearance; consolidate D1. */
-
 .c9-field { margin-bottom: 30px; }
-/* P137 LINBO; P165 C9 legacy appearance; consolidate D1. */
 .c9-tabs > .nav-item > .nav-link:focus { border: 1px solid transparent; }
-/* P137 LINBO; P165 C9 legacy appearance; consolidate D1. */
 .c9-tabs > .nav-item > .nav-link:hover { border-color: #f0f0f0 #f0f0f0 #eee; }
-/* P137 LINBO; P165 C9 legacy appearance; consolidate D1. */
 .c9-tabs > .nav-item > .nav-link.active:focus { border: 1px solid #ddd; border-bottom-color: transparent; }
-/* P137 LINBO; P165 C9 legacy appearance; consolidate D1. */
 .c9-tabs > .nav-item > .nav-link.active:focus:hover { background: rgba(0,0,0,.03); border-color: transparent; border-bottom-color: #2196F3; }
 
 /* P137 ImagesTab labels; P165 C9 legacy inline geometry; consolidate D1. */
@@ -1096,33 +820,19 @@ html body.customized .c9-tabs > .nav-item > .nav-link.active:hover { border-bott
 }
 /* P137 lmn_settings School views; P169 C13 school tabs and holiday controls; consolidate D1. */
 .btn.c13-button { --bs-btn-focus-box-shadow: none; }
-/* P137 lmn_settings School views; P169 C13 school tabs and holiday controls; consolidate D1. */
 .c13-button { color: #333; background-color: #fff; border-color: #eee; }
-/* P137 lmn_settings School views; P169 C13 school tabs and holiday controls; consolidate D1. */
 .btn.c13-button:where(:not(.btn-flat)) { color: #333; background-color: #fff; border-color: #eee; }
-/* P137 lmn_settings School views; P169 C13 school tabs and holiday controls; consolidate D1. */
 .c13-button:focus { color: #333; background-color: #e6e6e6; border-color: #aeaeae; }
-/* P137 lmn_settings School views; P169 C13 school tabs and holiday controls; consolidate D1. */
 .c13-button:hover, .c13-button:active { color: #333; background-color: #e6e6e6; border-color: #cfcfcf; }
-/* P137 lmn_settings School views; P169 C13 school tabs and holiday controls; consolidate D1. */
 .c13-button:active:hover, .c13-button:active:focus { color: #333; background-color: #d4d4d4; border-color: #aeaeae; }
-/* P137 lmn_settings School views; P169 C13 school tabs and holiday controls; consolidate D1. */
 .c13-button[disabled]:hover, .c13-button[disabled]:focus { background-color: #fff; border-color: #eee; }
-/* P137 lmn_settings School views; P169 C13 school tabs and holiday controls; consolidate D1. */
 .c13-button:focus-visible { color: #333; background-color: #e6e6e6; border-color: #aeaeae; }
-/* P137 lmn_settings School views; P169 C13 school tabs and holiday controls; consolidate D1. */
 .c13-tabs > .nav-item > .nav-link { padding: 10px 15px; margin-bottom: 0; border-radius: 0; color: #666; }
-/* P137 lmn_settings School views; P169 C13 school tabs and holiday controls; consolidate D1. */
 .c13-tabs > .nav-item > .nav-link:focus { border-color: transparent; }
-/* P137 lmn_settings School views; P169 C13 school tabs and holiday controls; consolidate D1. */
 .c13-tabs > .nav-item > .nav-link:hover { border-color: #f0f0f0 #f0f0f0 #eee; }
-/* P137 lmn_settings School views; P169 C13 school tabs and holiday controls; consolidate D1. */
 .c13-tabs > .nav-item > .nav-link.active:focus { color: #666; background-color: #f0f0f0; border-color: #ddd; border-bottom-color: transparent; }
-/* P137 lmn_settings School views; P169 C13 school tabs and holiday controls; consolidate D1. */
 .c13-tabs > .nav-item > .nav-link.active, .c13-tabs > .nav-item > .nav-link.active:hover { color: #2196F3; background: rgba(0,0,0,.03); border: 1px solid transparent; border-bottom-color: #2196F3; cursor: default; }
-/* P137 lmn_settings School views; P169 C13 school tabs and holiday controls; consolidate D1. */
 html body.customized .c13-tabs > .nav-item > .nav-link.active, html body.customized .c13-tabs > .nav-item > .nav-link.active:hover { border-bottom: 1px solid #233c4c; color: #233c4c; }
-/* P137 lmn_settings School views; P169 C13 school tabs and holiday controls; consolidate D1. */
 .c13-tabs > .nav-item > .nav-link:focus-visible { box-shadow: none; }
 /* P137 P169 C13 SchoolCustom/SchoolPassword former form-group geometry; D1. */
 .c13-field { margin-bottom: 30px; }
@@ -1133,61 +843,34 @@ html body.customized .c13-tabs > .nav-item > .nav-link.active, html body.customi
 /* P167 C11 remaining user controls. */
 /* P137 lmn_users; P167 C11 retained geometry/state; consolidate D1. */
 .btn.c11-button { --bs-btn-focus-box-shadow: none; }
-/* P137 lmn_users; P167 C11 retained geometry/state; consolidate D1. */
 .c11-button { color: #333; background-color: #fff; border-color: #eee; }
-/* P137 lmn_users; P167 C11 retained geometry/state; consolidate D1. */
 .btn.c11-button:where(:not(.btn-flat)) { border-color: #eee; }
-/* P137 lmn_users; P167 C11 retained geometry/state; consolidate D1. */
 .c11-button:focus { color: #333; background-color: #e6e6e6; border-color: #aeaeae; }
-/* P137 lmn_users; P167 C11 retained geometry/state; consolidate D1. */
 .c11-button:hover, .c11-button:active { color: #333; background-color: #e6e6e6; border-color: #cfcfcf; }
-/* P137 lmn_users; P167 C11 retained geometry/state; consolidate D1. */
 .c11-button:active:hover, .c11-button:active:focus { color: #333; background-color: #d4d4d4; border-color: #aeaeae; }
-/* P137 lmn_users; P167 C11 retained geometry/state; consolidate D1. */
 .c11-button:focus-visible { color: #333; background-color: #e6e6e6; border-color: #aeaeae; }
-/* P137 lmn_users; P167 C11 retained geometry/state; consolidate D1. */
 .c11-tabs > .nav-item > .nav-link { padding: 10px 15px; margin-bottom: 0; color: #666; border-radius: 0; isolation: auto; }
-/* P137 lmn_users; P167 C11 retained geometry/state; consolidate D1. */
 .c11-tabs > .nav-item > .nav-link.active,
 .c11-tabs > .nav-item > .nav-link.active:hover { border: 1px solid transparent; border-bottom: 1px solid #2196F3; color: #2196F3; background: rgba(0,0,0,.03); cursor: default; }
-/* P137 lmn_users; P167 C11 retained geometry/state; consolidate D1. */
 html body.customized .c11-tabs > .nav-item > .nav-link.active,
 html body.customized .c11-tabs > .nav-item > .nav-link.active:hover { border-bottom-color: #233c4c; color: #233c4c; }
-/* P137 lmn_users; P167 C11 retained geometry/state; consolidate D1. */
 .c11-tabs > .nav-item > .nav-link.active:focus { color: #666; background-color: #f0f0f0; border: 1px solid #ddd; border-bottom-color: transparent; }
-/* P137 lmn_users; P167 C11 retained geometry/state; consolidate D1. */
 .c11-tabs > .nav-item > .nav-link:focus-visible { box-shadow: none; }
-/* P137 lmn_users; P167 C11 retained geometry/state; consolidate D1. */
 .c11-menu-control { display: table-cell; width: 1%; white-space: nowrap; vertical-align: middle; position: relative; font-size: 0; }
-/* P137 lmn_users; P167 C11 retained geometry/state; consolidate D1. */
 .c11-menu-control > .btn { position: relative; }
-/* P137 lmn_users; P167 C11 retained geometry/state; consolidate D1. */
 .c11-menu-control > .btn:hover, .c11-menu-control > .btn:focus, .c11-menu-control > .btn:active { z-index: 2; }
-/* P137 lmn_users; P167 C11 retained geometry/state; consolidate D1. */
 .input-group > .c11-menu-control:not(:first-child):not(:last-child) { border-radius: 0; }
-/* P137 lmn_users; P167 C11 retained geometry/state; consolidate D1. */
 .c11-menu-control:last-child > .btn { z-index: 2; margin-left: -1px; border-top-left-radius: 0; border-bottom-left-radius: 0; }
-/* P137 lmn_users; P167 C11 retained geometry/state; consolidate D1. */
 .c11-menu-control .dropdown-menu-end { right: 0; left: auto; }
-/* P137 lmn_users; P167 C11 retained geometry/state; consolidate D1. */
 .c11-tabs > .nav-item > .nav-link:focus { border: 1px solid transparent; }
-/* P137 lmn_users; P167 C11 retained geometry/state; consolidate D1. */
 .c11-tabs > .nav-item > .nav-link:hover { border-color: #f0f0f0 #f0f0f0 #eee; }
-/* P137 lmn_users; P167 C11 retained geometry/state; consolidate D1. */
 .c11-tabs > .nav-item > .nav-link.active:focus { border: 1px solid #ddd; border-bottom-color: transparent; }
-/* P137 lmn_users; P167 C11 retained geometry/state; consolidate D1. */
 .c11-tabs > .nav-item > .nav-link.active:focus:hover { background: rgba(0,0,0,.03); border-color: transparent; border-bottom-color: #2196F3; }
-/* P137 lmn_users; P167 C11 retained geometry/state; consolidate D1. */
 .c11-pagination .page-link:focus { box-shadow: none; }
-/* P137 lmn_users; P167 C11 retained geometry/state; consolidate D1. */
 .c11-pagination { --bs-pagination-font-size: 14px; --bs-pagination-border-radius: 3px; }
-/* P137 lmn_users; P167 C11 retained geometry/state; consolidate D1. */
 .c11-menu a.dropdown-item { color: #333; }
-/* P137 lmn_users; P167 C11 retained geometry/state; consolidate D1. */
 .c11-menu a.dropdown-item:hover, .c11-menu a.dropdown-item:focus { color: #333; background-color: #f5f5f5; }
-/* P137 lmn_users; P167 C11 retained geometry/state; consolidate D1. */
 .c11-menu.dropdown-menu-end { right: 0; left: auto; }
-/* P137 lmn_users; P167 C11 retained geometry/state; consolidate D1. */
 .c11-menu.dropdown-menu-start { left: 0; right: auto; }
 /* P137 lmn_users form-group: final Ajenti spacing; P167 C11, D1. */
 .c11-form { margin-bottom: 30px; }

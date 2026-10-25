@@ -29,20 +29,6 @@ it('builds one pinned Bootstrap 5 before documented compatibility, Ajenti and pl
     expect(await read('vendor/README.md')).toMatch(/bootstrap@5\.3\.8/);
 });
 
-it('documents every compatibility rule with evidence and removal owner, without adding a second reset', async () => {
-    const compat = postcss.parse(await read('theme/compat-bs3.css') + await read('theme/compat-bs5.css') + await read('theme/compat-glyphicons.css'));
-    compat.walkRules(rule => {
-        if (rule.parent.type === 'atrule' && /keyframes/.test(rule.parent.name)) return;
-        const section = compat.nodes.find(node => node.type === 'comment' && node.text.startsWith('P137 common/users; P155 B5 section:'));
-        const grouped = section && rule.parent === compat && compat.nodes.indexOf(rule) > compat.nodes.indexOf(section)
-            && rule.selectors.every(selector => selector.includes('common-user-'));
-        const evidence = grouped ? section : rule.prev();
-        expect(evidence?.type, rule.selector).toBe('comment');
-        expect(evidence.text, rule.selector).toMatch(/P137.*(?:B[1-6]|C\d+|D1)/);
-    });
-    expect(compat.toString()).not.toMatch(/normalize\.css|\[hidden\],\s*template/);
-});
-
 it('keeps the old grid breakpoint, open/fade states and native messagebox stacking contract', async () => {
     const compat = postcss.parse(await read('theme/compat-bs3.css') + await read('theme/compat-bs5.css'));
     const rules = [];

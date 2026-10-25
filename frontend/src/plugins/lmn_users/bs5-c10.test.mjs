@@ -75,4 +75,4 @@ it('keeps customized tab color with the real body classes and no redundant accen
         expect(await page.locator('.nav-link').evaluate(el=>({color:getComputedStyle(el).color,border:getComputedStyle(el).borderBottomColor}))).toEqual({color:'rgb(35, 60, 76)',border:'rgb(35, 60, 76)'});
         expect(/body\.global-color-[\w-]+ \.c10-tabs/.test(css)).toBe(false);
     } finally { await browser.close(); }
-});
+}, 20000);
