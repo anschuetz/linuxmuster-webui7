@@ -84,7 +84,7 @@ test('global-admin: identical multischool fixture, Angular filter and switch/rel
     await open(page);
     const card = page.locator('.info-cards');
     await expect(card).toBeVisible();
-    await expect(card.locator('.panel-heading')).toHaveText('Schul-Umschalter');
+    await expect(card.locator(await page.locator('.shell-content').count() > 0 ? '.card-header' : '.panel-heading')).toHaveText('Schul-Umschalter');
     await expect(page).toHaveTitle(/^(Schoolswitcher|Schul-Umschalter) \| Zulu Schule$/);
     const rows = card.locator('.school-item');
     await expect(rows).toHaveText(['z-school - Zulu Schule', 'a-school - Alpha Campus', 'b-school -']);

@@ -10,7 +10,7 @@ aj.http.get('/api/webdav/qrcode').then(({ data }) => { qrdata.value = data; }, (
 </script>
 <template>
     <div ref="header" class="modal-header"><h2>{{ aj.gettext('Mobile access') }}</h2></div>
-    <div class="modal-body"><i class="fab fa-apple fa-3x pull-right"></i>
+    <div class="modal-body"><i class="fab fa-apple fa-3x float-end"></i>
         <h3>{{ aj.gettext('Setup guide for iOS') }}</h3>
         <p>{{ aj.gettext('To set up mobile access to the school server from iOS based devices, please proceed as follows:') }}</p>
         <p><img width="100" :src="'/resources/lmn_common/resources/img/app-store-badge.svg'"><span>QR CODE TO APPSTORE</span></p>
@@ -19,5 +19,5 @@ aj.http.get('/api/webdav/qrcode').then(({ data }) => { qrdata.value = data; }, (
         <p>{{ aj.gettext('For easy setup, please scan your personal code in the app:<br>').replace(/<br\s*\/?\s*>/g, '') }}<br></p>
         <p style="text-align:center"><img class="centered" :src="qrdata && `data:image/png;base64, ${qrdata.qrcode}`"></p>
     </div>
-    <div class="modal-footer"><button class="btn btn-default btn-flat pull-right" @click="$emit('cancel')">{{ aj.gettext('Close') }}</button></div>
+    <div class="modal-footer"><button class="btn btn-light c1-button btn-flat float-end" @click="$emit('cancel')">{{ aj.gettext('Close') }}</button></div>
 </template>

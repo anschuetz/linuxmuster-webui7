@@ -70,42 +70,42 @@ onBeforeUnmount(() => { disposed = true; clearInterval(timer); });
                 <div v-if="user.sophomorixRole === 'teacher'">{{ aj.gettext('use the sidebar to navigate through the options. You can start by using the Enroll module to subscribe to your classes.') }}</div>
                 <div v-if="['globaladministrator', 'schooladministrator'].includes(user.sophomorixRole)">{{ aj.gettext('Use the sidebar to navigate through the options.') }}<br>{{ aj.gettext('But keep in mind:') }}<br><b>{{ aj.gettext('With great power comes great responsibility!') }}</b></div>
             </div>
-            <div class="flex-container info-cards width400" style="margin-top:10px">
-                <div class="panel panel-info"><div class="panel-heading"><h4>{{ aj.gettext('Account Information') }}</h4></div>
-                    <div class="panel-body">
+            <div class="flex-container info-cards width400 c1-landing" style="margin-top:10px">
+                <div class="card c1-card"><div class="card-header"><h4>{{ aj.gettext('Account Information') }}</h4></div>
+                    <div class="card-body">
                         {{ aj.gettext('Name:') }} <b>{{ user.givenName }} {{ user.sn }}</b><br>
                         {{ aj.gettext('Mail:') }} <b>{{ user.mail?.join(',') }}</b><br>
                         {{ aj.gettext('School:') }} <b>{{ user.sophomorixSchoolname }}</b><br>
                         {{ aj.gettext('Role:') }} <b>{{ user.sophomorixAdminClass }}</b><br>
-                        <button class="btn btn-primary pull-right" style="margin-top:20px" @click="aj.navigate('/view/lmn/change-password')">{{ aj.gettext('Change password') }}</button>
+                        <button class="btn btn-primary float-end" style="margin-top:20px" @click="aj.navigate('/view/lmn/change-password')">{{ aj.gettext('Change password') }}</button>
                     </div>
                 </div>
-                <div class="panel panel-info"><div class="panel-heading"><h4>{{ aj.gettext('Quotas') }}</h4></div>
-                    <div class="panel-body">
+                <div class="card c1-card"><div class="card-header"><h4>{{ aj.gettext('Quotas') }}</h4></div>
+                    <div class="card-body">
                         <div v-for="quota in quotas" :key="quota.share" style="margin-bottom:15px"><div class="widget-header">{{ quota.share }}</div>
-                            <div class="progress"><div class="progress-bar" :class="`progress-bar-${quota.type}`" role="progressbar" :aria-valuenow="quota.usage" aria-valuemin="0" aria-valuemax="100" :style="{ width: `${Math.min(quota.usage, 100)}%` }"></div></div>
-                            <div class="widget-value">{{ quota.used }} MiB <span v-if="quota.total != 0">/ {{ quota.total }}</span><sup v-if="quota.usage > 80"><span class="label label-danger"><i class="fa fa-warning"></i></span></sup></div>
+                            <div class="progress"><div class="progress-bar c1-progress" :class="{ 'bg-success': quota.type === 'success', 'bg-warning': quota.type === 'warning', 'bg-danger': quota.type === 'danger' }" role="progressbar" :aria-valuenow="quota.usage" aria-valuemin="0" aria-valuemax="100" :style="{ width: `${Math.min(quota.usage, 100)}%` }"></div></div>
+                            <div class="widget-value">{{ quota.used }} MiB <span v-if="quota.total != 0">/ {{ quota.total }}</span><sup v-if="quota.usage > 80"><span class="badge c1-badge bg-danger"><i class="fa fa-warning"></i></span></sup></div>
                         </div>
                         <b>{{ aj.gettext('Cloudquota Calculated in MB:') }}</b> {{ user.sophomorixCloudQuotaCalculated }}<br>
                         <b>{{ aj.gettext('Mailquota Calculated in MB:') }}</b> {{ user.sophomorixMailQuotaCalculated }} MB
                     </div>
                 </div>
-                <div v-if="fields?.length > 0" class="panel panel-info"><div class="panel-heading"><h4>{{ aj.gettext('My informations') }}</h4></div>
-                    <div class="panel-body"><ul class="list-unstyled" style="column-width:300px;padding:0">
+                <div v-if="fields?.length > 0" class="card c1-card"><div class="card-header"><h4>{{ aj.gettext('My informations') }}</h4></div>
+                    <div class="card-body"><ul class="list-unstyled" style="column-width:300px;padding:0">
                         <li v-for="(custom, index) in customFields" :key="index" data-custom class="cardlist" style="margin:0 15px 5px 0;justify-content:space-between"><div>{{ custom.title }}</div><div style="margin-right:10px;text-align:right">{{ isListAttr(custom.attr) ? custom.value?.join(' ') : custom.value }}</div></li>
-                    </ul><button v-if="user.sophomorixRole !== 'student'" class="btn btn-primary pull-right" style="margin-top:20px" @click="customDialog">{{ aj.gettext('Change my data') }}</button></div>
+                    </ul><button v-if="user.sophomorixRole !== 'student'" class="btn btn-primary float-end" style="margin-top:20px" @click="customDialog">{{ aj.gettext('Change my data') }}</button></div>
                 </div>
-                <div v-if="options?.show_webdav" class="panel panel-info"><div class="panel-heading"><h4>{{ aj.gettext('Mobile access') }}</h4></div>
-                    <div class="panel-body"><p>{{ aj.gettext('You can access the school server from many mobile devices. Select your operating system to see how it works.') }}</p><a @click="webappDialog"><i class="fab fa-apple fa-3x"></i></a></div>
+                <div v-if="options?.show_webdav" class="card c1-card"><div class="card-header"><h4>{{ aj.gettext('Mobile access') }}</h4></div>
+                    <div class="card-body"><p>{{ aj.gettext('You can access the school server from many mobile devices. Select your operating system to see how it works.') }}</p><a @click="webappDialog"><i class="fab fa-apple fa-3x"></i></a></div>
                 </div>
-                <div class="panel panel-info"><div class="panel-heading"><h4>{{ aj.gettext('Groups') }}</h4></div>
-                    <div class="panel-body"><ul class="list-unstyled" style="column-width:300px;padding:0"><li v-for="(group, i) in groups" :key="i" class="cardlist" style="margin:0 15px 5px 0">{{ group.cn }}<span style="position:absolute;right:10px">{{ group.category }}</span></li></ul></div>
+                <div class="card c1-card"><div class="card-header"><h4>{{ aj.gettext('Groups') }}</h4></div>
+                    <div class="card-body"><ul class="list-unstyled" style="column-width:300px;padding:0"><li v-for="(group, i) in groups" :key="i" class="cardlist" style="margin:0 15px 5px 0">{{ group.cn }}<span style="position:absolute;right:10px">{{ group.category }}</span></li></ul></div>
                 </div>
-                <div v-if="options?.show_wireguard" class="panel panel-info"><div class="panel-heading"><h4>{{ aj.gettext('Wireguard VPN') }}</h4></div>
-                    <div class="panel-body"><p>{{ aj.gettext('You can access the school network by using wireguard. You can download the client for the following operating systems:') }}</p>
+                <div v-if="options?.show_wireguard" class="card c1-card"><div class="card-header"><h4>{{ aj.gettext('Wireguard VPN') }}</h4></div>
+                    <div class="card-body"><p>{{ aj.gettext('You can access the school network by using wireguard. You can download the client for the following operating systems:') }}</p>
                         <a v-for="[title, icon, url] in clients" :key="title" :href="url" target="_blank" style="margin-right:10px" :title="title"><i :class="`fab fa-${icon} fa-3x`"></i></a>
-                        <a class="pull-right" style="margin-right:10px" title="Show QR-Code" @click="wireguardDialog(true)"><i class="fa fa-qrcode fa-3x"></i></a>
-                        <a class="pull-right" style="margin-right:10px" title="Show Configuration" @click="wireguardDialog(false)"><i class="fa fa-download fa-3x"></i></a>
+                        <a class="float-end" style="margin-right:10px" title="Show QR-Code" @click="wireguardDialog(true)"><i class="fa fa-qrcode fa-3x"></i></a>
+                        <a class="float-end" style="margin-right:10px" title="Show Configuration" @click="wireguardDialog(false)"><i class="fa fa-download fa-3x"></i></a>
                         <div v-if="status?.status === 'connected'" class="alert alert-success" role="alert" style="margin-top:20px"><b>{{ aj.gettext('Endpoint') }}</b>: {{ status.endpoint }} <b>{{ aj.gettext('Last Handshake') }}</b>: {{ Number(status.latest_handshake_difference).toLocaleString('en-US', { maximumFractionDigits: 0 }) }} seconds ago |
                             <i class="fa fa-arrow-down"></i> {{ Number(status.transfer.received).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }} MiB | <i class="fa fa-arrow-up"></i> {{ Number(status.transfer.send).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }} MiB
                         </div>

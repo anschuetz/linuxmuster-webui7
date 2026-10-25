@@ -25,14 +25,14 @@ watch(() => aj.identity.user, async (user) => {
         <i class="fa fa-info-circle"></i> <span>{{ aj.gettext('Currently no links defined!') }}</span>
     </div>
     <div v-for="(link, index) in links" :key="index" class="flex-container info-cards" style="margin-top:10px;">
-        <div class="panel panel-info" style="width:100%;">
-            <div class="panel-heading" style="padding:10px;height:55px;">
+        <div class="card c1-card" style="width:100%;">
+            <div class="card-header" style="padding:10px;height:55px;">
                 <img :src="link.icon" height="30px"><span style="font-size:18px;line-height:32px;padding-left:10px;">{{ link.title }}</span>
                 <div style="float:right;">
-                    <a :href="link.link"><button class="btn btn-default"><i class="fas fa-globe"></i> <span>{{ aj.gettext('Open') }}</span></button></a>
+                    <a :href="link.link"><button class="btn btn-light c1-button"><i class="fas fa-globe"></i> <span>{{ aj.gettext('Open') }}</span></button></a>
                 </div>
             </div>
-            <div class="panel-body">{{ link.description }}</div>
+            <div class="card-body">{{ link.description }}</div>
         </div>
     </div>
 </template>
