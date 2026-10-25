@@ -36,7 +36,7 @@ const aj = createMockAj({ identity: { profile: { fs_root: '/fixture' } }, http: 
  return { data: 'one,two\\n3,4' };
 } });
 aj.modal = createModalService(() => aj);
-const sceneComponents = { file: FileDialog, 'file-hover': FileDialog, 'file-focus': FileDialog, 'file-active': FileDialog, 'file-error': FileDialog, save: FileDialog, editor: FileEditorDialog, 'editor-hover': FileEditorDialog, 'editor-focus': FileEditorDialog, 'editor-active': FileEditorDialog, 'editor-error': FileEditorDialog, backups: FileBackupsDialog, diff: FileDiffDialog, path: PathSelector, 'path-focus': PathSelector, 'path-red-focus': PathSelector, 'path-custom-red-focus': PathSelector, log: LmLog, upload: FileUpload, smb: SmbUpload, 'upload-error': FileUpload };
+const sceneComponents = { file: FileDialog, 'file-hover': FileDialog, 'file-focus': FileDialog, 'file-active': FileDialog, 'file-error': FileDialog, save: FileDialog, editor: FileEditorDialog, 'editor-hover': FileEditorDialog, 'editor-focus': FileEditorDialog, 'editor-active': FileEditorDialog, 'editor-keyboard-active': FileEditorDialog, 'editor-error': FileEditorDialog, backups: FileBackupsDialog, diff: FileDiffDialog, path: PathSelector, 'path-focus': PathSelector, 'path-red-focus': PathSelector, 'path-custom-red-focus': PathSelector, log: LmLog, upload: FileUpload, smb: SmbUpload, 'upload-error': FileUpload };
 const component = sceneComponents[scene];
 let app, wait;
 if (scene === 'wait') { wait = openWait(aj, { status: 'Working', style: 'progressbar' }); wait.update(42); }
@@ -60,7 +60,7 @@ const only = process.argv.includes('--only') ? process.argv[process.argv.indexOf
 const browser = await chromium.launch({ headless: true });
 const results = [];
 try {
-    for (const scene of ['file','file-hover','file-focus','file-active','file-error','save','editor','editor-hover','editor-focus','editor-active','editor-error','backups','diff','path','path-focus','path-red-focus','path-custom-red-focus','log','upload','smb','upload-error','wait']) {
+    for (const scene of ['file','file-hover','file-focus','file-active','file-error','save','editor','editor-hover','editor-focus','editor-active','editor-keyboard-active','editor-error','backups','diff','path','path-focus','path-red-focus','path-custom-red-focus','log','upload','smb','upload-error','wait']) {
         if (only && !only.includes(scene)) continue;
         for (const [width, height] of [[1440,900],[768,1024],[390,844]]) {
             const shots = [], states = [];
@@ -84,7 +84,10 @@ try {
                 if (scene === 'file-focus') await page.locator('[data-path]').first().focus();
                 if (scene === 'editor-hover') await page.locator('.modal-footer button').last().hover();
                 if (scene === 'editor-focus') await page.locator('.modal-footer button').last().focus();
-                if (scene.endsWith('-active')) {
+                if (scene === 'editor-keyboard-active') {
+                    await page.locator('.modal-footer button').last().focus();
+                    await page.keyboard.down(' ');
+                } else if (scene.endsWith('-active')) {
                     await page.locator(scene.startsWith('file') ? '[data-path]' : '.modal-footer button').last().hover();
                     await page.mouse.down();
                 }
@@ -93,7 +96,7 @@ try {
                 states.push(await page.locator('.modal-dialog, .modal-header, .modal-body, .modal-footer, button, input, textarea, pre, [role=progressbar], .input-group > span, [data-drop]').evaluateAll(elements => elements.map(el => {
                     const rect = el.getBoundingClientRect(), style = getComputedStyle(el);
                     return { tag: el.tagName, text: el.textContent, x: rect.x, y: rect.y, width: rect.width, height: rect.height,
-                        color: style.color, background: style.backgroundColor, padding: style.padding, margin: style.margin, lineHeight: style.lineHeight, border: style.border, borderRadius: style.borderRadius, boxShadow: style.boxShadow, opacity: style.opacity, fontSize: style.fontSize, display: style.display, position: style.position, fontWeight: style.fontWeight, textAlign: style.textAlign };
+                        color: style.color, background: style.backgroundColor, padding: style.padding, margin: style.margin, lineHeight: style.lineHeight, border: style.border, borderRadius: style.borderRadius, boxShadow: style.boxShadow, opacity: style.opacity, fontSize: style.fontSize, display: style.display, position: style.position, fontWeight: style.fontWeight, textAlign: style.textAlign, focusVisible: el.matches(':focus-visible'), active: el.matches(':active') };
                 })));
                 await page.evaluate(() => window.fixture.dispose());
                 await page.close();

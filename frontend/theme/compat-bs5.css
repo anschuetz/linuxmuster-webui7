@@ -90,7 +90,7 @@
  * Button declarations from ajenti-bs5.css (.btn-default), MIT/Ajenti provenance above.
  * Legacy consumers retain their original selectors until B5/C/D1. */
 /* P137 common/FileDialog/FileEditorDialog.vue; P154 migrated B4 appearance; consolidate theme in D1. */
-.btn.common-file-button { color: #333; background-color: #fff; border-color: #eee; }
+.btn.common-file-button { --bs-btn-focus-box-shadow: none; color: #333; background-color: #fff; border-color: #eee; }
 /* P137 common/FileDialog/FileEditorDialog.vue; P154 migrated B4 appearance; consolidate theme in D1. */
 .btn.common-file-button:focus { color: #333; background-color: #e6e6e6; border-color: #aeaeae; }
 /* P137 common/FileDialog/FileEditorDialog.vue; P154 migrated B4 appearance; consolidate theme in D1. */
@@ -190,4 +190,4 @@ html body.customized .form-control:focus + .common-path-addon a i { color: #233c
 /* P137 common/FileDialog.vue; BS5 actionable-list hover/focus keeps Ajenti colors, B4; consolidate D1. */
 .file-open-dialog .list-group-item-action:hover, .file-open-dialog .list-group-item-action:focus { color: #666; background-color: #f5f5f5; }
 /* P137 common/FileEditorDialog.vue; BS5 focus-visible shadow was absent on legacy buttons, B4; consolidate D1. */
-.btn.common-file-button:focus-visible { color: #333; background-color: #e6e6e6; border-color: #aeaeae; box-shadow: none; }
+.btn.common-file-button:focus-visible { color: #333; background-color: #e6e6e6; border-color: #aeaeae; }
