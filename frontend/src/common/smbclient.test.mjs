@@ -32,7 +32,7 @@ it.each([['copy', ' copied!'], ['move', ' moved!']])('%s retains notifications a
     expect(notify).toHaveBeenCalledWith('success', `src${text}`, undefined);
     notify.mockClear(); await client[method]('src', 'dst', false); expect(notify).not.toHaveBeenCalled();
     http.mockRejectedValueOnce({ data: { message: 'denied' } });
-    expect(await client[method]('src', 'dst')).toBeUndefined();
+    expect(await client[method]('src', 'dst')).toBe(false);
     expect(notify).toHaveBeenCalledWith('error', 'denied', undefined);
 });
 it('prompts for a masked password, preserves cancellation and handles refresh errors', async () => {

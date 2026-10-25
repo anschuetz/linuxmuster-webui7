@@ -25,16 +25,19 @@ export function createTransfers(aj, store, participants, now = () => new Date())
         const target = `${user.homeDirectory}\\transfer\\${aj.identity.profile.sAMAccountName}`;
         for (const item of items) {
             if (!current()) return;
-            await smb.copy(item.path, target + '/' + item.name, false);
-            if (current()) aj.notify.success(aj.gettext(`File ${item.name} shared to ${user.sAMAccountName}!`));
+            const result = await smb.copy(item.path, target + '/' + item.name, false);
+            if (result !== false && current()) aj.notify.success(aj.gettext(`File ${item.name} shared to ${user.sAMAccountName}!`));
         }
     }
     async function collect(command, items, target) {
-        if (!['copy', 'move'].includes(command)) return;
+        if (!['copy', 'move'].includes(command)) return false;
+        let succeeded = true;
         for (const item of items) {
             if (!current()) return;
-            await smb[command](item.path, target + '/' + item.name, false);
+            const result = await smb[command](item.path, target + '/' + item.name, false);
+            if (result === false) succeeded = false;
         }
+        return succeeded;
     }
     const api = {
         async shareUser(user) {
@@ -52,15 +55,16 @@ export function createTransfers(aj, store, participants, now = () => new Date())
             if (blocked()) return;
             const target = destination();
             background(smb.createDirectory(target));
+            let succeeded = true;
             for (const user of state.current.members) {
-                if (isStudent(user)) await collect(command, [{ path: `${user.homeDirectory}\\transfer\\${aj.identity.user}\\_collect`, name: '' }], target + '\\' + user.sAMAccountName);
+                if (isStudent(user) && !await collect(command, [{ path: `${user.homeDirectory}\\transfer\\${aj.identity.user}\\_collect`, name: '' }], target + '\\' + user.sAMAccountName)) succeeded = false;
             }
             if (!current()) return;
             // Both copy and move recreate the directories in the original.
             background(participants.createWorkingDirectory(state.current.members).then(() => {
                 if (current()) participants.missingClasses.value = state.user_missing_membership.map(user => user.sophomorixAdminClass).join(',');
             }));
-            aj.notify.success(aj.gettext('Files collected!'));
+            if (succeeded) aj.notify.success(aj.gettext('Files collected!'));
         },
         async collectUser(command, user) {
             if (!current()) return;
@@ -68,8 +72,8 @@ export function createTransfers(aj, store, participants, now = () => new Date())
             background(smb.createDirectory(target));
             const result = await choose(`${user.homeDirectory}\\transfer\\${aj.identity.user}\\_collect`, `transfer/${aj.identity.user}/_collect`, command, user.sAMAccountName);
             if (!current() || result?.response !== 'accept') return;
-            await collect(command, result.items, target);
-            if (current()) aj.notify.success(aj.gettext('Files collected!'));
+            const succeeded = await collect(command, result.items, target);
+            if (succeeded && current()) aj.notify.success(aj.gettext('Files collected!'));
         },
         browseCollected() {
             if (!current()) return;

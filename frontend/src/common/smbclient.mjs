@@ -10,7 +10,11 @@ export function createSmbclient(aj) {
         post(`/${operation}`, { src, dst }).then((data) => {
             if (notifySuccess) aj.notify.success(src + aj.gettext(suffix));
             return data;
-        }, (response) => { aj.notify.error(response.data.message); });
+        }, (response) => {
+            aj.notify.error(response.data.message);
+            // Successful copy/move endpoints return null; false marks a handled failure.
+            return false;
+        });
     return {
         shares: (user) => get(`/shares/${user}`),
         list: (path) => post('/list', { path }),

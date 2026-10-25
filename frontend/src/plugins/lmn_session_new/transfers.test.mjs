@@ -1,5 +1,6 @@
 import { expect, it, vi } from 'vitest';
 import { createMockAj } from '../../adapter/mock.mjs';
+import { createHttp } from '../../shell/http.mjs';
 import { createTransfers, collectStamp } from './transfers.mjs';
 import { session, users, teacherHome, items } from '../../../e2e/fixtures/session_files.mjs';
 const M='/api/lmn/smbclient/';
@@ -19,6 +20,7 @@ it('shares student/examuser sequentially in source order; single cancel and nona
 it('foreign exam blocks both all operations before dialogs or writes',async()=>{const s=setup(true);await s.api.shareAll();await s.api.collectAll('move');expect(s.calls).toEqual([]);expect(s.open.mock.calls).toEqual([]);expect(s.show.mock.calls.length).toBe(2);});
 it.each(['copy','move'])('collect-all %s creates timestamp directory then transfers filtered users then recreates for all',async op=>{
     const s=setup();await s.api.collectAll(op);const dest=teacherHome+'\\transfer\\collected\\group_p94_20261024-123456';
+    expect(s.notices.map(n => n.slice(0, 2))).toEqual([['success', 'Files collected!']]);
     expect(s.calls).toEqual([[M+'directory',{path:dest}],...users().slice(0,2).map(u=>[M+op,{src:u.homeDirectory+'\\transfer\\p94-teacher\\_collect',dst:dest+'\\'+u.sAMAccountName+'/'}]),['workdir',['p94-0','p94-1','p94-2']]]);
 });
 it('collect-user creates directory before dialog/cancel; archive is browsing only',async()=>{
@@ -29,9 +31,9 @@ it('collect-user creates directory before dialog/cancel; archive is browsing onl
 it('awaits each copy before starting the next; invalid owner stops after current write',async()=>{
     const s=setup();let done; s.aj.http.post=vi.fn(()=>new Promise(resolve=>{done=()=>resolve({data:{}});}));const promise=s.api.shareAll();await Promise.resolve();await Promise.resolve();expect(s.aj.http.post.mock.calls.length).toBe(1);s.participants.isCurrent=()=>false;done();await promise;expect(s.aj.http.post.mock.calls.length).toBe(1);
 });
-it('single share targets one user, transfer errors are reported by shared SMB and legacy sequence continues',async()=>{
+it('single share reports the transfer error without success',async()=>{
     const s=setup();s.aj.http.post=vi.fn().mockRejectedValue({data:{message:'fixture denied'}});await s.api.shareUser(users()[1]);
-    expect(s.aj.http.post.mock.calls).toEqual([[M+'copy',{src:'own/z.txt',dst:users()[1].homeDirectory+'\\transfer\\p94-teacher/z.txt'}]]);expect(s.notices.map(n=>n.slice(0,2))).toEqual([['error','fixture denied'],['success','File z.txt shared to p94-1!']]);
+    expect(s.aj.http.post.mock.calls).toEqual([[M+'copy',{src:'own/z.txt',dst:users()[1].homeDirectory+'\\transfer\\p94-teacher/z.txt'}]]);expect(s.notices.map(n=>n.slice(0,2))).toEqual([['error','fixture denied']]);
 });
 it('collect cancellation result creates only the legacy empty target; stale modal cannot transfer for a different session',async()=>{
     const s=setup();s.open.mockResolvedValueOnce({response:'cancel'});await s.api.collectUser('move',users()[0]);expect(s.calls.length).toBe(1);
@@ -40,4 +42,41 @@ it('collect cancellation result creates only the legacy empty target; stale moda
 });
 it('collect-all refreshes missing-class display after working directory recreation',async()=>{
     const s=setup();s.store.state.user_missing_membership=[{sophomorixAdminClass:'p94-class'},{sophomorixAdminClass:'p94-class'}];await s.api.collectAll('move');await Promise.resolve();expect(s.participants.missingClasses.value).toBe('p94-class,p94-class');
+});
+
+it.each(['copy', 'move'])('collect-user %s retains the backend error without collected success', async command => {
+    const s = setup();
+    s.aj.http.post = vi.fn().mockResolvedValueOnce({data: null}).mockRejectedValueOnce({data: {message: 'STATUS_ACCESS_DENIED'}});
+    await s.api.collectUser(command, users()[0]);
+    expect(s.notices.map(n => n.slice(0, 2))).toEqual([['error', 'STATUS_ACCESS_DENIED']]);
+});
+it.each(['copy', 'move'])('collect-all %s continues mixed transfers without blanket success', async command => {
+    const s = setup();
+    // Target creation succeeds, the first student fails, the second succeeds.
+    s.aj.http.post = vi.fn().mockResolvedValue({data: null});
+    s.aj.http.post.mockResolvedValueOnce({data: null}).mockRejectedValueOnce({data: {message: 'STATUS_ACCESS_DENIED'}});
+    await s.api.collectAll(command);
+    expect(s.aj.http.post.mock.calls.map(([url]) => url)).toEqual([M+'directory', M+command, M+command]);
+    expect(s.notices.map(n => n.slice(0, 2))).toEqual([['error', 'STATUS_ACCESS_DENIED']]);
+    expect(s.participants.createWorkingDirectory).toHaveBeenCalledOnce();
+});
+it('share-all continues after a failed student and only reports the successful recipient', async () => {
+    const s = setup();
+    s.aj.http.post = vi.fn().mockRejectedValueOnce({data: {message: 'STATUS_ACCESS_DENIED'}}).mockResolvedValueOnce({data: null});
+    await s.api.shareAll();
+    expect(s.aj.http.post).toHaveBeenCalledTimes(2);
+    expect(s.notices.map(n => n.slice(0, 2))).toEqual([['error', 'STATUS_ACCESS_DENIED'], ['success', 'File z.txt shared to p94-1!']]);
+});
+
+it('backend HTTP error reaches the collect toast without a success toast', async () => {
+    const s = setup();
+    const fetch = vi.fn(async url => ({
+        status: url.endsWith('/directory') ? 200 : 500,
+        headers: new Headers({'content-type': 'application/json'}),
+        text: async () => url.endsWith('/directory') ? 'null' : JSON.stringify({message: 'STATUS_ACCESS_DENIED', exception: 'EndpointError'}),
+    }));
+    s.aj.http = createHttp({fetch});
+    await s.api.collectUser('copy', users()[0]);
+    expect(fetch).toHaveBeenCalledTimes(2);
+    expect(s.notices.map(n => n.slice(0, 2))).toEqual([['error', 'STATUS_ACCESS_DENIED']]);
 });
