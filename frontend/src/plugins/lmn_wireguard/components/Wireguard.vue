@@ -82,7 +82,7 @@ loadPeers();
     <component :is="'floating-toolbar'" v-if="peers"><div class="container"><div class="row"><div :class="{ 'col-md-3': sidebar }"></div><div :class="sidebar ? 'col-md-9' : 'col-md-12'"><div class="bar row">
         <button class="btn btn-success" @click="create"><i class="fa fa-plus" title="Add"></i></button>
         <button class="btn btn-success" @click="importUsers"><i class="fa fa-upload" title="Import"></i></button>
-        <button class="btn btn-danger pull-right" @click="restart()"><i class="fa fa-power-off"></i> {{ aj.gettext('Restart') }}</button>
-        <button class="btn btn-lmn pull-right" @click="loadStatus"><i class="fa fa-refresh"></i> {{ aj.gettext('Query status') }}</button>
+        <button class="btn btn-danger float-end" @click="restart()"><i class="fa fa-power-off"></i> {{ aj.gettext('Restart') }}</button>
+        <button class="btn btn-lmn float-end" @click="loadStatus"><i class="fa fa-refresh"></i> {{ aj.gettext('Query status') }}</button>
     </div></div></div></div></component>
 </template>
