@@ -8,7 +8,7 @@ import {chromium} from '@playwright/test';
 import {build} from 'vite';
 import vue from '@vitejs/plugin-vue';
 import {buildStyles} from '../static-assets.mjs';
-const frontend=fileURLToPath(new URL('..',import.meta.url)),output=process.argv[2],reference='6a614dfec';
+const frontend=fileURLToPath(new URL('..',import.meta.url)),output=process.argv[2],reference=process.env.C13_REFERENCE||'6a614dfec';
 assert.ok(output);await mkdir(output,{recursive:true});
 const previous=p=>execFileSync('git',['show',`${reference}:${p}`],{cwd:frontend,encoding:'utf8'});
 const css={before:previous('usr/lib/linuxmuster-webui/plugins/lmn_common/resources/vue/styles.css'),after:await buildStyles(frontend)};
@@ -16,7 +16,7 @@ const entry=`import {createApp,h} from 'vue';
 import Settings from '${frontend}/src/plugins/lmn_settings/SchoolSettings.vue';
 import {responses} from '${frontend}/src/plugins/lmn_settings/fixtures.test-data.mjs';
 import {createMockAj} from '${frontend}/src/adapter/mock.mjs';
-const data=responses(); data['/api/lmn/holidays']=[{name:'Synthetic holiday',start:'invalid',end:'01.01.2027'}];
+const data=responses(); data['/api/lmn/holidays']=[{name:'Synthetic holiday',start:'invalid',end:'invalid'}];
 const aj=createMockAj({gettext:text=>({'Save':'Speichern','Restart WebUI':'Schulkonsole neu starten'}[text]||text),identity:{profile:{sophomorixRole:'globaladministrator'}},http:async r=>{window.requests.push(r);if(r.url==='/api/lmn/ldap-search')return {data:[{label:'Synthetic user',login:'fixture'}]};return {data:structuredClone(data[r.url]),status:200};}});
 const app=createApp({render:()=>h(Settings,{layout:{sidebar:true}})});app.provide('aj',aj);app.mount('#fixture');window.fixture={ready:true,dispose:()=>app.unmount()};`;
 const bundles={};
@@ -44,7 +44,7 @@ for(const scene of scenes.filter(s=>!process.env.C13_ONLY||process.env.C13_ONLY.
  await page.waitForTimeout(80);assert.deepEqual(errors,[],scene+' '+name);
  await page.evaluate(()=>{document.addEventListener('click',e=>{e.preventDefault();e.stopImmediatePropagation();},true);document.addEventListener('keydown',e=>{if(e.code==='Space')e.preventDefault();},true);});
  }
- const selectors=['.nav-tabs a','.tab-pane.active .btn:visible','.tab-pane.active input:visible,.tab-pane.active select:visible'];
+ const selectors=['.nav-tabs a','.tab-pane.active .btn:visible','.tab-pane.active input:visible,.tab-pane.active select:visible',...(scene==='holidays'?['.tab-pane.active td:nth-child(2) input','.tab-pane.active td:nth-child(3) input']:[])];
  for(const [kind,selector]of selectors.entries()){
  const available=(await Promise.all(pages.map(p=>p.locator(selector).count()))).every(Boolean);
  for(const state of available?['normal','hover','focus','active','space']:['normal']){
