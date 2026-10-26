@@ -21,6 +21,7 @@ assert.ok(suites.length&&new Set(suites).size===suites.length&&suites.every(s=>s
 assert.ok(['0','1',undefined].includes(process.env.D1C_GRID_BREAKPOINTS),'D1C_GRID_BREAKPOINTS must be 0 or 1');
 const gridBreakpoints=process.env.D1C_GRID_BREAKPOINTS==='1';
 const viewports=gridBreakpoints?[1440,768,390,575,576,767,991,992,1199,1200,1399,1400]:[1440,768,390];
+const timeoutMinutes=suite=>gridBreakpoints&&suite!=='shell-rest'?90*viewports.length/3:90;
 const lock=await readFile(join(frontend,'package-lock.json'),'utf8');
 for(const commit of refs)assert.equal(git(['show',`${commit}:frontend/package-lock.json`]).toString(),lock,'Dependency lock differs: install/compare using the matching lockstand');
 await mkdir(output,{recursive:true});
@@ -35,7 +36,7 @@ postcss.parse(hasCompat?git(['show',`${refs[0]}:${compatPath}`]).toString():'').
 const scratch=await mkdtemp(join(tmpdir(),'p175-'));
 const harnessHashes={};
 for(const name of ['bs5-d1c-compare.mjs','bs5-d1c-probe.mjs',...suites.map(s=>`bs5-${s}.local.mjs`)])harnessHashes[name]=createHash('sha256').update(await readFile(new URL('./'+name,import.meta.url))).digest('hex');
-const manifest={refs,suites,harnessHashes,viewports,gridBreakpoints,shellRestViewports:[1440,768,390],sameCommitUsesFixtureAA:refs[0]===refs[1],fixtureSource:git(['rev-parse','HEAD']).toString().trim(),results:[],errors:[]};
+const manifest={refs,suites,harnessHashes,viewports,gridBreakpoints,suiteTimeoutMinutes:Object.fromEntries(suites.map(suite=>[suite,timeoutMinutes(suite)])),shellRestViewports:[1440,768,390],sameCommitUsesFixtureAA:refs[0]===refs[1],fixtureSource:git(['rev-parse','HEAD']).toString().trim(),results:[],errors:[]};
 // Each archive uses its own complete sources and generated CSS. Dependencies are shared read-only.
 // Never check out/reset a user's working tree, and never contact a server.
 async function snapshot(side,commit){
@@ -78,7 +79,7 @@ async function snapshot(side,commit){
   const script=join(e2e,`p175-${suite}.mjs`);await writeFile(script,source);
   const log=await new Promise((resolveRun,reject)=>{
    const child=spawn(process.execPath,[script,target],{cwd:join(root,'frontend'),env:{...fixtureEnv,P175_HITS:join(target,'hits.json')}});
-   const timer=setTimeout(()=>child.kill('SIGTERM'),90*60*1000);
+   const timer=setTimeout(()=>child.kill('SIGTERM'),timeoutMinutes(suite)*60*1000);
    const chunks=[];child.stdout.on('data',b=>chunks.push(b));child.stderr.on('data',b=>chunks.push(b));
    child.on('error',error=>{clearTimeout(timer);reject(error);});child.on('close',code=>{clearTimeout(timer);resolveRun({code,text:Buffer.concat(chunks).toString()});});
   });

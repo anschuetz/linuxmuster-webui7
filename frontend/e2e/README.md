@@ -55,6 +55,10 @@ suite. The existing 768px case and navigation zoom cases remain; `shell-rest`
 keeps its separate 21-pair contract. The manifest records the effective widths.
 Both exports share three suite slots, with the large session group started first;
 each fixture still renders both internal A/A variants without skipping assertions.
+The per-suite timeout scales from 90 minutes to 360 minutes for the fourfold grid
+matrix; the manifest records it. Task-level time limits still apply.
+The probe journals every screenshot in `hits.json.jsonl` and writes the unchanged
+complete `hits.json` schema when the fixture closes its browser.
 
 The runner exports both commits, reuses the real Vue local fixtures, and compares
 PNG bytes across the exports. The 21 P174 shell renderer pairs always run;

@@ -1,10 +1,17 @@
 // Instrument only screenshots. A match proves reachability, not that a declaration wins the cascade.
 import {chromium as engine} from '@playwright/test';
-import {readFile,writeFile} from 'node:fs/promises';
+import {appendFile,readFile,writeFile} from 'node:fs/promises';
 const rules=JSON.parse(await readFile(new URL('./p175-rules.json',import.meta.url)));
 const observations={browser:null,motion:'frozen identically on both sides; caret hidden',snapshots:{}};
 export const chromium={async launch(options){
  const browser=await engine.launch(options);observations.browser=browser.version();
+ const close=browser.close.bind(browser);
+ browser.close=async(...args)=>{
+  // Keep an append-only recovery journal during long matrices. Serializing the
+  // growing complete inventory for every screenshot otherwise becomes quadratic.
+  try{await writeFile(process.env.P175_HITS,JSON.stringify(observations));}
+  finally{await close(...args);}
+ };
  const newPage=browser.newPage.bind(browser);
  browser.newPage=async(...args)=>{
   const page=await newPage(...args),shot=page.screenshot.bind(page),addStyle=page.addStyleTag.bind(page);
@@ -18,8 +25,9 @@ export const chromium={async launch(options){
      return elements.length?[{id:rule.id,count:elements.length,sample:elements.slice(0,3).map(e=>({tag:e.tagName,classes:e.className,action:e.getAttribute('data-action')}))}]:[];
     }catch(error){return [{id:rule.id,error:error.message}];}
    }),rules);
-   observations.snapshots[options.path||String(Object.keys(observations.snapshots).length)]=hits;
-   await writeFile(process.env.P175_HITS,JSON.stringify(observations));
+   const key=options.path||String(Object.keys(observations.snapshots).length);
+   observations.snapshots[key]=hits;
+   await appendFile(process.env.P175_HITS+'.jsonl',JSON.stringify({path:key,hits})+'\n');
    return shot(options);
   };return page;
  };return browser;
