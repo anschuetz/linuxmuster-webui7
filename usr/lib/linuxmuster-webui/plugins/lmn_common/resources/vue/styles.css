@@ -15665,7 +15665,7 @@ button.close {
 }
 .modal-open { overflow: hidden; }
 .modal-open .modal { overflow-x: hidden; overflow-y: auto; }
-.modal-dialog { width: auto; max-width: none; margin: var(--bs-modal-margin); }
+.modal-dialog { width: auto; max-width: none; margin: var(--bs-modal-margin, var(--aj-modal-margin-narrow)); }
 .modal.fade .modal-dialog {
   transform: translate(0, -25%);
   transition: transform 0.3s ease-out;
@@ -15693,7 +15693,9 @@ dialog.messagebox { z-index: auto; }
 .modal-header, .modal-footer { display: block; border-radius: 0; padding: var(--aj-modal-space-y); }
 .modal-header { border-bottom: 1px solid transparent; }
 .modal-header .close { margin-top: -2px; }
-.modal-title { margin: 0; }
+.modal-title { margin: 0; line-height: var(--bs-modal-title-line-height, 1.42857143); }
+/* Dialog components also render as standalone fragments (Users, auth). */
+.modal-body { padding: var(--aj-modal-space-y); }
 .modal-footer { text-align: right; border-top: 1px solid transparent; }
 .modal-footer > * { margin: 0; }
 /* Equal specificity: the themed button gap wins over the block fallback. */
@@ -15703,7 +15705,7 @@ dialog.messagebox { z-index: auto; }
 .modal-header:after, .modal-footer:after { clear: both; }
 @media (min-width: 768px) {
   .modal { --bs-modal-margin: var(--aj-modal-margin-wide); --bs-modal-width: var(--aj-modal-width); }
-  .modal-dialog { width: var(--bs-modal-width); margin-inline: auto; }
+  .modal-dialog { width: var(--bs-modal-width, var(--aj-modal-width)); margin: var(--bs-modal-margin, var(--aj-modal-margin-wide)) auto; }
   .modal-sm { --bs-modal-width: var(--aj-modal-width-small); }
   .modal-content { box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5); }
 }

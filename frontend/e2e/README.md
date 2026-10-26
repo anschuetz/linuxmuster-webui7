@@ -49,6 +49,11 @@ node frontend/e2e/bs5-d1c-compare.mjs BEFORE AFTER /absolute/evidence [c1 c2 c4 
 node frontend/e2e/bs5-d1c-inventory.mjs /absolute/evidence /absolute/inventory [corrected-evidence ...]
 ```
 
+For modal migrations, additionally set `D1C_MODAL_BREAKPOINTS=1`: all Session
+states retain the three mandatory widths, while its six `files-*` dialog scenes
+also receive every boundary width. Other suites keep their full selected matrix.
+The manifest records this scene-specific scope as `modalSceneViewports`.
+
 For grid migrations, prefix the comparison command with `D1C_GRID_BREAKPOINTS=1`
 to add 575/576, 767, 991/992, 1199/1200 and 1399/1400 pixels to each selected
 suite. The existing 768px case and navigation zoom cases remain; `shell-rest`

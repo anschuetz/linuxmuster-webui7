@@ -48,3 +48,15 @@ it('preserves open state, body lock, block content, footer spacing and backdrop 
         expect((await read('.modal-backdrop'))[1]).toBe('0.4');
     } finally { await page.close(); }
 });
+it('keeps standalone dialog fragments at the same sizes and spacing as service frames', async () => {
+    const page = await browser.newPage();
+    try {
+        await page.setContent(`<!doctype html><style>${css}</style>${markup('').replace('<div class="modal fade show" style="display:block">','').slice(0,-6)}`);
+        for (const width of [390,767,768,991,992,1440]) {
+            await page.setViewportSize({width,height:900});
+            expect(await page.locator('.modal-dialog').evaluate(el=>[el.getBoundingClientRect().width,getComputedStyle(el).marginTop])).toEqual([width<768?width-20:600,width<768?'10px':'30px']);
+        }
+        expect(await page.locator('.modal-title').evaluate(el=>getComputedStyle(el).lineHeight)).toBe('25.7143px');
+        expect(await page.locator('.modal-body').evaluate(el=>getComputedStyle(el).padding)).toBe('15px');
+    } finally { await page.close(); }
+});

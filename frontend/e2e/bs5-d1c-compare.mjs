@@ -20,6 +20,9 @@ const suites=selected.length?[...new Set(['shell-rest',...selected])]:sceneList;
 assert.ok(suites.length&&new Set(suites).size===suites.length&&suites.every(s=>sceneList.includes(s)),'Unknown/duplicate scene suite');
 assert.ok(['0','1',undefined].includes(process.env.D1C_GRID_BREAKPOINTS),'D1C_GRID_BREAKPOINTS must be 0 or 1');
 const gridBreakpoints=process.env.D1C_GRID_BREAKPOINTS==='1';
+assert.ok(['0','1',undefined].includes(process.env.D1C_MODAL_BREAKPOINTS),'D1C_MODAL_BREAKPOINTS must be 0 or 1');
+const modalBreakpoints=process.env.D1C_MODAL_BREAKPOINTS==='1';
+assert.ok(!modalBreakpoints||gridBreakpoints,'D1C_MODAL_BREAKPOINTS requires D1C_GRID_BREAKPOINTS=1');
 const viewports=gridBreakpoints?[1440,768,390,575,576,767,991,992,1199,1200,1399,1400]:[1440,768,390];
 const gridSuites=process.env.D1C_GRID_SUITES?.split(',').map(s=>s.trim())??suites;
 assert.ok(!process.env.D1C_GRID_SUITES||gridBreakpoints,'D1C_GRID_SUITES requires D1C_GRID_BREAKPOINTS=1');
@@ -42,7 +45,8 @@ postcss.parse(hasCompat?git(['show',`${refs[0]}:${compatPath}`]).toString():'').
 const scratch=await mkdtemp(join(tmpdir(),'p175-'));
 const harnessHashes={};
 for(const name of ['bs5-d1c-compare.mjs','bs5-d1c-probe.mjs',...suites.map(s=>`bs5-${s}.local.mjs`)])harnessHashes[name]=createHash('sha256').update(await readFile(new URL('./'+name,import.meta.url))).digest('hex');
-const manifest={refs,suites,harnessHashes,viewports,viewportsBySuite,gridBreakpoints,gridSuites,suiteTimeoutMinutes:Object.fromEntries(suites.map(suite=>[suite,timeoutMinutes(suite)])),shellRestViewports:[1440,768,390],sameCommitUsesFixtureAA:refs[0]===refs[1],fixtureSource:git(['rev-parse','HEAD']).toString().trim(),results:[],errors:[]};
+const modalSceneViewports=modalBreakpoints?{session:{'files-*':viewports,other:[1440,768,390]}}:null;
+const manifest={refs,suites,modalSceneViewports,harnessHashes,viewports,viewportsBySuite,gridBreakpoints,gridSuites,suiteTimeoutMinutes:Object.fromEntries(suites.map(suite=>[suite,timeoutMinutes(suite)])),shellRestViewports:[1440,768,390],sameCommitUsesFixtureAA:refs[0]===refs[1],fixtureSource:git(['rev-parse','HEAD']).toString().trim(),results:[],errors:[]};
 // Each archive uses its own complete sources and generated CSS. Dependencies are shared read-only.
 // Never check out/reset a user's working tree, and never contact a server.
 async function snapshot(side,commit){
@@ -66,7 +70,7 @@ async function snapshot(side,commit){
    const pattern=/\[\[1440,\s*900\],\s*\[768,\s*1024\],\s*\[390,\s*844\]\]/g;
    const supported=suite==='navigation'?source.includes('[1440, 768, 576, 390]'):pattern.test(source);
    assert.ok(supported,'No recognized viewport loop in '+suite);
-   source=suite==='navigation'?source.replace('[1440, 768, 576, 390]',JSON.stringify(viewports)):source.replace(pattern,tuples);
+   source=suite==='session'&&modalBreakpoints?source.replace(pattern,`(scene.startsWith('files-')?${tuples}:[[1440,900],[768,1024],[390,844]])`):suite==='navigation'?source.replace('[1440, 768, 576, 390]',JSON.stringify(viewports)):source.replace(pattern,tuples);
    source=source.replace(/\[1440,\s*768,\s*390\]/g,JSON.stringify(viewports));
   }
   // Preserve fixture interactions/assertions; resolve all historical reads inside this archive.
