@@ -26,7 +26,7 @@ const nav = createNavigation({ aj, storage: { isWidescreen: options.wide }, navi
 if (options.auth) nav.routeChanged('/view/login/normal');
 await nav.loadSidebar();
 const app = createApp({ render: () => h(ShellNavigation, { nav, aj, identityDetails: { machine: { name: 'lmn-server' }, effective: 0 }, sessionState: { counter: ['01','00'] } },
-    { default: () => options.auth ? h('div', { innerHTML: ${JSON.stringify(auth)} }) : h('div', [h('h2', 'Willkommen bei Linuxmuster.net'), h('div', { class: 'alert alert-info' }, 'Hinweis'), h('ul', { class: 'nav nav-tabs' }, [h('li', { class: 'active' }, [h('a', 'Allgemein')])]), h('div', { style: 'height:1400px' }, 'Seiteninhalt')]) }) });
+    { default: () => options.auth ? h('div', { innerHTML: window.fixtureAuth }) : h('div', [h('h2', 'Willkommen bei Linuxmuster.net'), h('div', { class: 'alert alert-info' }, 'Hinweis'), h('ul', { class: 'nav nav-tabs' }, [h('li', { class: 'active' }, [h('a', 'Allgemein')])]), h('div', { style: 'height:1400px' }, 'Seiteninhalt')]) }) });
 app.mount(document.body); window.fixture = { nav, dispose: () => { app.unmount(); nav.dispose(); } };`;
 const bundles = {};
 for (const name of ['before', 'after']) {
@@ -45,6 +45,9 @@ try {
             await page.route('**/*', route => route.abort());
                 await page.setContent('<!doctype html><html><head></head><body></body></html>');
                 await page.addStyleTag({ content: css[name] });
+                // Match the auth-column contract of the snapshot, including P174's hidden empty columns.
+                const authMarkup=css[name].includes('.auth-layout-column')?auth.replaceAll('col-sm-4','auth-layout-column'):auth;
+                await page.evaluate(html=>{window.fixtureAuth=html;},authMarkup);
                 await page.evaluate(options => { window.fixtureOptions = options; }, { auth: scene === 'login', wide: scene === 'wide', long: scene === 'long' || scene === 'login', regular: scene === 'profile-user-active' });
                 await page.addScriptTag({ type: 'module', content: bundles[name] });
                 await page.waitForFunction(() => document.querySelector('.shell-content'));

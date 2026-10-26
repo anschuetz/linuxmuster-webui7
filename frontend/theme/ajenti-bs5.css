@@ -20,7 +20,12 @@
 .aj-theme-toolbar-layout > :not(.aj-theme-toolbar-offset):not(.aj-theme-toolbar-main):not(.aj-theme-toolbar-full) { min-height: 0; }
 .aj-theme-toolbar-main { width: calc(100% - var(--aj-layout-sidebar)); align-self: flex-end; }
 .aj-theme-toolbar-full { width: 100%; }
-.aj-theme-flow, .aj-theme-toolbar { display: flow-root; margin-left: calc(var(--aj-layout-gutter) / -2); margin-right: calc(var(--aj-layout-gutter) / -2); }
+.aj-theme-flow, .aj-theme-toolbar { margin-left: calc(var(--aj-layout-gutter) / -2); margin-right: calc(var(--aj-layout-gutter) / -2); }
+/* A low-specificity default lets the existing C4/C12 mobile flex contract win. */
+.aj-theme-flow, :where(.aj-theme-toolbar) { display: flow-root; }
+/* Flex contains the trailing field margin; the divider must not add it again. */
+.aj-theme-column-divider { margin-top: 0; }
+.aj-theme-grid > .aj-theme-role-selector { padding-left: 0; padding-right: 0; }
 .aj-theme-shell { flex-wrap: nowrap; align-items: flex-start; }
 .aj-theme-shell > * { width: auto; max-width: none; padding-left: 0; padding-right: 0; }
 .aj-theme-shell > .sidebar { flex: 0 0 var(--aj-layout-sidebar); position: relative; }
@@ -31,6 +36,10 @@
 @media (min-width: 768px) { .aj-theme-half { --aj-layout-span: 6; } }
 @media (min-width: 992px) {
   .container { width: var(--aj-layout-container-wide); }
+  /* The standalone role field historically contributes no parent block height.
+   * Inside a cleared row, its own height is reserved without a second 30px gap. */
+  .aj-theme-detached-role-selector { height: 0; }
+  .aj-theme-grid > .aj-theme-role-selector { margin-bottom: 0; }
   .aj-theme-wide-sixth { --aj-layout-span: 2; }
   .aj-theme-wide-quarter, .auth-change-quarter { --aj-layout-span: 3; }
   .aj-theme-wide-third { --aj-layout-span: 4; }

@@ -65,3 +65,11 @@ it('keeps the wide field-column break at 992 while widgets retain their permanen
         expect((await widths()).slice(0,2)).toEqual([0.25,0.5]);
     } finally { await page.close(); }
 });
+
+it('lets the existing mobile C12 toolbar wrap override the default toolbar flow', async () => {
+    const page = await browser.newPage({viewport:{width:390,height:844}});
+    try {
+        await page.setContent(`<!doctype html><style>${css}</style><div class="bar aj-theme-toolbar c12-toolbar"><a class="btn btn-lmn">Save</a><a class="btn btn-lmn">Restart</a></div>`);
+        expect(await page.locator('.bar').evaluate(el=>getComputedStyle(el).display)).toBe('flex');
+    } finally { await page.close(); }
+});

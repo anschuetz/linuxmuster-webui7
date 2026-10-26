@@ -43,7 +43,7 @@ const aj = inject('aj');
 </span>
 </div>
 </div>
-</div> <hr> <div class="c12-columns aj-theme-columns">
+</div> <hr class="aj-theme-column-divider"> <div class="c12-columns aj-theme-columns">
 <div class="aj-theme-wide-half">
 <Translated tag="label" text="Template email reset">
 </Translated> <div>

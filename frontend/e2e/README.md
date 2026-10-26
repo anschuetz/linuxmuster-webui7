@@ -49,6 +49,11 @@ node frontend/e2e/bs5-d1c-compare.mjs BEFORE AFTER /absolute/evidence [c1 c2 c4 
 node frontend/e2e/bs5-d1c-inventory.mjs /absolute/evidence /absolute/inventory [corrected-evidence ...]
 ```
 
+For grid migrations, prefix the comparison command with `D1C_GRID_BREAKPOINTS=1`
+to add 575/576, 767, 991/992, 1199/1200 and 1399/1400 pixels to each selected
+suite. The existing 768px case and navigation zoom cases remain; `shell-rest`
+keeps its separate 21-pair contract. The manifest records the effective widths.
+
 The runner exports both commits, reuses the real Vue local fixtures, and compares
 PNG bytes across the exports. The 21 P174 shell renderer pairs always run;
 without a suite filter all groups in `bs5-d1c-scenes.json` run. Both commit locks
