@@ -42,6 +42,8 @@ it('preserves open state, body lock, block content, footer spacing and backdrop 
         expect(await page.locator('.modal-title').evaluate(el=>[getComputedStyle(el).marginTop,getComputedStyle(el).lineHeight])).toEqual(['0px','25.7143px']);
         expect((await read('.modal-footer .btn + .btn'))[6]).toBe('5px');
         expect((await read('.modal-backdrop')).slice(1,2)).toEqual(['0.5']);
+        await page.locator('.modal-footer .btn').evaluateAll(els=>els.forEach(el=>el.classList.add('btn-block')));
+        expect((await read('.modal-footer .btn + .btn'))[6]).toBe('5px');
         await page.evaluate(()=>document.documentElement.style.setProperty('--aj-modal-backdrop-opacity','.4'));
         expect((await read('.modal-backdrop'))[1]).toBe('0.4');
     } finally { await page.close(); }

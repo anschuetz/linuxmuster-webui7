@@ -15696,9 +15696,10 @@ dialog.messagebox { z-index: auto; }
 .modal-title { margin: 0; }
 .modal-footer { text-align: right; border-top: 1px solid transparent; }
 .modal-footer > * { margin: 0; }
+/* Equal specificity: the themed button gap wins over the block fallback. */
+.modal-footer .btn-block + .btn-block { margin-left: 0; }
 .modal-footer .btn + .btn { margin-left: 5px; margin-bottom: 0; }
 .modal-footer .btn-group .btn + .btn { margin-left: -1px; }
-.modal-footer .btn-block + .btn-block { margin-left: 0; }
 .modal-header:after, .modal-footer:after { clear: both; }
 @media (min-width: 768px) {
   .modal { --bs-modal-margin: var(--aj-modal-margin-wide); --bs-modal-width: var(--aj-modal-width); }
