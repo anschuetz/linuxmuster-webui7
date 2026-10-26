@@ -1,7 +1,7 @@
 // Offline real-component comparison, synthetic data only; no server access.
 import assert from 'node:assert/strict';
 import {execFileSync} from 'node:child_process';
-import {mkdir,writeFile,readFile} from 'node:fs/promises';
+import {mkdir,writeFile,readFile,open} from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
 import {join} from 'node:path';
 import {chromium} from '@playwright/test';
@@ -65,5 +65,13 @@ for(const scene of scenes.filter(s=>!process.env.C13_ONLY||process.env.C13_ONLY.
  for(const page of pages){assert.ok(await page.evaluate(()=>window.requests.every(r=>r.method==='get'||r.url==='/api/lmn/ldap-search')));await page.evaluate(()=>window.fixture.dispose());await page.close();}
 }
 }finally{await browser.close();}
-await writeFile(join(output,'comparison.json'),JSON.stringify(results,null,2));await writeFile(join(output,'metadata.json'),JSON.stringify({reference,browser:browser.version(),scenes,viewports:[1440,768,390]},null,2));
+// Stream the unchanged records: expanded breakpoint runs can exceed Node's
+// single-string limit even though each individual result fits comfortably.
+const comparison=await open(join(output,'comparison.json'),'w');
+try{
+ await comparison.write('[\n');
+ for(const [index,result] of results.entries())await comparison.write((index?',\n':'')+JSON.stringify(result,null,2));
+ await comparison.write('\n]\n');
+}finally{await comparison.close();}
+await writeFile(join(output,'metadata.json'),JSON.stringify({reference,browser:browser.version(),scenes,viewports:[1440,768,390]},null,2));
 console.log(`${results.filter(r=>r.equal).length}/${results.length} PNG pairs identical; inspect comparison.json for differences`);
