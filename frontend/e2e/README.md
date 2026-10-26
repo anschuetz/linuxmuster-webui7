@@ -53,6 +53,8 @@ For grid migrations, prefix the comparison command with `D1C_GRID_BREAKPOINTS=1`
 to add 575/576, 767, 991/992, 1199/1200 and 1399/1400 pixels to each selected
 suite. The existing 768px case and navigation zoom cases remain; `shell-rest`
 keeps its separate 21-pair contract. The manifest records the effective widths.
+Both exports share three suite slots, with the large session group started first;
+each fixture still renders both internal A/A variants without skipping assertions.
 
 The runner exports both commits, reuses the real Vue local fixtures, and compares
 PNG bytes across the exports. The 21 P174 shell renderer pairs always run;

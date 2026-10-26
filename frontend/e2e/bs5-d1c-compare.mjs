@@ -87,12 +87,24 @@ async function snapshot(side,commit){
   // A fixture's historical pixel assertion may fail due to A/A raster noise. It remains recorded.
   console.log(`${side}/${suite}: exit ${log.code}`);
  };
- // Three independent, network-blocked fixture groups at a time.
- for(let offset=0;offset<suites.length;offset+=3)await Promise.all(suites.slice(offset,offset+3).map(runSuite));
+ return runSuite;
 }
 async function files(root){const entries=await readdir(root,{withFileTypes:true});return (await Promise.all(entries.map(async e=>e.isDirectory()?(await files(join(root,e.name))).map(p=>join(e.name,p)):[e.name]))).flat();}
 try{
- await snapshot('before',refs[0]);if(refs[0]!==refs[1])await snapshot('after',refs[1]);
+ const [before,after]=await Promise.all([snapshot('before',refs[0]),refs[0]===refs[1]?null:snapshot('after',refs[1])]);
+ // Share three slots across the archives. The large session group must not leave
+ // two slots idle at a batch boundary while the other archive waits its turn.
+ const ordered=suites.toSorted((a,b)=>Number(b==='session')-Number(a==='session'));
+ const jobs=ordered.flatMap(suite=>[()=>before(suite),...(after?[()=>after(suite)]:[])]);
+ manifest.scheduling={parallelSuites:3,sessionFirst:true,sharedAcrossCommits:true,jobs:jobs.length};
+ let nextJob=0;
+ const consume=async()=>{while(nextJob<jobs.length){const job=jobs[nextJob++];await job();}};
+ const workers=await Promise.allSettled(Array.from({length:Math.min(3,jobs.length)},consume));
+ const failed=workers.filter(result=>result.status==='rejected');
+ if(failed.length){
+  manifest.errors.push(...failed.map(result=>({stage:'fixture-worker',error:String(result.reason)})));
+  throw new AggregateError(failed.map(result=>result.reason),'Fixture workers failed');
+ }
  for(const suite of suites){
   const same=refs[0]===refs[1];
   const left=join(output,'before',suite),right=join(output,same?'before':'after',suite);
