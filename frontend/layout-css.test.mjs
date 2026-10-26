@@ -74,3 +74,14 @@ it('lets the existing mobile C12 toolbar wrap override the default toolbar flow'
         expect(await page.locator('.bar').evaluate(el=>getComputedStyle(el).display)).toBe('flex');
     } finally { await page.close(); }
 });
+
+it('lets the shares loading indicator occupy its flow row without adding a top gap', async () => {
+    const page = await browser.newPage();
+    try {
+        await page.setContent(`<!doctype html><style>${css}</style><div class="aj-theme-flow" style="width:600px"><progress-spinner class="shares-spinner aj-theme-shares-loading"><div><div class="one"></div><div class="two"></div></div></progress-spinner></div>`);
+        expect(await page.locator('progress-spinner').evaluate(el=>{
+            const r=el.getBoundingClientRect(),parent=el.parentElement.getBoundingClientRect();
+            return [r.width,r.y-parent.y,getComputedStyle(el).marginTop];
+        })).toEqual([600,0,'0px']);
+    } finally { await page.close(); }
+});

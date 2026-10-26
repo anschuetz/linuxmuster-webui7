@@ -178,3 +178,9 @@ it('places active tab state on BS5 nav-links and keeps editor cancel free of wri
     await button(w, 'Close').trigger('click');
     expect(post(http)).toBeUndefined();
 });
+
+it('keeps loaded drive actions in the sidebar-aligned toolbar layout', async () => {
+    const { w } = await setup();
+    await tab(w, 'Drives');
+    expect(w.get('floating-toolbar > .container > .row').classes()).toContain('aj-theme-toolbar-layout');
+});

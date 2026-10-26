@@ -180,7 +180,7 @@ function keyboardFocus(event) {
 <template>
     <div v-if="allowed">
         <div class="aj-theme-flow" style="padding-bottom:100px">
-            <component :is="'progress-spinner'" v-show="loading" class="shares-spinner"><div><div class="one"></div><div class="two"></div></div></component>
+            <component :is="'progress-spinner'" v-show="loading" class="shares-spinner aj-theme-shares-loading"><div><div class="one"></div><div class="two"></div></div></component>
             <br>
             <div><button v-for="share in shares" :key="share.path" class="btn btn-lmn share-button" style="margin-left:20px" :style="share.active && { backgroundColor: '#ffc876' }" @click="loadShare(share)"><i :class="share.icon"></i> {{ share.name }}</button></div>
             <br style="clear:right">

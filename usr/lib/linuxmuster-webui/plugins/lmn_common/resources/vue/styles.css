@@ -13526,6 +13526,8 @@ html body.customized .c11-tabs > .nav-item > .nav-link.active:hover { border-bot
 .aj-theme-flow, .aj-theme-toolbar { margin-left: calc(var(--aj-layout-gutter) / -2); margin-right: calc(var(--aj-layout-gutter) / -2); }
 /* A low-specificity default lets the existing C4/C12 mobile flex contract win. */
 .aj-theme-flow, :where(.aj-theme-toolbar) { display: flow-root; }
+/* The shares loading indicator occupies the flow row; its inner circles retain their native size. */
+.aj-theme-shares-loading { width: auto; margin-top: 0; }
 /* Flex contains the trailing field margin; the divider must not add it again. */
 .aj-theme-column-divider { margin-top: 0; }
 .aj-theme-grid > .aj-theme-role-selector { padding-left: 0; padding-right: 0; }
