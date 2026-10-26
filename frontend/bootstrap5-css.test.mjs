@@ -72,7 +72,7 @@ it('retains the Ajenti theme except measured dead F46 tab colors and unused Glyp
         (rule[1] === ':root' && rule[2].some(([prop]) => prop === '--aj-modal-width')) || [
             '.modal-open', '.modal-open .modal', '.modal-dialog', '.modal.fade.show .modal-dialog',
             '.modal.fade.show', '.modal-backdrop', '.modal-backdrop.fade.show', 'dialog.messagebox',
-            '.modal-title', '.modal-body', '.modal-header,.modal-footer', '.modal-header .close', '.modal-footer > *',
+            '.common-user-title,.common-file-title', 'h3.common-user-title', '.modal-title', '.modal-body', '.modal-header,.modal-footer', '.modal-header .close', '.modal-footer > *',
             '.modal-footer .btn-group .btn + .btn', '.modal-footer .btn-block + .btn-block',
             '.modal-header:after,.modal-footer:after', '.modal-sm', '.modal-lg',
         ].includes(rule[1]);

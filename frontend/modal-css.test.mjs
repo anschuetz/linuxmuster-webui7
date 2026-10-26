@@ -40,6 +40,12 @@ it('preserves open state, body lock, block content, footer spacing and backdrop 
         for (const selector of ['.modal-content','.modal-header','.modal-footer']) expect((await read(selector))[0]).toBe('block');
         expect((await read('.modal-footer'))[7]).toBe('0px');
         expect(await page.locator('.modal-title').evaluate(el=>[getComputedStyle(el).marginTop,getComputedStyle(el).lineHeight])).toEqual(['0px','25.7143px']);
+        for (const hook of ['common-user-title','common-file-title']) {
+            await page.locator('.modal-title').evaluate((el,hook)=>el.className=`modal-title ${hook}`,hook);
+            expect(await page.locator('.modal-title').evaluate(el=>[getComputedStyle(el).margin,getComputedStyle(el).lineHeight])).toEqual(['10px 0px','19.8px']);
+        }
+        await page.locator('.modal-title').evaluate(el=>el.outerHTML='<h3 class="modal-title common-user-title">Title</h3>');
+        expect(await page.locator('.modal-title').evaluate(el=>[getComputedStyle(el).margin,getComputedStyle(el).lineHeight])).toEqual(['20px 0px 10px','26.4px']);
         expect((await read('.modal-footer .btn + .btn'))[6]).toBe('5px');
         expect((await read('.modal-backdrop')).slice(1,2)).toEqual(['0.5']);
         await page.locator('.modal-footer .btn').evaluateAll(els=>els.forEach(el=>el.classList.add('btn-block')));

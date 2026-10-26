@@ -2168,6 +2168,8 @@ button.close {
   --aj-modal-space-x: 30px;
   --aj-modal-space-y: 15px;
   --aj-modal-header-top: 20px;
+  --aj-modal-heading-space: 10px;
+  --aj-modal-heading-line-height: 1.1;
   --aj-modal-backdrop-opacity: .5;
   --aj-modal-layer: 1050;
   --aj-modal-backdrop-layer: 1040;
@@ -2220,6 +2222,9 @@ dialog.messagebox { z-index: auto; }
 .modal-header { border-bottom: 1px solid transparent; }
 .modal-header .close { margin-top: -2px; }
 .modal-title { margin: 0; line-height: var(--bs-modal-title-line-height, 1.42857143); }
+/* Measured Common dialog headings win the base title at equal specificity. */
+.common-user-title, .common-file-title { margin: var(--aj-modal-heading-space) 0; line-height: var(--aj-modal-heading-line-height); }
+h3.common-user-title { margin-top: calc(2 * var(--aj-modal-heading-space)); }
 /* Dialog components also render as standalone fragments (Users, auth). */
 .modal-body { padding: var(--aj-modal-space-y); }
 .modal-footer { text-align: right; border-top: 1px solid transparent; }
