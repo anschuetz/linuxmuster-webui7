@@ -48,6 +48,17 @@
 }
 @media (min-width: 1200px) { .container { width: var(--aj-layout-container-large); } }
 
+/* Responsive toolbar layout: migrated with the grid, ahead of component appearance. */
+@media (max-width: 767px) {
+.c4-toolbar .bar { display: flex; flex-wrap: wrap; }
+.c4-toolbar .bar > .btn { width: auto; max-width: 100%; white-space: normal; }
+.c4-toolbar .aj-theme-toolbar-main { width: 100%; }
+.c12-toolbar { display: flex; flex-wrap: wrap; }
+.c12-toolbar > .btn { max-width: 100%; white-space: normal; }
+.c12-footer .aj-theme-toolbar-main { width: 100%; }
+.aj-theme-toolbar-layout > .c8-menu-host { position: static; }
+}
+
 /* P176 Ajenti typography on BS5. Public --aj-type-* values retain the 10px rem
  * contract. BS5 owns alignment, transforms, unstyled lists and color !important;
  * contextual RGB variables adapt its utilities, including hover/focus states.

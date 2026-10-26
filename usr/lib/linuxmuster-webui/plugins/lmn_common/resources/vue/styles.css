@@ -13021,14 +13021,8 @@ html body.customized .c4-tabs > .nav-item > .nav-link.active:hover { border-bott
     .c4-membership-list > .membership-item { min-width: 0; width: calc(100% - 10px); }
     /* P137 lmn_permissions/Permissions.vue; C4 D14 roles remain reachable by horizontal scrolling; consolidate D1. */
     .c4-table-scroll { overflow-x: auto; max-width: 100%; }
-    /* P137 lmn_quotas/Quotas.vue + Permissions.vue; C4 D02/D14 toolbar actions wrap inside viewport; consolidate D1. */
-    .c4-toolbar .bar { display: flex; flex-wrap: wrap; }
-    /* P137 C4 D02/D14 toolbar row children must not inherit full row width; consolidate D1. */
-    .c4-toolbar .bar > .btn { width: auto; max-width: 100%; white-space: normal; }
 }
 @media (max-width: 767px) {
-    /* P137 C4 D02/D14 overrides common footer's permanent 205px sidebar offset; D1. */
-    .c4-toolbar .aj-theme-toolbar-main { width: 100%; }
     /* P137 C4 D02 reserves three wrapped DE toolbar rows without covering the last input; D1. */
     .c4-toolbar-padder { height: 140px; }
     /* P137 C4 D14 reserves the mobile export row without hiding the last permission; D1. */
@@ -13221,15 +13215,6 @@ html body.customized .c12-tabs > .nav-item > .nav-link.active, html body.customi
 .c12-input-button > .btn { position: relative; }
 .c12-input-button:last-child > .btn { z-index: 2; margin-left: -1px; border-top-left-radius: 0; border-bottom-left-radius: 0; }
 .c12-input-button > .btn:hover, .c12-input-button > .btn:focus, .c12-input-button > .btn:active { z-index: 2; }
-@media (max-width: 767px) {
- .c12-toolbar { display: flex; flex-wrap: wrap; }
- .c12-toolbar > .btn { max-width: 100%; white-space: normal; }
-}
-
-@media (max-width: 767px) {
- /* P137 lmn_settings GlobalSettings; P168 C12 D13 removes permanent 205px sidebar offset; D1. */
- .c12-footer .aj-theme-toolbar-main { width: 100%; }
-}
 
 /* P164 C8 lmn_linbo4 core: retain Ajenti dimensions/colors; consolidate in D1. */
 /* P137 lmn_linbo4 core; P164 C8 scoped legacy appearance; consolidate D1. */
@@ -13262,7 +13247,7 @@ html body.customized .c8-tabs > .nav-item > .nav-link.active:hover { border-bott
 .c8-icon-menu .dropdown-item:hover, .c8-icon-menu .dropdown-item:focus { color: #333; background-color: #f5f5f5; }
 /* D09: mobile menu anchors to the fixed toolbar, long template names wrap within the viewport. */
 @media (max-width: 767px) {
-    .aj-theme-toolbar-main.c8-menu-host, .aj-theme-toolbar-full.c8-menu-host, .dropup.c8-create-menu { position: static; }
+    .dropup.c8-create-menu { position: static; }
     .c8-create-menu > .dropdown-menu { left: 20px; right: 20px; width: auto; max-width: calc(100vw - 40px); }
     .c8-create-menu .dropdown-item { white-space: normal; overflow-wrap: anywhere; }
 }
@@ -13516,8 +13501,6 @@ html body.customized .c11-tabs > .nav-item > .nav-link.active:hover { border-bot
 
 .shell-plugins .list-group-item > .shell-stock-label { float: none; }
 
-@media (min-width: 992px) { }
-
 /* P177 Ajenti layout on BS5 flex rows. Span tokens replace the Float/Push/Pull
  * matrix. Existing component hooks retain their measured 768/992 breakpoints.
  * Shell and floating toolbars have a separate 205px sidebar-width contract.
@@ -13567,6 +13550,17 @@ html body.customized .c11-tabs > .nav-item > .nav-link.active:hover { border-bot
   .aj-theme-wide-two-thirds { --aj-layout-span: 8; }
 }
 @media (min-width: 1200px) { .container { width: var(--aj-layout-container-large); } }
+
+/* Responsive toolbar layout: migrated with the grid, ahead of component appearance. */
+@media (max-width: 767px) {
+.c4-toolbar .bar { display: flex; flex-wrap: wrap; }
+.c4-toolbar .bar > .btn { width: auto; max-width: 100%; white-space: normal; }
+.c4-toolbar .aj-theme-toolbar-main { width: 100%; }
+.c12-toolbar { display: flex; flex-wrap: wrap; }
+.c12-toolbar > .btn { max-width: 100%; white-space: normal; }
+.c12-footer .aj-theme-toolbar-main { width: 100%; }
+.aj-theme-toolbar-layout > .c8-menu-host { position: static; }
+}
 
 /* P176 Ajenti typography on BS5. Public --aj-type-* values retain the 10px rem
  * contract. BS5 owns alignment, transforms, unstyled lists and color !important;
