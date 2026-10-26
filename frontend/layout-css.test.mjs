@@ -47,6 +47,7 @@ it('keeps toolbar sidebar offsets separate from the responsive field-column span
             return [a.width,b.width-a.width,a.y-b.y,getComputedStyle(el).cssFloat];
         });
         expect(await geometry()).toEqual([625,205,1,'none']);
+        expect(await page.locator('.aj-theme-toolbar-offset').evaluate(el=>el.getBoundingClientRect().width)).toBe(207.5);
         await page.evaluate(() => document.documentElement.style.setProperty('--aj-layout-sidebar','220px'));
         expect(await geometry()).toEqual([610,220,1,'none']);
         await page.locator('.aj-theme-toolbar-main').evaluate(el => el.className='aj-theme-toolbar-full');

@@ -13544,7 +13544,7 @@ html body.customized .c11-tabs > .nav-item > .nav-link.active:hover { border-bot
   .aj-theme-detached-role-selector { height: 0; }
   .aj-theme-grid > .aj-theme-role-selector { margin-bottom: 0; }
   .aj-theme-wide-sixth { --aj-layout-span: 2; }
-  .aj-theme-wide-quarter, .auth-change-quarter { --aj-layout-span: 3; }
+  .aj-theme-wide-quarter, .auth-change-quarter, .aj-theme-toolbar-offset { --aj-layout-span: 3; }
   .aj-theme-wide-third { --aj-layout-span: 4; }
   .aj-theme-wide-half, .auth-change-half { --aj-layout-span: 6; }
   .aj-theme-wide-two-thirds { --aj-layout-span: 8; }
