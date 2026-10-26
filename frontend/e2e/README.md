@@ -58,6 +58,8 @@ grid consumers established by the rule/producer inventory. All other requested
 suites still run every fixture state at the three mandatory widths; navigation
 also keeps its existing 576px and 200% zoom cases. `viewportsBySuite` records this
 scope explicitly.
+The `stock` group additionally exercises the real Dashboard in one- and two-column
+mode, widget columns and stock pages; it can be run as a supplemental comparison.
 Both exports share three suite slots, with the large session group started first;
 each fixture still renders both internal A/A variants without skipping assertions.
 The per-suite timeout scales from 90 minutes to 360 minutes for the fourfold grid

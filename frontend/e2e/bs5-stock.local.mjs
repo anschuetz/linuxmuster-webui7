@@ -65,7 +65,7 @@ for (const name of ['before','after']) {
 const tabScenes = ['normal','hover','focus','active','keyboard'].flatMap(state => [
     ...[0,1].map(i => `dashboard-nav-${i}-${state}`), ...[0,1,2,3].map(i => `settings-nav-${i}-${state}`),
 ]);
-const scenes = [...tabScenes, 'dashboard','dashboard-tab','dashboard-disk','dashboard-datetime','dashboard-hover','dashboard-focus','dashboard-active','dashboard-keyboard','dashboard-flat-keyboard','sessions','settings','settings-security','settings-smtp','settings-tfa','denied-settings','denied-sessions','404','configuration-error','ui-test','quotas-disabled'];
+const scenes = [...tabScenes, 'dashboard','dashboard-one-column','dashboard-tab','dashboard-disk','dashboard-datetime','dashboard-hover','dashboard-focus','dashboard-active','dashboard-keyboard','dashboard-flat-keyboard','sessions','settings','settings-security','settings-smtp','settings-tfa','denied-settings','denied-sessions','404','configuration-error','ui-test','quotas-disabled'];
 const only = process.argv.includes('--only') ? process.argv[process.argv.indexOf('--only')+1].split(',') : null;
 const browser = await chromium.launch({headless:true}); const results=[];
 try {
@@ -81,6 +81,7 @@ try {
             await page.addScriptTag({type:'module',content:bundles[name]});
             await page.waitForFunction(()=>window.fixture?.ready);
             if(scene==='dashboard-tab') await page.locator('[data-tab="1"]').click();
+            if(scene==='dashboard-one-column') await page.locator('[data-action="width-1"]').click();
             if(scene==='dashboard-disk' || scene==='dashboard-datetime' || scene==='dashboard-flat-keyboard') await page.evaluate(scene=>window.fixture.model.configureWidget(scene==='dashboard-disk'?'disk':'datetime'),scene);
             const tab = { 'settings-security':'Security','settings-smtp':'Smtp relay','settings-tfa':'2FA' }[scene];
             if(tab) await page.locator('[data-tab="'+tab+'"]').click();
@@ -108,8 +109,7 @@ try {
             await page.waitForTimeout(550);
             assert.deepEqual(errors,[],scene+' '+name);
             if(scene==='settings-smtp') assert.equal(await page.locator('[aria-label="SMTP password"]').getAttribute('type'),'password');
-            const mask = scene.startsWith('dashboard') ? page.locator('.widget-header').filter({hasText:'Date Time'}).locator('..').locator('.widget-value') : undefined;
-            shots.push(await page.screenshot({path:join(output,`${scene}-${width}-${name}.png`),mask:mask?[mask]:[]}));
+            shots.push(await page.screenshot({path:join(output,`${scene}-${width}-${name}.png`)}));
             states.push(await page.locator('a.btn, button, select, input, .widget-header, .widget-value, .badge, .label, .root-access-blocker, .alert, th, td').evaluateAll(elements=>elements.map(el=>{
                 const r=el.getBoundingClientRect(),s=getComputedStyle(el);
                 return {tag:el.tagName,text:el.textContent,x:r.x,y:r.y,width:r.width,height:r.height,color:s.color,background:s.backgroundColor,padding:s.padding,margin:s.margin,lineHeight:s.lineHeight,border:s.border,borderRadius:s.borderRadius,boxShadow:s.boxShadow,fontSize:s.fontSize,display:s.display,fontWeight:s.fontWeight,verticalAlign:s.verticalAlign};
