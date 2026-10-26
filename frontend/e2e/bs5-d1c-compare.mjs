@@ -21,7 +21,13 @@ assert.ok(suites.length&&new Set(suites).size===suites.length&&suites.every(s=>s
 assert.ok(['0','1',undefined].includes(process.env.D1C_GRID_BREAKPOINTS),'D1C_GRID_BREAKPOINTS must be 0 or 1');
 const gridBreakpoints=process.env.D1C_GRID_BREAKPOINTS==='1';
 const viewports=gridBreakpoints?[1440,768,390,575,576,767,991,992,1199,1200,1399,1400]:[1440,768,390];
-const timeoutMinutes=suite=>gridBreakpoints&&suite!=='shell-rest'?90*viewports.length/3:90;
+const gridSuites=process.env.D1C_GRID_SUITES?.split(',').map(s=>s.trim())??suites;
+assert.ok(!process.env.D1C_GRID_SUITES||gridBreakpoints,'D1C_GRID_SUITES requires D1C_GRID_BREAKPOINTS=1');
+assert.ok(new Set(gridSuites).size===gridSuites.length&&gridSuites.every(s=>sceneList.includes(s)),'Unknown/duplicate grid suite');
+const withGridWidths=suite=>gridBreakpoints&&suite!=='shell-rest'&&gridSuites.includes(suite);
+const suiteViewports=suite=>withGridWidths(suite)?viewports:[1440,768,390];
+const timeoutMinutes=suite=>90*suiteViewports(suite).length/3;
+const viewportsBySuite=Object.fromEntries(suites.map(suite=>[suite,suite==='navigation'?[...new Set([...suiteViewports(suite),576,720])]:suiteViewports(suite)]));
 const lock=await readFile(join(frontend,'package-lock.json'),'utf8');
 for(const commit of refs)assert.equal(git(['show',`${commit}:frontend/package-lock.json`]).toString(),lock,'Dependency lock differs: install/compare using the matching lockstand');
 await mkdir(output,{recursive:true});
@@ -36,7 +42,7 @@ postcss.parse(hasCompat?git(['show',`${refs[0]}:${compatPath}`]).toString():'').
 const scratch=await mkdtemp(join(tmpdir(),'p175-'));
 const harnessHashes={};
 for(const name of ['bs5-d1c-compare.mjs','bs5-d1c-probe.mjs',...suites.map(s=>`bs5-${s}.local.mjs`)])harnessHashes[name]=createHash('sha256').update(await readFile(new URL('./'+name,import.meta.url))).digest('hex');
-const manifest={refs,suites,harnessHashes,viewports,gridBreakpoints,suiteTimeoutMinutes:Object.fromEntries(suites.map(suite=>[suite,timeoutMinutes(suite)])),shellRestViewports:[1440,768,390],sameCommitUsesFixtureAA:refs[0]===refs[1],fixtureSource:git(['rev-parse','HEAD']).toString().trim(),results:[],errors:[]};
+const manifest={refs,suites,harnessHashes,viewports,viewportsBySuite,gridBreakpoints,gridSuites,suiteTimeoutMinutes:Object.fromEntries(suites.map(suite=>[suite,timeoutMinutes(suite)])),shellRestViewports:[1440,768,390],sameCommitUsesFixtureAA:refs[0]===refs[1],fixtureSource:git(['rev-parse','HEAD']).toString().trim(),results:[],errors:[]};
 // Each archive uses its own complete sources and generated CSS. Dependencies are shared read-only.
 // Never check out/reset a user's working tree, and never contact a server.
 async function snapshot(side,commit){
@@ -55,7 +61,7 @@ async function snapshot(side,commit){
   const target=join(output,side,suite);await mkdir(target,{recursive:true});
   let source=await readFile(new URL(`./bs5-${suite}.local.mjs`,import.meta.url),'utf8');
   // Preserve shell-rest's exact 21-pair contract and navigation's separate zoom case.
-  if(gridBreakpoints&&suite!=='shell-rest'){
+  if(withGridWidths(suite)){
    const tuples=JSON.stringify(viewports.map(w=>[w,w===768?1024:w===390?844:900]));
    const pattern=/\[\[1440,\s*900\],\s*\[768,\s*1024\],\s*\[390,\s*844\]\]/g;
    const supported=suite==='navigation'?source.includes('[1440, 768, 576, 390]'):pattern.test(source);
