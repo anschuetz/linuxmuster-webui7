@@ -31,7 +31,7 @@ function create(example) { menu.value = false; emit('create-config', example); }
         </tr></tbody>
     </table>
     <div class="floating-toolbar-padder"></div>
-    <component :is="'floating-toolbar'"><div class="container"><div class="row"><div :class="{ 'col-md-3': sidebar }"></div><div class="c8-menu-host" :class="sidebar ? 'col-md-9' : 'col-md-12'"><div class="bar row">
+    <component :is="'floating-toolbar'"><div class="container"><div class="row aj-theme-toolbar-layout"><div :class="{ 'aj-theme-toolbar-offset': sidebar }"></div><div class="c8-menu-host" :class="sidebar ? 'aj-theme-toolbar-main' : 'aj-theme-toolbar-full'"><div class="bar aj-theme-toolbar">
         <button class="btn btn-lmn float-end" @click="emit('download-iso')">{{ aj.gettext('Download Linbo Boot') }}</button>
         <button v-if="changed" data-action="import" class="btn btn-lmn float-end" @click="emit('import-devices')">{{ aj.gettext('Import devices') }}</button>
         <div data-config-create class="dropup c8-create-menu" style="width:50%" :class="{ show: menu }">

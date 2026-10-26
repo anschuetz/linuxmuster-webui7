@@ -1,5 +1,4 @@
 /*! P150: bridges for BS5-only properties and A1 interleaving conflicts. MIT: BOOTSTRAP-LICENSE/AJENTI-LICENSE. */
-/* BS3 .row floats; P137 col-xs-* 5 uses, Landingpage.vue; remove B2/C1. BS5 row flex/gutters would change the old DOM. */ .row { display: block; --bs-gutter-x: 30px; --bs-gutter-y: 0; }
 /* BS3 columns; P137 col-xs-* 5 uses, Landingpage.vue; remove B2/C1. Remove BS5 shrink and default 100% width at its earlier sm breakpoint. */
 
 /* BS3 navbar block; P137 10 navbar uses, shell/navigation-components.mjs; remove B2. */ .navbar { display: block; padding: 0; }
@@ -42,8 +41,6 @@
 /* BS3 table rowgroup alignment; P137 frontend/src/plugins/lmn_users/UsersTable.vue; remove C3/C10. */ .table > :not(caption) { vertical-align: middle; }
 /* BS3 table row/cell borders inherit before explicit top/bottom borders; P137 frontend/src/plugins/lmn_users/UsersTable.vue; remove C3/C10. */ .table > :not(caption) > *, .table > :not(caption) > * > * { border-color: inherit; }
 /* BS3 modal header/footer have square outer corners; P137 modal 248 uses, frontend/src/common/FileBackupsDialog.vue; remove B1/B4. */ .modal-header, .modal-footer { border-radius: 0; }
-
-/* BS3 container has only width breakpoints, no 576/1400 max-width; P137 frontend/src/shell/navigation-components.mjs:79; remove B2. */ .container { max-width: none; }
 
 /* BS3 small button size after base theme; P137 buttons 364 uses, frontend/src/common/FileDialog.vue; remove B4/C1. */ .btn.btn-sm { padding: 5px 10px; font-size: 12px; line-height: 1.5; }
 /* BS3 panel contextual borders after base panel; P137 panels 67 uses, frontend/src/plugins/lmn_landingpage/Landingpage.vue; remove C1/C4. */ .panel.panel-primary { border-color: #2196F3; }
@@ -210,8 +207,6 @@ html body.customized .common-user-tabs > .nav-item > .nav-link.active:hover { bo
 .shell-stock-field { margin-bottom: 30px; }
 /* P137 shell/SettingsField.vue/Dashboard.vue; B6 native select appearance, form-control remains a valid BS5 theme hook; consolidate D1. */
 .shell-stock-select { background-image: none; }
-/* P137 shell/Widget.vue; B6 original xs widget columns in the transitional float grid; consolidate D1. */
-.shell-widget-column { position: relative; float: left; min-height: 1px; padding-left: 15px; padding-right: 15px; }
 /* P137 shell/Widget.vue/SessionList.vue; B6 original label dimensions; consolidate D1. */
 .badge.shell-stock-label { display: inline; min-width: 0; padding: .4em .6em .3em; margin-right: 3px; font-size: 75%; font-weight: bold; line-height: 1; color: #fff; text-align: center; white-space: nowrap; vertical-align: baseline; border-radius: .25em; }
 /* P137 shell/Widget.vue/SessionList.vue; B6 original danger label color; consolidate D1. */
@@ -222,10 +217,6 @@ html body.customized .common-user-tabs > .nav-item > .nav-link.active:hover { bo
 .shell-dashboard-tabs > .nav-item > .nav-link { display: inline-block; color: inherit; padding: 1px 6px; margin: 0; font: inherit; line-height: inherit; background: revert; border: revert; border-radius: revert; }
 /* P137 shell/StockSettings.vue; B6 existing inline button tabs, active class carries selection without changing approved appearance; consolidate D1. */
 .shell-settings-tabs > .nav-link { display: inline-block; margin-bottom: 0; border-radius: 0; }
-
-/* P137 shell/Widget.vue; B6 widths after transitional .row child reset; consolidate D1. */
-.shell-widget-column.col-4 { width: 33.33333333%; }
-.shell-widget-column.col-8 { width: 66.66666667%; }
 
 /* P137 shell/Dashboard.vue/StockSettings.vue; P156 B6 review: native tab focus had no BS5 shadow; consolidate D1. */
 .shell-settings-tabs > .nav-link:focus-visible, .shell-dashboard-tabs > .nav-item > .nav-link:focus-visible, .sidebar .nav-link:focus-visible { box-shadow: none; }
@@ -299,7 +290,7 @@ html body.customized .c4-tabs > .nav-item > .nav-link.active:hover { border-bott
 }
 @media (max-width: 767px) {
     /* P137 C4 D02/D14 overrides common footer's permanent 205px sidebar offset; D1. */
-    .c4-toolbar .col-md-9 { width: 100%; }
+    .c4-toolbar .aj-theme-toolbar-main { width: 100%; }
     /* P137 C4 D02 reserves three wrapped DE toolbar rows without covering the last input; D1. */
     .c4-toolbar-padder { height: 140px; }
     /* P137 C4 D14 reserves the mobile export row without hiding the last permission; D1. */
@@ -499,7 +490,7 @@ html body.customized .c12-tabs > .nav-item > .nav-link.active, html body.customi
 
 @media (max-width: 767px) {
  /* P137 lmn_settings GlobalSettings; P168 C12 D13 removes permanent 205px sidebar offset; D1. */
- .c12-footer .col-md-9 { width: 100%; }
+ .c12-footer .aj-theme-toolbar-main { width: 100%; }
 }
 
 /* P164 C8 lmn_linbo4 core: retain Ajenti dimensions/colors; consolidate in D1. */
@@ -533,7 +524,7 @@ html body.customized .c8-tabs > .nav-item > .nav-link.active:hover { border-bott
 .c8-icon-menu .dropdown-item:hover, .c8-icon-menu .dropdown-item:focus { color: #333; background-color: #f5f5f5; }
 /* D09: mobile menu anchors to the fixed toolbar, long template names wrap within the viewport. */
 @media (max-width: 767px) {
-    .col-md-9.c8-menu-host, .col-md-12.c8-menu-host, .dropup.c8-create-menu { position: static; }
+    .aj-theme-toolbar-main.c8-menu-host, .aj-theme-toolbar-full.c8-menu-host, .dropup.c8-create-menu { position: static; }
     .c8-create-menu > .dropdown-menu { left: 20px; right: 20px; width: auto; max-width: calc(100vw - 40px); }
     .c8-create-menu .dropdown-item { white-space: normal; overflow-wrap: anywhere; }
 }
@@ -787,9 +778,4 @@ html body.customized .c11-tabs > .nav-item > .nav-link.active:hover { border-bot
 
 .shell-plugins .list-group-item > .shell-stock-label { float: none; }
 
-/* P174 password change retains its measured 992px breakpoint; login keeps its existing flex card. */
-.row > .auth-change-quarter, .row > .auth-change-half { position: relative; min-height: 1px; padding-left: 15px; padding-right: 15px; width: auto; max-width: none; float: none; }
-
-@media (min-width: 992px) { .row > .auth-change-quarter { float: left; width: 25%; } .row > .auth-change-half { float: left; width: 50%; } }
-
-.auth-layout-column { position: relative; min-height: 1px; padding-left: 15px; padding-right: 15px; }
+@media (min-width: 992px) { }

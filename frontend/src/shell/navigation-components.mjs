@@ -90,7 +90,7 @@ export const ShellNavigation = defineComponent({
         return () => {
             const { nav, aj } = props, { layout, search } = nav, identity = aj.identity, t = aj.gettext;
             const core = nav.customization.plugins?.core ?? {}, details = props.identityDetails ?? {};
-            const sidebar = mobile => h('div', { id: mobile ? 'shell-mobile-navigation' : undefined, class: mobile ? 'sidebar overlay-sidebar animate-sidebar hide-desktop hide-large' : 'col-md-3 sidebar hide-tablet hide-phone',
+            const sidebar = mobile => h('div', { id: mobile ? 'shell-mobile-navigation' : undefined, class: mobile ? 'sidebar overlay-sidebar animate-sidebar hide-desktop hide-large' : 'aj-theme-sidebar-column sidebar hide-tablet hide-phone',
                 style: { display: layout.navigationPresent && (mobile ? layout.overlay : layout.sidebar) ? '' : 'none' },
                 onTouchstart: swipeStart, onTouchend: swipeEnd }, [
                 slots.tasks?.(),
@@ -128,7 +128,7 @@ export const ShellNavigation = defineComponent({
                         ]) : null,
                     ]),
                 ]),
-                h('div', { class: 'container' }, [h('div', { class: 'row' }, [sidebar(false),
+                h('div', { class: 'container' }, [h('div', { class: 'row aj-theme-shell' }, [sidebar(false),
                     h('div', { class: 'content shell-content', onTouchstart: swipeStart, onTouchend: swipeEnd }, slots.default?.())]), sidebar(true)]),
                 search.visible ? h('div', { class: 'navbox-overlay' }, [h('div', { class: 'navbox-box' }, [
                     h('input', { ref: input, type: 'search', class: 'form-control', placeholder: t('Quick search'), value: draft.value,

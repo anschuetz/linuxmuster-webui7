@@ -20,15 +20,15 @@ const aj = inject('aj');
 </div>
 </div> <div class="c12-field">
 <Translated tag="label" text="Max session time">
-</Translated> <div class="row">
-<div class="col-md-8">
+</Translated> <div class="row aj-theme-grid">
+<div class="aj-theme-wide-two-thirds">
 <input v-model.number="s.config.data.session_max_time" @input="if ($event.target.validity.badInput) s.config.data.session_max_time = undefined; else if ($event.target.value === '') s.config.data.session_max_time = null; else if ($event.target.validity.rangeUnderflow || $event.target.validity.rangeOverflow) s.config.data.session_max_time = undefined;" class="form-control" type="number">
 </div>
 </div>
 </div> <div v-show="s.config.data.bind.mode === 'tcp' &amp;&amp; s.config.data.ssl.enable &amp;&amp; !customization?.plugins?.settings?.hideSSLSettings">
 <div class="c12-field">
-<div class="row">
-<div class="col-md-8">
+<div class="row aj-theme-grid">
+<div class="aj-theme-wide-two-thirds">
 <i class="fas fa-question-circle float-end" :title="s.help_certificate">
 </i> <Translated tag="label" text="SSL certificate file">
 </Translated> <PathSelector v-model="s.config.data.ssl.certificate" type="text">
@@ -36,8 +36,8 @@ const aj = inject('aj');
 </div>
 </div>
 </div> <div class="c12-field">
-<div class="row">
-<div class="col-md-8">
+<div class="row aj-theme-grid">
+<div class="aj-theme-wide-two-thirds">
 <i class="fas fa-question-circle float-end" :title="s.help_fqdn_certificate">
 </i> <Translated tag="label" text="SSL FQDN certificate file">
 </Translated> <PathSelector v-model="s.config.data.ssl.fqdn_certificate" type="text">
@@ -51,8 +51,8 @@ const aj = inject('aj');
 </Checkbox>
 </div>
 </div> <hr v-show="!customization?.plugins?.settings?.hideProxiesSettings"> <div class="c12-field" v-show="!customization?.plugins?.settings?.hideProxiesSettings">
-<div class="row">
-<div class="col-md-6">
+<div class="row aj-theme-grid">
+<div class="aj-theme-wide-half">
 <div style="margin-bottom:20px;">
 <Translated tag="label" text="Trusted domains">
 </Translated> <i class="fas fa-question-circle float-end" :title="s.help_trusted_domains">
@@ -71,7 +71,7 @@ const aj = inject('aj');
 </i> <Translated tag="span" text="New domain">
 </Translated>
 </a>
-</div> <div class="col-md-6">
+</div> <div class="aj-theme-wide-half">
 <div style="margin-bottom:20px;">
 <Translated tag="label" text="Trusted proxies">
 </Translated> <i class="fas fa-question-circle float-end" :title="s.help_trusted_proxies">

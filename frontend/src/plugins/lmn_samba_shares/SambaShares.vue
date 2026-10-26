@@ -179,7 +179,7 @@ function keyboardFocus(event) {
 
 <template>
     <div v-if="allowed">
-        <div class="row" style="padding-bottom:100px">
+        <div class="aj-theme-flow" style="padding-bottom:100px">
             <component :is="'progress-spinner'" v-show="loading" class="shares-spinner"><div><div class="one"></div><div class="two"></div></div></component>
             <br>
             <div><button v-for="share in shares" :key="share.path" class="btn btn-lmn share-button" style="margin-left:20px" :style="share.active && { backgroundColor: '#ffc876' }" @click="loadShare(share)"><i :class="share.icon"></i> {{ share.name }}</button></div>
@@ -204,14 +204,14 @@ function keyboardFocus(event) {
                             <a v-if="item.isDir" class="list-group-main" @click="loadPath(item.path)"><i class="fa fa-fw fa-folder"></i> {{ item.name }}</a>
                             <span v-if="item.isFile" class="list-group-main"><i :class="icons[item.filetype]"></i> {{ item.name }} <span class="subtle">{{ bytes(item.size) }}</span></span>
                         </div>
-                        <component :is="'floating-toolbar'"><div class="container"><div class="row"><div :class="{ 'col-md-3': sidebar }"></div><div class="toolbar-content" :class="sidebar ? 'col-md-9' : 'col-md-12'"><div class="bar row">
+                        <component :is="'floating-toolbar'"><div class="container"><div class="row aj-theme-toolbar-layout"><div :class="{ 'aj-theme-toolbar-offset': sidebar }"></div><div class="toolbar-content" :class="sidebar ? 'aj-theme-toolbar-main' : 'aj-theme-toolbar-full'"><div class="bar aj-theme-toolbar">
                             <a v-if="clipboard.length" data-clipboard class="btn c5-button btn-flat float-end" @click="dialog = 'clipboard'"><i class="fa fa-paste"></i> {{ clipboard.length }}</a>
                             <a class="btn c5-button btn-flat" @click="showNew('file')">{{ aj.gettext('New file') }}</a>
                             <a class="btn c5-button btn-flat" @click="showNew('directory')">{{ aj.gettext('New directory') }}</a>
                             <span :ref="browseRef" class="btn c5-button btn-flat">{{ aj.gettext('Upload') }}</span>
                             <a v-if="clipboard.length" class="btn c5-button btn-flat" @click="paste">{{ aj.gettext('Paste here') }}</a>
                         </div></div></div></div></component>
-                        <component :is="'floating-toolbar'" v-show="selected.length" class="accented"><div class="container"><div class="row"><div :class="{ 'col-md-3': sidebar }"></div><div class="toolbar-content" :class="sidebar ? 'col-md-9' : 'col-md-12'"><div class="bar row">
+                        <component :is="'floating-toolbar'" v-show="selected.length" class="accented"><div class="container"><div class="row aj-theme-toolbar-layout"><div :class="{ 'aj-theme-toolbar-offset': sidebar }"></div><div class="toolbar-content" :class="sidebar ? 'aj-theme-toolbar-main' : 'aj-theme-toolbar-full'"><div class="bar aj-theme-toolbar">
                             <a disabled class="btn c5-button btn-flat float-end"><strong>{{ selected.length }}</strong> {{ aj.gettext('items selected') }}</a>
                             <a class="btn c5-button btn-flat" @click="addClipboard('move')">{{ aj.gettext('Cut') }}</a>
                             <a class="btn c5-button btn-flat" @click="addClipboard('copy')">{{ aj.gettext('Copy') }}</a>

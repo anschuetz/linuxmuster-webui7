@@ -32,9 +32,9 @@ async function change() {
         <br />
         <strong>{{ aj.gettext('All fields are required') }}</strong>
     </div>
-    <div class="row">
-        <div class="col-lg-3 auth-change-quarter"></div>
-        <div class="col-lg-6 auth-change-half">
+    <div class="row aj-theme-grid">
+        <div class="auth-change-quarter"></div>
+        <div class="auth-change-half">
             <div class="auth-field mb-3">
                 <label>{{ aj.gettext('Current password') }}</label>
                 <!-- Angular never trims password inputs; only the visible text copy trims. -->
@@ -63,6 +63,6 @@ async function change() {
                 </button>
             </div>
         </div>
-        <div class="col-lg-3 auth-change-quarter"></div>
+        <div class="auth-change-quarter"></div>
     </div>
 </template>

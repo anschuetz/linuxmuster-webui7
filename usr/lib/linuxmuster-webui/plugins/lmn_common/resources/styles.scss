@@ -311,11 +311,7 @@ div.legend-element {
     margin-top:10px;
 }
 
-//footer
-.col-md-9 {
-        width: calc(100% - 205px);
-        float: right;
-}
+// Footer widths belong to the P177 --aj-layout-sidebar contract.
 
 p.dotlist:before {
   content: '';

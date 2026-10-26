@@ -29,13 +29,11 @@ it('builds one pinned Bootstrap 5 before documented compatibility, Ajenti and pl
     expect(await read('vendor/README.md')).toMatch(/bootstrap@5\.3\.8/);
 });
 
-it('keeps the old grid breakpoint, open/fade states and native messagebox stacking contract', async () => {
+it('keeps open/fade states and native messagebox stacking contract', async () => {
     const compat = postcss.parse(await read('theme/compat-bs3.css') + await read('theme/compat-bs5.css'));
     const rules = [];
     compat.walkRules(rule => rules.push(rule));
     const find = selector => rules.find(rule => rule.selector === selector);
-    expect(find('.col-sm-6').parent.params).toBe('(min-width: 768px)');
-    expect(find('.col-sm-6').nodes.some(n => n.prop === 'width' && n.value === '50%')).toBe(true);
     expect(find('.modal-scrollbar-measure')).toBeUndefined();
     expect(find('.fade.in').nodes.some(n => n.prop === 'opacity' && n.value === '1')).toBe(true);
     expect(find('.modal.in .modal-dialog').nodes.some(n => n.prop === 'transform' && n.value === 'translate(0, 0)')).toBe(true);
@@ -69,7 +67,10 @@ it('retains the Ajenti theme except measured dead F46 tab colors and unused Glyp
     const deadTabColors = rule => /body\.global-color-[\w-]+.*\.nav-tabs\s*>\s*li\.active\s*>\s*a/.test(rule[1]);
     expect(original.slice(start).filter(deadTabColors)).toHaveLength(8);
     const expected = original.slice(start).filter(rule => !deadTabColors(rule)).flatMap(([context, selector, body]) => {
-        const retained = postcss.list.comma(selector).filter(value => !/\.glyphicon(?:\b|-)/.test(value));
+        if (/^\.col-(xs|sm|md|lg)-/.test(selector)) return [];
+        const retained = postcss.list.comma(selector).filter(value =>
+            !/\.glyphicon(?:\b|-)/.test(value) &&
+            !/^\.(row|container|container-fluid):(?:before|after)$/.test(value));
         return retained.length ? [[context, retained.join(','), body]] : [];
     });
     expect(theme.filter(rule => !authSelectors.has(rule[1]) && !restSelectors.has(rule[1]))).toEqual(expected);

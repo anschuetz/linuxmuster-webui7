@@ -72,7 +72,7 @@ function selectTab(index) {
 </div>
 <div class="floating-toolbar-padder">
 </div>
-<component :is="'floating-toolbar'" class="c12-footer"><div class="container"><div class="row"><div :class="{ 'col-md-3': layout.sidebar }"></div><div :class="layout.sidebar ? 'col-md-9' : 'col-md-12'"><div class="bar row c12-toolbar">
+<component :is="'floating-toolbar'" class="c12-footer"><div class="container"><div class="row aj-theme-toolbar-layout"><div :class="{ 'aj-theme-toolbar-offset': layout.sidebar }"></div><div :class="layout.sidebar ? 'aj-theme-toolbar-main' : 'aj-theme-toolbar-full'"><div class="bar aj-theme-toolbar c12-toolbar">
 <Translated tag="a" text="Save" v-show="s.activetab === 0" @click="s.save()" class="btn btn-lmn">
 </Translated> <Translated tag="a" text="Restart WebUI" v-show="s.activetab === 0" @click="s.restart()" class="btn btn-lmn">
 </Translated> <Translated tag="a" text="Save &amp;amp; Apply Subnets" v-show="s.activetab === 1" @click="s.saveApplySubnets()" class="btn btn-lmn">

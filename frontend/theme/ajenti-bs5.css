@@ -1,3 +1,44 @@
+/* P177 Ajenti layout on BS5 flex rows. Span tokens replace the Float/Push/Pull
+ * matrix. Existing component hooks retain their measured 768/992 breakpoints.
+ * Shell and floating toolbars have a separate 205px sidebar-width contract.
+ */
+:root {
+  --aj-layout-gutter: 30px;
+  --aj-layout-sidebar: 205px;
+  --aj-layout-container-wide: 970px;
+  --aj-layout-container-large: 1170px;
+}
+.container { max-width: none; --bs-gutter-x: var(--aj-layout-gutter); }
+.row { --bs-gutter-x: var(--aj-layout-gutter); --bs-gutter-y: 0; }
+.aj-theme-grid, .aj-theme-columns { --aj-layout-span: 12; display: flex; flex-wrap: wrap; align-items: flex-start; }
+.aj-theme-grid > *, .aj-theme-columns > *, .aj-theme-toolbar-layout > * {
+  flex: 0 0 auto; float: none; width: calc(100% * var(--aj-layout-span, 12) / 12);
+  max-width: none; position: relative; min-height: 1px;
+  padding-left: calc(var(--aj-layout-gutter) / 2); padding-right: calc(var(--aj-layout-gutter) / 2);
+}
+.aj-theme-toolbar-layout { flex-direction: column; }
+.aj-theme-toolbar-layout > :not(.aj-theme-toolbar-offset):not(.aj-theme-toolbar-main):not(.aj-theme-toolbar-full) { min-height: 0; }
+.aj-theme-toolbar-main { width: calc(100% - var(--aj-layout-sidebar)); align-self: flex-end; }
+.aj-theme-toolbar-full { width: 100%; }
+.aj-theme-flow, .aj-theme-toolbar { display: flow-root; margin-left: calc(var(--aj-layout-gutter) / -2); margin-right: calc(var(--aj-layout-gutter) / -2); }
+.aj-theme-shell { flex-wrap: nowrap; align-items: flex-start; }
+.aj-theme-shell > * { width: auto; max-width: none; padding-left: 0; padding-right: 0; }
+.aj-theme-shell > .sidebar { flex: 0 0 var(--aj-layout-sidebar); position: relative; }
+.aj-theme-shell > .content { flex: 1; min-width: 0; }
+.auth-layout-column { position: relative; min-height: 1px; padding-left: 15px; padding-right: 15px; }
+.shell-widget-column.col-4 { --aj-layout-span: 4; }
+.shell-widget-column.col-8 { --aj-layout-span: 8; }
+@media (min-width: 768px) { .aj-theme-half { --aj-layout-span: 6; } }
+@media (min-width: 992px) {
+  .container { width: var(--aj-layout-container-wide); }
+  .aj-theme-wide-sixth { --aj-layout-span: 2; }
+  .aj-theme-wide-quarter, .auth-change-quarter { --aj-layout-span: 3; }
+  .aj-theme-wide-third { --aj-layout-span: 4; }
+  .aj-theme-wide-half, .auth-change-half { --aj-layout-span: 6; }
+  .aj-theme-wide-two-thirds { --aj-layout-span: 8; }
+}
+@media (min-width: 1200px) { .container { width: var(--aj-layout-container-large); } }
+
 /* P176 Ajenti typography on BS5. Public --aj-type-* values retain the 10px rem
  * contract. BS5 owns alignment, transforms, unstyled lists and color !important;
  * contextual RGB variables adapt its utilities, including hover/focus states.
@@ -342,81 +383,6 @@ pre {
 .row {
   margin-left: -15px;
   margin-right: -15px;
-}
-.col-xs-1,
-.col-sm-1,
-.col-md-1,
-.col-lg-1,
-.col-xs-2,
-.col-sm-2,
-.col-md-2,
-.col-lg-2,
-.col-xs-3,
-.col-sm-3,
-.col-md-3,
-.col-lg-3,
-.col-xs-4,
-.col-sm-4,
-.col-md-4,
-.col-lg-4,
-.col-xs-5,
-.col-sm-5,
-.col-md-5,
-.col-lg-5,
-.col-xs-6,
-.col-sm-6,
-.col-md-6,
-.col-lg-6,
-.col-xs-7,
-.col-sm-7,
-.col-md-7,
-.col-lg-7,
-.col-xs-8,
-.col-sm-8,
-.col-md-8,
-.col-lg-8,
-.col-xs-9,
-.col-sm-9,
-.col-md-9,
-.col-lg-9,
-.col-xs-10,
-.col-sm-10,
-.col-md-10,
-.col-lg-10,
-.col-xs-11,
-.col-sm-11,
-.col-md-11,
-.col-lg-11,
-.col-xs-12,
-.col-sm-12,
-.col-md-12,
-.col-lg-12 {
-  position: relative;
-  min-height: 1px;
-  padding-left: 15px;
-  padding-right: 15px;
-}
-
-.col-xs-offset-0 {
-  margin-left: 0%;
-}
-@media (min-width: 768px) {
-
-  .col-sm-offset-0 {
-    margin-left: 0%;
-  }
-}
-@media (min-width: 992px) {
-
-  .col-md-offset-0 {
-    margin-left: 0%;
-  }
-}
-@media (min-width: 1200px) {
-
-  .col-lg-offset-0 {
-    margin-left: 0%;
-  }
 }
 
 caption {
@@ -2554,12 +2520,6 @@ button.close {
 .clearfix:after,
 .dl-horizontal dd:before,
 .dl-horizontal dd:after,
-.container:before,
-.container:after,
-.container-fluid:before,
-.container-fluid:after,
-.row:before,
-.row:after,
 .form-horizontal .form-group:before,
 .form-horizontal .form-group:after,
 .btn-toolbar:before,

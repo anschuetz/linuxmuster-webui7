@@ -109,9 +109,9 @@ const image = name => `/resources/lmn_common/resources/img/${logo(name)}`;
             </template>
         </div>
         <component :is="'floating-toolbar'" class="c4-toolbar">
-            <div class="container"><div class="row">
-                <div class="col-md-3 permissions-toolbar-offset"></div>
-                <div class="col-md-9 permissions-toolbar-main"><div class="bar row">
+            <div class="container"><div class="row aj-theme-toolbar-layout">
+                <div class="aj-theme-toolbar-offset permissions-toolbar-offset"></div>
+                <div class="aj-theme-toolbar-main permissions-toolbar-main"><div class="bar aj-theme-toolbar">
                     <button class="btn btn-lmn" @click="exportPermissions">{{ aj.gettext('Export permissions file') }}</button>
                 </div></div>
             </div></div>

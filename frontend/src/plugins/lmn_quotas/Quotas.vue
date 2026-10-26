@@ -137,10 +137,10 @@ onBeforeUnmount(() => window.removeEventListener('keydown', hotkey));
         </table>
         <div v-else>
             <p class="alert alert-warning">{{ aj.gettext('This functionality is actually under development and displays imprecise values. It will not work with DFS shares or in multischool environment.') }}</p><br>
-            <form style="margin-bottom:30px;min-height:50px" @submit.prevent="check()">
-                <label class="col-md-3">{{ aj.gettext('List main directories for user:') }}</label>
-                <div class="c4-check-search col-md-6"><UserSearch :key="checkReset" role="" :label="checkUser?.label || ''" @select="check" @query="checkUser = null" /><span v-if="checkUser" aria-label="Clear" class="far fa-times-circle c4-check-clear" style="cursor:pointer;pointer-events:all;line-height:34px;right:17px" @click="clearCheck"></span></div>
-                <div class="col-md-2"><button type="submit" class="btn btn-success" @click="check()">Check <i class="fas fa-check"></i></button></div>
+            <form class="aj-theme-columns" style="margin-bottom:30px;min-height:50px" @submit.prevent="check()">
+                <label class="aj-theme-wide-quarter">{{ aj.gettext('List main directories for user:') }}</label>
+                <div class="c4-check-search aj-theme-wide-half"><UserSearch :key="checkReset" role="" :label="checkUser?.label || ''" @select="check" @query="checkUser = null" /><span v-if="checkUser" aria-label="Clear" class="far fa-times-circle c4-check-clear" style="cursor:pointer;pointer-events:all;line-height:34px;right:17px" @click="clearCheck"></span></div>
+                <div class="aj-theme-wide-sixth"><button type="submit" class="btn btn-success" @click="check()">Check <i class="fas fa-check"></i></button></div>
             </form>
             <component :is="'progress-spinner'" v-if="checking" role="progressbar"><div><div class="one"></div><div class="two"></div></div></component><hr class="clearfix">
             <template v-if="checked"><h3>{{ checkTitle }}</h3><table class="table"><thead><tr><th>{{ aj.gettext('Directory') }}</th><th style="text-align:right">{{ aj.gettext('Size') }}</th></tr></thead><tbody><tr v-for="dir in Object.keys(directories).sort()" :key="dir"><td>{{ dir }}</td><td style="text-align:right">{{ directories[dir].total }}</td></tr><tr><th>{{ aj.gettext('Total') }}</th><th style="text-align:right">{{ total }}</th></tr></tbody></table></template>
@@ -151,7 +151,7 @@ onBeforeUnmount(() => window.removeEventListener('keydown', hotkey));
             <div class="modal-footer"><a class="btn c4-button btn-flat" @click="searchVisible = false">{{ aj.gettext('Close') }}</a></div>
         </div></div></div>
         <div class="floating-toolbar-padder c4-toolbar-padder"></div>
-        <component :is="'floating-toolbar'" class="c4-toolbar"><div class="container"><div class="row"><div class="col-md-3"></div><div class="col-md-9"><div class="bar row">
+        <component :is="'floating-toolbar'" class="c4-toolbar"><div class="container"><div class="row aj-theme-toolbar-layout"><div class="aj-theme-toolbar-offset"></div><div class="aj-theme-toolbar-main"><div class="bar aj-theme-toolbar">
             <a href="/view/lmn/schoolsettings#quota" class="btn btn-lmn float-end">{{ aj.gettext('Configure default quota') }}</a>
             <button v-if="active <= 4" class="btn btn-lmn" @click="save">{{ aj.gettext('Save & apply') }}</button>
             <a v-if="active <= 2" class="btn btn-lmn" @click="searchVisible = true">{{ aj.gettext('Search & add user') }}</a>

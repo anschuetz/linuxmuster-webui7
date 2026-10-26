@@ -7,8 +7,8 @@ const aj = inject('aj');
 </script>
 <template>
 <div v-if="s.custom">
-<br> <div class="c13-field">
-<div class="col-md-4">
+<br> <div class="c13-field aj-theme-columns">
+<div class="aj-theme-wide-third">
 <Translated tag="label" text="Choose a role to configure">
 </Translated> <select v-model="s.custom_fields_role_selector" class="form-control">
 <Translated tag="option" text="Students" value="students">

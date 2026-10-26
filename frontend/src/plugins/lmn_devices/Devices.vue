@@ -191,7 +191,7 @@ load('/api/lmn/devices', (data) => { devices.value = data; });
         <br>
         <ul v-if="devices.length > pageSize" class="pagination c3-pagination"><li class="page-item"><a class="page-link" @click="page = 1">First</a></li><li class="page-item"><a class="page-link" @click="page = Math.max(1, page - 1)">Previous</a></li><li v-for="n in pages" :key="n" class="page-item" :class="{ active: page === n }"><a class="page-link" :data-page="n" @click="page = n">{{ n }}</a></li><li class="page-item"><a class="page-link" @click="page = Math.min(pageCount, page + 1)">Next</a></li><li class="page-item"><a class="page-link" @click="page = pageCount">Last</a></li></ul>
         <div class="floating-toolbar-padder"></div>
-        <component :is="'floating-toolbar'"><div class="container"><div class="row"><div :class="{ 'col-md-3': sidebar }"></div><div :class="sidebar ? 'col-md-9' : 'col-md-12'"><div class="bar row">
+        <component :is="'floating-toolbar'"><div class="container"><div class="row aj-theme-toolbar-layout"><div :class="{ 'aj-theme-toolbar-offset': sidebar }"></div><div :class="sidebar ? 'aj-theme-toolbar-main' : 'aj-theme-toolbar-full'"><div class="bar aj-theme-toolbar">
             <button class="btn btn-lmn float-end" @click="backups"><i class="fa fa-history"></i></button>
             <a class="btn btn-lmn" @click="save()">{{ aj.gettext('Save') }}</a>
             <a class="btn btn-lmn" @click="save(true)">{{ aj.gettext('Save & import') }}</a>

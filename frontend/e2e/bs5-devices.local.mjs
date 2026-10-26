@@ -69,7 +69,9 @@ try { for(const scene of scenes.filter(s=>!only||only.includes(s))) for(const [w
  for(const name of ['before','after']) {
  const page=await browser.newPage({viewport:{width,height},timezoneId:'UTC',locale:'en-GB'});
  await page.route('**/*',route=>route.abort());
- await page.setContent('<!doctype html><html><body class="customized"><div class="container"><div class="row"><div class="col-md-3 sidebar hide-tablet hide-phone"></div><main class="content shell-content"><div id="fixture" style="padding:20px"></div></main></div></div></body></html>');
+ // This static shell follows the source contract of the CSS snapshot being rendered.
+ const shellGrid=css[name].includes('--aj-layout-sidebar');
+ await page.setContent(`<!doctype html><html><body class="customized"><div class="container"><div class="row${shellGrid?' aj-theme-shell':''}"><div class="${shellGrid?'aj-theme-sidebar-column':'col-md-3'} sidebar hide-tablet hide-phone"></div><main class="content shell-content"><div id="fixture" style="padding:20px"></div></main></div></div></body></html>`);
  await page.addStyleTag({content:css[name]});
  // Like P138 screenshot preparation: compare settled static states, without animation timing noise.
  await page.addStyleTag({content:'*,*::before,*::after{animation:none!important;transition:none!important;caret-color:transparent!important}'});await page.evaluate(scene=>{window.fixtureScene=scene;},scene);await page.addScriptTag({type:'module',content:bundles[name]});

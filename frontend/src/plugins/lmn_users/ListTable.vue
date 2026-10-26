@@ -61,7 +61,7 @@ const loginHint = 'This entry is directly read from the CSV file and could diffe
                 <li class="page-item" :class="{disabled:page === pages}"><a class="page-link" href="#" @click.prevent="page = pages">Last</a></li>
             </ul>
             <div class="floating-toolbar-padder"></div>
-            <component :is="'floating-toolbar'"><div class="container"><div class="row"><div class="col-md-3"></div><div class="col-md-9"><div class="bar row">
+            <component :is="'floating-toolbar'"><div class="container"><div class="row aj-theme-toolbar-layout"><div class="aj-theme-toolbar-offset"></div><div class="aj-theme-toolbar-main"><div class="bar aj-theme-toolbar">
                 <button class="btn btn-lmn float-end" data-action="backups" @click="emit('backups')"><i class="fa fa-history"></i></button>
                 <button class="btn btn-lmn" data-action="save" @click="emit('save')">{{ aj.gettext('Save') }}</button>
                 <button class="btn btn-lmn" data-action="check" @click="emit('check')">{{ saveCheckLabel() }}</button>

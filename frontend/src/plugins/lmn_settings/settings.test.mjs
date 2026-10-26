@@ -264,9 +264,9 @@ it.each([SchoolSettings, GlobalSettings])('keeps the Core toolbar grid aligned w
     const layout = reactive({ sidebar: true });
     const aj = createMockAj({ http: async r => ({ data: r.method === 'get' ? structuredClone(responses()[r.url]) : null }) });
     const wrapper = mount(Component, { props: { layout }, global: { provide: { aj } } }); wrappers.push(wrapper); await flushPromises();
-    expect(wrapper.find('floating-toolbar > .container > .row > .col-md-3').exists()).toBe(true);
-    expect(wrapper.find('floating-toolbar .col-md-9 > .bar.row').exists()).toBe(true);
+    expect(wrapper.find('floating-toolbar > .container > .row > .aj-theme-toolbar-offset').exists()).toBe(true);
+    expect(wrapper.find('floating-toolbar .aj-theme-toolbar-main > .bar.aj-theme-toolbar').exists()).toBe(true);
     layout.sidebar = false; await nextTick();
-    expect(wrapper.find('floating-toolbar .col-md-3').exists()).toBe(false);
-    expect(wrapper.find('floating-toolbar .col-md-12 > .bar.row').exists()).toBe(true);
+    expect(wrapper.find('floating-toolbar .aj-theme-toolbar-offset').exists()).toBe(false);
+    expect(wrapper.find('floating-toolbar .aj-theme-toolbar-full > .bar.aj-theme-toolbar').exists()).toBe(true);
 });

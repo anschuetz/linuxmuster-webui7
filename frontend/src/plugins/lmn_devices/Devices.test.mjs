@@ -223,7 +223,7 @@ describe('devices original view contract', () => {
         await cell(w, 'group').setValue('other');
         expect(cell(w, 'group').element.value).toBe('other');
         aj.shell.layout.sidebar = false; await flushPromises();
-        expect(w.find('floating-toolbar .col-md-12').exists()).toBe(true);
+        expect(w.find('floating-toolbar .aj-theme-toolbar-full').exists()).toBe(true);
     });
     it('keeps the spinner on failed load and does not render an empty table', async () => {
         const { wrapper: w } = setup([], { http: { get: vi.fn().mockRejectedValue(new Error('HTTP')), post: vi.fn() } });

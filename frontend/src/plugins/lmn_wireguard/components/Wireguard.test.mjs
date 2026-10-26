@@ -106,8 +106,8 @@ it('toolbar follows the shell sidebar; entry mounts and disposes through adapter
     const element = document.createElement('div'); document.body.append(element);
     const aj = createMockAj({ http: async () => ({ data: [] }) });
     const dispose = mountWireguard(element, aj);
-    await flushPromises(); expect(element.querySelector('floating-toolbar .col-md-9') !== null).toEqual(true);
+    await flushPromises(); expect(element.querySelector('floating-toolbar .aj-theme-toolbar-main') !== null).toEqual(true);
     aj.shell.layout.sidebar = false; await flushPromises();
-    expect(element.querySelector('floating-toolbar .col-md-12') !== null).toEqual(true);
+    expect(element.querySelector('floating-toolbar .aj-theme-toolbar-full') !== null).toEqual(true);
     dispose(); expect(element.textContent).toEqual(''); element.remove();
 });

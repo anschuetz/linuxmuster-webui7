@@ -16,7 +16,7 @@ export const StaticPage = defineComponent({
                 ]), h('div', { class: 'list-group' }, ['Alpha', 'Bravo', 'Charlie'].map(text => h('a', { class: 'list-group-item' }, text))),
             ]);
             const url = `${window.location.origin}${props.prefix}${props.route.fullPath}`;
-            return h('div', { class: 'container' }, [h('div', { class: 'row', id: '404' }, [h('div', [
+            return h('div', { class: 'container' }, [h('div', { class: 'aj-theme-flow', id: '404' }, [h('div', [
                 h('h1', t('404 - Page not found')), h('p', { class: 'alert alert-danger' }, [h('i', { class: 'fa fa-exclamation-triangle', style: { color: 'red' } }),
                     t('The URL {{url}} was not found on this server.').replace('{{url}}', url)]),
             ])])]);

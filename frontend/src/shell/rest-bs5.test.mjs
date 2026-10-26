@@ -55,7 +55,7 @@ it('uses BS5 auth column names while preserving labels and password controls', (
     expect(ui.find('.col-sm-4').exists()).toBe(false);
     const aj = { gettext: x => x, pageTitle: { set() {} } };
     const password = mount(PasswordChange, { global: { provide: { aj } } }); cleanups.push(() => password.unmount());
-    expect(password.findAll('.auth-change-quarter.col-lg-3')).toHaveLength(2);
-    expect(password.get('.auth-change-half.col-lg-6').exists()).toBe(true);
+    expect(password.findAll('.auth-change-quarter')).toHaveLength(2);
+    expect(password.get('.auth-change-half').exists()).toBe(true);
     expect(password.find('.pull-left, .col-md-3, .col-md-6').exists()).toBe(false);
 });

@@ -83,7 +83,7 @@ async function save() {
 <template>
     <br>
     <div v-if="allowed">
-        <div class="cron-field" style="margin-bottom:50px;"><div class="row"><div class="col-md-4">
+        <div class="cron-field" style="margin-bottom:50px;"><div class="row aj-theme-grid"><div class="aj-theme-wide-third">
             <label for="cron-user">{{ aj.gettext('Choose which crontab you want to edit:') }}</label>
             <select id="cron-user" v-model="user" class="form-control">
                 <option value="globaladministrator">{{ aj.gettext('As globaladministrator') }}</option>
@@ -144,7 +144,7 @@ async function save() {
                 </div>
             </div></div>
         </div>
-        <component :is="'floating-toolbar'"><div class="container"><div class="row"><div class="col-md-3"></div><div class="col-md-9"><div class="bar row"><button class="btn btn-lmn" @click="save">{{ aj.gettext('Save') }}</button></div></div></div></div></component>
+        <component :is="'floating-toolbar'"><div class="container"><div class="row aj-theme-toolbar-layout"><div class="aj-theme-toolbar-offset"></div><div class="aj-theme-toolbar-main"><div class="bar aj-theme-toolbar"><button class="btn btn-lmn" @click="save">{{ aj.gettext('Save') }}</button></div></div></div></div></component>
     </div>
     <div v-else class="text-center root-access-blocker"><h1><i class="fas fa-exclamation-triangle"></i></h1><h4 class="alert alert-danger">{{ aj.gettext('This page is restricted to global administrators!') }}</h4></div>
 </template>

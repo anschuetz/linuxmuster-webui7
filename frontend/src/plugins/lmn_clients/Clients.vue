@@ -100,7 +100,7 @@ async function saveDrives() {
                     </tr></tbody>
                 </table>
             </form>
-            <component :is="'floating-toolbar'" v-if="drives?.length > 0"><div class="container"><div class="row"><div class="col-md-3"></div><div class="col-md-9"><div class="bar row"><button class="btn btn-lmn" @click="saveDrives">{{ aj.gettext('Save') }}</button></div></div></div></div></component>
+            <component :is="'floating-toolbar'" v-if="drives?.length > 0"><div class="container"><div class="row aj-theme-grid"><div class="aj-theme-toolbar-offset"></div><div class="aj-theme-toolbar-main"><div class="bar aj-theme-toolbar"><button class="btn btn-lmn" @click="saveDrives">{{ aj.gettext('Save') }}</button></div></div></div></div></component>
         </div>
     </div>
     <div v-else class="text-center root-access-blocker">

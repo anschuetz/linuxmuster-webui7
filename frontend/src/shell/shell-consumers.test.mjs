@@ -18,8 +18,8 @@ it('uses the native capability without Angular and updates the Settings toolbar/
     aj.shell = nav;
     const host = document.createElement('div'); document.body.append(host); host.dataset.view = 'global';
     const stop = mountSettings(host, aj); cleanups.push(() => { stop(); host.remove(); }); await flushPromises();
-    expect(host.querySelector('floating-toolbar .col-md-9')).not.toBeNull();
-    nav.toggleNavigation(); await nextTick(); expect(host.querySelector('floating-toolbar .col-md-12')).not.toBeNull();
+    expect(host.querySelector('floating-toolbar .aj-theme-toolbar-main')).not.toBeNull();
+    nav.toggleNavigation(); await nextTick(); expect(host.querySelector('floating-toolbar .aj-theme-toolbar-full')).not.toBeNull();
     const language = [...host.querySelectorAll('.c12-field')].find(el => el.textContent.includes('Language'));
     expect(language.style.display).toBe('none');
     expect(host.querySelector('hr').style.display).toBe('none');

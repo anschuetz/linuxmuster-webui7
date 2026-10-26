@@ -117,9 +117,9 @@ it('wires image editing/copying and publishes the returned main/diff draft befor
 it('keeps both toolbars aligned with shell sidebar changes through the native capability',async()=>{
  const {wrapper,aj}=setup();await flushPromises();
  aj.shell.layout.sidebar=false;await wrapper.vm.$nextTick();
- expect(wrapper.findComponent(GroupsTab).find('floating-toolbar .col-md-12 .bar').exists()).toEqual(true);
+ expect(wrapper.findComponent(GroupsTab).find('floating-toolbar .aj-theme-toolbar-full .bar').exists()).toEqual(true);
  aj.shell.layout.sidebar=true;await wrapper.vm.$nextTick();
- expect(wrapper.findComponent(GroupsTab).find('floating-toolbar .col-md-9 .bar').exists()).toEqual(true);
+ expect(wrapper.findComponent(GroupsTab).find('floating-toolbar .aj-theme-toolbar-main .bar').exists()).toEqual(true);
  await wrapper.findAll('.nav-tabs a')[1].trigger('click');await wrapper.find('input[type="checkbox"]').setValue(true);
  expect(wrapper.find('[data-action="delete-selected"]').element.closest('.bar')).not.toEqual(null);
  wrapper.unmount();wrappers.pop();

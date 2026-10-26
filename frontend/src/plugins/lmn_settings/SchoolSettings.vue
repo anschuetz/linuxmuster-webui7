@@ -63,7 +63,7 @@ function selectTab(index) {
 </div>
 <div class="floating-toolbar-padder">
 </div>
-<component :is="'floating-toolbar'"><div class="container"><div class="row"><div :class="{ 'col-md-3': layout.sidebar }"></div><div :class="layout.sidebar ? 'col-md-9' : 'col-md-12'"><div class="bar row">
+<component :is="'floating-toolbar'"><div class="container"><div class="row aj-theme-toolbar-layout"><div :class="{ 'aj-theme-toolbar-offset': layout.sidebar }"></div><div :class="layout.sidebar ? 'aj-theme-toolbar-main' : 'aj-theme-toolbar-full'"><div class="bar aj-theme-toolbar">
 <button v-show="s.activetab !== 4 &amp;&amp; s.activetab !== 6" @click="s.backups()" class="btn btn-lmn float-end">
 <i class="fa fa-history">
 </i>

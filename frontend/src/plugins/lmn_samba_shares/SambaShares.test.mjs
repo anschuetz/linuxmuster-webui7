@@ -195,7 +195,7 @@ it('keeps clipboard after a cancelled conflict prompt and preserves swallowed SM
 });
 it('keeps both floating toolbars aligned when the shell sidebar toggles', async () => {
     const { aj } = setup(); await flushPromises(); await select('A.txt');
-    expect(wrapper.findAll('.toolbar-content').map(x => x.classes().includes('col-md-9'))).toEqual([true, true]);
+    expect(wrapper.findAll('.toolbar-content').map(x => x.classes().includes('aj-theme-toolbar-main'))).toEqual([true, true]);
     aj.shell.layout.sidebar = false; await flushPromises();
-    expect(wrapper.findAll('.toolbar-content').map(x => x.classes().includes('col-md-12'))).toEqual([true, true]);
+    expect(wrapper.findAll('.toolbar-content').map(x => x.classes().includes('aj-theme-toolbar-full'))).toEqual([true, true]);
 });

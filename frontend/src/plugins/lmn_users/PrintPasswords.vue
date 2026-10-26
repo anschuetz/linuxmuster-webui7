@@ -54,7 +54,7 @@ async function print(schoolclass) {
             </div>
         </div>
         <div class="floating-toolbar-padder"></div>
-        <component :is="'floating-toolbar'"><div class="container"><div class="row"><div class="col-md-3"></div><div class="col-md-9"><div class="bar row"><button v-if="selection.length > 0" class="btn btn-lmn" data-action="selected" @click="print(selection)">{{ gettext('Print') }}</button></div></div></div></div></component>
+        <component :is="'floating-toolbar'"><div class="container"><div class="row aj-theme-toolbar-layout"><div class="aj-theme-toolbar-offset"></div><div class="aj-theme-toolbar-main"><div class="bar aj-theme-toolbar"><button v-if="selection.length > 0" class="btn btn-lmn" data-action="selected" @click="print(selection)">{{ gettext('Print') }}</button></div></div></div></div></component>
     </div>
     <div v-else class="text-center root-access-blocker"><h1><i class="fas fa-exclamation-triangle"></i></h1><h4 class="alert alert-danger">You should not use WebUI as root user!<br>If this is your first time running WebUI, proceed through the <a href="/view/lmn/init/welcome">setup wizard</a>.<br>Afterwards login using the global-admin account.</h4></div>
 </template>

@@ -16,7 +16,7 @@ const heading = classes => h('h1', { class: 'text-center', style: { perspective:
 const logo = customization => customization?.plugins?.core?.bigLogoURL
     ? h('div', { class: 'text-center' }, [h('img', { src: customization.plugins.core.bigLogoURL, alt: '', style: { maxWidth: '100%' } })]) : null;
 const authPage = content => h('div', { class: 'container auth-page' }, [
-    h('div', { class: 'row', id: 'login-form' }, [h('div', { class: 'auth-layout-column' }),
+    h('div', { class: 'row aj-theme-auth', id: 'login-form' }, [h('div', { class: 'auth-layout-column' }),
         h('div', { class: 'auth-layout-column auth-card' }, content), h('div', { class: 'auth-layout-column' })]),
 ]);
 const primary = (text, disabled, extraClass = '') => button(text, undefined, { type: 'submit', class: `btn btn-primary d-block w-100 ${extraClass}`, disabled });

@@ -15,7 +15,7 @@ it('C5 removes legacy variants without changing custom selection or the grid bre
     expect(shares).toContain('progress-bar bg-warning c5-progress');
     expect(shares).toContain('list-group-addon float-start');
     expect(shares).toContain(':class="{ active: item.selected }"');
-    expect(shares).toContain("sidebar ? 'col-md-9' : 'col-md-12'");
+    expect(shares).toContain("sidebar ? 'aj-theme-toolbar-main' : 'aj-theme-toolbar-full'");
     expect(wireguard).toContain('btn btn-danger float-end');
     expect(dialog).toContain('btn c5-button');
 });

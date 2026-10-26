@@ -17,8 +17,8 @@ const aj = inject('aj');
 <i class="fa fa-info-circle">
 </i> <Translated tag="span" text="The smtp.yml config file seems to be empty. Currently it's ont possible to send emails with this configuration.">
 </Translated>
-</div> <div class="c12-columns">
-<div class="col-md-6">
+</div> <div class="c12-columns aj-theme-columns">
+<div class="aj-theme-wide-half">
 <Translated tag="label" text="SMTP host">
 </Translated> <div>
 <input v-model.trim="s.smtp_config.smtp.server" type="text" class="form-control">
@@ -30,7 +30,7 @@ const aj = inject('aj');
                                 SSL ( port 465 )
                             </a>
 </div>
-</div> <div class="col-md-6">
+</div> <div class="aj-theme-wide-half">
 <Translated tag="label" text="SMTP user">
 </Translated> <div>
 <input v-model.trim="s.smtp_config.smtp.user" type="text" class="form-control">
@@ -43,8 +43,8 @@ const aj = inject('aj');
 </span>
 </div>
 </div>
-</div> <hr> <div class="c12-columns">
-<div class="col-md-6">
+</div> <hr> <div class="c12-columns aj-theme-columns">
+<div class="aj-theme-wide-half">
 <Translated tag="label" text="Template email reset">
 </Translated> <div>
 <input v-model.trim="s.config.data.email.templates.reset_email" type="text" class="form-control">

@@ -12295,234 +12295,7 @@ button.toast-close-button {
  * P137 paths/counts refer to coordination logs/p137/by-file.tsv; zero means P150 explicit contract.
  * No Normalize/reset, Bootstrap JS, carousel, tooltip or popover is copied.
  */
-/* BS3 row children before column widths; P137 col-xs-* 5 uses, frontend/src/plugins/lmn_landingpage/Landingpage.vue; remove B2/C1. */ .row > * { width: auto; max-width: none; padding-left: 0; padding-right: 0; flex-shrink: 1; margin-top: 0; }
-/* BS3 column base outside rows, before xs/sm/md/lg widths; P137 col-xs-* 5 uses and frontend/src/plugins/lmn_quotas/Quotas.vue:138; remove B2/C4. */ .col-xs-1, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9, .col-xs-10, .col-xs-11, .col-xs-12, .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12, .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12, .col-lg-1, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-10, .col-lg-11, .col-lg-12 { width: auto; max-width: none; }
 /* BS3 helpers; P137 114 family matches; frontend/src/common/users/CheckResultsDialog.vue:47 (legacy structure/state); remove B2/D1. */ .sr-only-focusable:active, .sr-only-focusable:focus { position: static; width: auto; height: auto; margin: 0; overflow: visible; clip: auto; }
-@media (min-width: 768px) {
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .container { width: 750px; }
-
-}
-@media (min-width: 992px) {
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .container { width: 970px; }
-
-}
-@media (min-width: 1200px) {
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .container { width: 1170px; }
-
-}
-/* BS3 grid; P137 5 matches; frontend/src/shell/Widget.vue:16; remove B2/C1. */ .col-xs-1, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9, .col-xs-10, .col-xs-11, .col-xs-12 { float: left; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-xs-12 { width: 100%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-xs-11 { width: 91.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-xs-10 { width: 83.33333333%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-xs-9 { width: 75%; }
-/* BS3 grid; P137 2 matches; frontend/src/shell/Widget.vue:19; remove B2/C1. */ .col-xs-8 { width: 66.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-xs-7 { width: 58.33333333%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-xs-6 { width: 50%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-xs-5 { width: 41.66666667%; }
-/* BS3 grid; P137 3 matches; frontend/src/shell/Widget.vue:16; remove B2/C1. */ .col-xs-4 { width: 33.33333333%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-xs-3 { width: 25%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-xs-2 { width: 16.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-xs-1 { width: 8.33333333%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-xs-pull-12 { right: 100%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-xs-pull-11 { right: 91.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-xs-pull-10 { right: 83.33333333%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-xs-pull-9 { right: 75%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-xs-pull-8 { right: 66.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-xs-pull-7 { right: 58.33333333%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-xs-pull-6 { right: 50%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-xs-pull-5 { right: 41.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-xs-pull-4 { right: 33.33333333%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-xs-pull-3 { right: 25%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-xs-pull-2 { right: 16.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-xs-pull-1 { right: 8.33333333%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-xs-pull-0 { right: auto; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-xs-push-12 { left: 100%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-xs-push-11 { left: 91.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-xs-push-10 { left: 83.33333333%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-xs-push-9 { left: 75%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-xs-push-8 { left: 66.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-xs-push-7 { left: 58.33333333%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-xs-push-6 { left: 50%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-xs-push-5 { left: 41.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-xs-push-4 { left: 33.33333333%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-xs-push-3 { left: 25%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-xs-push-2 { left: 16.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-xs-push-1 { left: 8.33333333%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-xs-push-0 { left: auto; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-xs-offset-12 { margin-left: 100%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-xs-offset-11 { margin-left: 91.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-xs-offset-10 { margin-left: 83.33333333%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-xs-offset-9 { margin-left: 75%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-xs-offset-8 { margin-left: 66.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-xs-offset-7 { margin-left: 58.33333333%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-xs-offset-6 { margin-left: 50%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-xs-offset-5 { margin-left: 41.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-xs-offset-4 { margin-left: 33.33333333%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-xs-offset-3 { margin-left: 25%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-xs-offset-2 { margin-left: 16.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-xs-offset-1 { margin-left: 8.33333333%; }
-@media (min-width: 768px) {
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12 { float: left; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-sm-12 { width: 100%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-sm-11 { width: 91.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-sm-10 { width: 83.33333333%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-sm-9 { width: 75%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-sm-8 { width: 66.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-sm-7 { width: 58.33333333%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-sm-6 { width: 50%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-sm-5 { width: 41.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-sm-4 { width: 33.33333333%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-sm-3 { width: 25%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-sm-2 { width: 16.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-sm-1 { width: 8.33333333%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-sm-pull-12 { right: 100%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-sm-pull-11 { right: 91.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-sm-pull-10 { right: 83.33333333%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-sm-pull-9 { right: 75%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-sm-pull-8 { right: 66.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-sm-pull-7 { right: 58.33333333%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-sm-pull-6 { right: 50%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-sm-pull-5 { right: 41.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-sm-pull-4 { right: 33.33333333%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-sm-pull-3 { right: 25%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-sm-pull-2 { right: 16.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-sm-pull-1 { right: 8.33333333%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-sm-pull-0 { right: auto; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-sm-push-12 { left: 100%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-sm-push-11 { left: 91.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-sm-push-10 { left: 83.33333333%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-sm-push-9 { left: 75%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-sm-push-8 { left: 66.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-sm-push-7 { left: 58.33333333%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-sm-push-6 { left: 50%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-sm-push-5 { left: 41.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-sm-push-4 { left: 33.33333333%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-sm-push-3 { left: 25%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-sm-push-2 { left: 16.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-sm-push-1 { left: 8.33333333%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-sm-push-0 { left: auto; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-sm-offset-12 { margin-left: 100%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-sm-offset-11 { margin-left: 91.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-sm-offset-10 { margin-left: 83.33333333%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-sm-offset-9 { margin-left: 75%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-sm-offset-8 { margin-left: 66.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-sm-offset-7 { margin-left: 58.33333333%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-sm-offset-6 { margin-left: 50%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-sm-offset-5 { margin-left: 41.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-sm-offset-4 { margin-left: 33.33333333%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-sm-offset-3 { margin-left: 25%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-sm-offset-2 { margin-left: 16.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-sm-offset-1 { margin-left: 8.33333333%; }
-
-}
-@media (min-width: 992px) {
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12 { float: left; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-md-12 { width: 100%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-md-11 { width: 91.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-md-10 { width: 83.33333333%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-md-9 { width: 75%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-md-8 { width: 66.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-md-7 { width: 58.33333333%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-md-6 { width: 50%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-md-5 { width: 41.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-md-4 { width: 33.33333333%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-md-3 { width: 25%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-md-2 { width: 16.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-md-1 { width: 8.33333333%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-md-pull-12 { right: 100%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-md-pull-11 { right: 91.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-md-pull-10 { right: 83.33333333%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-md-pull-9 { right: 75%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-md-pull-8 { right: 66.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-md-pull-7 { right: 58.33333333%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-md-pull-6 { right: 50%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-md-pull-5 { right: 41.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-md-pull-4 { right: 33.33333333%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-md-pull-3 { right: 25%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-md-pull-2 { right: 16.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-md-pull-1 { right: 8.33333333%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-md-pull-0 { right: auto; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-md-push-12 { left: 100%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-md-push-11 { left: 91.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-md-push-10 { left: 83.33333333%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-md-push-9 { left: 75%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-md-push-8 { left: 66.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-md-push-7 { left: 58.33333333%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-md-push-6 { left: 50%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-md-push-5 { left: 41.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-md-push-4 { left: 33.33333333%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-md-push-3 { left: 25%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-md-push-2 { left: 16.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-md-push-1 { left: 8.33333333%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-md-push-0 { left: auto; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-md-offset-12 { margin-left: 100%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-md-offset-11 { margin-left: 91.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-md-offset-10 { margin-left: 83.33333333%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-md-offset-9 { margin-left: 75%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-md-offset-8 { margin-left: 66.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-md-offset-7 { margin-left: 58.33333333%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-md-offset-6 { margin-left: 50%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-md-offset-5 { margin-left: 41.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-md-offset-4 { margin-left: 33.33333333%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-md-offset-3 { margin-left: 25%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-md-offset-2 { margin-left: 16.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-md-offset-1 { margin-left: 8.33333333%; }
-
-}
-@media (min-width: 1200px) {
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-lg-1, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-10, .col-lg-11, .col-lg-12 { float: left; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-lg-12 { width: 100%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-lg-11 { width: 91.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-lg-10 { width: 83.33333333%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-lg-9 { width: 75%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-lg-8 { width: 66.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-lg-7 { width: 58.33333333%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-lg-6 { width: 50%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-lg-5 { width: 41.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-lg-4 { width: 33.33333333%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-lg-3 { width: 25%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-lg-2 { width: 16.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-lg-1 { width: 8.33333333%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-lg-pull-12 { right: 100%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-lg-pull-11 { right: 91.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-lg-pull-10 { right: 83.33333333%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-lg-pull-9 { right: 75%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-lg-pull-8 { right: 66.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-lg-pull-7 { right: 58.33333333%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-lg-pull-6 { right: 50%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-lg-pull-5 { right: 41.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-lg-pull-4 { right: 33.33333333%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-lg-pull-3 { right: 25%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-lg-pull-2 { right: 16.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-lg-pull-1 { right: 8.33333333%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-lg-pull-0 { right: auto; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-lg-push-12 { left: 100%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-lg-push-11 { left: 91.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-lg-push-10 { left: 83.33333333%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-lg-push-9 { left: 75%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-lg-push-8 { left: 66.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-lg-push-7 { left: 58.33333333%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-lg-push-6 { left: 50%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-lg-push-5 { left: 41.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-lg-push-4 { left: 33.33333333%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-lg-push-3 { left: 25%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-lg-push-2 { left: 16.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-lg-push-1 { left: 8.33333333%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-lg-push-0 { left: auto; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-lg-offset-12 { margin-left: 100%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-lg-offset-11 { margin-left: 91.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-lg-offset-10 { margin-left: 83.33333333%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-lg-offset-9 { margin-left: 75%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-lg-offset-8 { margin-left: 66.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-lg-offset-7 { margin-left: 58.33333333%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-lg-offset-6 { margin-left: 50%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-lg-offset-5 { margin-left: 41.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-lg-offset-4 { margin-left: 33.33333333%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-lg-offset-3 { margin-left: 25%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-lg-offset-2 { margin-left: 16.66666667%; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .col-lg-offset-1 { margin-left: 8.33333333%; }
-
-}
 /* BS3 tables; P137 1 family matches; frontend/src/plugins/lmn_settings/GlobalSettings.vue:212 (legacy structure/state); remove C3/C10. */ .table { width: 100%; max-width: 100%; margin-bottom: 20px; }
 /* BS3 tables; P137 1 family matches; frontend/src/plugins/lmn_settings/GlobalSettings.vue:212 (legacy structure/state); remove C3/C10. */ .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td { padding: 8px; line-height: 1.42857143; vertical-align: top; border-top: 1px solid #ddd; }
 /* BS3 tables; P137 1 family matches; frontend/src/plugins/lmn_settings/GlobalSettings.vue:212 (legacy structure/state); remove C3/C10. */ .table > thead > tr > th { vertical-align: bottom; border-bottom: 2px solid #ddd; }
@@ -12787,7 +12560,6 @@ button.toast-close-button {
 /* BS3 panels; P137 32 matches; frontend/src/common/FileBackupsDialog.vue:79; remove C1/C4. */ .list-group-item > .badge { float: right; }
 /* BS3 panels; P137 32 matches; frontend/src/common/FileBackupsDialog.vue:79; remove C1/C4. */ .list-group-item > .badge + .badge { margin-right: 5px; }
 /* BS3 panels; P137 9 matches; frontend/src/plugins/lmn_device-manager/DeviceManager.vue:121; remove C1/C4. */ .nav-pills > li > a > .badge { margin-left: 3px; }
-/* BS3 grid; P137 5 family matches; frontend/src/shell/Widget.vue:16 (legacy structure/state); remove B2/C1. */ .jumbotron .container { max-width: 100%; }
 /* BS3 alerts; P137 0 static matches; P150 explicit compatibility contract; remove B6/C1. */ .alert h4 { margin-top: 0; color: inherit; }
 /* BS3 alerts; P137 0 static matches; P150 explicit compatibility contract; remove B6/C1. */ .alert .alert-link { font-weight: bold; }
 /* BS3 alerts; P137 0 static matches; P150 explicit compatibility contract; remove B6/C1. */ .alert > p, .alert > ul { margin-bottom: 0; }
@@ -12887,7 +12659,7 @@ button.toast-close-button {
 /* BS3 modal; P137 2 matches; frontend/src/plugins/lmn_clients/Clients.vue:79; remove B4/D1. */ .modal-lg { width: 900px; }
 
 }
-/* BS3 helpers; P137 236 matches; frontend/src/common/FileBackupsDialog.vue:75; remove B2/D1. */ .clearfix:after, .dl-horizontal dd:after, .container:after, .container-fluid:after, .row:after, .form-horizontal .form-group:after, .btn-toolbar:after, .btn-group-vertical > .btn-group:after, .nav:after, .navbar:after, .navbar-header:after, .navbar-collapse:after, .pager:after, .panel-body:after, .modal-header:after, .modal-footer:after { clear: both; }
+/* BS3 helpers; P137 236 matches; frontend/src/common/FileBackupsDialog.vue:75; remove B2/D1. */ .clearfix:after, .dl-horizontal dd:after, .form-horizontal .form-group:after, .btn-toolbar:after, .btn-group-vertical > .btn-group:after, .nav:after, .navbar:after, .navbar-header:after, .navbar-collapse:after, .pager:after, .panel-body:after, .modal-header:after, .modal-footer:after { clear: both; }
 /* BS3 helpers; P137 83 matches; frontend/src/common/users/CheckResultsDialog.vue:47; remove B2/D1. */ .pull-right { float: right !important; }
 /* BS3 helpers; P137 12 matches; frontend/src/common/users/UserDetails.vue:139; remove B2/D1. */ .pull-left { float: left !important; }
 /* BS3 helpers; P137 114 family matches; frontend/src/common/users/CheckResultsDialog.vue:47 (legacy structure/state); remove B2/D1. */ .hide { display: none !important; }
@@ -12965,7 +12737,6 @@ button.toast-close-button {
 .modal.fade.show { opacity: 1; }
 
 /*! P150: bridges for BS5-only properties and A1 interleaving conflicts. MIT: BOOTSTRAP-LICENSE/AJENTI-LICENSE. */
-/* BS3 .row floats; P137 col-xs-* 5 uses, Landingpage.vue; remove B2/C1. BS5 row flex/gutters would change the old DOM. */ .row { display: block; --bs-gutter-x: 30px; --bs-gutter-y: 0; }
 /* BS3 columns; P137 col-xs-* 5 uses, Landingpage.vue; remove B2/C1. Remove BS5 shrink and default 100% width at its earlier sm breakpoint. */
 
 /* BS3 navbar block; P137 10 navbar uses, shell/navigation-components.mjs; remove B2. */ .navbar { display: block; padding: 0; }
@@ -13008,8 +12779,6 @@ button.toast-close-button {
 /* BS3 table rowgroup alignment; P137 frontend/src/plugins/lmn_users/UsersTable.vue; remove C3/C10. */ .table > :not(caption) { vertical-align: middle; }
 /* BS3 table row/cell borders inherit before explicit top/bottom borders; P137 frontend/src/plugins/lmn_users/UsersTable.vue; remove C3/C10. */ .table > :not(caption) > *, .table > :not(caption) > * > * { border-color: inherit; }
 /* BS3 modal header/footer have square outer corners; P137 modal 248 uses, frontend/src/common/FileBackupsDialog.vue; remove B1/B4. */ .modal-header, .modal-footer { border-radius: 0; }
-
-/* BS3 container has only width breakpoints, no 576/1400 max-width; P137 frontend/src/shell/navigation-components.mjs:79; remove B2. */ .container { max-width: none; }
 
 /* BS3 small button size after base theme; P137 buttons 364 uses, frontend/src/common/FileDialog.vue; remove B4/C1. */ .btn.btn-sm { padding: 5px 10px; font-size: 12px; line-height: 1.5; }
 /* BS3 panel contextual borders after base panel; P137 panels 67 uses, frontend/src/plugins/lmn_landingpage/Landingpage.vue; remove C1/C4. */ .panel.panel-primary { border-color: #2196F3; }
@@ -13176,8 +12945,6 @@ html body.customized .common-user-tabs > .nav-item > .nav-link.active:hover { bo
 .shell-stock-field { margin-bottom: 30px; }
 /* P137 shell/SettingsField.vue/Dashboard.vue; B6 native select appearance, form-control remains a valid BS5 theme hook; consolidate D1. */
 .shell-stock-select { background-image: none; }
-/* P137 shell/Widget.vue; B6 original xs widget columns in the transitional float grid; consolidate D1. */
-.shell-widget-column { position: relative; float: left; min-height: 1px; padding-left: 15px; padding-right: 15px; }
 /* P137 shell/Widget.vue/SessionList.vue; B6 original label dimensions; consolidate D1. */
 .badge.shell-stock-label { display: inline; min-width: 0; padding: .4em .6em .3em; margin-right: 3px; font-size: 75%; font-weight: bold; line-height: 1; color: #fff; text-align: center; white-space: nowrap; vertical-align: baseline; border-radius: .25em; }
 /* P137 shell/Widget.vue/SessionList.vue; B6 original danger label color; consolidate D1. */
@@ -13188,10 +12955,6 @@ html body.customized .common-user-tabs > .nav-item > .nav-link.active:hover { bo
 .shell-dashboard-tabs > .nav-item > .nav-link { display: inline-block; color: inherit; padding: 1px 6px; margin: 0; font: inherit; line-height: inherit; background: revert; border: revert; border-radius: revert; }
 /* P137 shell/StockSettings.vue; B6 existing inline button tabs, active class carries selection without changing approved appearance; consolidate D1. */
 .shell-settings-tabs > .nav-link { display: inline-block; margin-bottom: 0; border-radius: 0; }
-
-/* P137 shell/Widget.vue; B6 widths after transitional .row child reset; consolidate D1. */
-.shell-widget-column.col-4 { width: 33.33333333%; }
-.shell-widget-column.col-8 { width: 66.66666667%; }
 
 /* P137 shell/Dashboard.vue/StockSettings.vue; P156 B6 review: native tab focus had no BS5 shadow; consolidate D1. */
 .shell-settings-tabs > .nav-link:focus-visible, .shell-dashboard-tabs > .nav-item > .nav-link:focus-visible, .sidebar .nav-link:focus-visible { box-shadow: none; }
@@ -13265,7 +13028,7 @@ html body.customized .c4-tabs > .nav-item > .nav-link.active:hover { border-bott
 }
 @media (max-width: 767px) {
     /* P137 C4 D02/D14 overrides common footer's permanent 205px sidebar offset; D1. */
-    .c4-toolbar .col-md-9 { width: 100%; }
+    .c4-toolbar .aj-theme-toolbar-main { width: 100%; }
     /* P137 C4 D02 reserves three wrapped DE toolbar rows without covering the last input; D1. */
     .c4-toolbar-padder { height: 140px; }
     /* P137 C4 D14 reserves the mobile export row without hiding the last permission; D1. */
@@ -13465,7 +13228,7 @@ html body.customized .c12-tabs > .nav-item > .nav-link.active, html body.customi
 
 @media (max-width: 767px) {
  /* P137 lmn_settings GlobalSettings; P168 C12 D13 removes permanent 205px sidebar offset; D1. */
- .c12-footer .col-md-9 { width: 100%; }
+ .c12-footer .aj-theme-toolbar-main { width: 100%; }
 }
 
 /* P164 C8 lmn_linbo4 core: retain Ajenti dimensions/colors; consolidate in D1. */
@@ -13499,7 +13262,7 @@ html body.customized .c8-tabs > .nav-item > .nav-link.active:hover { border-bott
 .c8-icon-menu .dropdown-item:hover, .c8-icon-menu .dropdown-item:focus { color: #333; background-color: #f5f5f5; }
 /* D09: mobile menu anchors to the fixed toolbar, long template names wrap within the viewport. */
 @media (max-width: 767px) {
-    .col-md-9.c8-menu-host, .col-md-12.c8-menu-host, .dropup.c8-create-menu { position: static; }
+    .aj-theme-toolbar-main.c8-menu-host, .aj-theme-toolbar-full.c8-menu-host, .dropup.c8-create-menu { position: static; }
     .c8-create-menu > .dropdown-menu { left: 20px; right: 20px; width: auto; max-width: calc(100vw - 40px); }
     .c8-create-menu .dropdown-item { white-space: normal; overflow-wrap: anywhere; }
 }
@@ -13753,12 +13516,48 @@ html body.customized .c11-tabs > .nav-item > .nav-link.active:hover { border-bot
 
 .shell-plugins .list-group-item > .shell-stock-label { float: none; }
 
-/* P174 password change retains its measured 992px breakpoint; login keeps its existing flex card. */
-.row > .auth-change-quarter, .row > .auth-change-half { position: relative; min-height: 1px; padding-left: 15px; padding-right: 15px; width: auto; max-width: none; float: none; }
+@media (min-width: 992px) { }
 
-@media (min-width: 992px) { .row > .auth-change-quarter { float: left; width: 25%; } .row > .auth-change-half { float: left; width: 50%; } }
-
+/* P177 Ajenti layout on BS5 flex rows. Span tokens replace the Float/Push/Pull
+ * matrix. Existing component hooks retain their measured 768/992 breakpoints.
+ * Shell and floating toolbars have a separate 205px sidebar-width contract.
+ */
+:root {
+  --aj-layout-gutter: 30px;
+  --aj-layout-sidebar: 205px;
+  --aj-layout-container-wide: 970px;
+  --aj-layout-container-large: 1170px;
+}
+.container { max-width: none; --bs-gutter-x: var(--aj-layout-gutter); }
+.row { --bs-gutter-x: var(--aj-layout-gutter); --bs-gutter-y: 0; }
+.aj-theme-grid, .aj-theme-columns { --aj-layout-span: 12; display: flex; flex-wrap: wrap; align-items: flex-start; }
+.aj-theme-grid > *, .aj-theme-columns > *, .aj-theme-toolbar-layout > * {
+  flex: 0 0 auto; float: none; width: calc(100% * var(--aj-layout-span, 12) / 12);
+  max-width: none; position: relative; min-height: 1px;
+  padding-left: calc(var(--aj-layout-gutter) / 2); padding-right: calc(var(--aj-layout-gutter) / 2);
+}
+.aj-theme-toolbar-layout { flex-direction: column; }
+.aj-theme-toolbar-layout > :not(.aj-theme-toolbar-offset):not(.aj-theme-toolbar-main):not(.aj-theme-toolbar-full) { min-height: 0; }
+.aj-theme-toolbar-main { width: calc(100% - var(--aj-layout-sidebar)); align-self: flex-end; }
+.aj-theme-toolbar-full { width: 100%; }
+.aj-theme-flow, .aj-theme-toolbar { display: flow-root; margin-left: calc(var(--aj-layout-gutter) / -2); margin-right: calc(var(--aj-layout-gutter) / -2); }
+.aj-theme-shell { flex-wrap: nowrap; align-items: flex-start; }
+.aj-theme-shell > * { width: auto; max-width: none; padding-left: 0; padding-right: 0; }
+.aj-theme-shell > .sidebar { flex: 0 0 var(--aj-layout-sidebar); position: relative; }
+.aj-theme-shell > .content { flex: 1; min-width: 0; }
 .auth-layout-column { position: relative; min-height: 1px; padding-left: 15px; padding-right: 15px; }
+.shell-widget-column.col-4 { --aj-layout-span: 4; }
+.shell-widget-column.col-8 { --aj-layout-span: 8; }
+@media (min-width: 768px) { .aj-theme-half { --aj-layout-span: 6; } }
+@media (min-width: 992px) {
+  .container { width: var(--aj-layout-container-wide); }
+  .aj-theme-wide-sixth { --aj-layout-span: 2; }
+  .aj-theme-wide-quarter, .auth-change-quarter { --aj-layout-span: 3; }
+  .aj-theme-wide-third { --aj-layout-span: 4; }
+  .aj-theme-wide-half, .auth-change-half { --aj-layout-span: 6; }
+  .aj-theme-wide-two-thirds { --aj-layout-span: 8; }
+}
+@media (min-width: 1200px) { .container { width: var(--aj-layout-container-large); } }
 
 /* P176 Ajenti typography on BS5. Public --aj-type-* values retain the 10px rem
  * contract. BS5 owns alignment, transforms, unstyled lists and color !important;
@@ -14104,81 +13903,6 @@ pre {
 .row {
   margin-left: -15px;
   margin-right: -15px;
-}
-.col-xs-1,
-.col-sm-1,
-.col-md-1,
-.col-lg-1,
-.col-xs-2,
-.col-sm-2,
-.col-md-2,
-.col-lg-2,
-.col-xs-3,
-.col-sm-3,
-.col-md-3,
-.col-lg-3,
-.col-xs-4,
-.col-sm-4,
-.col-md-4,
-.col-lg-4,
-.col-xs-5,
-.col-sm-5,
-.col-md-5,
-.col-lg-5,
-.col-xs-6,
-.col-sm-6,
-.col-md-6,
-.col-lg-6,
-.col-xs-7,
-.col-sm-7,
-.col-md-7,
-.col-lg-7,
-.col-xs-8,
-.col-sm-8,
-.col-md-8,
-.col-lg-8,
-.col-xs-9,
-.col-sm-9,
-.col-md-9,
-.col-lg-9,
-.col-xs-10,
-.col-sm-10,
-.col-md-10,
-.col-lg-10,
-.col-xs-11,
-.col-sm-11,
-.col-md-11,
-.col-lg-11,
-.col-xs-12,
-.col-sm-12,
-.col-md-12,
-.col-lg-12 {
-  position: relative;
-  min-height: 1px;
-  padding-left: 15px;
-  padding-right: 15px;
-}
-
-.col-xs-offset-0 {
-  margin-left: 0%;
-}
-@media (min-width: 768px) {
-
-  .col-sm-offset-0 {
-    margin-left: 0%;
-  }
-}
-@media (min-width: 992px) {
-
-  .col-md-offset-0 {
-    margin-left: 0%;
-  }
-}
-@media (min-width: 1200px) {
-
-  .col-lg-offset-0 {
-    margin-left: 0%;
-  }
 }
 
 caption {
@@ -16316,12 +16040,6 @@ button.close {
 .clearfix:after,
 .dl-horizontal dd:before,
 .dl-horizontal dd:after,
-.container:before,
-.container:after,
-.container-fluid:before,
-.container-fluid:after,
-.row:before,
-.row:after,
 .form-horizontal .form-group:before,
 .form-horizontal .form-group:after,
 .btn-toolbar:before,
@@ -18571,11 +18289,6 @@ div.legend-element {
   width: 50px;
   display: inline-block;
   margin-top: 10px;
-}
-
-.col-md-9 {
-  width: calc(100% - 205px);
-  float: right;
 }
 
 p.dotlist:before {

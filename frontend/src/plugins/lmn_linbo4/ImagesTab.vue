@@ -23,5 +23,5 @@ const aj = inject('aj');
         </tr></tbody>
     </table>
     <br>
-    <component :is="'floating-toolbar'" v-if="hasSelected"><div class="container"><div class="row"><div :class="{ 'col-md-3': sidebar }"></div><div :class="sidebar ? 'col-md-9' : 'col-md-12'"><div class="bar row"><button data-action="delete-selected" class="btn btn-lmn" @click="emit('delete-selected')">{{ aj.gettext('Delete selected images') }}</button></div></div></div></div></component>
+    <component :is="'floating-toolbar'" v-if="hasSelected"><div class="container"><div class="row aj-theme-toolbar-layout"><div :class="{ 'aj-theme-toolbar-offset': sidebar }"></div><div :class="sidebar ? 'aj-theme-toolbar-main' : 'aj-theme-toolbar-full'"><div class="bar aj-theme-toolbar"><button data-action="delete-selected" class="btn btn-lmn" @click="emit('delete-selected')">{{ aj.gettext('Delete selected images') }}</button></div></div></div></div></component>
 </template>

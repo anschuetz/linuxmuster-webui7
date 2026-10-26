@@ -7,9 +7,9 @@ const aj = inject('aj');
 <template>
 <div v-if="s.passwordConstraintsForm">
 <br> <div v-if="s.passwordConstraints">
-<div class="row">
-<div class="c13-field">
-<div class="col-md-4">
+<div class="row aj-theme-grid">
+<div class="c13-field aj-theme-columns">
+<div class="aj-theme-wide-third">
 <Translated tag="label" text="Choose a role to configure">
 </Translated> <select v-model="s.passwordConstraintsRole" class="form-control">
 <template v-for="(role, index) in s.passwordConstraintsRoles" :key="index">

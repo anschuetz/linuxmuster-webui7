@@ -15,7 +15,7 @@ it('C12 migrates legacy classes and tab active structure', () => {
  const source=readFileSync(directory+'GlobalSettings.vue','utf8');
  expect(source).toContain('class="nav-item"');
  expect(source).toContain('class="nav-link" :class="{ active: s.activetab === index }"');
- expect(source).toContain("sidebar ? 'col-md-9' : 'col-md-12'");
+ expect(source).toContain("sidebar ? 'aj-theme-toolbar-main' : 'aj-theme-toolbar-full'");
 });
 it('C12 tabs, invalid IP and cancel keep the existing read-only lifecycle', async () => {
  const data=responses(),requests=[];
@@ -50,7 +50,7 @@ it('C12 built CSS preserves focus and wraps the mobile toolbar',async()=>{
  expect(declarations('.c12-tabs > .nav-item > .nav-link:focus-visible')['box-shadow']).toBe('none');
  expect(declarations('.c12-field')['margin-bottom']).toBe('30px');
  expect(declarations('.c12-toolbar')['flex-wrap']).toBe('wrap');
- expect(declarations('.c12-footer .col-md-9')['width']).toBe('100%');
+ expect(declarations('.c12-footer .aj-theme-toolbar-main')['width']).toBe('100%');
 });
 it('C12 built search CSS keeps the effective baseline active and inactive hover/focus text colors',async()=>{
  const css=postcss.parse(await buildStyles(process.cwd()));

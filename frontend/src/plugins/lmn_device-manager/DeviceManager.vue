@@ -130,7 +130,7 @@ onUnmounted(() => { window.removeEventListener('click', closeMenus); window.remo
             </div>
         </div>
         <div class="floating-toolbar-padder"></div>
-        <component :is="'floating-toolbar'"><div class="container"><div class="row"><div v-if="sidebar" class="col-md-3"></div><div :class="sidebar ? 'col-md-9' : 'col-md-12'"><div class="bar row c3-manager-toolbar">
+        <component :is="'floating-toolbar'"><div class="container"><div class="row aj-theme-toolbar-layout"><div v-if="sidebar" class="aj-theme-toolbar-offset"></div><div :class="sidebar ? 'aj-theme-toolbar-main' : 'aj-theme-toolbar-full'"><div class="bar aj-theme-toolbar c3-manager-toolbar">
             <template v-if="checked.length > 0"><button v-for="name in ['start','shutdown','reboot']" :key="name" class="btn btn-lmn" @click="open(BulkAction, {devices:checked,action:name})"><i :class="name === 'reboot' ? 'fa fa-refresh' : 'fa fa-power-off'"></i> {{ aj.gettext({start:'Start',shutdown:'Shutdown',reboot:'Reboot'}[name]) }}</button></template>
             <button v-if="filtered?.length > 0" class="btn btn-lmn float-end" @click="toggleAll">{{ checked.length }} {{ aj.gettext('devices selected') }}</button>
         </div></div></div></div></component>
