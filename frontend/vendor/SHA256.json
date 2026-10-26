@@ -398,9 +398,9 @@
   "../theme/core-audit.md": "0a396a1f12326f24f5660f7fae76f07c45ee3e5e91af1d6ba524ec69a286636a",
   "bootstrap5.css": "4a50207b956a4ab943640ee993118b554a34e96a23261cfe58b9aa1807a7849b",
   "BOOTSTRAP5-LICENSE": "4620c84ad5ce8602ff65640ed6b7c8b78ebb9e036584f0ebc1ccc88206a4bb51",
-  "../theme/compat-bs3.css": "a6e9ed989efd5390ae662d3980fe0b816425682f9f95bc43604db5458664717a",
-  "../theme/ajenti-bs5.css": "451da1792774d1d2132b7da6034e87e8ec118e2a84d6ff9e955096271298e3ec",
-  "../theme/compat-bs5.css": "4ad6047eaaad14cd34522a10ccc0d8cf4aeb5206d5352bc36d74e2c078e40fd2",
+  "../theme/compat-bs3.css": "57e2db58ad47af36b80bb6fdc2f08dd36dce5115bdc3c66b1af588e19b51414b",
+  "../theme/ajenti-bs5.css": "4864c314cc3cc79f1a2b9b39700d014a5d6fc59316685eec373a9b8680237a3e",
+  "../theme/compat-bs5.css": "0cd81989b17eec28342c86108649c5857d23e57f4cd57d5e29250e0d97ef7b34",
   "../theme/bs5-audit.md": "705f93bfc94421afcf61479d5a77b58d43da824d2953823781e424dfb465e4b9",
   "../theme/bs5-counterparts.tsv": "e3c162f0105fd6f929dd4bcbdf8794ebde742f0088389e8920eff059931126dc"
 }

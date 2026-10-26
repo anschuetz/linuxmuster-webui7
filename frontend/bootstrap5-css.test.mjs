@@ -29,16 +29,12 @@ it('builds one pinned Bootstrap 5 before documented compatibility, Ajenti and pl
     expect(await read('vendor/README.md')).toMatch(/bootstrap@5\.3\.8/);
 });
 
-it('keeps open/fade states and native messagebox stacking contract', async () => {
+it('keeps navigation open state while modal compatibility has moved to its theme contract', async () => {
     const compat = postcss.parse(await read('theme/compat-bs3.css') + await read('theme/compat-bs5.css'));
     const rules = [];
     compat.walkRules(rule => rules.push(rule));
-    const find = selector => rules.find(rule => rule.selector === selector);
-    expect(find('.modal-scrollbar-measure')).toBeUndefined();
-    expect(find('.fade.in').nodes.some(n => n.prop === 'opacity' && n.value === '1')).toBe(true);
-    expect(find('.modal.in .modal-dialog').nodes.some(n => n.prop === 'transform' && n.value === 'translate(0, 0)')).toBe(true);
-    expect(find('.open > .dropdown-menu').nodes.some(n => n.prop === 'display' && n.value === 'block')).toBe(true);
-    expect(find('dialog.messagebox').nodes.some(n => n.prop === 'z-index' && n.value === 'auto')).toBe(true);
+    expect(rules.find(rule => rule.selector === '.open > .dropdown-menu').nodes.some(n => n.prop === 'display' && n.value === 'block')).toBe(true);
+    expect(rules.filter(rule => /\.modal|\.fade\.in|dialog\.messagebox/.test(rule.selector))).toEqual([]);
 });
 
 it('retains the Ajenti theme except measured dead F46 tab colors and unused Glyphicons and accounts for A1 counterparts', async () => {
@@ -66,14 +62,28 @@ it('retains the Ajenti theme except measured dead F46 tab colors and unused Glyp
     expect(auth.every(rule => rule[0].length === 0)).toBe(true);
     const deadTabColors = rule => /body\.global-color-[\w-]+.*\.nav-tabs\s*>\s*li\.active\s*>\s*a/.test(rule[1]);
     expect(original.slice(start).filter(deadTabColors)).toHaveLength(8);
-    const expected = original.slice(start).filter(rule => !deadTabColors(rule)).flatMap(([context, selector, body]) => {
+    const modalSelectors = new Set([
+        '.modal', '.modal.fade .modal-dialog', '.modal-content',
+        '.modal-backdrop.fade', '.modal-backdrop.in', '.modal-header', '.modal-footer',
+        '.modal-footer .btn + .btn', '.modal .modal-content .modal-header',
+        '.modal .modal-content .modal-body', '.modal .modal-content .modal-footer',
+    ]);
+    const migratedModal = rule => modalSelectors.has(rule[1]) ||
+        (rule[1] === ':root' && rule[2].some(([prop]) => prop === '--aj-modal-width')) || [
+            '.modal-open', '.modal-open .modal', '.modal-dialog', '.modal.fade.show .modal-dialog',
+            '.modal.fade.show', '.modal-backdrop', '.modal-backdrop.fade.show', 'dialog.messagebox',
+            '.modal-title', '.modal-header,.modal-footer', '.modal-header .close', '.modal-footer > *',
+            '.modal-footer .btn-group .btn + .btn', '.modal-footer .btn-block + .btn-block',
+            '.modal-header:after,.modal-footer:after', '.modal-sm', '.modal-lg',
+        ].includes(rule[1]);
+    const expected = original.slice(start).filter(rule => !deadTabColors(rule) && !migratedModal(rule)).flatMap(([context, selector, body]) => {
         if (/^\.col-(xs|sm|md|lg)-/.test(selector)) return [];
         const retained = postcss.list.comma(selector).filter(value =>
             !/\.glyphicon(?:\b|-)/.test(value) &&
             !/^\.(row|container|container-fluid):(?:before|after)$/.test(value));
         return retained.length ? [[context, retained.join(','), body]] : [];
     });
-    expect(theme.filter(rule => !authSelectors.has(rule[1]) && !restSelectors.has(rule[1]))).toEqual(expected);
+    expect(theme.filter(rule => !authSelectors.has(rule[1]) && !restSelectors.has(rule[1]) && !migratedModal(rule))).toEqual(expected);
     const modified = (await read('theme/core-selectors.tsv')).trim().split('\n').slice(1)
         .map(row => row.split('\t')).filter(row => row[5] === 'modified');
     const audit = (await read('theme/bs5-counterparts.tsv')).trim().split('\n').slice(1).map(row => row.split('\t'));

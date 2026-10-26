@@ -2154,69 +2154,86 @@ button.close {
   -webkit-appearance: none;
 }
 
+/* P178 Ajenti modal contract on BS5 dialog/content structure.
+ * Breakpoints belong to the dialog contract: normal/small 768, large 992.
+ * Block sections preserve floated plugin controls; BS5 still owns the base
+ * dialog, backdrop positioning and content structure. Service layers stay in JS.
+ */
+:root {
+  --aj-modal-width: 600px;
+  --aj-modal-width-small: 300px;
+  --aj-modal-width-large: 900px;
+  --aj-modal-margin-narrow: 10px;
+  --aj-modal-margin-wide: 30px;
+  --aj-modal-space-x: 30px;
+  --aj-modal-space-y: 15px;
+  --aj-modal-header-top: 20px;
+  --aj-modal-backdrop-opacity: .5;
+  --aj-modal-layer: 1050;
+  --aj-modal-backdrop-layer: 1040;
+}
 .modal {
+  --bs-modal-margin: var(--aj-modal-margin-narrow);
+  --bs-modal-padding: var(--aj-modal-space-y);
+  --bs-modal-title-line-height: 1.42857143;
+  --bs-modal-header-border-radius: 0;
+  --bs-modal-inner-border-radius: 0;
+  --bs-modal-footer-gap: 0;
   display: none;
+  width: auto;
+  height: auto;
   overflow: hidden;
   position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 1050;
+  inset: 0;
+  z-index: var(--aj-modal-layer);
   -webkit-overflow-scrolling: touch;
   outline: 0;
 }
+.modal-open { overflow: hidden; }
+.modal-open .modal { overflow-x: hidden; overflow-y: auto; }
+.modal-dialog { width: auto; max-width: none; margin: var(--bs-modal-margin); }
 .modal.fade .modal-dialog {
-  -webkit-transform: translate(0, -25%);
-  -ms-transform: translate(0, -25%);
-  -o-transform: translate(0, -25%);
   transform: translate(0, -25%);
-  -webkit-transition: -webkit-transform 0.3s ease-out;
-  -moz-transition: -moz-transform 0.3s ease-out;
-  -o-transition: -o-transform 0.3s ease-out;
   transition: transform 0.3s ease-out;
 }
-
+.modal.fade.show .modal-dialog { transform: translate(0, 0); }
+.modal.fade.show { opacity: 1; }
 .modal-content {
+  display: block;
+  color: inherit;
   position: relative;
   background-color: #fff;
-  border: 1px solid #999;
   border: 1px solid transparent;
   border-radius: 3px;
-  -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
   box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
   background-clip: padding-box;
   outline: 0;
 }
-
-.modal-backdrop.fade {
-  opacity: 0;
-  filter: alpha(opacity=0);
+.modal-backdrop {
+  --bs-backdrop-zindex: var(--aj-modal-backdrop-layer);
+  --bs-backdrop-opacity: var(--aj-modal-backdrop-opacity);
 }
-.modal-backdrop.in {
-  opacity: 0.5;
-  filter: alpha(opacity=50);
-}
-.modal-header {
-  padding: 15px;
-  border-bottom: 1px solid transparent;
-}
-
-.modal-footer {
-  padding: 15px;
-  text-align: right;
-  border-top: 1px solid transparent;
-}
-.modal-footer .btn + .btn {
-  margin-left: 5px;
-  margin-bottom: 0;
-}
+.modal-backdrop.fade { opacity: 0; }
+.modal-backdrop.fade.show { opacity: var(--bs-backdrop-opacity); }
+dialog.messagebox { z-index: auto; }
+.modal-header, .modal-footer { display: block; border-radius: 0; padding: var(--aj-modal-space-y); }
+.modal-header { border-bottom: 1px solid transparent; }
+.modal-header .close { margin-top: -2px; }
+.modal-title { margin: 0; }
+.modal-footer { text-align: right; border-top: 1px solid transparent; }
+.modal-footer > * { margin: 0; }
+.modal-footer .btn + .btn { margin-left: 5px; margin-bottom: 0; }
+.modal-footer .btn-group .btn + .btn { margin-left: -1px; }
+.modal-footer .btn-block + .btn-block { margin-left: 0; }
+.modal-header:after, .modal-footer:after { clear: both; }
 @media (min-width: 768px) {
-
-  .modal-content {
-    -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-  }
+  .modal { --bs-modal-margin: var(--aj-modal-margin-wide); --bs-modal-width: var(--aj-modal-width); }
+  .modal-dialog { width: var(--bs-modal-width); margin-inline: auto; }
+  .modal-sm { --bs-modal-width: var(--aj-modal-width-small); }
+  .modal-content { box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5); }
+}
+@media (min-width: 992px) {
+  .modal-lg { --bs-modal-width: var(--aj-modal-width-large); }
 }
 
 .tooltip {
@@ -2634,14 +2651,14 @@ dialog .modal {
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.25);
 }
 .modal .modal-content .modal-header {
-  padding: 20px 30px 0;
+  padding: var(--aj-modal-header-top) var(--aj-modal-space-x) 0;
 }
 .modal .modal-content .modal-body {
-  padding: 0 30px;
-  margin: 15px 0;
+  padding: 0 var(--aj-modal-space-x);
+  margin: var(--aj-modal-space-y) 0;
 }
 .modal .modal-content .modal-footer {
-  padding: 0 30px 15px;
+  padding: 0 var(--aj-modal-space-x) var(--aj-modal-space-y);
 }
 .btn {
   border-radius: 0;
